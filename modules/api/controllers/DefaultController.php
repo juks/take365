@@ -1,0 +1,37 @@
+<?php
+
+namespace app\modules\api\controllers;
+
+use Yii;
+use yii\web\Controller;
+use app\modules\api\components\ApiController;
+
+class DefaultController extends ApiController
+{
+    public function actionIndex() {
+    	echo 'Welcome to API';
+        //return $this->render('index');
+    }
+
+    public function actionError() {
+    	$e = Yii::$app->errorHandler->exception;
+    	
+    	$this->addErrorMessage($e->getMessage());
+
+        if (YII_DEBUG) {
+            $detailedMessage .= ' [' . $e->getFile() . ':' . $e->getLine() . ']';
+            $this->addContent($detailedMessage, 'detailed');
+            $traceData = '';
+
+            foreach($e->getTrace() as $tracePoint) {
+                if (isset($tracePoint['file'])) {
+                    $traceData = $tracePoint['file'] . ':';
+                    $traceData .= $tracePoint['line'];
+                }
+
+                if (isset($tracePoint['function'])) $traceData . ' ' . $tracePoint['function'] . '()';
+                $this->addContent($traceData, 'trace');
+            }
+        }
+    }
+}

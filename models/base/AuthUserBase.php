@@ -1,0 +1,91 @@
+<?php
+
+namespace app\models\base;
+
+use Yii;
+
+/**
+ * This is the model class for table "auth_user".
+ *
+ * @property integer $id
+ * @property integer $user_type
+ * @property string $username
+ * @property string $password
+ * @property string $access_token
+ * @property integer $time_created
+ * @property integer $time_updated
+ * @property integer $ip_created
+ * @property integer $time_login
+ * @property integer $ip_login
+ * @property integer $is_active
+ * @property integer $banned
+ * @property integer $failure_counter
+ * @property string $email
+ * @property integer $email_confirmed
+ * @property string $fullname
+ * @property integer $sex
+ * @property string $description
+ * @property string $recovery_code
+ * @property integer $recovery_code_time_issued
+ * @property integer $invite_id
+ */
+class AuthUserBase extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'auth_user';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['user_type', 'time_created', 'time_updated', 'ip_created', 'time_login', 'ip_login', 'is_active', 'banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued', 'invite_id'], 'integer'],
+            [['username', 'email', 'password', 'time_created', 'ip_created'], 'required'],
+            [['username'], 'string', 'max' => 20],
+            [['password', 'fullname'], 'string', 'max' => 64],
+            ['username', 'unique'],
+            [['email'], 'email'],
+            [['email'], 'unique', 'targetAttribute' => ['email', 'is_active']],
+            [['description'], 'string', 'max' => 1024],
+            [['recovery_code'], 'string', 'max' => 8],
+            [['access_token'], 'string', 'max' => 256]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'user_type' => 'User Type',
+            'username' => 'Username',
+            'password' => 'Password',
+            'access_token' => 'Access Token',
+            'time_created' => 'Time Created',
+            'time_updated' => 'Time Updated',
+            'time_registered' => 'Time Registered',
+            'ip_created' => 'Ip Created',
+            'time_login' => 'Time Login',
+            'ip_login' => 'Ip Login',
+            'is_active' => 'Active',
+            'banned' => 'Banned',
+            'failure_counter' => 'Failure Counter',
+            'email' => 'Email',
+            'email_confirmed' => 'Email Confirmed',
+            'fullname' => 'Fullname',
+            'sex' => 'Sex',
+            'description' => 'Description',
+            'recovery_code' => 'Recovery Code',
+            'recovery_code_time_issued' => 'Recovery Code Time Issued',
+            'invite_id' => 'Invite ID',
+        ];
+    }
+}
