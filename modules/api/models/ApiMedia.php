@@ -2,18 +2,17 @@
 
 namespace app\modules\api\models;
 
-use app\models\AuthUser as BaseUser;
+use app\models\Media as BaseMedia;
 
-class ApiUser extends BaseUser {
+class ApiMedia extends BaseMedia {
 
     /**
     *   Sets the lists of fields that are available for public exposure
     **/
     public function fields() {
         return [
-            'id'       => 'id',
-            'username' => 'username',
-            //'test' => function ($model) { return 'best' }
+            'id'    => 'id',
+            'title' => 'title',
         ];
     }
 

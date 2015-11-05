@@ -6,8 +6,9 @@ use app\models\base\AuthUserBase;
 use yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
-use yii\helpers\Security;
+use app\components\Helpers;
 use yii\web\IdentityInterface;
+use app\models\AuthToken;
 use app\components\traits\TCheckField;
 use app\components\traits\THasPermission;
 use app\components\interfaces\IPermissions;
@@ -16,6 +17,9 @@ use app\components\interfaces\IGetType;
 class AuthUser extends AuthUserBase implements IdentityInterface, IPermissions, IGetType {
     use TCheckField;
     use THasPermission;
+
+    public $accessToken;
+    public $accessTokenExpires;
 
     public function getIsPublic() {
         return true;
@@ -45,7 +49,21 @@ class AuthUser extends AuthUserBase implements IdentityInterface, IPermissions, 
      */
     /* modified */
     public static function findIdentityByAccessToken($token, $type = null) {
-        return static::findOne(['access_token' => $token]);
+        $t = AuthToken::getToken($token);
+
+        if (!$t) {
+            return null;
+        } else {
+            $t->touch();
+            $user = static::findOne($t->user_id);
+            if ($user) {
+                $user->accessToken = $token;
+                $user->accessTokenExpires = $token;
+            }
+           
+
+            return $user;  
+        }
     }
 
     /**
@@ -89,7 +107,21 @@ class AuthUser extends AuthUserBase implements IdentityInterface, IPermissions, 
      * @inheritdoc
      */
     public function getAuthKey() {
-        return $this->access_token;
+        if (!$this->accessToken) {
+            $t = AuthToken::issueToken($this);
+            $this->accessToken = $t->key;
+            $this->accessTokenExpires = $t->time_expire;
+
+            // Important!
+            // Cleanup temporary here
+            if (rand(0, 100) == 1) $t->flush();
+        }
+
+        return $this->accessToken;
+    }
+
+    public function getAuthKeyExpirationTime() {
+        return $this->accessTokenExpires;
     }
 
     /**
@@ -122,14 +154,14 @@ class AuthUser extends AuthUserBase implements IdentityInterface, IPermissions, 
      * Generates "remember me" authentication key
      */
     public function generateAuthKey() {
-        $this->auth_key = Security::generateRandomKey();
+        $this->auth_key = Helpers::randomString(32);
     }
 
     /**
      * Generates new password reset token
      */
     public function generatePasswordResetToken() {
-        $this->recovery_code = Security::generateRandomKey() . '_' . time();
+        $this->recovery_code = Helpers::randomString(32) . '_' . time();
     }
 
     /**

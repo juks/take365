@@ -22,6 +22,8 @@ use yii\helpers\ArrayHelper;
 class MyJsonController extends Controller {
 	protected $_jsonResponse;
 
+	public $disableSend = false;
+
 	public $serializer = 'yii\rest\Serializer';
 
 	/**
@@ -29,7 +31,7 @@ class MyJsonController extends Controller {
 	**/
 	public function __construct($id, $module, $config = []) {
 		$this->_jsonResponse = new JsonResponse();
-       
+
 		parent::__construct($id, $module, $config = []);
 	}
 
@@ -53,7 +55,11 @@ class MyJsonController extends Controller {
 	 * @param mixed $result
 	 */
 	public function afterAction($action, $result) {
-		return $this->_jsonResponse->send(['return' => true]);
+		if (!$this->disableSend) {
+			return $this->_jsonResponse->send(['return' => true]);
+		} else {
+			return $result;
+		}
 	}
 
 	/**

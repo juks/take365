@@ -18,19 +18,7 @@ class AuthController extends ApiController {
                         'class' => AccessControl::className(),
                         'rules' => [
                             [
-                                'actions' => ['logout'],
-                                'allow' => true,
-                                'roles' => ['@'],
-                            ],
-
-                            [
-                                'actions' => ['login', 'check'],
-                                'allow' => true,
-                                'roles' => ['?'],
-                            ],
-
-                            [
-                                'actions' => ['check'],
+                                'actions' => ['upload'],
                                 'allow' => true,
                                 'roles' => ['@'],
                             ],
@@ -42,18 +30,11 @@ class AuthController extends ApiController {
                         ],
             ];
 
-        $b['verbs'] = [
-                        'class' => VerbFilter::className(),
-                        'actions' => [
-                            'funkout' => ['post'],
-                        ],
-                    ];
-
         return $b;
     }
 
     protected function getModelClass() {
-        throw new Exception("Method getModelClass() is not supported by this controller");
+        return ApiMedias::className();
     }
 
     /**
@@ -61,26 +42,11 @@ class AuthController extends ApiController {
      *
      * @param string $username
      */
-    public function actionLogin($username, $password) {
+    public function actionUpload($username, $password) {
         $model = new ApiLoginForm();
 
         if ($model->load(Helpers::getRequestParams('post'))) $model->login();
        
         $this->addContent($model);
-    }
-
-    public function actionCheck() {
-        $user = Yii::$app->user;
-
-        $this->addContent($user->id);
-    }
-
-    /**
-     * Log out
-     *
-     * @param string $username
-     */
-    public function actionLogout() {
-        $this->addContent($this->checkModelPermission($id, 'read'));
     }
 }

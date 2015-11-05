@@ -13,29 +13,32 @@ use yii\filters\VerbFilter;
 class StoryController extends ApiController {
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['writeStory'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
+        $b = parent::behaviors();
 
-                    [
-                        'allow' => false,
-                        'roles' => ['@']
-                    ]
+        $b['access'] = [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'actions' => ['write'],
+                    'allow' => true,
+                    'roles' => ['@'],
                 ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'funkout' => ['post'],
-                ],
+
+                [
+                    'allow' => false,
+                    'roles' => ['@']
+                ]
             ],
         ];
+
+        $b['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'funkout' => ['post'],
+            ],
+        ];
+
+        return $b;
     }
 
     protected function getModelClass() {
@@ -45,7 +48,7 @@ class StoryController extends ApiController {
     /**
      * Fetches story data
      *
-     * @param string $username
+     * @param int $id
      */
     public function actionGet($id = null) {
         $this->addContent($this->checkModelPermission($id, 'read'));

@@ -22,7 +22,7 @@ class ApiController extends MyJsonController {
                 HttpBearerAuth::className(),
                 QueryParamAuth::className(),
             ],
-            'except' => ['login', 'error']
+            'except' => ['index', 'login', 'error']
         ];
 
         return $b;

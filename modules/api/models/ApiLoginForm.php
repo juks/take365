@@ -14,6 +14,7 @@ class ApiLoginForm extends Model {
     public $password;
     public $rememberMe = true;
     public $token;
+    public $tokenExpires;
 
     private $_user = false;
 
@@ -37,7 +38,8 @@ class ApiLoginForm extends Model {
     public function fields() {
         return [
             'username'    => 'username',
-            'token'       => function($model) { return $model->token; }
+            'token'       => function($model) { return $model->token; },
+            'tokenExpires'=> function($model) { return $model->tokenExpires; }
         ];
     }
 
@@ -74,7 +76,10 @@ class ApiLoginForm extends Model {
     public function login() {
         if ($this->validate()) {
             $result = Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
-            if ($result) $this->token = $this->_user->getAuthKey();
+            if ($result) {
+                $this->token = $this->_user->getAuthKey();
+                $this->tokenExpires = $this->_user->getAuthKeyExpirationTime();
+            }
 
             return $result;
         }

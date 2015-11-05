@@ -11,7 +11,6 @@ use Yii;
  * @property integer $user_type
  * @property string $username
  * @property string $password
- * @property string $access_token
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $ip_created
@@ -54,7 +53,6 @@ class AuthUserBase extends \yii\db\ActiveRecord
             [['email'], 'unique', 'targetAttribute' => ['email', 'is_active']],
             [['description'], 'string', 'max' => 1024],
             [['recovery_code'], 'string', 'max' => 8],
-            [['access_token'], 'string', 'max' => 256]
         ];
     }
 
@@ -68,7 +66,6 @@ class AuthUserBase extends \yii\db\ActiveRecord
             'user_type' => 'User Type',
             'username' => 'Username',
             'password' => 'Password',
-            'access_token' => 'Access Token',
             'time_created' => 'Time Created',
             'time_updated' => 'Time Updated',
             'time_registered' => 'Time Registered',
