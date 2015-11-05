@@ -19,7 +19,7 @@ class UserController extends ApiController {
 	 * @param string $username
 	 */
 	public function actionCheckUsername($username) {
-		$user = new User();
+		$user = new ApiUser();
 		$user->checkField('username', $username);
 		$this->addContent(!$user->hasErrors());
 	}
@@ -30,7 +30,7 @@ class UserController extends ApiController {
 	 * @param string $message
 	 */
 	public function actionCheckEmail($email) {
-		$user = new User();
+		$user = new ApiUser();
 		$user->checkField('email', $email);
 		$this->addContent(!$user->hasErrors());
 	}
@@ -43,7 +43,7 @@ class UserController extends ApiController {
 	 * @param string $password
 	 */
 	public function actionRegister($username, $email, $password) {
-		$user = new User();
+		$user = new ApiUser();
 
 		$user->load(Helpers::getRequestParams('post'));
 		$user->save();

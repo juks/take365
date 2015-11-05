@@ -1,23 +1,38 @@
 Welcome to Take365 API!
 -----------------------
 
-API Reference:
+Available methods are:
 
-	[Auth]
+   [Auth]
 
-	/api/auth/login
-	/api/auth/logout
+    /api/auth/login
+        ?username       <UserName>
+        ?password       <User Password>
 
-
-	[Stories]
-
-	/api/story/write
-	/api/story/<id>
+    /api/auth/logout
 
 
-	[Users]
+   [Users]
 
-	/api/user/chek-username
-	/api/user/check-email
-	/api/user/register
-	/api/user/update-profile
+    /api/user/chek-username
+        ?username       <Username>
+
+    /api/user/check-email
+        ?email          <Preferred Email>
+
+    /api/user/register
+        ?username       <Preferred Username>
+        ?email          <Preferred Email>
+        ?password       <Preferred Password>
+
+    /api/user/update-profile
+        ?id             <User Id>
+        ?username       <Preferred Username>
+        ?description    <User Profile Description>
+        ?password       <Preferred Password>
+
+
+   [Stories]
+
+    /api/story/write
+    /api/story/<id>
