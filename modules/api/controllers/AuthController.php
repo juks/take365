@@ -81,6 +81,6 @@ class AuthController extends ApiController {
      * @param string $username
      */
     public function actionLogout() {
-        $this->addContent($this->checkModelPermission($id, 'read'));
+        Yii::$app->user->logout();
     }
 }

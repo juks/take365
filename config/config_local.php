@@ -15,6 +15,11 @@ return [
                             'password' => 'greeting',
                             'charset' => 'utf8',
                         ]
+                    ],
+
+    'params' =>
+                    [
+                        'mediaStorePath'    => '/home/askarov/sites/new.take365.org/www/web/media'
                     ]
 ];
 

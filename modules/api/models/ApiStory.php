@@ -5,6 +5,14 @@ namespace app\modules\api\models;
 use app\models\Story as BaseStory;
 
 class ApiStory extends BaseStory {
+    /**
+    *   Sets the API scenarios
+    **/    
+    public function scenarios() {
+        return [
+            'default' => ['title', 'description']
+        ];
+    }
 
     /**
     *   Sets the lists of fields that are available for public exposure

@@ -2,6 +2,8 @@
 
 namespace app\components;
 
+use YII;
+
 class Helpers {
     /**
      * @static Returns file extension
@@ -26,9 +28,8 @@ class Helpers {
      * @return null
      */
     public static function getParam($name, $default = null) {
-        if (isset(Yii::app()->params[$name]))
-        {
-            return Yii::app()->params[$name];
+        if (isset(Yii::$app->params[$name])) {
+            return Yii::$app->params[$name];
         } else {
             return $default;
         }

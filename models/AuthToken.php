@@ -65,6 +65,6 @@ class AuthToken extends AuthTokenBase {
     }
 
     public function checkExpired() {
-        return $this->time_expire < time();
+        return $this->time_expire !== 0 && $this->time_expire < time();
     }
 }

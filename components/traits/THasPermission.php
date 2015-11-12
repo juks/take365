@@ -2,6 +2,8 @@
 
 namespace app\components\traits;
 
+use app\components\interfaces\IPermissions;
+
 /**
  * Trait implementing CheckField method
  */
@@ -11,11 +13,11 @@ trait THasPermission {
      * @param object $fieldName
      * @param int $fieldvalue
      */
-    public function hasPermission($user, $permission = 'read') {
+    public function hasPermission($user, $permission = IPermissions::permRead) {
         $roles = \Yii::$app->authManager->getRolesByUser($user->id);
         $creatorIdField = $this->getCreatorIdField();
 
-        if ($permission == 'read' && $this->getIsPublic()) return true;
+        if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
         if ($this->$creatorIdField == $user->id || !empty($roles['admin'])) return true;
 
         return false;

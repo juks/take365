@@ -74,17 +74,15 @@ class ApiLoginForm extends Model {
      * @return boolean whether the user is logged in successfully
      */
     public function login() {
-        if ($this->validate()) {
-            $result = Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
-            if ($result) {
-                $this->token = $this->_user->getAuthKey();
-                $this->tokenExpires = $this->_user->getAuthKeyExpirationTime();
-            }
-
-            return $result;
+        if (!$this->validate()) return false;
+        
+        $result = Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+        if ($result) {
+            $this->token = $this->_user->getAuthKey();
+            $this->tokenExpires = $this->_user->getAuthKeyExpirationTime();
         }
 
-        return false;
+        return $result;
     }
 
     /**

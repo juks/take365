@@ -2,9 +2,17 @@
 
 namespace app\modules\api\models;
 
-use app\models\AuthUser as BaseUser;
+use app\models\User as BaseUser;
 
 class ApiUser extends BaseUser {
+    /**
+    *   Sets the API scenarios
+    **/    
+    public function scenarios() {
+        return [
+            'default' => ['username', 'password', 'email', 'description']
+        ];
+    }
 
     /**
     *   Sets the lists of fields that are available for public exposure

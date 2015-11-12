@@ -18,6 +18,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
     use THasPermission;
     use TModelExtra;
 
+    const typeId = 2;
+
     protected $_monthQuota = 5;
 
 	public function getIsPublic() {
@@ -29,7 +31,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     }
 
     public function getType() {
-        return 2;
+        return self::typeId;
     }
 
     /**

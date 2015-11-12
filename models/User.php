@@ -6,27 +6,70 @@ use app\models\base\AuthUserBase;
 use yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
-use yii\helpers\Security;
+use app\components\Helpers;
 use yii\web\IdentityInterface;
+use app\models\AuthToken;
+use app\models\Media;
+use app\models\mediaExtra\TMediaUploadExtra;
 use app\components\traits\TCheckField;
 use app\components\traits\THasPermission;
 use app\components\interfaces\IPermissions;
 use app\components\interfaces\IGetType;
 
-class AuthUser extends AuthUserBase implements IdentityInterface, IPermissions, IGetType {
+class User extends AuthUserBase implements IdentityInterface, IPermissions, IGetType {
     use TCheckField;
     use THasPermission;
+    use TMediaUploadExtra;
 
+    public $accessToken;
+    public $accessTokenExpires;
+
+    const typeId = 1;
+
+    /**
+     * Returns public criteria
+     */
     public function getIsPublic() {
         return true;
     }
 
+    /**
+     * Returns owner id field name
+     */
     public function getCreatorIdField() {
         return 'id';
     }
 
+    /**
+     * Returns type Id
+     */
     public function getType() {
-        return 1;
+        return self::typeId;
+    }
+
+    /**
+     * Returns media options
+     */
+    public function getMediaOptions() {
+        return [
+                    'userpic' => [
+                                        Media::alias                 => 'userpic',
+                                        Media::allowedFormats        => array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG),
+                                        Media::maxFileSize           => 1048576 * 10,
+                                        Media::resizeMode            => Media::resizeMaxSide,
+                                        Media::targetDimension       => 3000,
+                                        Media::thumbsList            => [
+                                                                            Media::resizeMaxSide => [200, 100, 50],
+                                                                        ],
+                                        Media::quality               => 95,
+                                        Media::engine                => Media::engineImageMagick,
+                                        Media::resizeFilter          => \Imagick::FILTER_BLACKMAN,
+                                        Media::resizeBlur            => 0.86,
+                                        Media::thumbQuality          => 96,
+                                        Media::saveExif              => true,
+                                        Media::autoOrient            => true
+                                ]
+                ];
     }
 
     /**
@@ -45,7 +88,21 @@ class AuthUser extends AuthUserBase implements IdentityInterface, IPermissions, 
      */
     /* modified */
     public static function findIdentityByAccessToken($token, $type = null) {
-        return static::findOne(['access_token' => $token]);
+        $t = AuthToken::getToken($token);
+
+        if (!$t) {
+            return null;
+        } else {
+            $t->touch();
+            $user = static::findOne($t->user_id);
+            if ($user) {
+                $user->accessToken = $token;
+                $user->accessTokenExpires = $token;
+            }
+           
+
+            return $user;  
+        }
     }
 
     /**
@@ -89,7 +146,21 @@ class AuthUser extends AuthUserBase implements IdentityInterface, IPermissions, 
      * @inheritdoc
      */
     public function getAuthKey() {
-        return $this->access_token;
+        if (!$this->accessToken) {
+            $t = AuthToken::issueToken($this);
+            $this->accessToken = $t->key;
+            $this->accessTokenExpires = $t->time_expire;
+
+            // Important!
+            // Cleanup temporary here
+            if (rand(0, 100) == 1) $t->flush();
+        }
+
+        return $this->accessToken;
+    }
+
+    public function getAuthKeyExpirationTime() {
+        return $this->accessTokenExpires;
     }
 
     /**
@@ -122,14 +193,14 @@ class AuthUser extends AuthUserBase implements IdentityInterface, IPermissions, 
      * Generates "remember me" authentication key
      */
     public function generateAuthKey() {
-        $this->auth_key = Security::generateRandomKey();
+        $this->auth_key = Helpers::randomString(32);
     }
 
     /**
      * Generates new password reset token
      */
     public function generatePasswordResetToken() {
-        $this->recovery_code = Security::generateRandomKey() . '_' . time();
+        $this->recovery_code = Helpers::randomString(32) . '_' . time();
     }
 
     /**

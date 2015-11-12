@@ -40,7 +40,8 @@ class StoryBase extends \yii\db\ActiveRecord
             [['created_by', 'time_created'], 'required'],
             [['created_by', 'status', 'is_deleted', 'time_deleted', 'is_active', 'time_created', 'time_updated', 'time_start', 'time_published', 'media_count'], 'integer'],
             [['description'], 'string'],
-            [['title'], 'string', 'max' => 255]
+            [['title'], 'string', 'max' => 255],
+            [['title', 'description'], 'safe']
         ];
     }
 

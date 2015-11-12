@@ -28,11 +28,15 @@ Available methods are:
     /api/user/update-profile
         ?id             <User Id>
         ?username       <Preferred Username>
-        ?description    <User Profile Description>
         ?password       <Preferred Password>
+        ?email          <Preferred Email>
+        ?description    <User Profile Description>
 
 
    [Stories]
 
-    /api/story/write
     /api/story/<id>
+    /api/story/write
+        ?id             <Story Id>
+        ?title          <Story Title>
+        ?Description    <Story Description>

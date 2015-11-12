@@ -6,6 +6,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'en',
     'modules' => [
         'api' => ['class' => 'app\modules\api\ApiModule'] 
     ],
@@ -18,9 +19,9 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            //'class' => 'app\models\User',
-            'identityClass' => 'app\models\AuthUser',
-            'enableAutoLogin' => false,
+            'class' => 'yii\web\User',
+            'identityClass' => 'app\models\User',
+            'enableAutoLogin' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -65,7 +66,20 @@ $config = [
                                 'json' => 'app\components\PrettyJsonResponseFormatter',
                         ],
         ],
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        'main' => 'main.php',
+                    ],
+                ],
+            ],
+        ],
     ],
+
     'params' => $params,
 ];
 

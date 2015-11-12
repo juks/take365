@@ -11,8 +11,9 @@ trait TAttachTo {
      * @param $entity
      */
     function attachTo($entity) {
-        $this->target_id = $entity->id;
-        $this->target_type = $entity->getType();
+    	$idField = method_exists($entity, 'getIdField') ? $entity->getIdField() : 'id';
+        $this->target_id    = $entity->$idField;
+        $this->target_type  = $entity->getType();
     }
 }
 

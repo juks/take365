@@ -15,15 +15,16 @@ class ApiController extends MyJsonController {
     public function behaviors() {
         $b = parent::behaviors();
 
-        $b['authenticator'] = [
-            'class' => CompositeAuth::className(),
-            'authMethods' => [
-                HttpBasicAuth::className(),
-                HttpBearerAuth::className(),
-                QueryParamAuth::className(),
-            ],
-            'except' => ['index', 'login', 'error', 'check-username', 'check-email', 'register']
-        ];
+        if (Yii::$app->user->isGuest) {
+            $b['authenticator'] = [
+                'class' => CompositeAuth::className(),
+                'authMethods' => [
+                    HttpBearerAuth::className(),
+                    QueryParamAuth::className(),
+                ],
+                'except' => ['index', 'login', 'error', 'check-username', 'check-email', 'register']
+            ];
+        }
 
         return $b;
     }
