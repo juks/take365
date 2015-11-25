@@ -82,6 +82,8 @@
                                                         ['n' => 'targetId',     't' => 'Target Object Id',              'h'=>''],
                                                         ['n' => 'targetType',   't' => 'Target Object Type',            'h'=>'1 for user, 2 for story'],
                                                         ['n' => 'mediaType',    't' => 'Type of Uploaded Media',        'h'=>'eg. "userpic", "storyImage"'],
+                                                        ['n' => 'date',         't' => 'Calendar data',                 'h'=>'Only for story images,eg. "2015-11-25"'],
+                                                        ['n' => 'file',         't' => 'Media Resource',                'h'=>'eg. "userpic", "storyImage"'],
                                                     ]
                         ],
                     ]
