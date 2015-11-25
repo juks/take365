@@ -22,8 +22,8 @@ class ApiUser extends User {
         return [
             'id'            => 'id',
             'username'      => 'username',
-            'userpic'       => function() { return $this->userpic->getThumbData(Media::resizeMaxSide, 100); },
-            'userpicLarge'  => function() { return $this->userpic->getThumbData(Media::resizeMaxSide, 200); }
+            'userpic'       => function() { $up = $this->userpic; return $up ? $up->getThumbData(Media::resizeMaxSide, 100) : null; },
+            'userpicLarge'  => function() { $up = $this->userpic; return $up ? $up->getThumbData(Media::resizeMaxSide, 200) : null; }
         ];
     }
 
