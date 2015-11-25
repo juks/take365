@@ -145,7 +145,7 @@
             <?php if (!empty($method['params'])): ?>
                 <?php foreach ($method['params'] as $param): ?>
                     <tr class="content">
-                        <td class="left">&nbsp;</td><td class="middle">?<?= $param['n'] ?></td><td class="right"><?= $param['t'] ?></td>
+                        <td class="left">&nbsp;</td><td class="middle">?<?= $param['n'] ?></td><td class="right"><?= $param['t'] ?><?php if (!empty($param['h'])): ?> (<?= $param['h'] ?>)<?php endif ?></td>
                     </tr>
                 <?php endforeach ?>
             <?php endif ?>
