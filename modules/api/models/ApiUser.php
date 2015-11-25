@@ -2,9 +2,10 @@
 
 namespace app\modules\api\models;
 
-use app\models\User as BaseUser;
+use app\models\User;
+use app\models\Media;
 
-class ApiUser extends BaseUser {
+class ApiUser extends User {
     /**
     *   Sets the API scenarios
     **/    
@@ -19,9 +20,10 @@ class ApiUser extends BaseUser {
     **/
     public function fields() {
         return [
-            'id'       => 'id',
-            'username' => 'username',
-            //'test' => function ($model) { return 'best' }
+            'id'            => 'id',
+            'username'      => 'username',
+            'userpic'       => function() { return $this->userpic->getThumbData(Media::resizeMaxSide, 100); },
+            'userpicLarge'  => function() { return $this->userpic->getThumbData(Media::resizeMaxSide, 200); }
         ];
     }
 

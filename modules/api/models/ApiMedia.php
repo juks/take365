@@ -3,17 +3,32 @@
 namespace app\modules\api\models;
 
 use app\models\Media as BaseMedia;
+use app\models\Story;
 
 class ApiMedia extends BaseMedia {
+        /**
+    *   Sets the API scenarios
+    **/    
+    public function scenarios() {
+        return [
+            'default' => ['date']
+        ];
+    }
 
     /**
     *   Sets the lists of fields that are available for public exposure
     **/
     public function fields() {
-        return [
-            'id'    => 'id',
-            'title' => 'title',
-        ];
+        $fields = [
+                        'id'            => 'id',
+                        'title'         => 'title',
+                        'thumb'         => function() { return $this->getThumbData(BaseMedia::resizeMaxSide, $this->getOption('mainThumbDimension')); },
+                        'thumbLarge'    => function() { return $this->getThumbData(BaseMedia::resizeMaxSide, $this->getOption('largeThumbDimension')); }
+                    ];
+
+        if ($this->target_type == Story::typeId) $fields['date'] = 'date';
+
+        return $fields;
     }
 
     /**

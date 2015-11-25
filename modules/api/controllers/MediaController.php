@@ -5,9 +5,12 @@ namespace app\modules\api\controllers;
 use Yii;
 use app\components\MyJsonController;
 use app\components\Helpers;
+use app\components\Ml;
 use app\models\User;
 use app\models\Story;
-use app\modules\api\models\ApiMedia as Media;
+use app\modules\api\models\ApiMedia;
+use app\modules\api\models\ApiUser;
+use app\modules\api\models\ApiStory;
 use app\modules\api\models\ApiMediaForm;
 use app\modules\api\components\ApiController;
 use yii\filters\AccessControl;
@@ -38,7 +41,7 @@ class MediaController extends ApiController {
     }
 
     protected function getModelClass() {
-        return ApiMedias::className();
+        return ApiMedia::className();
     }
 
     /**
@@ -47,23 +50,28 @@ class MediaController extends ApiController {
      * @param string $username
      */
     public function actionUpload() {
-        $model = new ApiMediaForm();
+        $form = new ApiMediaForm();
 
-        $model->load(Helpers::getRequestParams('post'));
+        $form->load(Helpers::getRequestParams('post'));
+        $form->file = UploadedFile::getInstance($form, 'file');
+ 
+        if ($form->validate()) {
+            // Userpic
+            if ($form->targetType == ApiUser::typeId) {
+                $parent = $this->checkParentModelPermission($form->targetId, 'write', ['parentModelClass' => ApiUser::className()]);
 
-        $model->file = UploadedFile::getInstance($model, 'file');
-        
-        if ($model->validate()) {
-            if ($model->targetType == User::typeId) {
-                $target = $this->checkModelPermission($model->targetId, 'write', null, new User());
-            } elseif ($model->targetType == Story::typeId) {
-                $target = $this->checkModelPermission($model->targetId, 'write', null, new Story());
+                $model = $parent->addMedia($form->file, $form->mediaType, new ApiMedia());
+            // Story Image
+            } elseif ($form->targetType == ApiStory::typeId) {
+                $parent = $this->checkParentModelPermission($form->targetId, 'write', ['parentModelClass' => ApiStory::className()]);
+                if (!$parent->isValidDate($form->date)) throw new \Exception(Ml::t('Invalid story date', 'media')); 
+
+                $model = $parent->addMedia($form->file, $form->mediaType, new ApiMedia(), ['fields' => ['date' => $form->date]]);
             }
 
-            $target->addMedia($model->file, $model->mediaType);
-
-        } else {
             $this->addContent($model);
+        } else {
+            $this->addContent($form);
         }
     }
 }

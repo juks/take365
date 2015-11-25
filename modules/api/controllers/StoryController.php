@@ -25,6 +25,12 @@ class StoryController extends ApiController {
                 ],
 
                 [
+                    'actions' => ['get'],
+                    'allow' => true,
+                    'roles' => ['?', '@'],
+                ],
+
+                [
                     'allow' => false,
                     'roles' => ['@']
                 ]

@@ -128,22 +128,38 @@ class MyJsonController extends Controller {
 	 *
 	 * @param int $id
 	 */
-    public function checkModelPermission($id, $permission, $user = null, $instance = null) {
-    	if (!$user) $user = Yii::$app->user;
+    public function checkModelPermission($id, $permission, $extra = []) {
+    	if (empty($extra['user'])) $extra['user'] = Yii::$app->user;
 
-    	if (!$instance) {
-    		$modelClass = $this->getModelClass();
-			$model = Yii::createObject($modelClass)->findOne($id);
-    	} else {
-    		$model = $instance->findOne($id);
-    	}
+		$modelClass = $this->getModelClass();
+
+		$model = Yii::createObject($modelClass)->findOne($id);
 
 		if (!$model) {
 			throw new NotFoundHttpException();
-		} elseif (!$model->hasPermission($user, $permission)) {
+		} elseif (!$model->hasPermission($extra['user'], $permission)) {
 			throw new ForbiddenHttpException();
 		}
 
 		return $model;
+    }
+
+	/**
+	 * Checks if given user can perform a $permission action on the controller model
+	 *
+	 * @param int $id
+	 */
+    public function checkParentModelPermission($id, $permission, $extra = []) {
+    	if (empty($extra['user'])) $extra['user'] = Yii::$app->user;
+
+		$parentModel = Yii::createObject($extra['parentModelClass'])->findOne($id);
+
+		if (!$parentModel) {
+			throw new NotFoundHttpException();
+		} elseif (!$parentModel->hasPermission($extra['user'], $permission)) {
+			throw new ForbiddenHttpException();
+		}
+
+		return $parentModel;
     }
 }

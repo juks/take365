@@ -10,6 +10,7 @@ use app\components\Helpers;
 use yii\web\IdentityInterface;
 use app\models\AuthToken;
 use app\models\Media;
+use app\models\mediaExtra\MediaCore;
 use app\models\mediaExtra\TMediaUploadExtra;
 use app\components\traits\TCheckField;
 use app\components\traits\THasPermission;
@@ -41,35 +42,10 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     }
 
     /**
-     * Returns type Id
+     * Returns integer type ID for this entity
      */
     public function getType() {
         return self::typeId;
-    }
-
-    /**
-     * Returns media options
-     */
-    public function getMediaOptions() {
-        return [
-                    'userpic' => [
-                                        Media::alias                 => 'userpic',
-                                        Media::allowedFormats        => array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG),
-                                        Media::maxFileSize           => 1048576 * 10,
-                                        Media::resizeMode            => Media::resizeMaxSide,
-                                        Media::targetDimension       => 3000,
-                                        Media::thumbsList            => [
-                                                                            Media::resizeMaxSide => [200, 100, 50],
-                                                                        ],
-                                        Media::quality               => 95,
-                                        Media::engine                => Media::engineImageMagick,
-                                        Media::resizeFilter          => \Imagick::FILTER_BLACKMAN,
-                                        Media::resizeBlur            => 0.86,
-                                        Media::thumbQuality          => 96,
-                                        Media::saveExif              => true,
-                                        Media::autoOrient            => true
-                                ]
-                ];
     }
 
     /**
@@ -93,7 +69,6 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         if (!$t) {
             return null;
         } else {
-            $t->touch();
             $user = static::findOne($t->user_id);
             if ($user) {
                 $user->accessToken = $token;
@@ -141,7 +116,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     public function getId() {
         return $this->id;
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -167,7 +142,10 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * @inheritdoc
      */
     public function validateAuthKey($authKey) {
-        return $this->getAuthKey() === $authKey;
+        $t = AuthToken::getToken($authKey);
+
+        return $t ? true : false;
+        //return $this->getAuthKey() === $authKey;
     }
 
     /**
@@ -225,9 +203,21 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         return parent::beforeValidate();
     }
 
+    /**
+     * Before save event
+     * @param  array $insert
+     */
     public function beforeSave($insert) {
         if(isset($this->password)) $this->setPassword($this->password);
         return parent::beforeSave($insert);
+    }
+
+    /**
+     * Userpic relation
+     */
+    public function getUserpic() {
+       $mo = Media::getMediaOptions('userpic');
+       return $this->hasOne(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[MediaCore::typeId], 'is_deleted' => 0]);
     }
 }
 

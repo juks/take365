@@ -252,6 +252,29 @@ class Helpers {
     }
 
     /**
+     * Substantive declension
+     *
+     * @param int $count
+     * @param string $case1 genitive case, single
+     * @param string $case2 genitive case, multi
+     * @param string $case3 subjective case
+     * @return string результат
+     */
+    static function countCase($count, $case1, $case2, $case3) {
+        $len = strlen($count);
+
+        $ld = substr($count, $len - 1);
+        if($count > 999) $l2d = substr($count, $len - 2); else $l2d = 0;
+
+        if(($count >= 10 && $count <= 20) || ($l2d >= 10 && $l2d <= 20)) $sign = $case1;
+        elseif($ld == 2 || $ld == 3 || $ld == 4) $sign = $case2;
+        elseif($ld == 1) $sign = $case3;
+        else $sign = $case1;
+
+        return  $sign;
+    }
+
+    /**
      * recursively deletes given path
      * @static
      * @param $path

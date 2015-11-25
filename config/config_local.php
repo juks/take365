@@ -17,9 +17,11 @@ return [
                         ]
                     ],
 
-    'params' =>
+    'params'    =>
                     [
-                        'mediaStorePath'    => '/home/askarov/sites/new.take365.org/www/web/media'
+                        'mediaStorePath'    => '/home/askarov/sites/new.take365.org/www/web/media',
+                        'mediaHost'         => 'http://new.take365.org',
+                        'mediaBaseUrl'      => '/media'
                     ]
 ];
 

@@ -11,6 +11,7 @@ use Yii;
  * @property string $target_id
  * @property integer $target_type
  * @property integer $type
+ * @property string $date
  * @property integer $is_deleted
  * @property integer $position
  * @property integer $created_by
@@ -51,7 +52,8 @@ class MediaBase extends \yii\db\ActiveRecord
             [['filename', 'title'], 'string', 'max' => 100],
             [['ext'], 'string', 'max' => 3],
             [['partition'], 'string', 'max' => 15],
-            [['path', 'path_thumb'], 'string', 'max' => 255]
+            [['path', 'path_thumb'], 'string', 'max' => 255],
+            ['date', 'date', 'format' => 'yyyy-M-d'],
         ];
     }
 
@@ -65,6 +67,7 @@ class MediaBase extends \yii\db\ActiveRecord
             'target_id' => 'Target ID',
             'target_type' => 'Target Type',
             'type' => 'Type',
+            'date' => 'Date',
             'is_deleted' => 'Is Deleted',
             'position' => 'Position',
             'created_by' => 'Created By',

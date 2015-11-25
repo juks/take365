@@ -24,6 +24,15 @@ class UserController extends ApiController {
 		$this->addContent(!$user->hasErrors());
 	}
 
+    /**
+     * Fetches story data
+     *
+     * @param int $id
+     */
+    public function actionGet($id = null) {
+        $this->addContent($this->checkModelPermission($id, 'read'));
+    }
+
 	/**
 	 * Проверить доступность имейла
 	 *

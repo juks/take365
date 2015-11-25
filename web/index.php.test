@@ -1,0 +1,6 @@
+<?php
+
+session_save_path('/home/askarov/sites/new.take365.org/sessions');
+
+session_start();
+session_regenerate_id(true);

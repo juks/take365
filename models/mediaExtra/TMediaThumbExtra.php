@@ -7,6 +7,23 @@ use add\models\media;
 
 trait TMediaThumbExtra {
     /**
+     * Returns the thumb data of the media resource if it is there
+     * @param string $resizeMode
+     * @param integer $dimension
+     */
+    public function getThumbData($resizeMode, $dimension) {
+        $thumbsList = $this->getOption(self::thumbsList);
+
+        if (empty($thumbsList[$resizeMode]) || array_search($dimension, $thumbsList[$resizeMode]) === false) return [];
+
+        return [
+                    'url'       => $this->t[$resizeMode][$dimension]['url'],
+                    'width'     => $this->t[$resizeMode][$dimension]['width'],
+                    'height'    => $this->t[$resizeMode][$dimension]['height'],
+                ];
+    }
+
+    /**
      * Run through the thumbs list and create thumb files
      * @param $extra
      */
@@ -24,12 +41,15 @@ trait TMediaThumbExtra {
 
         $this->t['original'] = $lastResized;
 
-        if(empty($this->_mediaOptions[$this->type][self::thumbsList]) || !is_array($this->_mediaOptions[$this->type][self::thumbsList]) || !count($this->_mediaOptions[$this->type][self::thumbsList])) return;
+        $thumbsList = $this->getOption(self::thumbsList);
 
-        foreach ($this->_mediaOptions[$this->type][self::thumbsList] as $resizeMode => $resizeDimensions) {
+        if (!$thumbsList) return;
+        if (!is_array($thumbsList) || !count($thumbsList)) throw new \Exception('Wrong thumbs setting for media type ' . $this->type);
+
+        foreach ($thumbsList as $resizeMode => $resizeDimensions) {
             foreach ($resizeDimensions as $targetDimension) {
                 $thumb = $this->makeThumb($resizeMode, $targetDimension, $extra);;
-                
+
                 if (empty($this->t[$resizeMode])) $this->t[$resizeMode] = [];
                 
                 if($thumb) {
@@ -75,7 +95,7 @@ trait TMediaThumbExtra {
         if ($dimensions) {
             $thumbPath = $this->getThumbPath($dimensions);
 
-            if (!empty($extra[self::forceCreate]) || (!empty(Yii::app()->params['mediaThumbsAutoCreate']) || !empty($extra[self::autoCreate])) && !file_exists($thumbPath)) {
+            if (empty($extra[self::skipThumbsCreate]) && (!empty($extra[self::forceThumbsCreate]) || $this->getParam('mediaThumbsAutoCreate') && !file_exists($thumbPath))) {
                 $this->storeImageResource();
                 $this->resize($dimensions, $thumbPath);
             }

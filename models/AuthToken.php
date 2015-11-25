@@ -35,6 +35,7 @@ class AuthToken extends AuthTokenBase {
     static function getToken($key) {
         $t = AuthToken::findOne(['key' => $key]);
         if ($t && !$t->checkExpired()) {
+            $t->touch();
             return $t;
         } else {
             return null;

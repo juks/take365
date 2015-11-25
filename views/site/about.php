@@ -17,8 +17,9 @@ $form = ActiveForm::begin([
 							]); ?>
 
 <input type="hidden" name="targetId" value="1">
-<input type="hidden" name="targetType" value="1">
-<input type="hidden" name="mediaType" value="userpic">
+<input type="hidden" name="targetType" value="2">
+<input type="hidden" name="mediaType" value="storyImage">
+<input type="hidden" name="date" value="2015-11-24">
 <input type="file" name="file">
 
 <button>Submit</button>

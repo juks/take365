@@ -36,7 +36,16 @@ Available methods are:
    [Stories]
 
     /api/story/<id>
+
     /api/story/write
-        ?id             <Story Id>
+        ?id             <Story Id>                  (If not given, a new story will be created)
         ?title          <Story Title>
         ?Description    <Story Description>
+
+
+    [Media]
+
+    /api/media/upload
+        ?targetId       <Target Object Id>
+        ?targetType     <Target Object Type>        (1 for user, 2 for story)
+        ?mediaType      <Type of Uploaded media>    (eg. "userpic", "storyImage")

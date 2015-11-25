@@ -3,12 +3,13 @@
 $params = require(__DIR__ . '/params.php');
 
 $config = [
-    'id' => 'basic',
-    'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
-    'language' => 'en',
-    'modules' => [
-        'api' => ['class' => 'app\modules\api\ApiModule'] 
+    'id'                => 'basic',
+    'basePath'          => dirname(__DIR__),
+    'bootstrap'         => ['log'],
+    'language'          => 'en',
+    'sourceLanguage'    => 'en',
+    'modules'   => [
+        'api'   => ['class' => 'app\modules\api\ApiModule'] 
     ],
     'components' => [
         'request' => [

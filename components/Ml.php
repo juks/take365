@@ -25,7 +25,7 @@ class Ml {
             self::$preferredLanguage = Language::detect();
         }
 
-        return Yii::t($names['category'], $string, $params, null, self::$preferredLanguage);
+        return Yii::t($names['category'], $string, $params, self::$preferredLanguage);
     }
 
     static function getCategoryModuleName($category) {
@@ -36,6 +36,8 @@ class Ml {
             $result['category'] = substr($category, $i + 1, strlen($category) - 1);
         } elseif (preg_match('/Module$/', $category)) {
             $result['category'] .= $category . '.core';
+        } else {
+            $result['category'] = $category;
         }
 
         if (!$result['category']) $result['category'] = 'core';

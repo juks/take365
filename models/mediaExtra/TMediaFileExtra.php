@@ -42,27 +42,27 @@ trait TMediaFileExtra {
     /**
      * Gets the path to where the file should be saved
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
     public function getPathDetails() {
         if ($this->_pathDataReady) return $this->_fullPath;
 
         $storePath = $this->getStorePath();
 
-        if (!$storePath) throw new Exception(Ml::t('Media storage path is not set', 'media'));
+        if (!$storePath) throw new \Exception(Ml::t('Media storage path is not set', 'media'));
 
         if (!$this->path) {
             $partitionName = $this->getPartitionName();
 
-            $relativePath = $partitionName . '/' . $this->_mediaOptions[$this->type][self::alias] . '/' . $this->getSpreadPath() . '/' . $this->_saltValue;
+            $relativePath = $partitionName . '/' . $this->getOption(self::alias) . '/' . $this->getSpreadPath() . '/' . $this->_saltValue;
 
             $this->partition        = $partitionName;
             $this->path             = $relativePath;
             $this->path_thumb       = 'thumbs/' . $relativePath;
         }
 
-        if (!$this->filename) throw new Exception(Ml::t('Failed to parse media file name', 'media'));
-        if (!$this->ext) throw new Exception(Ml::t('Failed to parse media file extension', 'media'));
+        if (!$this->filename) throw new \Exception(Ml::t('Failed to parse media file name', 'media'));
+        if (!$this->ext) throw new \Exception(Ml::t('Failed to parse media file extension', 'media'));
 
         $this->_fullPath = $this->getFullPath();
         $this->_storeFolder = $this->getStoreFolder();
@@ -77,7 +77,7 @@ trait TMediaFileExtra {
      * Checks all the subfolders of the path and tries to create those that are missing
      * @param string intent what kind of path?
      * @param null $mode
-     * @throws Exception
+     * @throws \Exception
      */
     public function preparePath($intent = 'main', $mode = null) {
         if ($intent == 'main') {
@@ -86,7 +86,7 @@ trait TMediaFileExtra {
             $storeFolder = $this->_thumbFolder ? $this->_thumbFolder : $this->getThumbFolder();
         }
 
-        if (!$storeFolder) throw new Exception(Ml::t('Media full path is not set', 'media'));
+        if (!$storeFolder) throw new \Exception(Ml::t('Media full path is not set', 'media'));
 
         $pathCreate = preg_replace('|^/|i', '', $storeFolder);
 
@@ -99,10 +99,10 @@ trait TMediaFileExtra {
             $passed .= '/' . $step;
 
             if(!is_dir($passed)) {
-                if(!mkdir($passed)) throw new Exception(Ml::t('Failed to create media folder', 'media'));
+                if(!mkdir($passed)) throw new \Exception(Ml::t('Failed to create media folder', 'media'));
 
                 if($mode) {
-                    if(!chmod($passed, $mode)) throw new Exception(Ml::t('Failed to chmod media folder', 'media'));
+                    if(!chmod($passed, $mode)) throw new \Exception(Ml::t('Failed to chmod media folder', 'media'));
                 }
             }
 
@@ -111,7 +111,7 @@ trait TMediaFileExtra {
 
     /**
      * Checks if media file size exceeds the limit
-     * @throws Exception
+     * @throws \Exception
      */
     public function checkFileSize($currentPath = null) {
         if (!$this->size) {
@@ -121,7 +121,7 @@ trait TMediaFileExtra {
         $sizeLimit = $this->getOption(self::maxFileSize);
 
         if ($sizeLimit && $this->size > $sizeLimit) {
-            throw new Exception(Ml::t('Media file size exceeds allowed limit', 'media'));
+            throw new \Exception(Ml::t('Media file size exceeds allowed limit', 'media'));
         }
     }
 
@@ -138,35 +138,6 @@ trait TMediaFileExtra {
         elseif ($imageInfo[2] == IMAGETYPE_GIF) imagegif($image, $targetFile);
         elseif ($imageInfo[2] == IMAGETYPE_PNG) imagepng($image, $targetFile);
     }
-
-        /**
-     * recursively deletes given path
-     * @static
-     * @param $path
-     * @return bool|null
-     * @throws Exception
-     */
-    public function deleteRecursive($path) {
-        if (is_dir($path) && !is_link($path)) {
-            $dh = opendir($path);
-            if ($dh) {
-                while (($sf = readdir($dh)) !== false) {
-                    if ($sf == '.' || $sf == '..') continue;
-
-                    if(!self::deleteRecursive($path . '/' . $sf)) throw new Exception('Unable to Delete Folder');
-                }
-
-                closedir($dh);
-            }
-
-            return rmdir($path);
-        } elseif(file_exists($path)) {
-            return unlink($path);
-        } else {
-            return null;
-        }
-    }
-
 
     /**
      * Fetches file name from full file path
@@ -226,10 +197,10 @@ trait TMediaFileExtra {
     /**
      * Returns the cluster name where the item is about to be located
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     public function getPartitionName() {
-        if (!$this->getSaltValue()) throw new Exception(Ml::t('Failed to get salt value for the media item', 'PanelModule.media'));
+        if (!$this->getSaltValue()) throw new \Exception(Ml::t('Failed to get salt value for the media item', 'PanelModule.media'));
 
         $clusterSize = Yii::$app->params['mediaFileClusterSize'];
 
@@ -241,25 +212,64 @@ trait TMediaFileExtra {
     /**
      * Returns the hash based subfolders for the complete path
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     public function getSpreadPath() {
         $salt = $this->getSaltValue();
-        if (!$salt) throw new Exception(Ml::t('Failed to get salt value for the media item', 'PanelModule.media'));
+        if (!$salt) throw new \Exception(Ml::t('Failed to get salt value for the media item', 'PanelModule.media'));
 
-        $depth = Yii::$app->params['mediaFolderSpreadDepth'];
+        $depth = $this->getParam(self::pMediaFolderSpreadDepth);
         if (!$depth) $depth = 2;
         elseif ($depth > 5) $depth = 5;
 
         $hashString = md5($salt);
         $result = '';
 
-        for ($i = 0; $i < $depth; $i++) {
+        for ($i = 0; $i < $depth - 1; $i++) {
             $result .= substr($hashString, $i*2, 2);
-            if ($i < $depth - 1) $result .= '/';
+            if ($i < $depth - 2) $result .= '/';
         }
 
         return $result;
+    }
+
+  /**
+     * Reads image file using GD or ImageMagick
+     * @return Imagick|null|resource
+     */
+    function readImage () {
+        $sourceImage = null;
+
+        // IM
+        if ($this->getOption(self::engine) == self::engineImageMagick) {
+            if (file_exists($this->_fullPath)) {
+                $sourceImage = New \Imagick();
+
+                $sourceImage->readImage($this->_fullPath);
+
+                if ($sourceImage) $g = $sourceImage->getImageGeometry();
+
+                $this->width = $g['width'];
+                $this->height = $g['height'];
+            } else {
+                $this->width = 0;
+                $this->height = 0;
+            }
+        // GD
+        } else {
+            $imageInfo = getimagesize($this->_fullPath);
+
+            $this->width = $imageInfo[0];
+            $this->height = $imageInfo[1];
+
+            switch ($imageInfo[2]){
+                case IMAGETYPE_JPEG: $sourceImage = imageCreateFromJPEG($this->_fullPath); break;
+                case IMAGETYPE_GIF:  $sourceImage = imageCreateFromGIF($this->_fullPath);  break;
+                case IMAGETYPE_PNG:  $sourceImage = imageCreateFromPNG($this->_fullPath);  break;
+            }
+        }
+
+        return $sourceImage;
     }
 
      /**
@@ -302,5 +312,33 @@ trait TMediaFileExtra {
      */
     public function getThumbPath($dimensions, $absolute = true) {
         return $this->getThumbFolder($absolute) . '/' . $this->filename . '_' . $dimensions['width'] . 'x' . $dimensions['height'] . '.' . $this->ext;
+    }
+
+    /**
+     * recursively deletes given path
+     * @static
+     * @param $path
+     * @return bool|null
+     * @throws \Exception
+     */
+    public function deleteRecursive($path) {
+        if (is_dir($path) && !is_link($path)) {
+            $dh = opendir($path);
+            if ($dh) {
+                while (($sf = readdir($dh)) !== false) {
+                    if ($sf == '.' || $sf == '..') continue;
+
+                    if(!self::deleteRecursive($path . '/' . $sf)) throw new \Exception('Unable to Delete Folder');
+                }
+
+                closedir($dh);
+            }
+
+            return rmdir($path);
+        } elseif(file_exists($path)) {
+            return unlink($path);
+        } else {
+            return null;
+        }
     }
 }
