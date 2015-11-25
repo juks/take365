@@ -146,8 +146,13 @@
             <tr class="header">
             <td class="left"><a href="<?= $url ?>"><?=$url?></a></td><td class="middle"><?php if($method['title']): ?><?= $method['title'] ?><?php else: ?>&nbsp;<?php endif ?></td><td class="right">&nbsp;</td>
             </tr>
+            <?php 
+                if(!empty($method['auth'])) {
+                    if (empty($method['params'])) $method['params'] = [];
+                    $method['params'][] = ['n' => 'access-token',     't' => 'Access Token',              'h'=>''];
+                }
+            ?>
             <?php if (!empty($method['params'])): ?>
-                <?php if(!empty($method['auth'])) $method['params'][] = ['n' => 'access-token',     't' => 'Access Token',              'h'=>''];?>
                 <?php foreach ($method['params'] as $param): ?>
                     <tr class="content">
                         <td class="left">&nbsp;</td><td class="middle">?<?= $param['n'] ?></td><td class="right"><?= $param['t'] ?><?php if (!empty($param['h'])): ?> (<?= $param['h'] ?>)<?php endif ?></td>
