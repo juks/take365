@@ -1,51 +1,157 @@
-Welcome to Take365 API!
------------------------
+<?php
+    $api = [
+                [
+                    'title'                         => 'Auth',
+                    'methods'                       => [
+                        '/auth/login'               => [
+                            'title' => 'Authenticates users',
+                            'params'                => [
+                                                            ['n' => 'username',     't' => 'Username'],
+                                                            ['n' => 'password',     't' => 'User Password']
+                                                    ]
+                        ],
+                    ]
+                 ],
 
-Available methods are:
+                [
+                    'title'                         => 'Users',
+                    'methods'                       => [
+                        '/api/user/chek-username'   => [
+                            'title' => 'Checks if given username is available',
+                            'params'                => [
+                                                            ['n' => 'username',     't' => 'Username'],
+                                                    ]
+                        ],
 
-   [Auth]
+                        '/api/user/check-email'   => [
+                            'title' => 'Checks if given email is available',
+                            'params'                => [
+                                                            ['n' => 'email',        't' => 'Preferred Email'],
+                                                    ]
+                        ],
 
-    /api/auth/login
-        ?username       <UserName>
-        ?password       <User Password>
+                        '/api/user/register'   => [
+                            'title' => 'Registers new user',
+                            'params'                => [
+                                                            ['n' => 'username',     't' => 'Preferred Username'],
+                                                            ['n' => 'email',        't' => 'User Email'],
+                                                            ['n' => 'password',     't' => 'User Password'],
+                                                    ]
+                        ],
 
-    /api/auth/logout
+                        '/api/user/update-profile'   => [
+                            'title' => 'Updates user profile',
+                            'params'                => [
+                                                            ['n' => 'id',           't' => 'User Id'],
+                                                            ['n' => 'username',     't' => 'Preferred Username'],
+                                                            ['n' => 'password',     't' => 'User Password'],
+                                                            ['n' => 'email',        't' => 'User Email'],
+                                                            ['n' => 'description',  't' => 'User Profile Description'],
+                                                    ]
+                        ]
+                    ]
+                 ],
 
+                [
+                    'title'                     => 'Stories',
+                    'methods'                   => [
+                        '/api/story/id'         => [
+                            'title' => 'Fetches Story information',
+                        ],
+                        '/api/story/write'      => [
+                            'title' => 'Creates or updates story',
+                            'params'            => [
+                                                            ['n' => 'id',           't' => 'Story Id',                      'h'=>'If not given, a new story will be created'],
+                                                            ['n' => 'title',        't' => 'Story Title'],
+                                                            ['n' => 'description',  't' => 'Story Description'],
+                                                    ]
+                        ]
+                    ]
+                 ],
 
-   [Users]
+                [
+                    'title'                     => 'Media',
+                    'methods'                   => [
+                        '/api/media/upload'     => [
+                            'title' => 'Uploads new media resorce',
+                            'params'            => [
+                                                        ['n' => 'targetId',     't' => 'Target Object Id',              'h'=>''],
+                                                        ['n' => 'targetType',   't' => 'Target Object Type',            'h'=>'1 for user, 2 for story'],
+                                                        ['n' => 'mediaType',    't' => 'Type of Uploaded Media',        'h'=>'eg. "userpic", "storyImage"'],
+                                                    ]
+                        ],
+                    ]
+                 ]
+            ];
 
-    /api/user/chek-username
-        ?username       <Username>
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        div.desc {
+            padding-left: 150px;
+        }
 
-    /api/user/check-email
-        ?email          <Preferred Email>
+        h3.section {
+            color: #333333;
+        }
 
-    /api/user/register
-        ?username       <Preferred Username>
-        ?email          <Preferred Email>
-        ?password       <Preferred Password>
+        table.reference {
+            max-width: 1200px;
+            width: 60%;
+            padding-bottom: 20px;
+        }
 
-    /api/user/update-profile
-        ?id             <User Id>
-        ?username       <Preferred Username>
-        ?password       <Preferred Password>
-        ?email          <Preferred Email>
-        ?description    <User Profile Description>
+        tr.header td {
+            padding-bottom: 10px;
+            font-size: 1em;
+        }
 
+        tr.header td.middle {
+            color: #777777;
+        }
 
-   [Stories]
+        tr.content td {
+            font-size: 0.9em;
+        }
 
-    /api/story/<id>
+        td.left {
+            width: 20%
+        }
 
-    /api/story/write
-        ?id             <Story Id>                  (If not given, a new story will be created)
-        ?title          <Story Title>
-        ?Description    <Story Description>
+        td.middle {
+            width: 40%;
+        }
 
+        td.right {
+            font-style: italic;
+            width: 40%;
+        }
+    </style>
+</head>
 
-    [Media]
+<body>
+<h2>Welcome to Take365 API 1.0!</h2>
 
-    /api/media/upload
-        ?targetId       <Target Object Id>
-        ?targetType     <Target Object Type>        (1 for user, 2 for story)
-        ?mediaType      <Type of Uploaded media>    (eg. "userpic", "storyImage")
+<div>Available methods are:</div>
+<?php foreach ($api as $section): ?>
+    <h3 class="section">[<?= $section['title'] ?>]</h3>
+        <?php foreach ($section['methods'] as $url => $method): ?>
+            <table class="reference">
+            <tr class="header">
+            <td class="left"><a href="<?= $url ?>"><?=$url?></a></td><td class="middle"><?php if($method['title']): ?><?= $method['title'] ?><?php else: ?>&nbsp;<?php endif ?></td><td class="right">&nbsp;</td>
+            </tr>
+            <?php if (!empty($method['params'])): ?>
+                <?php foreach ($method['params'] as $param): ?>
+                    <tr class="content">
+                        <td class="left">&nbsp;</td><td class="middle">?<?= $param['n'] ?></td><td class="right"><?= $param['t'] ?></td>
+                    </tr>
+                <?php endforeach ?>
+            <?php endif ?>
+            </table>
+        <?php endforeach ?>
+<?php endforeach ?>
+
+</body>
+</html>

@@ -67,6 +67,7 @@ class MediaCore extends MediaBase {
     const mainThumbDimension        = 'mainThumbDimension';
     const largeThumbDimension       = 'largeThumbDimension';
     
+    const thumbsCreate              = 'thumbsCreate';
     const skipThumbsCreate          = 'skipThumbsCreate';
     const forceThumbsCreate         = 'forceThumbsCreate';
     const cleanPrev                 = 'cleanPrev';
@@ -121,7 +122,7 @@ class MediaCore extends MediaBase {
 
     public function afterFind() {
         $this->getPathDetails();
-        $this->getThumbs([MediaCore::skipThumbsCreate => true]);
+        $this->getThumbs();
     }
 
     /**

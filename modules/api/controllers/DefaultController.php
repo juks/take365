@@ -10,8 +10,8 @@ use app\modules\api\components\ApiController;
 class DefaultController extends ApiController
 {
     public function actionIndex() {
-        Yii::$app->response->format = Response::FORMAT_RAW;
-        Yii::$app->response->getHeaders()->add('Content-type', 'text/plain');
+        Yii::$app->response->format = Response::FORMAT_HTML;
+        //Yii::$app->response->getHeaders()->add('Content-type', 'text/plain');
 
         $this->layout = false;
         $this->disableSend = true;

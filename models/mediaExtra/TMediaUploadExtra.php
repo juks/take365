@@ -15,6 +15,8 @@ trait TMediaUploadExtra {
      */
 	public function addMedia($mediaResource, $mediaType, $instance, $extra = []) {
         if (!$instance) $instance = new Media();
+        $extra[Media::thumbsCreate] = true;
+
 		$instance->takeFile($mediaResource, $mediaType, $this, $extra);
 
 		return $instance;

@@ -48,7 +48,7 @@ trait TMediaThumbExtra {
 
         foreach ($thumbsList as $resizeMode => $resizeDimensions) {
             foreach ($resizeDimensions as $targetDimension) {
-                $thumb = $this->makeThumb($resizeMode, $targetDimension, $extra);;
+                $thumb = $this->makeThumb($resizeMode, $targetDimension, $extra);
 
                 if (empty($this->t[$resizeMode])) $this->t[$resizeMode] = [];
                 
@@ -73,11 +73,6 @@ trait TMediaThumbExtra {
     public function makeThumb($resizeMode, $targetDimension, $extra = null) {
         $dimensions = $this->getThumbDimensions($resizeMode, $targetDimension);
 
-        if (!$this->_thumbFolderReady) {
-            $this->preparePath('thumb');
-            $this->_thumbFolderReady = true;
-        }
-
         // Should we resize?
         // No, do not resize
         if (!$dimensions || $this->width <= $dimensions['width'] && $this->height <= $dimensions['height']) {
@@ -95,7 +90,12 @@ trait TMediaThumbExtra {
         if ($dimensions) {
             $thumbPath = $this->getThumbPath($dimensions);
 
-            if (empty($extra[self::skipThumbsCreate]) && (!empty($extra[self::forceThumbsCreate]) || $this->getParam('mediaThumbsAutoCreate') && !file_exists($thumbPath))) {
+            if (!empty($extra[self::forceThumbsCreate]) || ((!empty($extra[self::thumbsCreate]) || $this->getParam('mediaThumbsAutoCreate')) && !file_exists($thumbPath))) {
+                if (!$this->_thumbFolderReady) {
+                    $this->preparePath('thumb');
+                    $this->_thumbFolderReady = true;
+                }
+
                 $this->storeImageResource();
                 $this->resize($dimensions, $thumbPath);
             }
