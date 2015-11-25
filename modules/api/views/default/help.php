@@ -41,6 +41,7 @@
 
                         '/api/user/update-profile'   => [
                             'title' => 'Updates user profile',
+                            'auth'  => true,
                             'params'                => [
                                                             ['n' => 'id',           't' => 'User Id'],
                                                             ['n' => 'username',     't' => 'Preferred Username'],
@@ -57,9 +58,11 @@
                     'methods'                   => [
                         '/api/story/id'         => [
                             'title' => 'Fetches Story information',
+                            'auth'  => true,
                         ],
                         '/api/story/write'      => [
                             'title' => 'Creates or updates story',
+                            'auth'  => true,
                             'params'            => [
                                                             ['n' => 'id',           't' => 'Story Id',                      'h'=>'If not given, a new story will be created'],
                                                             ['n' => 'title',        't' => 'Story Title'],
@@ -73,6 +76,7 @@
                     'title'                     => 'Media',
                     'methods'                   => [
                         '/api/media/upload'     => [
+                            'auth'  => true,
                             'title' => 'Uploads new media resorce',
                             'params'            => [
                                                         ['n' => 'targetId',     't' => 'Target Object Id',              'h'=>''],
@@ -143,6 +147,7 @@
             <td class="left"><a href="<?= $url ?>"><?=$url?></a></td><td class="middle"><?php if($method['title']): ?><?= $method['title'] ?><?php else: ?>&nbsp;<?php endif ?></td><td class="right">&nbsp;</td>
             </tr>
             <?php if (!empty($method['params'])): ?>
+                <?php if(!empty($method['auth'])) $method['params'][] = ['n' => 'access-token',     't' => 'Access Token',              'h'=>''];?>
                 <?php foreach ($method['params'] as $param): ?>
                     <tr class="content">
                         <td class="left">&nbsp;</td><td class="middle">?<?= $param['n'] ?></td><td class="right"><?= $param['t'] ?><?php if (!empty($param['h'])): ?> (<?= $param['h'] ?>)<?php endif ?></td>
