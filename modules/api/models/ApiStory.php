@@ -15,7 +15,7 @@ class ApiStory extends Story {
     **/    
     public function scenarios() {
         return [
-            'default' => ['title', 'description']
+            'default' => ['status', 'title', 'description']
         ];
     }
 
@@ -25,6 +25,7 @@ class ApiStory extends Story {
     public function fields() {
         return [
             'id'        => 'id',
+            'status'    => 'status',
             'title'     => 'title',
             'url'       => function() { return $this->url; },
             'progress'  => function() { return $this->progress; },

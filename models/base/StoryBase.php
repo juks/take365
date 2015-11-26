@@ -23,6 +23,11 @@ use Yii;
  */
 class StoryBase extends \yii\db\ActiveRecord
 {
+    const statusPublic = 0;
+    const statusPrivate = 1;
+
+    protected $_validStatuses = [self::statusPblic, self::statusPrivate];
+
     /**
      * @inheritdoc
      */
@@ -41,7 +46,8 @@ class StoryBase extends \yii\db\ActiveRecord
             [['created_by', 'status', 'is_deleted', 'time_deleted', 'is_active', 'time_created', 'time_updated', 'time_start', 'time_published', 'media_count'], 'integer'],
             [['description'], 'string'],
             [['title'], 'string', 'max' => 255],
-            [['title', 'description'], 'safe']
+            [['title', 'description'], 'safe'],
+            ['status', 'in', 'range'=> [self::statusPublic, self::statusPrivate]]
         ];
     }
 

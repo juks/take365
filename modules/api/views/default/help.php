@@ -65,6 +65,7 @@
                             'auth'  => true,
                             'params'            => [
                                                             ['n' => 'id',           't' => 'Story Id',                      'h'=>'If not given, a new story will be created'],
+                                                            ['n' => 'status',       't' => 'Story Status',                  'h'=>'0 — public, 1 — private'],
                                                             ['n' => 'title',        't' => 'Story Title'],
                                                             ['n' => 'description',  't' => 'Story Description'],
                                                     ]
