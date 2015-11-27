@@ -110,4 +110,165 @@ trait TMediaThumbExtra {
             		];
         }
     }
+
+    /**
+     * Get resulting thumb dimensions
+     * @param $resizeMode
+     * @param $targetDimension
+     * @return array|null
+     */
+    public function getThumbDimensions($resizeMode, $targetDimension) {
+        $cx = 0;
+        $cy = 0;
+        $cw = 0;
+        $ch = 0;
+
+        switch ($resizeMode) {
+            case self::resizeWidth:
+                $width = $this->width;
+                $height = $this->height;
+
+                $dimensionIndex = 0;
+
+                break;
+
+            case self::resizeHeight:
+                $width = $this->width;
+                $height = $this->height;
+
+                $dimensionIndex = 1;
+
+                break;
+
+            case self::resizeMaxSide:
+                $width = $this->width;
+                $height = $this->height;
+
+                $dimensionIndex = $this->width > $this->height ? 0 : 1;
+
+                break;
+
+            case self::resizeMinSide:
+                $width = $this->width;
+                $height = $this->height;
+
+                $dimensionIndex = $this->width > $this->height ? 1 : 0;
+
+                break;
+
+            case self::resizeSquareCrop:
+                if ($this->width > $this->height) {
+                    $width = $this->height;
+                    $height = $this->height;
+
+                    $cx = round($this->width / 2 - $this->height / 2);
+                    $cy = 0;
+                    $cw = $width;
+                    $ch = $height;
+                } else {
+                    $width = $this->width;
+                    $height = $this->width;                    
+
+                    $cx = 0;
+                    $cy = round($this->height / 2 - $this->width / 2);
+                    $cw = $width;
+                    $ch = $height;
+                }
+            
+                $dimensionIndex = 0;
+
+                break;
+        }
+
+        $dimensionValue = $dimensionIndex ? $height : $width;
+        $otherDimensionValue = $dimensionIndex ? $width : $height;
+
+        if ($this->getOption(self::resizeScaleUp) || ($dimensionValue > $targetDimension)) {
+            $proportion = $otherDimensionValue / $dimensionValue;
+
+            if (!$dimensionIndex) {
+                $newWidth  = $targetDimension;
+                $newHeight = round($newWidth  * $proportion);
+            } else {
+                $newHeight = $targetDimension;
+                $newWidth  = round($newHeight * $proportion);
+            }
+
+            return [
+                        'width'     => $newWidth,
+                        'height'    => $newHeight,
+                        'cx'        => $cx,
+                        'cy'        => $cy,
+                        'cw'        => $cw,
+                        'ch'        => $ch,
+                    ];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Resize internal stored image into a file
+     * @param $dimensions
+     * @param $targetFile
+     */
+    public function resize($dimensions, $targetFile = null) {
+        $image = $this->getImageResource();
+
+        if (!$image) throw new Exception(Ml::t('Preloaded image resource is missing', 'media'));
+
+        $image = clone $image;
+
+        // IM
+        if ($this->getOption(self::engine) == self::engineImageMagick) {
+            // Maybe crop?
+            if (!empty($dimensions['cx']) || !empty($dimensions['cy'])) {
+                $image->cropImage($dimensions['cw'], $dimensions['ch'], $dimensions['cx'], $dimensions['cy']);
+            }
+
+            $image->resizeImage($dimensions['width'], $dimensions['height'], $this->getOption(self::resizeFilter), $this->getOption(self::resizeBlur));
+
+            // Save into file
+            if ($targetFile) {
+                // Need to remove the old file to avoid the size calculations errors
+                if(is_file($targetFile)) unlink($targetFile);
+
+                // Save the result image
+                $image->setImageCompressionQuality($this->getOption(self::quality));
+
+                if (!$image->writeImage($targetFile)) {
+                    throw new Exception('Failed to write media file!');
+                }
+            // Return the result
+            } else {
+                return $image;
+            }
+        // GD
+        } else {
+            $newImage = imagecreatetruecolor($dimensions['width'], $dimensions['height']);
+
+            if (empty($dimensions['cx']) && empty($dimensions['cy'])) {
+                imagecocyresampled($newImage, $image, 0, 0, 0, 0, $dimensions['width'], $dimensions['height'], $this->width, $this->height);
+            } else {
+                imagecocyresampled($newImage, $image, 0, 0, $dimensions['cx'], $dimensions['cy'], $dimensions['width'], $dimensions['height'], $this->width, $this->height);
+            }
+
+            // Save into file
+            if ($targetFile) {
+                // Need to remove the old file to avoid the size calculations errors
+                if(is_file($targetFile)) unlink($targetFile);
+
+                $savedImage = $this->saveGDImage($targetFile, $newImage);
+
+                // If we were unable to save the result
+                if(!$savedImage) throw new Exception($this->errorMsg[1006], 1006);
+
+                // Image destroy
+                // imagedestroy($newImage);
+            // Return the result
+            } else {
+                return $newImage;
+            }
+        }
+    }
 }

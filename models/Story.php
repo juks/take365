@@ -89,7 +89,10 @@ class Story extends StoryBase implements IPermissions, IGetType {
         if (!$interval->invert && $interval->days >= 0 && $interval->days <= 365) return true; else return false;
     }
 
+    /**
+    * Forms story URL
+    */
     public function getUrl() {
-        return \yii\helpers\Url::base(true) . '/' . Yii::$app->user->getIdentity()->username . '/story/' . $this->id;
+        return Yii::$app->user->getIdentity()->url . '/story/' . $this->id;
     }
 }

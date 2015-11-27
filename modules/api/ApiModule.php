@@ -9,6 +9,7 @@ class ApiModule extends \yii\base\Module
     public function init() {
         parent::init();
 
+		\Yii::$app->request->enableCsrfValidation = false;
     	//\Yii::$app->user->enableSession = false;
         // custom initialization code goes here
     }

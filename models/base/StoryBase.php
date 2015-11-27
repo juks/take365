@@ -26,7 +26,7 @@ class StoryBase extends \yii\db\ActiveRecord
     const statusPublic = 0;
     const statusPrivate = 1;
 
-    protected $_validStatuses = [self::statusPblic, self::statusPrivate];
+    protected $_validStatuses = [self::statusPublic, self::statusPrivate];
 
     /**
      * @inheritdoc

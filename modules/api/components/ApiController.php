@@ -7,9 +7,6 @@ use app\components\MyJsonController;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\filters\auth\CompositeAuth;
-use yii\filters\auth\HttpBasicAuth;
-use yii\filters\auth\HttpBearerAuth;
-use yii\filters\auth\QueryParamAuth;
 
 class ApiController extends MyJsonController {
     public function behaviors() {
@@ -19,8 +16,8 @@ class ApiController extends MyJsonController {
             $b['authenticator'] = [
                 'class' => CompositeAuth::className(),
                 'authMethods' => [
-                    HttpBearerAuth::className(),
-                    QueryParamAuth::className(),
+                    \app\modules\api\components\ApiHttpBearerAuth::className(),
+                    \app\modules\api\components\ApiQueryParamAuth::className(),
                 ],
                 'except' => ['index', 'login', 'error', 'check-username', 'check-email', 'register']
             ];
@@ -43,5 +40,18 @@ class ApiController extends MyJsonController {
 
     public function actionError() {
 
+    }
+
+    /**
+     * runAction override
+     *
+     * @param string $id
+     * @param array params
+     */
+    public function runAction($id, $params = []) {
+         // Extract the params from the request and bind them to params
+         $params = \yii\helpers\BaseArrayHelper::merge(Yii::$app->getRequest()->getBodyParams(), $params);
+
+         return parent::runAction($id, $params);
     }
 }

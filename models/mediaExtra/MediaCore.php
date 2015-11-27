@@ -6,7 +6,6 @@ use Yii;
 use app\models\base\MediaBase;
 use app\models\mediaExtra\TMediaFileExtra;
 use app\models\mediaExtra\TMediaThumbExtra;
-use app\models\mediaExtra\TMediaResizeExtra;
 use app\models\mediaExtra\TMediaImageExtra;
 use app\models\mediaExtra\TMediaUrlExtra;
 use app\components\Helpers;
@@ -25,7 +24,6 @@ class MediaCore extends MediaBase {
 
     use TMediaFileExtra;
     use TMediaThumbExtra;
-    use TMediaResizeExtra;
     use TMediaImageExtra;
     use TMediaUrlExtra;
 
@@ -224,7 +222,7 @@ class MediaCore extends MediaBase {
                 
             }
 
-            $this->getThumbs();
+            $this->getThumbs($extra);
         } catch(\Exception $e) {
             $transaction->rollback();
 
@@ -298,8 +296,12 @@ class MediaCore extends MediaBase {
     public function storeImageResource($extra = null) {
         if (!$this->_imageResource || !empty($extra['force'])) {
             $this->_imageResource = $this->readImage();
+
             if ($this->_imageResource) {
-                $this->_imageResource->setImageCompressionQuality($this->getOption(self::quality));
+                if ($this->getOption(self::engine) == self::engineImageMagick) {
+                    $this->_imageResource->setImageCompressionQuality($this->getOption(self::quality));
+                } 
+
                 $this->_imageInfo = getimagesize($this->_fullPath, $info);
 
                 $this->format = $this->_imageInfo['2'];

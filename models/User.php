@@ -219,6 +219,13 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
        $mo = Media::getMediaOptions('userpic');
        return $this->hasOne(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[MediaCore::typeId], 'is_deleted' => 0]);
     }
+
+    /**
+    * Forms user home URL
+    */
+    public function getUrl() {
+        return \yii\helpers\Url::base(true) . '/' . $this->username;
+    }
 }
 
 ?>

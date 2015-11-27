@@ -44,7 +44,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_type', 'time_created', 'time_updated', 'ip_created', 'time_login', 'ip_login', 'is_active', 'banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued', 'invite_id'], 'integer'],
+            [['user_type', 'time_created', 'time_updated', 'time_registered', 'ip_created', 'time_login', 'ip_login', 'is_active', 'banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued', 'invite_id'], 'integer'],
             [['username', 'email', 'password', 'time_created', 'ip_created'], 'required'],
             [['username'], 'string', 'max' => 20],
             [['password', 'fullname'], 'string', 'max' => 64],

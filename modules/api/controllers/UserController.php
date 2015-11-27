@@ -21,7 +21,7 @@ class UserController extends ApiController {
 	public function actionCheckUsername($username) {
 		$user = new ApiUser();
 		$user->checkField('username', $username);
-		$this->addContent(!$user->hasErrors());
+		$this->addContent($user);
 	}
 
     /**
@@ -33,6 +33,18 @@ class UserController extends ApiController {
         $this->addContent($this->checkModelPermission($id, 'read'));
     }
 
+    /**
+     * Lists users
+     *
+     * @param int $page
+     * @param int $maxItems
+     */
+    public function actionList($page = 1, $maxItems = 10) {
+    	if ($maxItems > 500) $maxItems = 500;
+
+        $this->addContent(ApiUser::find()->where(['is_active' => 1])->orderBy('time_registered')->offset(($page - 1) * $maxItems)->limit($maxItems)->all());
+    }    
+
 	/**
 	 * Проверить доступность имейла
 	 *
@@ -41,7 +53,7 @@ class UserController extends ApiController {
 	public function actionCheckEmail($email) {
 		$user = new ApiUser();
 		$user->checkField('email', $email);
-		$this->addContent(!$user->hasErrors());
+		$this->addContent($user);
 	}
 
 	/**

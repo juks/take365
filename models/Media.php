@@ -25,7 +25,7 @@ class Media extends MediaCore {
                                                         MediaCore::resizeMode            => MediaCore::resizeMaxSide,
                                                         MediaCore::targetDimension       => 3000,
                                                         MediaCore::thumbsList            => [
-                                                                                            MediaCore::resizeMaxSide => [200, 100, 50],
+                                                                                                MediaCore::resizeMaxSide => [200, 100, 50],
                                                                                         ],
                                                         MediaCore::mainThumbDimension    => 100,
                                                         MediaCore::largeThumbDimension   => 200,
@@ -48,7 +48,8 @@ class Media extends MediaCore {
                                                         MediaCore::resizeMode            => MediaCore::resizeMaxSide,
                                                         MediaCore::targetDimension       => 3000,
                                                         MediaCore::thumbsList            => [
-                                                                                            MediaCore::resizeMaxSide => [400, 200, 100, 50],
+                                                                                                MediaCore::resizeMaxSide    => [200, 100],
+                                                                                                MediaCore::resizeSquareCrop => [400, 200, 100, 50],
                                                                                         ],
                                                         MediaCore::mainThumbDimension    => 200,
                                                         MediaCore::largeThumbDimension   => 400,
