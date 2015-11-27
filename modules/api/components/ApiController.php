@@ -53,7 +53,7 @@ class ApiController extends MyJsonController {
 
         $ct = preg_split("/;/", Yii::$app->getRequest()->getContentType())[0];
 
-        if ($ct == 'text/json') {
+        if ($ct == 'application/json') {
             $data = json_decode(Yii::$app->getRequest()->getRawBody(), true);
 
             if ($data) {
