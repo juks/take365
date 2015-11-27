@@ -49,9 +49,22 @@ class ApiController extends MyJsonController {
      * @param array params
      */
     public function runAction($id, $params = []) {
-         // Extract the params from the request and bind them to params
-         $params = \yii\helpers\BaseArrayHelper::merge(Yii::$app->getRequest()->getBodyParams(), $params);
+        // Extract the params from the request and bind them to params
 
-         return parent::runAction($id, $params);
+        $ct = preg_split("/;/", Yii::$app->getRequest()->getContentType())[0];
+
+        if ($ct == 'text/json') {
+            $data = json_decode(Yii::$app->getRequest()->getRawBody(), true);
+
+            if ($data) {
+                $params = \yii\helpers\BaseArrayHelper::merge($data, $params);
+                $_POST = \yii\helpers\BaseArrayHelper::merge($data, $_POST);
+                $_REQUEST = \yii\helpers\BaseArrayHelper::merge($data, $_REQUEST);
+            }
+        } else {
+            $params = \yii\helpers\BaseArrayHelper::merge(Yii::$app->getRequest()->getBodyParams(), $params);
+        }
+
+        return parent::runAction($id, $params);
     }
 }
