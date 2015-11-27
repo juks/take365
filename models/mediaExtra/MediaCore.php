@@ -291,6 +291,14 @@ class MediaCore extends MediaBase {
     }
 
     /**
+     * Returns image info array
+     * @return null
+     */
+    public function getImageInfo() {
+        return !empty($this->_imageInfo) ? $this->_imageInfo : null;
+    }
+
+    /**
      * Stores image resource within the media class instance
      */
     public function storeImageResource($extra = null) {

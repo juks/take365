@@ -134,9 +134,9 @@ trait TMediaFileExtra {
         $imageInfo = $this->getImageInfo();
 
         # Сохраняем изображение
-        if($imageInfo[2] == IMAGETYPE_JPEG)     imagejpeg($image, $targetFile, $this->getOption(self::quality));
-        elseif ($imageInfo[2] == IMAGETYPE_GIF) imagegif($image, $targetFile);
-        elseif ($imageInfo[2] == IMAGETYPE_PNG) imagepng($image, $targetFile);
+        if($imageInfo[2] == IMAGETYPE_JPEG)     return imagejpeg($image, $targetFile, $this->getOption(self::quality));
+        elseif ($imageInfo[2] == IMAGETYPE_GIF) return imagegif($image, $targetFile);
+        elseif ($imageInfo[2] == IMAGETYPE_PNG) return imagepng($image, $targetFile);
     }
 
     /**

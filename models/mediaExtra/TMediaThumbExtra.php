@@ -122,6 +122,7 @@ trait TMediaThumbExtra {
         $cy = 0;
         $cw = 0;
         $ch = 0;
+        $crop = false;
 
         switch ($resizeMode) {
             case self::resizeWidth:
@@ -176,6 +177,7 @@ trait TMediaThumbExtra {
                 }
             
                 $dimensionIndex = 0;
+                $crop = true;
 
                 break;
         }
@@ -201,6 +203,7 @@ trait TMediaThumbExtra {
                         'cy'        => $cy,
                         'cw'        => $cw,
                         'ch'        => $ch,
+                        'crop'      => $crop
                     ];
         } else {
             return null;
@@ -217,12 +220,12 @@ trait TMediaThumbExtra {
 
         if (!$image) throw new Exception(Ml::t('Preloaded image resource is missing', 'media'));
 
-        $image = clone $image;
-
         // IM
         if ($this->getOption(self::engine) == self::engineImageMagick) {
+            $image = clone $image;
+
             // Maybe crop?
-            if (!empty($dimensions['cx']) || !empty($dimensions['cy'])) {
+            if (!empty($dimensions['crop'])) {
                 $image->cropImage($dimensions['cw'], $dimensions['ch'], $dimensions['cx'], $dimensions['cy']);
             }
 
@@ -247,10 +250,10 @@ trait TMediaThumbExtra {
         } else {
             $newImage = imagecreatetruecolor($dimensions['width'], $dimensions['height']);
 
-            if (empty($dimensions['cx']) && empty($dimensions['cy'])) {
-                imagecocyresampled($newImage, $image, 0, 0, 0, 0, $dimensions['width'], $dimensions['height'], $this->width, $this->height);
+            if (empty($dimensions['crop'])) {
+                imagecopyresampled($newImage, $image, 0, 0, 0, 0, $dimensions['width'], $dimensions['height'], $this->width, $this->height);
             } else {
-                imagecocyresampled($newImage, $image, 0, 0, $dimensions['cx'], $dimensions['cy'], $dimensions['width'], $dimensions['height'], $this->width, $this->height);
+                imagecopyresampled($newImage, $image, 0, 0, $dimensions['cx'], $dimensions['cy'], $dimensions['width'], $dimensions['height'], $this->width, $this->height);
             }
 
             // Save into file
@@ -261,10 +264,10 @@ trait TMediaThumbExtra {
                 $savedImage = $this->saveGDImage($targetFile, $newImage);
 
                 // If we were unable to save the result
-                if(!$savedImage) throw new Exception($this->errorMsg[1006], 1006);
+                if(!$savedImage) throw new \Exception('Unable to save resized image');
 
                 // Image destroy
-                // imagedestroy($newImage);
+                imagedestroy($newImage);
             // Return the result
             } else {
                 return $newImage;

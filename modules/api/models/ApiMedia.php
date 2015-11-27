@@ -22,8 +22,8 @@ class ApiMedia extends BaseMedia {
         $fields = [
                         'id'            => 'id',
                         'title'         => 'title',
-                        'thumb'         => function() { return $this->getThumbData(BaseMedia::resizeMaxSide, $this->getOption('mainThumbDimension')); },
-                        'thumbLarge'    => function() { return $this->getThumbData(BaseMedia::resizeMaxSide, $this->getOption('largeThumbDimension')); }
+                        'thumb'         => function() { return $this->getThumbData(BaseMedia::resizeSquareCrop, $this->getOption('mainThumbDimension')); },
+                        'thumbLarge'    => function() { return $this->getThumbData(BaseMedia::resizeSquareCrop, $this->getOption('largeThumbDimension')); }
                     ];
 
         if ($this->target_type == Story::typeId) $fields['date'] = 'date';
