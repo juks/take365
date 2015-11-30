@@ -29,8 +29,12 @@ class UserController extends ApiController {
      *
      * @param int $id
      */
-    public function actionGet($id = null) {
-        $this->addContent($this->checkModelPermission($id, 'read'));
+    public function actionGet($id = null, $username = null) {
+        if ($id) {
+        	$this->addContent($this->checkModelPermission(intval($id), 'read'));
+        } else {
+			$this->addContent($this->checkModelPermission($username, 'read'));
+        }
     }
 
     /**

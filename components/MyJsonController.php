@@ -131,9 +131,19 @@ class MyJsonController extends Controller {
     public function checkModelPermission($id, $permission, $extra = []) {
     	if (empty($extra['user'])) $extra['user'] = Yii::$app->user;
 
-		$modelClass = $this->getModelClass();
+		$modelInstance = Yii::createObject($this->getModelClass());
 
-		$model = Yii::createObject($modelClass)->findOne($id);
+		if (is_int($id)) {
+			$cond = ['id' => $id];
+		} else {
+			$cond = ['username' => $id];
+		}
+
+		if (method_exists($modelInstance, 'getActiveCondition')) {
+			$cond = array_merge($cond, call_user_func($this->getModelClass() . '::getActiveCondition'));
+		} 
+
+		$model = call_user_func($this->getModelClass() . '::find')->where($cond)->one();
 
 		if (!$model) {
 			throw new NotFoundHttpException();

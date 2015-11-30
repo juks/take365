@@ -98,7 +98,7 @@ class StoryController extends ApiController {
             $conditions = ['created_by' => $user->identity->id];
         // Fetch Someone's else stories
         } elseif ($username) {
-            $targetUser = ApiUSer::find()->where(ApiUSer::getActiveCondition())->andWhere(['username' => $username])->one();
+            $targetUser = ApiUSer::find()->where(['username' => $username])->andWhere(ApiUSer::getActiveCondition())->one();
 
             if (!$targetUser) {
                 $this->addErrorMessage('User ' . $username . ' is not available');

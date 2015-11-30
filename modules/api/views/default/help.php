@@ -18,6 +18,14 @@ $api = [
                 'title'                         => 'Users',
 
                 'methods'                       => [
+                    '/user/id'   => [
+                        'title' => 'Retrieves User INformation',
+                        'auth'  => true,
+                        'params'                => [
+                                                        ['n' => 'id',           't' => 'Username or User Id',   'h' => 'eg. "bob" for Bob or "1" for user with ID 1'],
+                                                ]
+                    ],
+
                     '/user/chek-username'   => [
                         'title' => 'Checks if given username is available',
                         'params'                => [
