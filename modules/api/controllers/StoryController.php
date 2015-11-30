@@ -7,6 +7,7 @@ use app\components\MyJsonController;
 use app\components\Helpers;
 use app\modules\api\components\ApiController;
 use app\modules\api\models\ApiStory;
+use app\modules\api\models\ApiUser;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
@@ -19,7 +20,7 @@ class StoryController extends ApiController {
             'class' => AccessControl::className(),
             'rules' => [
                 [
-                    'actions' => ['write'],
+                    'actions' => ['write', 'list'],
                     'allow' => true,
                     'roles' => ['@'],
                 ],
@@ -81,4 +82,40 @@ class StoryController extends ApiController {
 
 		$this->addContent($model);
 	}
+
+    /**
+     * Lists users
+     *
+     * @param int $page
+     * @param int $maxItems
+     */
+    public function actionList($username = null, $page = 1, $maxItems = 10) {
+        if ($maxItems > 500) $maxItems = 500;
+        $user = Yii::$app->user;
+
+        // Fetch my Stories
+        if ($username == 'me' || ($username && $user->identity->username == $username)) {
+            $conditions = ['created_by' => $user->identity->id];
+        // Fetch Someone's else stories
+        } elseif ($username) {
+            $targetUser = ApiUSer::find()->where(ApiUSer::getActiveCondition())->andWhere(['username' => $username])->one();
+
+            if (!$targetUser) {
+                $this->addErrorMessage('User ' . $username . ' is not available');
+                
+                return;
+            } else {
+                $conditions = ['status' => 0, 'created_by' =>  $targetUser->id];
+            }
+        // Fetch all stories
+        } else {
+            $conditions = ['status' => 0];
+        }
+
+        $stories = ApiStory::find()->where($conditions)->orderBy('time_published')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
+
+        foreach ($stories as $story) $story->setScenario('listView');
+
+        $this->addContent($stories);
+    } 
 }

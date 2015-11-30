@@ -93,6 +93,20 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * Forms story URL
     */
     public function getUrl() {
-        return Yii::$app->user->getIdentity()->url . '/story/' . $this->id;
+        $author = User::find()->where(User::getActiveCondition())->andWhere(['id' => $this->created_by])->one();
+
+        return $author ? $author->url . '/story/' . $this->id : null;
+    }
+
+    /**
+    * Returns authors
+    */
+    public function getAuthors() {
+        $a = [];
+
+        $author = User::find()->where(User::getActiveCondition())->andWhere(['id' => $this->created_by])->one();
+        if ($author) $a[] = ['username' => $author->username, 'url' => $author->url];
+
+        return $a;
     }
 }

@@ -23,14 +23,18 @@ class ApiStory extends Story {
     *   Sets the lists of fields that are available for public exposure
     **/
     public function fields() {
-        return [
+        $f =  [
             'id'        => 'id',
             'status'    => 'status',
             'title'     => 'title',
             'url'       => function() { return $this->url; },
+            'authors'   => function() { return $this->authors; },
             'progress'  => function() { return $this->progress; },
-            'images'    => function() { return $this->images; }
         ];
+
+        if ($this->scenario == 'default') $f['images'] = function() { return $this->images; };
+
+        return $f;
     }
 
     /**

@@ -49,6 +49,13 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     }
 
     /**
+     * Returns the active user's criteria
+     */
+    static function getActiveCondition() {
+        return ['is_active' => 1];
+    }
+
+    /**
      * @inheritdoc
      */
     public static function findIdentity($id) {

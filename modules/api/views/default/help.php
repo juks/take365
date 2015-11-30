@@ -46,10 +46,10 @@ $api = [
                         'auth'  => true,
                         'params'                => [
                                                         ['n' => 'id',           't' => 'User Id'],
-                                                        ['n' => 'username',     't' => 'Preferred Username'],
-                                                        ['n' => 'password',     't' => 'User Password'],
-                                                        ['n' => 'email',        't' => 'User Email'],
-                                                        ['n' => 'description',  't' => 'User Profile Description'],
+                                                        ['n' => 'username',     't' => 'Preferred Username',            'o' => true],
+                                                        ['n' => 'password',     't' => 'User Password',                 'o' => true],
+                                                        ['n' => 'email',        't' => 'User Email',                    'o' => true],
+                                                        ['n' => 'description',  't' => 'User Profile Description',      'o' => true],
                                                 ]
                     ],
 
@@ -57,8 +57,8 @@ $api = [
                         'title' => 'Fetches the list of users',
                         'auth'  => true,
                         'params'                => [
-                                                        ['n' => 'page',         't' => 'Page Number'],
-                                                        ['n' => 'maxItems' ,    't' => 'Maximal Items Count']
+                                                        ['n' => 'page',         't' => 'Page Number',                   'o' => true],
+                                                        ['n' => 'maxItems' ,    't' => 'Maximal Items Count',           'o' => true]
                                                 ]
                     ]
                 ]
@@ -72,6 +72,7 @@ $api = [
                         'title' => 'Fetches Story information',
                         'auth'  => true,
                     ],
+
                     '/story/write'      => [
                         'title' => 'Creates or updates story',
                         'auth'  => true,
@@ -80,6 +81,16 @@ $api = [
                                                         ['n' => 'status',       't' => 'Story Status',                  'h'=>'0 — public, 1 — private'],
                                                         ['n' => 'title',        't' => 'Story Title'],
                                                         ['n' => 'description',  't' => 'Story Description'],
+                                                ]
+                    ],
+
+                    '/story/list'   => [
+                        'title' => 'Fetches the list of public stories',
+                        'auth'  => true,
+                        'params'                => [
+                                                        ['n' => 'page',         't' => 'Page Number',                       'o' => true],
+                                                        ['n' => 'maxItems' ,    't' => 'Maximal Items Count',               'o' => true],
+                                                        ['n' => 'username' ,    't' => 'Name of User to Fetch Stories of',  'o' => true,    'h' => 'eg. "bob" for Bob or "me" for current user']
                                                 ]
                     ]
                 ]
@@ -120,6 +131,10 @@ $api = [
             max-width: 1200px;
             width: 60%;
             padding-bottom: 20px;
+        }
+
+        table.reference tr td {
+            vertical-align: top;
         }
 
         tr.header td {
@@ -170,7 +185,7 @@ $api = [
             <?php if (!empty($method['params'])): ?>
                 <?php foreach ($method['params'] as $param): ?>
                     <tr class="content">
-                        <td class="left">&nbsp;</td><td class="middle">?<?= $param['n'] ?></td><td class="right"><?= $param['t'] ?><?php if (!empty($param['h'])): ?> (<?= $param['h'] ?>)<?php endif ?></td>
+                        <td class="left">&nbsp;</td><td class="middle">?<?php if (!empty($param['o'])) echo '?'; ?><?= $param['n'] ?></td><td class="right"><?= $param['t'] ?><?php if (!empty($param['h'])): ?> (<?= $param['h'] ?>)<?php endif ?></td>
                     </tr>
                 <?php endforeach ?>
             <?php endif ?>

@@ -3,6 +3,7 @@
 namespace app\models\base;
 
 use Yii;
+use app\components\Ml;
 
 /**
  * This is the model class for table "auth_user".
@@ -30,6 +31,8 @@ use Yii;
  */
 class AuthUserBase extends \yii\db\ActiveRecord
 {
+    protected $_reservedNames = ['me', 'friends', 'friend', 'take365', 'root', 'admin', 'superuser'];
+
     /**
      * @inheritdoc
      */
@@ -41,14 +44,15 @@ class AuthUserBase extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['user_type', 'time_created', 'time_updated', 'time_registered', 'ip_created', 'time_login', 'ip_login', 'is_active', 'banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued', 'invite_id'], 'integer'],
             [['username', 'email', 'password', 'time_created', 'ip_created'], 'required'],
-            [['username'], 'string', 'max' => 20],
+            [['username'], 'string', 'min' => 2, 'max' => 20],
             [['password', 'fullname'], 'string', 'max' => 64],
             ['username', 'unique'],
+            ['username', 'checkReserved'],
+            ['username', 'checkValid'],
             [['email'], 'email'],
             [['email'], 'unique', 'targetAttribute' => ['email', 'is_active']],
             [['description'], 'string', 'max' => 1024],
@@ -59,8 +63,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'user_type' => 'User Type',
@@ -84,5 +87,22 @@ class AuthUserBase extends \yii\db\ActiveRecord
             'recovery_code_time_issued' => 'Recovery Code Time Issued',
             'invite_id' => 'Invite ID',
         ];
+    }
+
+    /*
+    *   Check if username is not reserved
+    */
+    public function checkReserved($attribute, $params) {
+
+        if (array_search(strtolower($this->$attribute), $this->_reservedNames) != null) {
+            $this->addError($attribute, Ml::t('Sorry, username ' . $this->$attribute . ' is reserved'));
+        }
+    }
+
+    /*
+    *   Check if username contains only valid symbols
+    */
+    public function checkValid($attribute, $params) {
+        if (!preg_match('/^[a-z0-9-]{2,}$/', $this->$attribute)) $this->addError($attribute, Ml::t('Invalid username'));
     }
 }
