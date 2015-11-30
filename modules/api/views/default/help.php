@@ -5,10 +5,17 @@ $api = [
 
                 'methods'                       => [
                     '/auth/login'               => [
-                        'title' => 'Authenticates users',
+                        'title' => 'Authenticates Users',
                         'params'                => [
                                                         ['n' => 'username',     't' => 'Username'],
                                                         ['n' => 'password',     't' => 'User Password']
+                                                ]
+                    ],
+
+                    '/auth/check-token'         => [
+                        'title' => 'Checks Token Status',
+                        'auth' => true,
+                        'params'                => [
                                                 ]
                     ],
                 ]

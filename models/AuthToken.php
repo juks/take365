@@ -15,6 +15,14 @@ class AuthToken extends AuthTokenBase {
 
     const lifetime = 86400 * 30;
 
+    public function fields() {
+        return [
+                    'userId'   => 'user_id',
+                    'accessed' => 'time_used',
+                    'expires'  => 'time_expire'
+                ];
+    }
+
     /**
      * Prepare for validation
      */
@@ -32,10 +40,10 @@ class AuthToken extends AuthTokenBase {
         return (Helpers::randomString(32) . '-' . time());
     }
 
-    static function getToken($key) {
+    static function getToken($key, $extra = null) {
         $t = AuthToken::findOne(['key' => $key]);
         if ($t && !$t->checkExpired()) {
-            $t->touch();
+            if (empty($extra['noTouch'])) $t->touch();
             return $t;
         } else {
             return null;

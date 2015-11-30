@@ -5,6 +5,7 @@ namespace app\modules\api\controllers;
 use Yii;
 use app\components\MyJsonController;
 use app\components\Helpers;
+use app\models\AuthToken;
 use app\modules\api\models\ApiLoginForm;
 use app\modules\api\components\ApiController;
 use yii\filters\AccessControl;
@@ -24,15 +25,9 @@ class AuthController extends ApiController {
                             ],
 
                             [
-                                'actions' => ['login', 'check'],
+                                'actions' => ['login', 'check-token'],
                                 'allow' => true,
-                                'roles' => ['?'],
-                            ],
-
-                            [
-                                'actions' => ['check'],
-                                'allow' => true,
-                                'roles' => ['@'],
+                                'roles' => ['?', '@'],
                             ],
 
                             [
@@ -69,10 +64,8 @@ class AuthController extends ApiController {
         $this->addContent($model);
     }
 
-    public function actionCheck() {
-        $user = Yii::$app->user;
-
-        $this->addContent($user->id);
+    public function actionCheckToken($accessToken) {
+        $this->addContent(AuthToken::getToken($accessToken, ['noTouch' => true]));
     }
 
     /**
