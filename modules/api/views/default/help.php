@@ -19,7 +19,7 @@ $api = [
 
                 'methods'                       => [
                     '/user/id'   => [
-                        'title' => 'Retrieves User INformation',
+                        'title' => 'Retrieves User Profile Information',
                         'auth'  => true,
                         'params'                => [
                                                         ['n' => 'id',           't' => 'Username or User Id',   'h' => 'eg. "bob" for Bob or "1" for user with ID 1'],
