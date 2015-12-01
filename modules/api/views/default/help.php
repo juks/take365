@@ -26,7 +26,7 @@ $api = [
                 'title'                         => 'Users',
 
                 'methods'                       => [
-                    '/user/id'   => [
+                    '/user/profile/id'   => [
                         'title' => 'Retrieves User Profile Information',
                         'auth'  => true,
                         'params'                => [
@@ -34,7 +34,7 @@ $api = [
                                                 ]
                     ],
 
-                    '/user/chek-username'   => [
+                    '/user/check-username'   => [
                         'title' => 'Checks if given username is available',
                         'params'                => [
                                                         ['n' => 'username',     't' => 'Username'],
