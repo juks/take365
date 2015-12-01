@@ -37,6 +37,13 @@ class MediaController extends ApiController {
                         ],
             ];
 
+         $b['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'upload' => ['post'],
+            ],
+        ];
+
         return $b;
     }
 

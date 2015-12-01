@@ -6,6 +6,7 @@ $api = [
                 'methods'                       => [
                     '/auth/login'               => [
                         'title' => 'Authenticates Users',
+                        'method' => 'POST',
                         'params'                => [
                                                         ['n' => 'username',     't' => 'Username'],
                                                         ['n' => 'password',     't' => 'User Password']
@@ -49,6 +50,7 @@ $api = [
 
                     '/user/register'   => [
                         'title' => 'Registers new user',
+                        'method' => 'POST',
                         'params'                => [
                                                         ['n' => 'username',     't' => 'Preferred Username'],
                                                         ['n' => 'email',        't' => 'User Email'],
@@ -58,6 +60,7 @@ $api = [
 
                     '/user/update-profile'   => [
                         'title' => 'Updates user profile',
+                        'method' => 'POST',
                         'auth'  => true,
                         'params'                => [
                                                         ['n' => 'id',           't' => 'User Id'],
@@ -70,6 +73,7 @@ $api = [
 
                      '/user/list'   => [
                         'title' => 'Fetches the list of users',
+                        'method' => 'POST',
                         'auth'  => true,
                         'params'                => [
                                                         ['n' => 'page',         't' => 'Page Number',                   'o' => true],
@@ -90,8 +94,9 @@ $api = [
 
                     '/story/write'      => [
                         'title' => 'Creates or updates story',
+                        'method' => 'POST',
                         'auth'  => true,
-                        'params'            => [
+                        'params'                => [
                                                         ['n' => 'id',           't' => 'Story Id',                      'h'=>'If not given, a new story will be created'],
                                                         ['n' => 'status',       't' => 'Story Status',                  'h'=>'0 — public, 1 — private'],
                                                         ['n' => 'title',        't' => 'Story Title'],
@@ -117,7 +122,8 @@ $api = [
                     '/media/upload'     => [
                         'auth'  => true,
                         'title' => 'Uploads new media resorce',
-                        'params'            => [
+                        'method' => 'POST',
+                        'params'                => [
                                                         ['n' => 'targetId',     't' => 'Target Object Id',              'h'=>''],
                                                         ['n' => 'targetType',   't' => 'Target Object Type',            'h'=>'1 for user, 2 for story'],
                                                         ['n' => 'mediaType',    't' => 'Type of Uploaded Media',        'h'=>'eg. "userpic", "storyImage"'],
@@ -166,11 +172,11 @@ $api = [
         }
 
         td.left {
-            width: 20%
+            width: 25%
         }
 
         td.middle {
-            width: 40%;
+            width: 35%;
         }
 
         td.right {
@@ -189,7 +195,7 @@ $api = [
         <?php foreach ($section['methods'] as $url => $method): ?>
             <table class="reference">
             <tr class="header">
-            <td class="left"><a href="/api<?= $url ?>">/api<?=$url?></a></td><td class="middle"><?php if($method['title']): ?><?= $method['title'] ?><?php else: ?>&nbsp;<?php endif ?></td><td class="right">&nbsp;</td>
+            <td class="left"><?php if (!empty($method['method'])): ?><?= strtoupper($method['method']) ?><?php else: ?>GET<?php endif ?> <a href="/api<?= $url ?>">/api<?=$url?></a></td><td class="middle"><?php if (!empty($method['title'])): ?><?= $method['title'] ?><?php else: ?>&nbsp;<?php endif ?></td><td class="right">&nbsp;</td>
             </tr>
             <?php 
                 if(!empty($method['auth'])) {

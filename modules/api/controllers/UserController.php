@@ -9,6 +9,42 @@ use app\modules\api\components\ApiController;
 use app\modules\api\models\ApiUser;
 
 class UserController extends ApiController {
+    public function behaviors() {
+        $b = parent::behaviors();
+
+        $b['access'] = [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'actions' => ['get', 'list', 'update-profile'],
+                    'allow' => true,
+                    'roles' => ['@'],
+                ],
+
+                [
+                    'actions' => ['check-username', 'check-email', 'register'],
+                    'allow' => true,
+                    'roles' => ['?', '@'],
+                ],
+
+                [
+                    'allow' => false,
+                    'roles' => ['@']
+                ]
+            ],
+        ];
+
+        $b['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'update-profile' => ['post'],
+                'register'		 => ['post']
+            ],
+        ];
+
+        return $b;
+    }
+    
     protected function getModelClass() {
         return ApiUser::className();
     }

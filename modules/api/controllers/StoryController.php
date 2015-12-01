@@ -12,8 +12,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 class StoryController extends ApiController {
-    public function behaviors()
-    {
+    public function behaviors() {
         $b = parent::behaviors();
 
         $b['access'] = [
@@ -41,7 +40,7 @@ class StoryController extends ApiController {
         $b['verbs'] = [
             'class' => VerbFilter::className(),
             'actions' => [
-                'funkout' => ['post'],
+                'write' => ['post'],
             ],
         ];
 
@@ -58,7 +57,7 @@ class StoryController extends ApiController {
      * @param int $id
      */
     public function actionGet($id = null) {
-        $this->addContent($this->checkModelPermission($id, 'read'));
+        $this->addContent($this->checkModelPermission(intval($id), 'read'));
     }
 
 	/**
