@@ -5,9 +5,9 @@ namespace app\modules\api\controllers;
 use Yii;
 use app\components\MyJsonController;
 use app\components\Helpers;
-use app\models\AuthToken;
 use app\modules\api\models\ApiLoginForm;
 use app\modules\api\components\ApiController;
+use app\modules\api\models\ApiAuthToken;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
@@ -66,7 +66,7 @@ class AuthController extends ApiController {
     }
 
     public function actionCheckToken($accessToken) {
-        $this->addContent(AuthToken::getToken($accessToken, ['noTouch' => true]));
+        $this->addContent(ApiAuthToken::getToken($accessToken, ['noTouch' => true]));
     }
 
     /**

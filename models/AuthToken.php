@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\models\base\AuthTokenBase;
+use app\models\User;
 use Yii;
 use app\components\Helpers;
 use app\components\traits\TModelExtra;
@@ -14,14 +15,6 @@ class AuthToken extends AuthTokenBase {
     use TModelExtra;
 
     const lifetime = 86400 * 30;
-
-    public function fields() {
-        return [
-                    'userId'   => 'user_id',
-                    'accessed' => 'time_used',
-                    'expires'  => 'time_expire'
-                ];
-    }
 
     /**
      * Prepare for validation
@@ -41,7 +34,7 @@ class AuthToken extends AuthTokenBase {
     }
 
     static function getToken($key, $extra = null) {
-        $t = AuthToken::findOne(['key' => $key]);
+        $t = static::findOne(['key' => $key]);
         if ($t && !$t->checkExpired()) {
             if (empty($extra['noTouch'])) $t->touch();
             return $t;
@@ -75,5 +68,9 @@ class AuthToken extends AuthTokenBase {
 
     public function checkExpired() {
         return $this->time_expire !== 0 && $this->time_expire < time();
+    }
+
+    public function getUsername() {
+        return User::findOne($this->user_id)->username;
     }
 }

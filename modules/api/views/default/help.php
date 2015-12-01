@@ -105,7 +105,7 @@ $api = [
                     ],
 
                     '/story/list'   => [
-                        'title' => 'Fetches the list of public stories',
+                        'title' => 'Fetches the list of public or given user stories',
                         'auth'  => true,
                         'params'                => [
                                                         ['n' => 'page',         't' => 'Page Number',                       'o' => true],
