@@ -5,6 +5,7 @@ namespace app\modules\api\controllers;
 use Yii;
 use app\components\MyJsonController;
 use app\components\Helpers;
+use app\components\interfaces\IPermissions;
 use app\modules\api\components\ApiController;
 use app\modules\api\models\ApiStory;
 use app\modules\api\models\ApiUser;
@@ -57,7 +58,7 @@ class StoryController extends ApiController {
      * @param int $id
      */
     public function actionGet($id = null) {
-        $this->addContent($this->checkModelPermission(intval($id), 'read'));
+        $this->addContent($this->checkModelPermission(intval($id), IPermissions::permRead));
     }
 
 	/**
@@ -67,7 +68,7 @@ class StoryController extends ApiController {
 	 */
 	public function actionWrite($id = null) {
 		if ($id) {
-			$model = $this->checkModelPermission($id, 'write');
+			$model = $this->checkModelPermission($id, IPermissions::permWrite);
 		} else {
 			$model = new ApiStory();
             if (!$model->checkQuota()) {

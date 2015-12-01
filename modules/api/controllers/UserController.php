@@ -5,6 +5,7 @@ namespace app\modules\api\controllers;
 use Yii;
 use app\components\MyJsonController;
 use app\components\Helpers;
+use app\components\interfaces\IPermissions;
 use app\modules\api\components\ApiController;
 use app\modules\api\models\ApiUser;
 use yii\filters\AccessControl;
@@ -63,15 +64,15 @@ class UserController extends ApiController {
 	}
 
     /**
-     * Fetches story data
+     * Fetches user profile data
      *
      * @param int $id
      */
     public function actionGet($id = null, $username = null) {
         if ($id) {
-        	$this->addContent($this->checkModelPermission(intval($id), 'read'));
+        	$this->addContent($this->checkModelPermission(intval($id), IPermissions::permRead));
         } else {
-			$this->addContent($this->checkModelPermission($username, 'read'));
+			$this->addContent($this->checkModelPermission($username, IPermissions::permRead));
         }
     }
 
@@ -122,7 +123,7 @@ class UserController extends ApiController {
 	 * @param string $password
 	 */
 	public function actionUpdateProfile($id) {
-		$model = $this->checkModelPermission($id, 'write');
+		$model = $this->checkModelPermission($id, IPermissions::permWrite);
 		$model->load(Helpers::getRequestParams('post'));
 		$model->save();
 

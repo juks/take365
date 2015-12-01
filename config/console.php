@@ -27,9 +27,20 @@ $config = [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
-	    'defaultRoles' => ['admin', 'user']
+	          'defaultRoles' => ['admin', 'user']
         ],
-        //'db' => $db,
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        'main' => 'main.php',
+                    ],
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];

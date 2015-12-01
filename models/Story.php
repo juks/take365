@@ -29,7 +29,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
      * Returns public criteria
      */
 	public function getIsPublic() {
-        return true;
+        return $this->status == 0;
     }
 
     /**

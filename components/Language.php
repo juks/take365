@@ -3,6 +3,7 @@
 namespace app\components;
 
 use YII;
+use app\components\Helpers;
 
 class Language {
     static protected $_knownLanguages = [
@@ -286,10 +287,13 @@ class Language {
     }
 
     public static function detect() {
+        if (Helpers::isConsole()) return 'en';
+        
         $r = [];
         foreach (self::$supportedLanguages as $lang) {
             $r[] = $lang['code'];
         }
+
         return Yii::$app->request->getPreferredLanguage($r);
     }
 

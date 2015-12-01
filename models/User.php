@@ -28,6 +28,15 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     const typeId = 1;
 
     /**
+    *   Sets the User model scenarios
+    **/    
+    public function scenarios() {
+        return [
+            'import' => ['username', 'password', 'email', 'description', 'is_active', 'ip_created', 'time_created', 'time_registered', 'sex', 'fullname', 'description']
+        ];
+    }
+
+    /**
      * Returns public criteria
      */
     public function getIsPublic() {
@@ -202,7 +211,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         if ($this->isNewRecord) {
             $this->is_active    = true;
             $this->time_created = time();
-            $this->ip_created   = ip2long(Yii::$app->request->userIP);
+            if (!$this->ip_created) $this->ip_created = ip2long(Yii::$app->request->userIP);
         } else {
             $this->time_updated = time();
         }

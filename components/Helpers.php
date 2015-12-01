@@ -377,4 +377,12 @@ class Helpers {
             return Yii::$app->request->get();
         }
     }
+
+    public static function isConsole() {
+        if (empty($_SERVER['argv']) && empty($_SERVER['argc'])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

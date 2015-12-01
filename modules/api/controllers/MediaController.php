@@ -6,6 +6,7 @@ use Yii;
 use app\components\MyJsonController;
 use app\components\Helpers;
 use app\components\Ml;
+use app\components\interfaces\IPermissions;
 use app\models\User;
 use app\models\Story;
 use app\modules\api\models\ApiMedia;
@@ -65,7 +66,7 @@ class MediaController extends ApiController {
         if ($form->validate()) {
             // Userpic
             if ($form->targetType == ApiUser::typeId) {
-                $parent = $this->checkParentModelPermission($form->targetId, 'write', ['parentModelClass' => ApiUser::className()]);
+                $parent = $this->checkParentModelPermission($form->targetId, IPermissions::permWrite, ['parentModelClass' => ApiUser::className()]);
 
                 $model = $parent->addMedia($form->file, $form->mediaType, new ApiMedia());
             // Story Image
