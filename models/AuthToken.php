@@ -16,6 +16,8 @@ class AuthToken extends AuthTokenBase {
 
     const lifetime = 86400 * 30;
 
+    protected $_user = null;
+
     /**
      * Prepare for validation
      */
@@ -71,6 +73,12 @@ class AuthToken extends AuthTokenBase {
     }
 
     public function getUsername() {
-        return User::findOne($this->user_id)->username;
+        if ($this->_user === null) $this->_user = User::findOne($this->user_id);
+        return $this->_user->username;
+    }
+
+    public function getUserUrl() {
+        if ($this->_user === null) $this->_user = User::findOne($this->user_id);
+        return $this->_user->url;
     }
 }

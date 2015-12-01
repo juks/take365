@@ -10,6 +10,7 @@ class ApiAuthToken extends AuthToken {
         return [
                     'userId'   => 'user_id',
                     'username' => function() { return $this->username; },
+                    'homePage' => function() { return $this->userUrl; },
                     'accessed' => 'time_used',
                     'expires'  => 'time_expire'
                 ];
