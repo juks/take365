@@ -7,6 +7,8 @@ use app\components\MyJsonController;
 use app\components\Helpers;
 use app\modules\api\components\ApiController;
 use app\modules\api\models\ApiUser;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 class UserController extends ApiController {
     public function behaviors() {
@@ -44,7 +46,7 @@ class UserController extends ApiController {
 
         return $b;
     }
-    
+
     protected function getModelClass() {
         return ApiUser::className();
     }
