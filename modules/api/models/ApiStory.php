@@ -58,23 +58,6 @@ class ApiStory extends Story {
             return $this->_mediaCache;
         }
     }
-
-    public function getProgress() {
-        $daysTotal      = 365;
-        $images         = $this->images;
-        $imagesCount    = count($images);
-        $lastTime       = $imagesCount ? strtotime($images[0]['date']) : $this->time_start;
-        $delayDays      = intval((time() - $lastTime) / 86400);
-        $passedDays     = intval((time() - $this->time_start) / 86400);
-
-        return [
-                    'percentsComplete'  => sprintf('%2.1f', (($imagesCount / $daysTotal) * 100)),
-                    'delayDays'         => $delayDays,
-                    'passedDays'        => $passedDays,
-                    'totalImages'       => $imagesCount,
-                    'totalImagesTitle'  => Helpers::countCase($imagesCount, 'изображений', 'изображения', 'изображание'),
-                ];
-    }
 }
 
 ?>

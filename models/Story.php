@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\models\base\StoryBase;
+use app\components\Helpers;
 use app\components\traits\TCheckField;
 use app\components\traits\THasPermission;
 use app\components\traits\TModelExtra;
@@ -60,8 +61,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
      */
     public function beforeValidate() {
         if ($this->isNewRecord) {
-            $this->time_created = time();
-            $this->time_start = time();
+            if (!$this->time_created) $this->time_created = time();
+            if (!$this->time_start) $this->time_start = time();
             if ($this->scenario != 'import' && !$this->created_by) $this->created_by = Yii::$app->user->id;
         } else {
             $this->time_updated = time();
@@ -115,5 +116,30 @@ class Story extends StoryBase implements IPermissions, IGetType {
         if ($author) $a[] = ['username' => $author->username, 'url' => $author->url];
 
         return $a;
+    }
+
+    /**
+    * Returns story progress information
+    */
+    public function getProgress() {
+        $daysTotal      = 365;
+        $images         = $this->images;
+        $imagesCount    = count($images);
+        $lastTime       = $imagesCount ? strtotime($images[0]['date']) : $this->time_start;
+        $delayDays      = intval((time() - $lastTime) / 86400);
+        $passedDays     = intval((time() - $this->time_start) / 86400);
+        $percentsComplete = sprintf('%2.1f', (($imagesCount / $daysTotal) * 100));
+        if ($percentsComplete == 100) $percentsComplete = 100;
+
+        $progress = [
+                    'percentsComplete'  => $percentsComplete,
+                    'passedDays'        => $passedDays,
+                    'totalImages'       => $imagesCount,
+                    'totalImagesTitle'  => Helpers::countCase($imagesCount, 'изображений', 'изображения', 'изображание'),
+                ];
+
+        if ($delayDays <= 365 && !$percentsComplete != 100) $progress['delayDays'] = $delayDays;
+
+        return $progress;
     }
 }

@@ -15,7 +15,8 @@ class ImportController extends Controller {
 
 		$rows = (new \yii\db\Query())
 		    ->select('*')
-		    ->from('auth_users');
+		    ->from('auth_users')
+            ->orderBy('id');
 
 		$b = $rows->batch(100);
 		$b->db = \Yii::$app->db1;
@@ -52,7 +53,8 @@ class ImportController extends Controller {
 
 		$rows = (new \yii\db\Query())
 		    ->select('*')
-		    ->from('stories');
+		    ->from('stories')
+            ->orderBy('id');
 
 		$b = $rows->batch(100);
 		$b->db = \Yii::$app->db1;
@@ -63,6 +65,7 @@ class ImportController extends Controller {
         		$story->setScenario('import');
 
         		$story->setAttributes([
+                        'id'                    => $storyData['id'],
         				'created_by'			=> $storyData['user_id'],
         				'status'				=> $storyData['status'],
         				'is_deleted'			=> $storyData['is_deleted'],
@@ -83,13 +86,14 @@ class ImportController extends Controller {
         			print_r($story->getErrors());
         			die();
         		}
+
         	}
         }
     }
 
     public function actionMedia($targetId = null, $userId = null) {
 		$connection = Yii::$app->getDb();
-    	if (!$userId && !$targetId) $connection->createCommand()->truncateTable('media')->execute();
+    	$connection->createCommand()->truncateTable('media')->execute();
 
 		$rows = (new \yii\db\Query())
 		    ->select('*')
@@ -136,6 +140,7 @@ class ImportController extends Controller {
 
         		$media = new Media();
        			$media->setAttributes([
+                    'id'                    => $mediaData['id'],
         			'date'					=> $mediaData['calendar_date'],
         			'time_created'			=> $mediaData['time_created'],
         			'title'					=> $mediaData['title'],
@@ -143,11 +148,20 @@ class ImportController extends Controller {
         			'created_by'			=> $mediaData['user_id'],
         		]);
 
-       			if (file_exists($path)) {
-        			$media = $target->addMedia($path, $mediaAlias, $media);
-        		} else {
-        			echo 'Local File not found. Downloading ' . $url . "\n";
-        			$media = $target->addMedia($url, $mediaAlias, $media);
+       			try {
+	       			if (file_exists($path)) {
+	        			$media = $target->addMedia($path, $mediaAlias, $media);
+	        		} else {
+	        			echo 'Local File not found. Downloading ' . $url . "\n";
+	        			$media = $target->addMedia($url, $mediaAlias, $media);
+	        		}
+        		} catch (\Exception $e) {
+                    echo "---------------------------------\n";
+        			echo "Warning: failed to load file!\n";
+                    echo $e->getMessage();
+                    echo "---------------------------------\n\n";
+
+        			continue;
         		}
         	}
         }
