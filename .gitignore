@@ -28,3 +28,4 @@ phpunit.phar
 
 /config/config_local.php
 /web/media*
+/tmp
