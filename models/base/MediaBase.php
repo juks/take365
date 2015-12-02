@@ -29,6 +29,7 @@ use Yii;
  * @property integer $time_created
  * @property integer $time_updated
  * @property string $exif
+ * @property string $date
  */
 class MediaBase extends \yii\db\ActiveRecord
 {

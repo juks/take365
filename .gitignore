@@ -27,4 +27,4 @@ phpunit.phar
 /phpunit.xml
 
 /config/config_local.php
-/web/media
+/web/media*

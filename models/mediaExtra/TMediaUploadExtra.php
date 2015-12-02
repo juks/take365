@@ -13,7 +13,7 @@ trait TMediaUploadExtra {
      * @param string $instance
      * @param array $extra
      */
-	public function addMedia($mediaResource, $mediaType, $instance, $extra = []) {
+	public function addMedia($mediaResource, $mediaType, $instance = null, $extra = []) {
         if (!$instance) $instance = new Media();
         $extra[Media::thumbsCreate] = true;
 

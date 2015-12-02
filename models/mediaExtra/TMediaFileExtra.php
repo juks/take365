@@ -3,6 +3,7 @@
 namespace app\models\mediaExtra;
 
 use Yii;
+use app\components\Ml;
 
 trait TMediaFileExtra {
     /**
@@ -99,10 +100,10 @@ trait TMediaFileExtra {
             $passed .= '/' . $step;
 
             if(!is_dir($passed)) {
-                if(!mkdir($passed)) throw new \Exception(Ml::t('Failed to create media folder', 'media'));
+                if(!@mkdir($passed)) throw new \Exception('Failed to create media folder ' . $passed);
 
                 if($mode) {
-                    if(!chmod($passed, $mode)) throw new \Exception(Ml::t('Failed to chmod media folder', 'media'));
+                    if(!chmod($passed, $mode)) throw new \Exception('Failed to chmod media folder ' . $passed);
                 }
             }
 

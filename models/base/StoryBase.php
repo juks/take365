@@ -77,8 +77,7 @@ class StoryBase extends \yii\db\ActiveRecord
      * @inheritdoc
      * @return StoryQueryBase the active query used by this AR class.
      */
-    public static function find()
-    {
+    public static function find() {
         return new StoryQueryBase(get_called_class());
     }
 }

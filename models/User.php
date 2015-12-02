@@ -180,7 +180,10 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * @param string $password
      */
     public function setPassword($password) {
-        $this->password = md5($password);
+        if ($this->scenario != 'import')
+            $this->password = md5($password);
+        else
+            $this->password = $password;
     }
 
     /**

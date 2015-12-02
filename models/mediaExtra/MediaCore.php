@@ -8,6 +8,7 @@ use app\models\mediaExtra\TMediaFileExtra;
 use app\models\mediaExtra\TMediaThumbExtra;
 use app\models\mediaExtra\TMediaImageExtra;
 use app\models\mediaExtra\TMediaUrlExtra;
+use app\components\Download;
 use app\components\Helpers;
 use app\components\Ml;
 use app\components\traits\TAttachTo;
@@ -95,11 +96,12 @@ class MediaCore extends MediaBase {
      * Prepare for validation
      */
     public function beforeValidate() {
-        $user = Yii::$app->user;
-
         if ($this->isNewRecord) {
             $this->time_created = time();
-            if (!$this->created_by) $this->created_by = $user->id;
+            if (!$this->created_by) {
+                $user = Yii::$app->user;
+                $this->created_by = $user->id;
+            }
         } else {
             $this->time_updated = time();
         }
@@ -189,10 +191,11 @@ class MediaCore extends MediaBase {
         $uploadInfo = $this->getUploadInfo($fileSource);
 
         if (!$uploadInfo)                                           throw new \Exception(Ml::t('Failed to identify upload mode', 'media'));
-        if ($uploadInfo['type'] != self::uploadTypeForm && $uploadInfo['type'] != self::uploadTypeLocal) throw new \Exception(Ml::t('Invalid upload type', 'media'));
 
-        $currentFilePath = $uploadInfo['filePath'];
-        $this->filename = $uploadInfo['fileName'];
+        if (array_search($uploadInfo['type'], [self::uploadTypeForm, self::uploadTypeLocal, self::uploadTypeUrl]) === null) throw new \Exception(Ml::t('Invalid upload type', 'media'));
+
+        $currentFilePath    = $uploadInfo['filePath'];
+        $this->filename     = $uploadInfo['fileName'];
         $this->ext = $this->getFileExt($currentFilePath);
 
         if (!empty($extra['fields'])) $this->load($extra['fields']);
@@ -205,11 +208,27 @@ class MediaCore extends MediaBase {
             if ($this->getOption(self::cleanPrev)) $this->cleanPred();
 
             $this->getPathDetails();
-            $this->checkFileSize($currentFilePath);
             $this->checkQuotas();
             $this->preparePath();
 
-            if (!move_uploaded_file($currentFilePath, $this->_fullPath)) throw new \Exception(Ml::t('Failed to move uploaded file', 'media'));
+            // Form upload
+            if ($uploadInfo['type'] == self::uploadTypeForm) {
+                $this->checkFileSize($currentFilePath);
+                if (!move_uploaded_file($currentFilePath, $this->_fullPath)) throw new \Exception('Failed to move uploaded file: ' . $currentFilePath . ' to ' . $this->_fullPath);
+            // Local file
+            } elseif ($uploadInfo['type'] == self::uploadTypeLocal) {
+                $this->checkFileSize($currentFilePath);
+                if (!copy($currentFilePath, $this->_fullPath)) throw new \Exception('Failed to copy uploaded file: ' . $currentFilePath . ' to ' . $this->_fullPath);
+            // URL upload
+            } elseif ($uploadInfo['type'] == self::uploadTypeUrl) {
+                $tmpPath = $this->getParam('tmpPath');
+                if (!$tmpPath) throw new Exception('Temporary file path is not configured');
+                
+                $download = new Download($tmpPath);
+                $downloadedFile = $download->get($currentFilePath, $this->getOption(self::maxFileSize));
+
+                if (!rename($downloadedFile, $this->_fullPath)) throw new \Exception('Failed to move downloaded file: ' . $currentFilePath . ' to ' . $this->_fullPath);
+            }
 
             $this->storeImageResource();
 

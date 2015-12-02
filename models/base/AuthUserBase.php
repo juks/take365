@@ -48,13 +48,13 @@ class AuthUserBase extends \yii\db\ActiveRecord
         return [
             [['user_type', 'time_created', 'time_updated', 'time_registered', 'ip_created', 'time_login', 'ip_login', 'is_active', 'banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued', 'invite_id'], 'integer'],
             [['username', 'email', 'password', 'time_created', 'ip_created'], 'required'],
-            [['username'], 'string', 'min' => 2, 'max' => 20],
+            [['username'], 'string', 'min' => 1, 'max' => 20],
             [['password', 'fullname'], 'string', 'max' => 64],
             ['username', 'unique'],
             ['username', 'checkReserved'],
             ['username', 'checkValid'],
             [['email'], 'email'],
-            [['email'], 'unique', 'targetAttribute' => ['email', 'is_active']],
+            [['email'], 'checkEmailExists'],
             [['description'], 'string', 'max' => 1024],
             [['recovery_code'], 'string', 'max' => 8],
         ];
@@ -93,7 +93,6 @@ class AuthUserBase extends \yii\db\ActiveRecord
     *   Check if username is not reserved
     */
     public function checkReserved($attribute, $params) {
-
         if (array_search(strtolower($this->$attribute), $this->_reservedNames) != null) {
             $this->addError($attribute, Ml::t('Sorry, username ' . $this->$attribute . ' is reserved'));
         }
@@ -103,6 +102,10 @@ class AuthUserBase extends \yii\db\ActiveRecord
     *   Check if username contains only valid symbols
     */
     public function checkValid($attribute, $params) {
-        if (!preg_match('/^[a-z0-9-]{2,}$/', $this->$attribute)) $this->addError($attribute, Ml::t('Invalid username'));
+        if ($this->scenario != 'import' && !preg_match('/^[a-z][a-z0-9-]{1,}$/i', $this->$attribute)) $this->addError($attribute, Ml::t('Invalid username'));
+    }
+
+    public function checkEmailExists($attribute, $params) {
+        if (self::find()->where(['email' => $this->$attribute, 'is_active' => 1, 'id' => ['!=', $this->id]])->count()) $this->addError($attribute, Ml::t('This email has been already taken'));
     }
 }

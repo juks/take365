@@ -40,7 +40,7 @@ class AuthController extends ApiController {
         $b['verbs'] = [
                         'class' => VerbFilter::className(),
                         'actions' => [
-                            'login'     => ['post'],
+                            //'login'     => ['post'],
                             'logout'    => ['post']
                         ],
                     ];

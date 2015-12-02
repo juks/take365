@@ -26,6 +26,15 @@ class Story extends StoryBase implements IPermissions, IGetType {
     protected $_monthQuota = 5;
 
     /**
+    *   Sets the Story model scenarios
+    **/    
+    public function scenarios() {
+        return [
+            'import' => ['id', 'created_by', 'status', 'is_deleted', 'time_deleted', 'is_active', 'time_created', 'time_updated', 'time_start', 'time_published', 'media_count', 'title', 'description']
+        ];
+    }
+
+    /**
      * Returns public criteria
      */
 	public function getIsPublic() {
@@ -50,12 +59,10 @@ class Story extends StoryBase implements IPermissions, IGetType {
      * Prepare for validation
      */
     public function beforeValidate() {
-    	$user = Yii::$app->user;
-
         if ($this->isNewRecord) {
             $this->time_created = time();
             $this->time_start = time();
-            if (!$this->created_by) $this->created_by = $user->id;
+            if ($this->scenario != 'import' && !$this->created_by) $this->created_by = Yii::$app->user->id;
         } else {
             $this->time_updated = time();
         }
