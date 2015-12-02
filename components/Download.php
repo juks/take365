@@ -64,7 +64,7 @@ class Download {
 		}
 		
 		# Проверка url
-		if(!$url) throw new Exception($this->errorMsg[self::noUrl], self::noUrl);
+		if(!$url) throw new \Exception($this->errorMsg[self::noUrl], self::noUrl);
 		if(!preg_match('!^https?://!i', $url)) $url = 'http://' . $url;
 				
 		# Если качаем не в память
@@ -77,11 +77,11 @@ class Download {
 				$this->timeout = 7;
 			}
 			
-			if($fileSize > $maxFileSize) throw new Exception($this->errorMsg[self::fileSizeExceeded], self::fileSizeExceeded);
+			if($fileSize > $maxFileSize) throw new \Exception($this->errorMsg[self::fileSizeExceeded], self::fileSizeExceeded);
 
 			if(file_exists($fileName)) unlink($fileName);
 			$fileHandler = fopen($fileName, "w");
-			if(!$fileHandler) throw new Exception($this->errorMsg[self::fileOpenFailed] . " ($fileName)", self::fileOpenFailed);
+			if(!$fileHandler) throw new \Exception($this->errorMsg[self::fileOpenFailed] . " ($fileName)", self::fileOpenFailed);
 		}
 
 		# Настройка curl
@@ -114,7 +114,7 @@ class Download {
 			if($fileName != 'memory') fclose($fileHandler);
 			if(file_exists($fileName)) unlink($fileName);
 			
-			throw new Exception($e->getMessage(), $e->getCode());
+			throw new \Exception($e->getMessage(), $e->getCode());
 		}
 		
 		$info = curl_getinfo($ch);
@@ -122,7 +122,7 @@ class Download {
 		if($fileName != 'memory') fclose($fileHandler);
 
         if(curl_errno($ch)) {
-        	throw new Exception($this->errorMsg[self::downloadFailed] . ' (' . curl_error($ch) . ')' , self::downloadFailed);
+        	throw new \Exception($this->errorMsg[self::downloadFailed] . ' (' . curl_error($ch) . ')' , self::downloadFailed);
         } else {
         	if($fileName == 'memory') {
         		$contentType = !empty($info['content_type']) ? $info['content_type'] : null;
@@ -152,14 +152,14 @@ class Download {
 		
 	    $urlP = parse_url($url);
    
-	    if(!$urlP) throw new Exception($this->errorMsg[self::badUrl], self::badUrl);
+	    if(!$urlP) throw new \Exception($this->errorMsg[self::badUrl], self::badUrl);
 
 	    $fileSize = 0;
 
 	    $fp = @fsockopen($urlP["host"], 80, $errNo, $errStr, $this->timeout);
 
 	    if(!$fp) {
-	        throw new Exception($errStr, $errNo);
+	        throw new \Exception($errStr, $errNo);
 	    } else {
 	        fputs($fp, "HEAD " . $urlP['path'] . " HTTP/1.1\r\n");
 	        fputs($fp, "Host: " . $urlP['host'] . "\r\n");
@@ -172,7 +172,7 @@ class Download {
 	        if($headers) {
 	        	$matches = array();
 	        	if(!preg_match('!^HTTP/1\.[01] ([0-9]{3})!i', $headers, $matches)) {
-	        		throw new Exception($this->errorMsg[self::fileSizeFailed], self::fileSizeFailed);
+	        		throw new \Exception($this->errorMsg[self::fileSizeFailed], self::fileSizeFailed);
 	        	}
       	
 	        	# Получение кода ответа
@@ -188,11 +188,11 @@ class Download {
 	        		if(preg_match('!location: ?([^\s]+)!is', $headers, $matches))
         				return $this->getFileSize($matches[1], $recursion + 1);
         		} elseif ($code == 404) {
-        			throw new Exception($this->errorMsg[self::fileNotFound], self::fileNotFound);
+        			throw new \Exception($this->errorMsg[self::fileNotFound], self::fileNotFound);
         		} elseif ($code == 403) {
-        			throw new Exception($this->errorMsg[self::forbitten], self::forbitten);
+        			throw new \Exception($this->errorMsg[self::forbitten], self::forbitten);
         		} else {
-        			throw new Exception($this->errorMsg[self::fileSizeFailed], self::fileSizeFailed);
+        			throw new \Exception($this->errorMsg[self::fileSizeFailed], self::fileSizeFailed);
         		}
 	        }
 	    }
@@ -290,7 +290,7 @@ class Download {
 		}
 
         if(curl_errno($ch)) {
-        	throw new Exception($this->errorMsg[self::sendFailed] . ' (' . curl_error($ch) . ')' , self::sendFailed);
+        	throw new \Exception($this->errorMsg[self::sendFailed] . ' (' . curl_error($ch) . ')' , self::sendFailed);
 		} else {
     		$contentType = !empty($info['content_type']) ? $info['content_type'] : null;
     		
