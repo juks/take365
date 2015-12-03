@@ -90,7 +90,7 @@ class ImportController extends Controller {
         		$story->setAttributes([
                         'id_old'                => $storyData['id'],
         				'created_by'			=> $creator->id,
-        				'status'				=> $storyData['status'],
+        				'status'				=> !$storyData['status'],
         				'is_deleted'			=> $storyData['is_deleted'],
         				'time_deleted'			=> $storyData['time_deleted'],
         				'is_active'				=> $storyData['is_active'],
@@ -134,7 +134,7 @@ class ImportController extends Controller {
         	foreach ($batchData as $mediaData) {
                 // Check if already there
                 if (Media::find()->where(['id_old' => $mediaData['id']])->one()) {
-                    echo 'Skip>' . $mediaData['id'] . "\n";
+                    echo 'Skip' . $mediaData['id'] . "\n";
                     continue;
                 }
 
