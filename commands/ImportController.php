@@ -90,7 +90,7 @@ class ImportController extends Controller {
         		$story->setAttributes([
                         'id_old'                => $storyData['id'],
         				'created_by'			=> $creator->id,
-        				'status'				=> !$storyData['status'],
+        				'status'				=> $storyData['status'] ? 0 : 1,
         				'is_deleted'			=> $storyData['is_deleted'],
         				'time_deleted'			=> $storyData['time_deleted'],
         				'is_active'				=> $storyData['is_active'],
@@ -103,7 +103,7 @@ class ImportController extends Controller {
         			]);
 
         		if (!$story->save()) {
-        			echo "--- Failed to save user ---";
+        			echo "--- Failed to save story  ---";
         			print_r($storyData);
         			print_r($story->attributes);
         			print_r($story->getErrors());
