@@ -14,6 +14,7 @@ use app\models\mediaExtra\MediaCore;
 use app\models\mediaExtra\TMediaUploadExtra;
 use app\components\traits\TCheckField;
 use app\components\traits\THasPermission;
+use app\components\traits\TModelExtra;
 use app\components\interfaces\IPermissions;
 use app\components\interfaces\IGetType;
 
@@ -21,6 +22,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     use TCheckField;
     use THasPermission;
     use TMediaUploadExtra;
+    use TModelExtra;
 
     public $accessToken;
     public $accessTokenExpires;
@@ -32,7 +34,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     **/    
     public function scenarios() {
         return [
-            'import' => ['username', 'password', 'email', 'description', 'is_active', 'ip_created', 'time_created', 'time_registered', 'sex', 'fullname', 'description']
+            'import' => ['id_old', 'username', 'password', 'email', 'description', 'is_active', 'ip_created', 'time_created', 'time_registered', 'sex', 'fullname', 'description']
         ];
     }
 

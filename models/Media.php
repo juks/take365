@@ -63,6 +63,16 @@ class Media extends MediaCore {
                                                     ]
                                 ];
 
+
+    /**
+    *   Sets the Media model scenarios
+    **/    
+    public function scenarios() {
+        return [
+            'import' => ['id', 'id_old', 'date', 'time_created', 'title', 'description', 'created_by']
+        ];
+    }
+
     public function getBrotherCondition($type = 'default') {
         if (empty($this->target_id) || empty($this->target_type))
             return null;

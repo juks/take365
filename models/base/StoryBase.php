@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "story".
  *
  * @property integer $id
+ * @property integer $id_old
  * @property integer $created_by
  * @property integer $status
  * @property integer $is_deleted
@@ -58,6 +59,7 @@ class StoryBase extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'id_old' => 'Old id',
             'created_by' => 'User ID',
             'status' => 'Status',
             'is_deleted' => 'Is Deleted',

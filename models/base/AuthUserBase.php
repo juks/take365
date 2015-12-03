@@ -9,6 +9,7 @@ use app\components\Ml;
  * This is the model class for table "auth_user".
  *
  * @property integer $id
+ * @property integer $id_old
  * @property integer $user_type
  * @property string $username
  * @property string $password
@@ -66,6 +67,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
     public function attributeLabels() {
         return [
             'id' => 'ID',
+            'id_old' => 'Old ID',
             'user_type' => 'User Type',
             'username' => 'Username',
             'password' => 'Password',

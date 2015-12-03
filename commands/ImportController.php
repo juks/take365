@@ -9,9 +9,11 @@ use app\models\Story;
 use app\models\Media;
 
 class ImportController extends Controller {
-    public function actionUsers() {
-		$connection = Yii::$app->getDb();
-    	$connection->createCommand()->truncateTable('auth_user')->execute();
+    public function actionUsers($truncate = null) {
+        if ($truncate) {
+		    $connection = Yii::$app->getDb();
+    	    $connection->createCommand()->truncateTable('auth_user')->execute();
+        }
 
 		$rows = (new \yii\db\Query())
 		    ->select('*')
@@ -23,10 +25,17 @@ class ImportController extends Controller {
 
 		foreach ($b as $i => $batchData) {
         	foreach ($batchData as $userData) {
+                // Check if already there
+                if (User::find()->where(['id_old' => $userData['id']])->one()) {
+                    echo 'Skip ' . $userData['id'] . "\n";
+                    continue;
+                }
+
         		$user = new User();
         		$user->setScenario('import');
 
         		$user->setAttributes([
+                        'id_old'            => $userData['id'],
         				'username'			=> $userData['login'],
         				'fullname'			=> $userData['fullname'],
         				'email'				=> $userData['email'],
@@ -47,9 +56,11 @@ class ImportController extends Controller {
         }
     }
 
-    public function actionStories() {
-		$connection = Yii::$app->getDb();
-    	$connection->createCommand()->truncateTable('story')->execute();
+    public function actionStories($truncate = null) {
+        if ($truncate) {
+            $connection = Yii::$app->getDb();
+    	    $connection->createCommand()->truncateTable('story')->execute();
+        }
 
 		$rows = (new \yii\db\Query())
 		    ->select('*')
@@ -61,12 +72,24 @@ class ImportController extends Controller {
 
 		foreach ($b as $i => $batchData) {
         	foreach ($batchData as $storyData) {
+                // Check if already there
+                if (Story::find()->where(['id_old' => $storyData['id']])->one()) {
+                    echo 'Skip ' . $storyData['id'] . "\n";
+                    continue;
+                }
+
         		$story = new Story();
         		$story->setScenario('import');
 
+                $creator = User::find()->where(['id_old' => $storyData['user_id']])->one();
+                if (!$creator) {
+                    echo "Creator not found!\n";
+                    print_r($storyData);
+                }
+
         		$story->setAttributes([
-                        'id'                    => $storyData['id'],
-        				'created_by'			=> $storyData['user_id'],
+                        'id_old'                => $storyData['id'],
+        				'created_by'			=> $creator->id,
         				'status'				=> $storyData['status'],
         				'is_deleted'			=> $storyData['is_deleted'],
         				'time_deleted'			=> $storyData['time_deleted'],
@@ -91,9 +114,11 @@ class ImportController extends Controller {
         }
     }
 
-    public function actionMedia($targetId = null, $userId = null) {
-		$connection = Yii::$app->getDb();
-    	$connection->createCommand()->truncateTable('media')->execute();
+    public function actionMedia($targetId = null, $userId = null, $truncate = null) {
+		if ($truncate) {
+            $connection = Yii::$app->getDb();
+    	    $connection->createCommand()->truncateTable('media')->execute();
+        }
 
 		$rows = (new \yii\db\Query())
 		    ->select('*')
@@ -107,17 +132,23 @@ class ImportController extends Controller {
 
 		foreach ($b as $i => $batchData) {
         	foreach ($batchData as $mediaData) {
+                // Check if already there
+                if (Media::find()->where(['id_old' => $mediaData['id']])->one()) {
+                    echo 'Skip>' . $mediaData['id'] . "\n";
+                    continue;
+                }
+
         		// Skip userpic
         		if ($mediaData['media_type'] == 1) continue;
         	
         		// Userpic (user photo)
         		if ($mediaData['target_type'] == 1) {
-        			$target = User::findOne($mediaData['target_id']);
+        			$target = User::find()->where(['id_old' => $mediaData['target_id']])->one(); //One($mediaData['target_id']);
         			$mediaAlias = 'userpic';
         			$pathAlias = 'userpic';
         		// Story Image
         		} elseif ($mediaData['target_type'] == 2) {
-					$target = Story::findOne($mediaData['target_id']);
+					$target = Story::find()->where(['id_old' => $mediaData['target_id']])->one(); //One($mediaData['target_id']);
 					$mediaAlias = 'storyImage';
 					$pathAlias = 'story_image';
 				// Unsupported Type
@@ -139,8 +170,10 @@ class ImportController extends Controller {
         		echo $path . "\n";
 
         		$media = new Media();
+                $media->setScenario('import');
+
        			$media->setAttributes([
-                    'id'                    => $mediaData['id'],
+                    'id_old'                => $mediaData['id'],
         			'date'					=> $mediaData['calendar_date'],
         			'time_created'			=> $mediaData['time_created'],
         			'title'					=> $mediaData['title'],
