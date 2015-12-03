@@ -19,6 +19,7 @@ use Yii;
  * @property string $filename
  * @property string $ext
  * @property string $title
+ * @property string $description
  * @property integer $size
  * @property integer $width
  * @property integer $height
@@ -77,6 +78,7 @@ class MediaBase extends \yii\db\ActiveRecord
             'filename' => 'Filename',
             'ext' => 'Ext',
             'title' => 'Title',
+            'description' => 'Description',
             'size' => 'Size',
             'width' => 'Width',
             'height' => 'Height',
