@@ -5,6 +5,17 @@ namespace app\components\traits;
 use Yii;
 
 trait TModelExtra {
+    protected $_oldAttributes;
+
+    /**
+    * Saves old attributes
+    */
+    public function afterFind() {
+        $this->_oldAttributes = $this->attributes;
+
+        return parent::afterFind();
+    }
+
     /** Performs select by string array condition
      * @param $columns
      * @param null $condition
@@ -157,7 +168,7 @@ trait TModelExtra {
         $command->execute();
     }
 
-    public function getCount($condition, $columnName = '*') {
+    public function getCount($condition = null, $columnName = '*') {
         return $this->sqlGetFuncValue($columnName, $condition, 'count');
     }
 
@@ -166,8 +177,10 @@ trait TModelExtra {
      */
     public function sqlGetFuncValue($columnName, $condition = null, $funcName = 'max') {
         $columnString = $columnName == '*' ? '*' : '`' . $columnName . '`';
-        $row = Yii::$app->db->createCommand('SELECT ' . $funcName . '(' . $columnString . ') result FROM ' . $this->tableName() . ' WHERE ' . $this->makeCondition($condition))
-            ->queryOne();
+        $q = 'SELECT ' . $funcName . '(' . $columnString . ') result FROM ' . $this->tableName();
+        
+        if ($condition) $q .= ' WHERE ' . $this->makeCondition($condition);
+        $row = Yii::$app->db->createCommand($q)->queryOne();
 
         return $row['result'];
     }

@@ -60,7 +60,8 @@ class Download {
 		if ($tmpPath != 'memory') {
 			if (!$tmpPath) $fileName = $this->tmpPath; else $fileName = $tmpPath;
 			if (substr($fileName, -1) != '/') $fileName .= '/';
-			$fileName .= $this->getFileName($url, false);
+
+			$fileName .= self::randomString(20) . '.' . $this->getFileExt($url);
 		}
 		
 		# Проверка url
@@ -129,14 +130,17 @@ class Download {
         		$matches = array();
         		if(preg_match('/charset=([^ ]+)/i', $contentType, $matches)) $charset = $matches[1]; else $charset = null;
  
-        		return array(
-        						'data'			=> $result,
-        						'contentType'	=> $contentType,
-        						'charset'		=> strtolower($charset),
-        						'code'			=> curl_getinfo($ch, CURLINFO_HTTP_CODE)
-        					);
+        		return [
+    						'data'			=> $result,
+    						'contentType'	=> $contentType,
+    						'charset'		=> strtolower($charset),
+    						'code'			=> curl_getinfo($ch, CURLINFO_HTTP_CODE)
+        				];
         	} else {
-        		return $fileName;
+        		return [
+        					'filePath' 	 => $fileName,
+        					'fileOrigin' => $this->getFileName($url, false)
+        				];
         	}
         } 
 	}
@@ -203,13 +207,13 @@ class Download {
 	}
 	
 	/**
-	 * Получение имени файла из его пути
+	 * Get filename
 	 *
 	 * @param string $filePath путь к файлу
 	 * @return string результат
 	 */
-	function getFileName($filePath) {
-		$matches = array();
+	public function getFileName($filePath) {
+		$matches = [];
 		
 		if(preg_match('!([^/]+)$!i', $filePath, $matches)) {
 			return $matches[1];
@@ -217,6 +221,23 @@ class Download {
 			return '';
 		}
 	}
+
+	/**
+	 * Get file extension
+	 *
+	 * @param string $filePath путь к файлу
+	 * @return string результат
+	 */
+    public function getFileExt($fileName) {
+   		$matches = array();
+
+   		if(preg_match('!\.([^.]+)$!i', $fileName, $matches))
+        {
+   			return strtolower($matches[1]);
+   		} else {
+   			return '';
+   		}
+   	}
 	
 	/**
 	 * Отправка данных методом POST и получение ответа
@@ -305,6 +326,26 @@ class Download {
     					);
         }
 	}
+
+    /**
+     * Random string generator
+     *
+     * @param int $length string length
+     * @param string $dataSet character set
+     * @return string $result
+     */
+    static function randomString($length, $dataSet = '') {
+        if(!$dataSet) $dataSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        $result = '';
+        $mo = strlen($dataSet);
+
+        for($i = 0; $i < $length; $i++) {
+            srand((double)microtime()*1000000);
+            $result .= substr($dataSet, rand(0, $mo - 1), 1);
+        }
+
+        return $result;
+    }
 }
 
 ?>

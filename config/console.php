@@ -41,6 +41,10 @@ $config = [
                 ],
             ],
         ],
+        'urlManager' => [
+            'baseUrl' => '/',
+            'hostInfo' => 'http://new.take365.org'
+        ]
     ],
     'params' => $params,
 ];

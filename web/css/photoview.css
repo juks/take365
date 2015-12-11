@@ -1,0 +1,71 @@
+.photoview {
+	color: #fff;
+}
+
+.photoview-in {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	margin-left: -350px
+}
+
+.photoview-item {
+	position: absolute;
+	top: 0;
+	width: 700px
+}
+
+.photoview-prev,
+.photoview-next {
+	cursor: pointer;
+	position: absolute;
+	margin-top: 8px;
+	right: -40px;
+	width: 32px;
+	height: 32px;
+}
+.photoview-next-in {
+	margin: 7px 8px;
+	background: url(/i/photoview_nav.png) no-repeat right 0;
+	width: 16px;
+	height: 18px;
+}
+
+.photoview-prev {
+	right: auto;
+	left: -40px;
+}
+.photoview-prev-in {
+	margin: 7px 8px;
+	background: url(/i/photoview_nav.png) no-repeat 0 0;
+	width: 16px;
+	height: 18px;
+}
+
+.photoview-img-container {
+	text-align: center;
+}
+
+.photoview-title {
+	line-height: 20px;
+}
+
+.spinner {
+	position: absolute;
+	opacity: 0.9;
+	filter: alpha(opacity=90);
+	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+	z-index: 999;
+	background: #fff;
+}
+.spinner-msg {
+	text-align: center;
+	font-weight: bold;
+}
+
+.spinner-img {
+	background: url(/i/spinner.gif) no-repeat;
+	width: 24px;
+	height: 24px;
+	margin: 0 auto;
+}

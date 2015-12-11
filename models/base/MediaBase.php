@@ -20,6 +20,7 @@ use Yii;
  * @property string $ext
  * @property string $title
  * @property string $description
+ * @property string $description_jvx
  * @property integer $size
  * @property integer $width
  * @property integer $height
@@ -56,6 +57,7 @@ class MediaBase extends \yii\db\ActiveRecord
             [['ext'], 'string', 'max' => 3],
             [['partition'], 'string', 'max' => 15],
             [['path', 'path_thumb'], 'string', 'max' => 255],
+            [['description', 'description_jvx'], 'string', 'max' => 1024],
             ['date', 'date', 'format' => 'yyyy-M-d'],
         ];
     }
@@ -79,6 +81,7 @@ class MediaBase extends \yii\db\ActiveRecord
             'ext' => 'Ext',
             'title' => 'Title',
             'description' => 'Description',
+            'description_jvx' => 'Description Jevix',
             'size' => 'Size',
             'width' => 'Width',
             'height' => 'Height',

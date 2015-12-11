@@ -23,12 +23,13 @@ use app\components\Ml;
  * @property integer $failure_counter
  * @property string $email
  * @property integer $email_confirmed
+ * @property string $homepage
  * @property string $fullname
  * @property integer $sex
  * @property string $description
+ * @property string $description_jvx
  * @property string $recovery_code
  * @property integer $recovery_code_time_issued
- * @property integer $invite_id
  */
 class AuthUserBase extends \yii\db\ActiveRecord
 {
@@ -47,7 +48,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
      */
     public function rules() {
         return [
-            [['user_type', 'time_created', 'time_updated', 'time_registered', 'ip_created', 'time_login', 'ip_login', 'is_active', 'banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued', 'invite_id'], 'integer'],
+            [['user_type', 'time_created', 'time_updated', 'time_registered', 'ip_created', 'time_login', 'ip_login', 'is_active', 'banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued'], 'integer'],
             [['username', 'email', 'password', 'time_created', 'ip_created'], 'required'],
             [['username'], 'string', 'min' => 1, 'max' => 20],
             [['password', 'fullname'], 'string', 'max' => 64],
@@ -56,7 +57,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
             ['username', 'checkValid'],
             [['email'], 'email'],
             [['email'], 'checkEmailExists'],
-            [['description'], 'string', 'max' => 1024],
+            [['description', 'description_jvx'], 'string', 'max' => 1024],
             [['recovery_code'], 'string', 'max' => 8],
         ];
     }
@@ -82,12 +83,13 @@ class AuthUserBase extends \yii\db\ActiveRecord
             'failure_counter' => 'Failure Counter',
             'email' => 'Email',
             'email_confirmed' => 'Email Confirmed',
+            'homepage' => 'Homepage',
             'fullname' => 'Fullname',
             'sex' => 'Sex',
             'description' => 'Description',
+            'description_jvx' => 'Description Jevix',
             'recovery_code' => 'Recovery Code',
-            'recovery_code_time_issued' => 'Recovery Code Time Issued',
-            'invite_id' => 'Invite ID',
+            'recovery_code_time_issued' => 'Recovery Code Time Issued'
         ];
     }
 

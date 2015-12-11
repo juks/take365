@@ -16,22 +16,6 @@ class ApiMedia extends BaseMedia {
     }
 
     /**
-    *   Sets the lists of fields that are available for public exposure
-    **/
-    public function fields() {
-        $fields = [
-                        'id'            => 'id',
-                        'title'         => 'title',
-                        'thumb'         => function() { return $this->getThumbData(BaseMedia::resizeSquareCrop, $this->getOption('mainThumbDimension')); },
-                        'thumbLarge'    => function() { return $this->getThumbData(BaseMedia::resizeSquareCrop, $this->getOption('largeThumbDimension')); }
-                    ];
-
-        if ($this->target_type == Story::typeId) $fields['date'] = 'date';
-
-        return $fields;
-    }
-
-    /**
     *   Returns the form name where this model fields are set.
     *   In in case of api the entire objet root is okay
     **/

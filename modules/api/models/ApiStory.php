@@ -8,8 +8,6 @@ use app\models\mediaExtra\MediaCore;
 use app\modules\api\models\ApiMedia;
 
 class ApiStory extends Story {
-    protected $_mediaCache;
-
     /**
     *   Sets the API scenarios
     **/    
@@ -43,20 +41,6 @@ class ApiStory extends Story {
     **/
     public function formName() {
         return '';
-    }
-
-    /**
-     * Images relation
-     */
-    public function getImages() {
-        if ($this->_mediaCache) {
-            return $this->_mediaCache;
-        } else {
-            $mo = ApiMedia::getMediaOptions('storyImage');
-            $this->_mediaCache = $this->hasMany(ApiMedia::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[ApiMedia::typeId], 'is_deleted' => 0])->orderBy('date DESC');
-
-            return $this->_mediaCache;
-        }
     }
 }
 

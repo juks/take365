@@ -1,75 +1,68 @@
-    <?php
-
-/* @var $this \yii\web\View */
-/* @var $content string */
+<?php
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\assets\FrontAsset;
 
 AppAsset::register($this);
+FrontAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
-<!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<!DOCTYPE HTML>
+<html lang="ru-RU">
 <head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+  <title><?= Html::encode($this->title) ?></title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="{{ $base_full_url }}i/{{ $rev_img }}/favicon.ico">
+  <?php $this->head() ?>
+  <script>
+    <?= $this->params['jsVarsString'] ?>
+  </script>
 </head>
 <body>
-<?php 
-print_r(Yii::$app->user->isGuest);
-$this->beginBody() ?>
-
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/site/login']] :
-                [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ],
-        ],
-    ]);
-    NavBar::end();
-    ?>
-
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= $content ?>
+<?php $this->beginBody() ?>
+  <div class="page">
+    <div class="page-wrapper">
+      <header class="header">
+        <a href="<?= \yii\helpers\Url::base(true) ?>"><div class="header-logo">take365</div></a>
+        <ul class="header-nav">
+          {{ IF $user }}{{ inc('blocks/userMenu/logged.tpl') }}{{ ELSE }}{{ inc('blocks/userMenu/anonymous.tpl') }}{{ END }}
+        </ul>
+      </header>
+      <div class="content">
+        <article class="article">
+        	<?= $content ?>
+        </article>
+      </div>
     </div>
-</div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
-
+  </div>
+  <footer class="footer">
+    <ul>
+      <li>&copy; 2011&mdash;<?= date("Y") ?> <?= Yii::$app->params['projectTitle'] ?></li>
+      <li><a href="/help/">О&nbsp;проекте</a></li>
+      <li>
+        <a href="http://take365.reformal.ru" onclick="Reformal.widgetOpen();return false;" onmouseover="Reformal.widgetPreload();">Отзывы и&nbsp;предложения</a>
+        <script>
+          var reformalOptions = { project_id: 66526, show_tab: false, project_host: "take365.reformal.ru" };
+          (function() {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.async = true;
+            script.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'media.reformal.ru/widgets/v3/reformal.js';
+            document.getElementsByTagName('head')[0].appendChild(script); })
+          ();
+        </script>
+      </li>
+      <li><a href="mailto:bang@take365.org">bang@take365.org</a></li>
+    </ul>
+  </footer>
+  {{ inc('popups/main.tpl') }}
+  <script>{{ $jsInit }}</script>
+  {{ inc('blocks/stats/ga.tpl') }}
 <?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
+

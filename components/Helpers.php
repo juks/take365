@@ -385,4 +385,10 @@ class Helpers {
             return true;
         }
     }
+
+    public static function tailSlash($string) {
+        if (substr($string, -1, 1) != '/') $string .= '/';
+
+        return $string;
+    }
 }

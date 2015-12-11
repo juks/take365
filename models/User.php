@@ -10,6 +10,7 @@ use app\components\Helpers;
 use yii\web\IdentityInterface;
 use app\models\AuthToken;
 use app\models\Media;
+use app\models\Story;
 use app\models\mediaExtra\MediaCore;
 use app\models\mediaExtra\TMediaUploadExtra;
 use app\components\traits\TCheckField;
@@ -34,7 +35,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     **/    
     public function scenarios() {
         return [
-            'import' => ['id_old', 'username', 'password', 'email', 'description', 'is_active', 'ip_created', 'time_created', 'time_registered', 'sex', 'fullname', 'description']
+            'import' => ['id_old', 'username', 'password', 'email', 'description', 'description_jvx', 'is_active', 'ip_created', 'time_created', 'time_registered', 'sex', 'fullname', 'description']
         ];
     }
 
@@ -64,6 +65,21 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      */
     static function getActiveCondition() {
         return ['is_active' => 1];
+    }
+
+    /**
+     * Returns user entity only if it is active
+     */
+    static function getActiveUser($userIdName) {
+        $condition = [];
+
+        if (is_int($userIdName)) {
+            $condition['id'] = $userIdName;
+        } else {
+            $condition['username'] = $userIdName;
+        }
+
+        return self::find()->where(array_merge($condition, self::getActiveCondition()))->one();
     }
 
     /**
@@ -230,6 +246,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      */
     public function beforeSave($insert) {
         if(isset($this->password)) $this->setPassword($this->password);
+
         return parent::beforeSave($insert);
     }
 
@@ -238,7 +255,34 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      */
     public function getUserpic() {
        $mo = Media::getMediaOptions('userpic');
+
        return $this->hasOne(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[MediaCore::typeId], 'is_deleted' => 0]);
+    }
+
+    /**
+     * Stories relation
+     */
+    public function getStories() {
+        if ($this->hasPermission(Yii::$app->user, IPermissions::permWrite)) {
+            $conditions = [];
+            $order = 'time_published DESC, status';
+        } else {
+            $conditions = ['status' => Story::statusPublic];
+            $order = 'time_published DESC';
+        }
+
+        return $this->hasMany(Story::className(), ['created_by' => 'id'])->where($conditions)->orderBy($order);
+    }
+
+    public function getFullnameFilled() {
+        return $this->fullname ? $this->fullname : $this->username;
+    }
+
+    /**
+    * Checks if this user is equal to current user
+    */
+    public function getThisIsMe() {
+        return Yii::$app->user->id == $this->id;
     }
 
     /**
@@ -246,6 +290,28 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     */
     public function getUrl() {
         return \yii\helpers\Url::base(true) . '/' . $this->username;
+    }
+
+    /**
+    * Forms user profile URL
+    */
+    public function getUrlProfile() {
+        return \yii\helpers\Url::base(true) . '/' . $this->username . '/profile';
+    }
+
+    /**
+    * Forms user profile update URL
+    */
+    public function getUrlEdit() {
+        return \yii\helpers\Url::base(true) . '/' . $this->username . '/profile/edit/';
+    }
+
+
+    /**
+    * Checks if user owns any stories
+    */
+    public function getHasStories() {
+        return $this->getStories()->count() > 0;
     }
 }
 

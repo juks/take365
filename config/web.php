@@ -50,10 +50,10 @@ $config = [
         ],
         'view' => [
             'class' => 'app\components\MyView',
+            'defaultExtension' => 'php',
             'renderers' => [
                 'tpl' => [
-                    'class' => 'app\components\BlitzTemplate'
-                    //'cachePath' => '@runtime/Smarty/cache',
+                    'class' => 'app\components\MyRenderer'
                 ]]
         ],
         'authManager' => [

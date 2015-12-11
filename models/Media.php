@@ -25,7 +25,7 @@ class Media extends MediaCore {
                                                         MediaCore::resizeMode            => MediaCore::resizeMaxSide,
                                                         MediaCore::targetDimension       => 3000,
                                                         MediaCore::thumbsList            => [
-                                                                                                MediaCore::resizeMaxSide => [200, 100, 50],
+                                                                                                MediaCore::resizeMaxSide => [500, 200, 100, 50],
                                                                                         ],
                                                         MediaCore::mainThumbDimension    => 100,
                                                         MediaCore::largeThumbDimension   => 200,
@@ -69,8 +69,24 @@ class Media extends MediaCore {
     **/    
     public function scenarios() {
         return [
-            'import' => ['id', 'id_old', 'date', 'time_created', 'title', 'description', 'created_by']
+            'import' => ['id', 'id_old', 'date', 'time_created', 'title', 'description', 'description_jvx', 'created_by']
         ];
+    }
+
+        /**
+    *   Sets the lists of fields that are available for public exposure
+    **/
+    public function fields() {
+        $fields = [
+                        'id'            => 'id',
+                        'title'         => 'title',
+                        'thumb'         => function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('mainThumbDimension')); },
+                        'thumbLarge'    => function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('largeThumbDimension')); }
+                    ];
+
+        if ($this->target_type == Story::typeId) $fields['date'] = 'date';
+
+        return $fields;
     }
 
     public function getBrotherCondition($type = 'default') {

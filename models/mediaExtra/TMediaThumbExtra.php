@@ -11,16 +11,20 @@ trait TMediaThumbExtra {
      * @param string $resizeMode
      * @param integer $dimension
      */
-    public function getThumbData($resizeMode, $dimension) {
+    public function getThumbData($resizeMode, $dimension, $extra = []) {
         $thumbsList = $this->getOption(self::thumbsList);
 
         if (empty($thumbsList[$resizeMode]) || array_search($dimension, $thumbsList[$resizeMode]) === false) return [];
 
-        return [
+        $t = [
                     'url'       => $this->t[$resizeMode][$dimension]['url'],
                     'width'     => $this->t[$resizeMode][$dimension]['width'],
                     'height'    => $this->t[$resizeMode][$dimension]['height'],
                 ];
+
+        if (!empty($extra['path'])) $t['path'] = $this->t[$resizeMode][$dimension]['path'];
+
+        return $t;
     }
 
     /**

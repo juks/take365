@@ -227,7 +227,7 @@ class MediaCore extends MediaBase {
                 $download = new Download($tmpPath);
                 $downloadedFile = $download->get($currentFilePath, $this->getOption(self::maxFileSize));
 
-                if (!rename($downloadedFile, $this->_fullPath)) throw new \Exception('Failed to move downloaded file: ' . $currentFilePath . ' to ' . $this->_fullPath);
+                if (!rename($downloadedFile['filePath'], $this->_fullPath)) throw new \Exception('Failed to move downloaded file: ' . $currentFilePath . ' to ' . $this->_fullPath);
             }
 
             $this->storeImageResource();

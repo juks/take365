@@ -39,9 +39,11 @@ class ImportController extends Controller {
         				'username'			=> $userData['login'],
         				'fullname'			=> $userData['fullname'],
         				'email'				=> $userData['email'],
+                        'homepage'          => $userData['url'],
         				'ip_created'		=> $userData['ip_created'],
         				'password'			=> $userData['password'],
         				'description'		=> $userData['description'],
+                        'description_jvx'   => $userData['description_jvx'],
         				'sex'				=> $userData['sex'],
         			]);
 
@@ -99,7 +101,8 @@ class ImportController extends Controller {
         				'time_published'		=> $storyData['time_published'],
         				'media_count'			=> $storyData['media_count'],
         				'title'					=> $storyData['title'],
-        				'description'			=> $storyData['description']
+        				'description'			=> $storyData['description'],
+                        'description_jvx'       => $storyData['description_jvx'],
         			]);
 
         		if (!$story->save()) {
@@ -114,7 +117,7 @@ class ImportController extends Controller {
         }
     }
 
-    public function actionMedia($targetId = null, $userId = null, $truncate = null) {
+    public function actionMedia($targetId = null, $userId = null, $mediaType = null, $truncate = null) {
 		if ($truncate) {
             $connection = Yii::$app->getDb();
     	    $connection->createCommand()->truncateTable('media')->execute();
@@ -126,6 +129,7 @@ class ImportController extends Controller {
 
 		if ($targetId) $rows->where('target_id = ' . $targetId);
 		if ($userId) $rows->where('user_id = ' . $userId);
+        if ($mediaType) $rows->where('media_type = ' . $mediaType);
 
 		$b = $rows->batch(100);
 		$b->db = \Yii::$app->db1;
@@ -146,11 +150,13 @@ class ImportController extends Controller {
         			$target = User::find()->where(['id_old' => $mediaData['target_id']])->one(); //One($mediaData['target_id']);
         			$mediaAlias = 'userpic';
         			$pathAlias = 'userpic';
+                    $downloadAlias = 'user_photo';
         		// Story Image
         		} elseif ($mediaData['target_type'] == 2) {
 					$target = Story::find()->where(['id_old' => $mediaData['target_id']])->one(); //One($mediaData['target_id']);
 					$mediaAlias = 'storyImage';
 					$pathAlias = 'story_image';
+                    $downloadAlias = 'storyImage';
 				// Unsupported Type
         		} else {
         			echo "Invalid target type!";
@@ -165,7 +171,7 @@ class ImportController extends Controller {
         		}
 
         		$path = Yii::$app->params['mediaImportPath'] . '/' . $mediaData['path_partition'] . '/' . $pathAlias . '/' . $mediaData['path'] . '/' . $mediaData['filename'] . '.' . $mediaData['ext'];
-        		$url = 'http://take365.org/media/' . $mediaData['path_partition'] . '/' . $pathAlias . '/' . $mediaData['path'] . '/' . $mediaData['filename'] . '.' . $mediaData['ext'];
+        		$url = 'http://take365.org/media/' . $mediaData['path_partition'] . '/' . $downloadAlias . '/' . $mediaData['path'] . '/' . $mediaData['filename'] . '.' . $mediaData['ext'];
 
         		echo $path . "\n";
 
@@ -178,6 +184,7 @@ class ImportController extends Controller {
         			'time_created'			=> $mediaData['time_created'],
         			'title'					=> $mediaData['title'],
         			'description'			=> $mediaData['description'],
+                    'description_jvx'       => $mediaData['description_jvx'],
         			'created_by'			=> $mediaData['user_id'],
         		]);
 
