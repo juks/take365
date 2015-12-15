@@ -28,11 +28,19 @@ class Helpers {
      * @return null
      */
     public static function getParam($name, $default = null) {
-        if (isset(Yii::$app->params[$name])) {
-            return Yii::$app->params[$name];
-        } else {
-            return $default;
+        $parts = preg_split('!/!', $name);
+
+        if (!$parts) return $default;
+
+        $current = &Yii::$app->params;
+
+        foreach ($parts as $index) {
+            if (!$index) continue;
+            if (!is_array($current) || empty($current[$index])) return $default;
+            $current = &$current[$index];
         }
+
+        return $current;
     }
 
     /**

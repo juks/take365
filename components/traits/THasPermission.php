@@ -18,7 +18,8 @@ trait THasPermission {
         $creatorIdField = $this->getCreatorIdField();
 
         if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
-        if ($this->$creatorIdField == $user->id || !empty($roles['admin'])) return true;
+        if ($this->$creatorIdField == $user->id) return true;
+        //if ($this->$creatorIdField == $user->id || !empty($roles['admin'])) return true;
 
         return false;
     }

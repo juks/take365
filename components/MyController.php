@@ -7,10 +7,10 @@ use yii\web\Controller;
 
 class MyController extends Controller {
 	protected $_jsVars = [];
-	public $jsVarsString = '';
 
 	public function render($view, $params = []) {
 		$this->view->params['jsVarsString'] = $this->getJsVarsString();
+		$this->view->params = array_merge($this->view->params, $params);
 
 		return parent::render($view, $params);
 	}

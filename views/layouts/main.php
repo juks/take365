@@ -6,6 +6,9 @@ use app\assets\FrontAsset;
 
 AppAsset::register($this);
 FrontAsset::register($this);
+
+$user = Yii::$app->user;
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE HTML>
@@ -15,7 +18,7 @@ FrontAsset::register($this);
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link rel="stylesheet" href="/css/style.css">
-  <link rel="icon" href="{{ $base_full_url }}i/{{ $rev_img }}/favicon.ico">
+  <link rel="icon" href="<?= \yii\helpers\Url::base(true) ?>i//favicon.ico">
   <?php $this->head() ?>
   <script>
     <?= $this->params['jsVarsString'] ?>
@@ -28,7 +31,7 @@ FrontAsset::register($this);
       <header class="header">
         <a href="<?= \yii\helpers\Url::base(true) ?>"><div class="header-logo">take365</div></a>
         <ul class="header-nav">
-          {{ IF $user }}{{ inc('blocks/userMenu/logged.tpl') }}{{ ELSE }}{{ inc('blocks/userMenu/anonymous.tpl') }}{{ END }}
+          <?php if ($user->isGuest) echo $this->render('//blocks/userMenu/anonymous'); else echo $this->render('//blocks/userMenu/logged', ['user' => $user->identity]); ?>
         </ul>
       </header>
       <div class="content">
@@ -58,9 +61,8 @@ FrontAsset::register($this);
       <li><a href="mailto:bang@take365.org">bang@take365.org</a></li>
     </ul>
   </footer>
-  {{ inc('popups/main.tpl') }}
-  <script>{{ $jsInit }}</script>
-  {{ inc('blocks/stats/ga.tpl') }}
+  <?php include('includes/loginForm.php'); ?>
+  <?php include('includes/ga.php'); ?>
 <?php $this->endBody() ?>
 </body>
 </html>

@@ -25,7 +25,7 @@ class SiteController extends MyController
                     ],
 
                     [
-                        'actions'   => ['index', 'login', 'captcha', 'error', 'logout'],
+                        'actions'   => ['index', 'login', 'captcha', 'help', 'howto', 'error', 'logout'],
                         'allow'     => true,
                         'roles'     => ['?', '@']
                     ],
@@ -89,6 +89,14 @@ class SiteController extends MyController
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionHelp() {
+        return $this->render('help');
+    }
+
+    public function actionHowto() {
+        return $this->render('howto');
     }
 
     public function actionCaptcha() {

@@ -54,10 +54,14 @@ class UserPageController extends MyController {
 
         if (!$user) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
 
+        $stories = $user->stories;
+        foreach ($stories as $story) $story->formatShort(['imageLimit' => 90]);
+
         return $this->render('home', [
-                                        'user'      => $user,
-                                        'stories'   => $user->stories,
-                                        'canCreate' => false
+                                        'user'          => $user,
+                                        'stories'       => $stories,
+                                        'canCreate'     => false,
+                                        'pageType'      => 'home'
                                     ]);
     }
 
@@ -70,7 +74,8 @@ class UserPageController extends MyController {
         if (!$user) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
 
         return $this->render('profile', [
-                                        'user'      => $user,
+                                        'user'         => $user,
+                                        'pageType'     => 'profile'
                                     ]);
     }
 
@@ -89,7 +94,8 @@ class UserPageController extends MyController {
         return $this->render('story', [
                                         'user'      => $user,
                                         'story'     => $story,
-                                        'canManage' => $story->hasPermission(Yii::$app->user, IPermissions::permWrite)
+                                        'canManage' => $story->hasPermission(Yii::$app->user, IPermissions::permWrite),
+                                        'pageType'  => 'story'
                                     ]);
     }
 }

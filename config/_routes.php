@@ -5,7 +5,7 @@ return [
     '/api/user/profile/<id:\d+>'               					=> '/api/user/get',
     '/api/user/profile/<username:[0-9a-z-]{1,20}}>'   			=> '/api/user/get',
 
-    '<alias:captcha|about|contact>/?' 							=> '/site/<alias>',
+    '<alias:captcha|about|logout|help>/?' 						=> '/site/<alias>',
 
     '/<username:[0-9a-z-]{1,20}>/?'								=> '/user-page/home',
     '/<username:[0-9a-z-]{1,20}>/story/<storyId:[0-9]{1,5}>/?'	=> '/user-page/story',

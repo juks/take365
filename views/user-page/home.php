@@ -3,14 +3,14 @@
 </header>
 <?php if ($stories): ?>
 <?php foreach ($stories as $story): ?>
-<section class="story<?php if ($story->is_deleted): ?> story-deleted<?php elseif ($story->progress['isComplete']): ?> story-success<?php endif ?>">
+<section class="story<?php if ($story->isDeleted): ?> story-deleted<?php elseif ($story->progress['isComplete']): ?> story-success<?php endif ?>">
   <div class="story-content">
     <h2><a href="<?= $story->url ?>"><?= $story->titleFilled ?></a></h2>
     <?php include('mediaBlock.php') ?>
     <?php if ($story->progress): ?><p class="story-status-upload">Загружено <?= $story->progress['totalImages'] ?> <?= $story->progress['totalImagesTitle'] ?> из <?= $story->progress['totalDays'] ?> (<?= $story->progress['percentsComplete'] ?>%) <?php if ($story->progress['delayDaysMakeSense']): ?> <span class="story-status-lag"><?= $story->progress['delayDays'] ?> <?= $story->progress['delayDaysTitle'] ?> отставания</span><?php endif ?></p>
     <p class="story-status">
        <!--<span class="fa fa-circle-o-notch fa-spin"></span>-->
-        <span class="story-status-value">{{ IF $isComplete }}Полностью завершена{{ ELSEIF $isDeleted }}Удалена{{ ELSEIF $isHidden }}Скрыта{{ END }}</span>
+        <span class="story-status-value"><?php if ($story->progress['isComplete']): ?>Полностью завершена<?php elseif ($story->isDeleted): ?>Удалена<?php elseif ($story->isHidden): ?>Скрыта<?php endif ?></span>
        <!--<span class="story-status-sep">·</span><a href="#">Удалить историю</a>-->
     </p>
     <?php endif ?>

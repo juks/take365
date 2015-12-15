@@ -29,10 +29,19 @@ class Story extends StoryBase implements IPermissions, IGetType {
     const statusPublic = 0;
 
     public $calendar;
+    public $yearStart;
+    public $yearEnd;
+    public $isDeleted;
+    public $isHidden;
+    public $images;
+    public $imagesCount;
+    public $progress;
+
+    public $monthTitle = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+    public $monthTitleGen = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
     protected $_monthQuota = 5;
-    protected $_mediaCache;
-    protected $_progressCache;
+    protected $_authorCache = false;
 
     /**
     *   Sets the Story model scenarios
@@ -133,9 +142,17 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * Forms story URL
     */
     public function getUrl() {
-        $author = User::find()->where(User::getActiveCondition())->andWhere(['id' => $this->created_by])->one();
+        if ($this->_authorCache === false) 
+            $this->_authorCache = User::find()->where(User::getActiveCondition())->andWhere(['id' => $this->created_by])->one();
 
-        return $author ? $author->url . '/story/' . $this->id : null;
+        return $this->_authorCache ? $this->_authorCache->url . '/story/' . $this->id : null;
+    }
+
+    /**
+    * Forms day URL
+    */
+    public function getUrlDay($date) {
+        return $this->url . '/' . $date;
     }
 
     /**
@@ -154,46 +171,41 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * Returns story progress information
     */
     public function getProgress() {
-        if (!$this->_progressCache) {
-            $totalDays      = 365;
-            $images         = $this->images;
-            $imagesCount    = count($images);
-            $lastTime       = $imagesCount ? strtotime($images[0]['date']) : $this->time_start;
-            $delayDays      = intval((time() - $lastTime) / 86400);
-            $passedDays     = intval((time() - $this->time_start) / 86400);
-            $percentsComplete = sprintf('%2.1f', (($imagesCount / $totalDays) * 100));
-            if ($percentsComplete == 100) $percentsComplete = 100;
+        $totalDays      = 365;
+        $imagesCount    = $this->imagesCount;
+        $lastTime       = $imagesCount ? strtotime($this->images[0]['date']) : $this->time_start;
+        $delayDays      = intval((time() - $lastTime) / 86400);
+        $passedDays     = intval((time() - $this->time_start) / 86400);
+        $percentsComplete = sprintf('%2.1f', (($imagesCount / $totalDays) * 100));
+        if ($percentsComplete == 100) $percentsComplete = 100;
 
-            $this->_progressCache = [
-                        'percentsComplete'      => $percentsComplete,
-                        'isComplete'            => $percentsComplete == 100,
-                        'passedDays'            => $passedDays,
-                        'totalImages'           => $imagesCount,
-                        'totalImagesTitle'      => Helpers::countCase($imagesCount, 'изображений', 'изображения', 'изображание'),
-                        'totalDays'             => $totalDays,
-                        'delayDays'             => $delayDays,
-                        'delayDaysTitle'        => Helpers::countCase($delayDays, 'дней', 'дня', 'день'),
-                        'delayDaysMakeSense'    => $delayDays > 3 && $delayDays <= 365,
-                    ];
+        $this->progress = [
+                    'percentsComplete'      => $percentsComplete,
+                    'isComplete'            => $percentsComplete == 100,
+                    'passedDays'            => $passedDays,
+                    'totalImages'           => $imagesCount,
+                    'totalImagesTitle'      => Helpers::countCase($imagesCount, 'изображений', 'изображения', 'изображание'),
+                    'totalDays'             => $totalDays,
+                    'delayDays'             => $delayDays,
+                    'delayDaysTitle'        => Helpers::countCase($delayDays, 'дней', 'дня', 'день'),
+                    'delayDaysMakeSense'    => $delayDays > 3 && $delayDays <= 365,
+                ];
 
-            if ($delayDays <= 365 && !$percentsComplete != 100) $this->_progressCache['delayDays'] = $delayDays;
-        }
-
-        return $this->_progressCache;
-    }
+        if ($delayDays <= 365 && !$percentsComplete != 100) $this->progress['delayDays'] = $delayDays;
+   }
 
     /**
      * Images relation
      */
-    public function getImages() {
-        if ($this->_mediaCache) {
-            return $this->_mediaCache;
-        } else {
-            $mo = Media::getMediaOptions('storyImage');
-            $this->_mediaCache = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::typeId], 'is_deleted' => 0])->orderBy('date DESC');
+    public function getImages($extra = []) {
+        $mo = Media::getMediaOptions('storyImage');
+        $limit = !empty($extra['imageLimit']) ? $extra['imageLimit'] : null;
+        $this->images = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::typeId], 'is_deleted' => 0])->orderBy('date DESC')->limit($limit)->all();
+    }
 
-            return $this->_mediaCache;
-        }
+    public function getImagesCount($extra = []) {
+        $mo = Media::getMediaOptions('storyImage');
+        $this->imagesCount = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::typeId], 'is_deleted' => 0])->orderBy('date DESC')->count();
     }
 
     /**
@@ -204,33 +216,73 @@ class Story extends StoryBase implements IPermissions, IGetType {
     }
 
     /**
+    * Formats story data for the shorm mode display
+    */
+    public function formatShort($extra = []) {
+        $this->getImages($extra);
+        $this->getImagesCount($extra);
+        $this->getProgress();
+        $this->isDeleted = $this->is_deleted;
+        $this->isHidden  = $this->status != self::statusPublic;
+    }
+
+    /**
     * Formats story data for user page display
     */
-    public function format() {
+    public function format($extra = []) {
         $this->calendar = [];
-        $images = $this->images;
+        $this->getImages($extra);
+        $this->getImagesCount($extra);
+        $this->getProgress();
+
         $lastMonth = null;
         $canManage = $this->hasPermission(Yii::$app->user, IPermissions::permWrite);
+        $dateDict = [];
 
-        foreach ($images as $image) {
-            $month = preg_split('/-/', $image->date)[1];
-            $monthDay = preg_split('/-/', $image->date)[2];
+        foreach ($this->images as $image) $dateDict[$image['date']] = $image;
 
-            $drop = [
-                        'date'          => $image->date,
-                        'image'         => ['url' => $image['t']['squareCrop']['200']['url'], 'width' => 200, 'height' => 200],
-                        'imageLarge'    => ['url' => $image['t']['squareCrop']['400']['url'], 'width' => 400, 'height' => 400],
-                        'monthDay'      => $monthDay
-                    ];
+        $dt = new \DateTime('@' . ($this->time_start + 86400 * 365));
+        $dateStep = new \DateInterval('P1D');
 
-            if (!$lastMonth || $lastMonth != $month) $drop['monthSwitch'] = true;
-            if ($image->is_deleted) $drop['isDeleted'] = true;
+        for ($i = 0; $i < 365; $i++) {
+            $date       = $dt->format('Y-m-d');
+            $p          = preg_split('/-/', $date);
+            $year       = intval($p[0]);
+            $month      = intval($p[1]);
+            $monthDay   = intval($p[2]);
+
+            if (!empty($dateDict[$date])) {
+                $drop = [
+                            'date'          => $date,
+                            'image'         => ['url' => $dateDict[$date]['t']['squareCrop']['200']['url'], 'width' => 200, 'height' => 200],
+                            'imageLarge'    => ['url' => $dateDict[$date]['t']['squareCrop']['400']['url'], 'width' => 400, 'height' => 400],
+                            'monthDay'      => $monthDay,
+                            'url'           => $this->getUrlDay($dateDict[$date]->date)                
+                        ];
+            } else {
+                $drop = [
+                            'date'          => $date,
+                            'monthDay'      => $monthDay,
+                            'isEmpty'       => true
+                        ];
+            }
+
+
+            if (!$lastMonth || $lastMonth != $month)    $drop['monthSwitch'] = $this->monthTitle[$month - 1];
+            if ($image->is_deleted)                     $drop['isDeleted'] = true;
             if ($image->is_deleted) {
                 if ($canManage) $drop['isDeletedVislble']; else $drop['isInvisible'];
             } 
 
-            $lastMonth = preg_split('/-/', $image->date)[1];
-            $this->calendar[] = $drop;
+            $lastMonth          = $month;
+            $this->calendar[]   = $drop;
+
+            $dt->sub($dateStep);
         }
+
+        $this->yearStart        = $year;
+        $this->yearEnd          = $year + 1;
+        $this->isDeleted        = $this->is_deleted;
+        $this->isHidden         = $this->status != self::statusPublic;
     }
 }
