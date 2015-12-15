@@ -23,11 +23,11 @@ trait TModelExtra {
      * @param null $limit
      * @return mixed
      */
-    public function sqlSelect($columns, $condition = null, $order = null, $limit = null) {
+    public static function sqlSelect($columns, $condition = null, $order = null, $limit = null) {
         $st = Yii::$app->db->createCommand()
             ->select($columns)
-            ->from($this->tableName())
-            ->where($this->makeCondition($condition));
+            ->from(self::tableName())
+            ->where(self::makeCondition($condition));
 
         if ($order) $st->order($order);
         if ($limit) {
@@ -41,7 +41,7 @@ trait TModelExtra {
      * @param array|null $fieldValues
      * @return bool|null
      */
-    public function sqlInsert($fieldValues) {
+    public static function sqlInsert($fieldValues) {
         if(empty($fieldValues) || !count($fieldValues)) return null;
 
         // Is it multi insert?
@@ -64,7 +64,7 @@ trait TModelExtra {
                 if($value === null) {
                     $value = 'NULL';
                 } else {
-                    $value = $this->quote($value);
+                    $value = self::quote($value);
                 }
             }
 
@@ -74,7 +74,7 @@ trait TModelExtra {
 
         $fields = '`'.implode('`, `', array_keys($values)).'`';
 
-        $sql = "INSERT INTO `" . $this->tableName() . "` ($fields) VALUES $valString";
+        $sql = "INSERT INTO `" . self::tableName() . "` ($fields) VALUES $valString";
 
         $command = Yii::$app->db->createCommand($sql);
         $command->execute();
@@ -88,9 +88,9 @@ trait TModelExtra {
      * @param bool $limit
      * @throws Exception
      */
-    function sqlUpdate($condition, $fieldValues, $replace = false, $limit = false) {
+    public static function sqlUpdate($condition, $fieldValues, $replace = false, $limit = false) {
         # Дополнительные настройки из условия
-        $extra = $this->getExtraOptions($fieldValues);
+        $extra = self::getExtraOptions($fieldValues);
 
         # Поле = значение
         if(is_array($fieldValues)) {
@@ -101,11 +101,11 @@ trait TModelExtra {
                     if($value === null) {
                         $newValue = 'NULL';
                     } else {
-                        $newValue = $this->quote($value);
+                        $newValue = self::quote($value);
                     }
                 } else {
                     if(isset($value[1])) {
-                        $newValue = $field.$value[0].$this->quote($value[1]);
+                        $newValue = $field.$value[0].self::quote($value[1]);
                     } else {
                         $newValue = $value[0];
                     }
@@ -121,7 +121,7 @@ trait TModelExtra {
 
         # Условие
         if($condition) {
-            $condition = " WHERE ".$this->makeCondition($condition);
+            $condition = " WHERE ".self::makeCondition($condition);
         }
 
         if(!$replace) $action = 'UPDATE'; else $action = 'REPLACE';
@@ -130,13 +130,13 @@ trait TModelExtra {
 
         if($limit) $limit = ' LIMIT ' . $limit; else $limit = '';
 
-        $sql = $action . ' `' . $this->tableName() . '` SET ' . $fields . ' ' . $condition . $limit;
+        $sql = $action . ' `' . self::tableName() . '` SET ' . $fields . ' ' . $condition . $limit;
 
         $command = Yii::$app->db->createCommand($sql);
         $command->execute();
     }
 
-    function getExtraOptions(&$values) {
+    public static function getExtraOptions(&$values) {
         $extra = array();
 
         if(is_array($values) && !empty($values['default'])) {
@@ -161,25 +161,25 @@ trait TModelExtra {
      * @param $conditions
      * @return bool|void
      */
-    public function sqlDelete($conditions) {
-        $sql = 'DELETE FROM `' . $this->tableName() . '` WHERE ' . $this->makeCondition($conditions);
+    public static function sqlDelete($conditions) {
+        $sql = 'DELETE FROM `' . self::tableName() . '` WHERE ' . self::akeCondition($conditions);
 
         $command = Yii::$app->db->createCommand($sql);
         $command->execute();
     }
 
-    public function getCount($condition = null, $columnName = '*') {
-        return $this->sqlGetFuncValue($columnName, $condition, 'count');
+    public static function getCount($condition = null, $columnName = '*') {
+        return self::sqlGetFuncValue($columnName, $condition, 'count');
     }
 
     /*
      * Returns max, min, avg or what ever other func value
      */
-    public function sqlGetFuncValue($columnName, $condition = null, $funcName = 'max') {
+    public static function sqlGetFuncValue($columnName, $condition = null, $funcName = 'max') {
         $columnString = $columnName == '*' ? '*' : '`' . $columnName . '`';
-        $q = 'SELECT ' . $funcName . '(' . $columnString . ') result FROM ' . $this->tableName();
+        $q = 'SELECT ' . $funcName . '(' . $columnString . ') result FROM ' . self::tableName();
         
-        if ($condition) $q .= ' WHERE ' . $this->makeCondition($condition);
+        if ($condition) $q .= ' WHERE ' . self::makeCondition($condition);
         $row = Yii::$app->db->createCommand($q)->queryOne();
 
         return $row['result'];
@@ -189,7 +189,7 @@ trait TModelExtra {
      * Thanks propeller this can turn arrat into sql condition
      *
      */
-    public function makeCondition($condition, $logicType = 'AND') {
+    public static function makeCondition($condition, $logicType = 'AND') {
         $result = null;
 
         if(is_array($condition)) {
@@ -198,16 +198,16 @@ trait TModelExtra {
                 # 'OR' condition
                 if($key == 'OR') {
                     if($result) $result .= ' OR ';
-                    $result .= '('.$this->makeCondition($value, 'OR').')';
+                    $result .= '('.self::makeCondition($value, 'OR').')';
                     continue;
                     # 'AND' condition
                 } elseif($key == 'AND') {
-                    $result.= '('.$this->makeCondition($value, 'AND').')';
+                    $result .= '('.self::makeCondition($value, 'AND').')';
                     continue;
                 } elseif($key == 'MULTI') {
                     if(isset($value['OR'])) { $value = $value['OR']; $logicType = 'OR'; } else { $logicType = 'AND'; }
                     foreach($value as $multiCond) {
-                        $result .= ' ' . $logicType . ' ' . $this->makeCondition($multiCond, $logicType);
+                        $result .= ' ' . $logicType . ' ' . self::makeCondition($multiCond, $logicType);
                     }
                     continue;
                 } else {
@@ -216,24 +216,24 @@ trait TModelExtra {
                 if(is_array($value)) {
                     switch ($value[0]) {
                         case 'BETWEEN':
-                            $cond = 'BETWEEN ' . $this->quote($value[1]) . ' AND ' . $this->quote($value[2]);
+                            $cond = 'BETWEEN ' . self::quote($value[1]) . ' AND ' . self::quote($value[2]);
                             break;
                         case 'LIKE':
-                            $cond = 'LIKE '.$this->quote($value[1]);
+                            $cond = 'LIKE ' . self::quote($value[1]);
                             break;
                         case 'NOT IN':
                         case 'IN':
                             if(is_array($value[1])) {
-                                $this->quoteArray($value[1]);
+                                self::uoteArray($value[1]);
                                 $value[1] = implode(', ', $value[1]);
                             }
-                            $cond = $value[0].' ('.$value[1].')';
+                            $cond = $value[0] . ' (' . $value[1] . ')';
                             break;
                         default:
                             # >, <, >=, <=, IS NULL, etc
                             $cond = $value[0];
                             if(isset($value[1])) {
-                                $cond.= $this->quote($value[1]);
+                                $cond .= self::quote($value[1]);
                             }
                     }
                 } else {
@@ -244,10 +244,10 @@ trait TModelExtra {
                     } elseif($value === false) {
                         $cond = '= 0';
                     } else {
-                        $cond = '= '.$this->quote($value);
+                        $cond = '= ' . self::quote($value);
                     }
                 }
-                $result.= $key.' '.$cond;
+                $result.= '`' . $key . '`' . $cond;
             }
         } elseif(is_string($condition)) {
             $result = $condition;
@@ -256,9 +256,9 @@ trait TModelExtra {
         return $result;
     }
 
-    public function quoteArray(&$array) {
+    public static function quoteArray(&$array) {
         foreach($array as &$value) {
-            $value = $this->quote($value);
+            $value = self::quote($value);
         }
 
         return $array;
@@ -270,10 +270,10 @@ trait TModelExtra {
      * @param mixed $value
      * @return string
      */
-    public function quote($value) {
+    public static function quote($value) {
         if (is_array($value)) {
             foreach ($value as &$val) {
-                $val = $this->quote($val);
+                $val = self::quote($val);
             }
 
             return implode(', ', $value);

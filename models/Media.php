@@ -48,9 +48,10 @@ class Media extends MediaCore {
                                                         MediaCore::resizeMode            => MediaCore::resizeMaxSide,
                                                         MediaCore::targetDimension       => 3000,
                                                         MediaCore::thumbsList            => [
-                                                                                                MediaCore::resizeMaxSide    => [200, 100],
+                                                                                                MediaCore::resizeMaxSide    => [1400, 700, 200, 100],
                                                                                                 MediaCore::resizeSquareCrop => [400, 200, 100, 50],
                                                                                         ],
+
                                                         MediaCore::mainThumbDimension    => 200,
                                                         MediaCore::largeThumbDimension   => 400,
                                                         MediaCore::quality               => 95,
@@ -80,9 +81,15 @@ class Media extends MediaCore {
         $fields = [
                         'id'            => 'id',
                         'title'         => 'title',
-                        'thumb'         => function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('mainThumbDimension')); },
-                        'thumbLarge'    => function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('largeThumbDimension')); }
                     ];
+
+        if ($this->scenario == 'player') {
+            $fields['thumb']         = function() { return $this->getThumbData(MediaCore::resizeMaxSide, 700); };
+            $fields['thumbLarge']    = function() { return $this->getThumbData(MediaCore::resizeMaxSide, 1400); };
+        } else {
+            $fields['thumb']         = function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('mainThumbDimension')); };
+            $fields['thumbLarge']    = function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('largeThumbDimension')); };
+        }
 
         if ($this->target_type == Story::typeId) $fields['date'] = 'date';
 
@@ -90,8 +97,7 @@ class Media extends MediaCore {
     }
 
     public function getBrotherCondition($type = 'default') {
-        if (empty($this->target_id) || empty($this->target_type))
-            return null;
+        if (empty($this->target_id) || empty($this->target_type)) return null;
 
         $condition = null;
 

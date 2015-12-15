@@ -131,6 +131,16 @@ $api = [
                                                         ['n' => 'file',         't' => 'Media Resource',                'h'=>'eg. "userpic", "storyImage"'],
                                                 ]
                     ],
+
+                    '/media/player-data'     => [
+                        'title' => 'Retrieves images for player',
+                        'method' => 'GET',
+                        'params'                => [
+                                                        ['n' => 'storyId',      't' => 'Story Id',                      'h'=>'1 for user, 2 for story'],
+                                                        ['n' => 'date',         't' => 'Target Date',                   'h'=>''],
+                                                        ['n' => 'span',         't' => 'Select Span',                   'h'=>'eg. "-10 (left)", "10" (right)'],
+                                                ]
+                    ],
                 ]
              ]
         ];

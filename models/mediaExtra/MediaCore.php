@@ -295,7 +295,7 @@ class MediaCore extends MediaBase {
             throw new \Exception(Ml::t('Media storage quota not set', 'media'));    
         }
 
-        $storedSize = $this->sqlGetFuncValue('size', $this->getBrotherCondition('target'), 'sum');
+        $storedSize = self::sqlGetFuncValue('size', $this->getBrotherCondition('target'), 'sum');
 
         if ($this->size > Helpers::getParam('mediaStorageQuota') - $storedSize) {
             throw new \Exception(Ml::t('Media storage quota exceeded', 'media'));

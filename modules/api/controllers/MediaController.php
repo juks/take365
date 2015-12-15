@@ -32,6 +32,12 @@ class MediaController extends ApiController {
                             ],
 
                             [
+                                'actions' => ['player-data'],
+                                'allow' => true,
+                                'roles' => ['?', '@'],
+                            ],
+
+                            [
                                 'allow' => false,
                                 'roles' => ['@']
                             ]
@@ -81,5 +87,19 @@ class MediaController extends ApiController {
         } else {
             $this->addContent($form);
         }
+    }
+
+    /**
+    * Get player data
+    *
+    * @param string $date
+    * @param int $storyId
+    * @param int $span
+    */
+    public function actionPlayerData($storyId, $date, $span) {
+        $story = $this->checkParentModelPermission($storyId, IPermissions::permRead, ['parentModelClass' => Story::className()]);
+        if (!$story->isValidDate($date)) throw new \yii\web\BadRequestHttpException('Bad date');
+
+        $this->addContent(ApiMedia::getPlayerData(['date' => $date, 'storyId' => $storyId, 'span' => $span]));
     }
 }
