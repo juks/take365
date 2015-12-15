@@ -4,6 +4,8 @@ return [
     '/api/story/<id:\d+>'               						=> '/api/story/get',
     '/api/user/profile/<id:\d+>'               					=> '/api/user/get',
     '/api/user/profile/<username:[0-9a-z-]{1,20}}>'   			=> '/api/user/get',
+    '/api/'														=> '/api/default/index',
+    '/api/<controler:\w+>/<method:\w+>'							=> '/api/<controller>/<method>',
 
     '<alias:captcha|about|logout|help>/?' 						=> '/site/<alias>',
 
