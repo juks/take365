@@ -13,6 +13,12 @@ $api = [
                                                 ]
                     ],
 
+                    '/auth/logout'               => [
+                        'title' => 'Forgets the web interface user',
+                        'method' => 'POST',
+                        'params'                => []
+                    ],
+
                     '/auth/check-token'         => [
                         'title' => 'Checks Token Status',
                         'auth' => true,
