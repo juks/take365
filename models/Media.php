@@ -81,6 +81,7 @@ class Media extends MediaCore {
         $fields = [
                         'id'            => 'id',
                         'title'         => 'title',
+                        'description'   => 'description_jvx'
                     ];
 
         if ($this->scenario == 'player') {

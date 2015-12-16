@@ -237,6 +237,8 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
             $this->time_updated = time();
         }
 
+        if (!$this->_oldAttributes['description'] !== $this->description) $this->description_jvx = HelpersTxt::simpleText($this->description);
+
         return parent::beforeValidate();
     }
 

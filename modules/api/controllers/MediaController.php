@@ -26,7 +26,7 @@ class MediaController extends ApiController {
                         'class' => AccessControl::className(),
                         'rules' => [
                             [
-                                'actions' => ['upload'],
+                                'actions' => ['upload', 'write', 'swap-days', 'delete-recover'],
                                 'allow' => true,
                                 'roles' => ['@'],
                             ],
@@ -56,6 +56,20 @@ class MediaController extends ApiController {
 
     protected function getModelClass() {
         return ApiMedia::className();
+    }
+
+    /**
+    * Get player data
+    *
+    * @param string $date
+    * @param int $storyId
+    * @param int $span
+    */
+    public function actionPlayerData($storyId, $date, $span) {
+        $story = $this->checkParentModelPermission($storyId, IPermissions::permRead, ['parentModelClass' => Story::className()]);
+        if (!$story->isValidDate($date)) throw new \yii\web\BadRequestHttpException('Bad date');
+
+        $this->addContent(ApiMedia::getPlayerData(['date' => $date, 'storyId' => $storyId, 'span' => $span]));
     }
 
     /**
@@ -90,16 +104,69 @@ class MediaController extends ApiController {
     }
 
     /**
-    * Get player data
+    * Updates media ldap_get_attributes(link_identifier, result_entry_identifier)
     *
-    * @param string $date
-    * @param int $storyId
-    * @param int $span
+    * @param integer $id
+    * @param string $title
+    * @param string $description
     */
-    public function actionPlayerData($storyId, $date, $span) {
-        $story = $this->checkParentModelPermission($storyId, IPermissions::permRead, ['parentModelClass' => Story::className()]);
-        if (!$story->isValidDate($date)) throw new \yii\web\BadRequestHttpException('Bad date');
+    public function actionWrite($id, $title, $description) {
+        $item = $this->checkModelPermission(intval($id), IPermissions::permWrite);
 
-        $this->addContent(ApiMedia::getPlayerData(['date' => $date, 'storyId' => $storyId, 'span' => $span]));
+        $item->load(Helpers::getRequestParams('post'));
+        $item->save();
+
+        $this->addContent($item);
+    }
+
+    /**
+    * Swaps the date of two media items
+    *
+    * @param string $idString
+    * @param boolean $doRecover
+    */
+    public function actionSwapDays($idA, $idB) {
+        $itemA = $this->checkModelPermission(intval($idA), IPermissions::permWrite);
+        $itemB = $this->checkModelPermission(intval($idB), IPermissions::permWrite);
+
+        if ($itemA->target_id != $itemB->target_id) throw new \Exception("Items hav different target ID");
+        
+        $story = $this->checkParentModelPermission($itemA->target_id, IPermissions::permWrite, ['parentModelClass' => ApiStory::className()]);
+
+        if (!$story->isValidDate($itemA->date) || !$story->isValidDate($itemB->date)) throw new Exception('Invalid date problem');
+
+        $swapDate = $itemB->date;
+        $itemB->date = $itemA->date;
+        $itemB->save();
+
+        $itemA->date = $swapDate;
+        $itemA->save();
+    }
+
+    /**
+    * Deletes or recovers media items
+    *
+    * @param string $idString
+    * @param boolean $doRecover
+    */
+    public function actionDeleteRecover($idString, $doRecover = false) {
+        $ids = preg_split('/,/', $idString);
+
+        if (count($ids) > 100) throw new \yii\web\BadRequestHttpException('Too Much');
+        $items = [];
+
+        foreach ($ids as $id) {
+            $items[] = $this->checkModelPermission(intval($id), IPermissions::permWrite);
+        }
+
+        foreach ($items as $item) {
+            if (!$item->is_deleted) {
+                $item->markDeleted();
+                $this->addContent($item->id);
+            } elseif ($doRecover) {
+                $item->recoverDeleted();
+                $this->addContent($item->id);
+            }
+        }
     }
 }

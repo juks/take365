@@ -2,7 +2,7 @@
 
 namespace app\components;
 
-use app\components\jevix;
+use app\components\Jevix;
 
 /**
  * Базовый класс для для обработки текстов

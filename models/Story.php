@@ -107,7 +107,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
             $this->time_updated = time();
         }
 
-        // if (!$this->_oldAttributes['description'] !== $this->description) $this->description_jvx = HelpersTxt::simpleText($this->description);
+        if (!$this->_oldAttributes['description'] !== $this->description) $this->description_jvx = HelpersTxt::simpleText($this->description);
 
         return parent::beforeValidate();
     }

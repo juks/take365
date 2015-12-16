@@ -11,7 +11,7 @@ class ApiMedia extends BaseMedia {
     **/    
     public function scenarios() {
         return [
-            'default' => ['date']
+            'default' => ['date', 'title', 'description']
         ];
     }
 

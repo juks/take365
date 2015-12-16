@@ -10,6 +10,7 @@ use app\models\mediaExtra\TMediaImageExtra;
 use app\models\mediaExtra\TMediaUrlExtra;
 use app\components\Download;
 use app\components\Helpers;
+use app\components\HelpersTxt;
 use app\components\Ml;
 use app\components\traits\TAttachTo;
 use app\components\traits\TModelExtra;
@@ -106,6 +107,8 @@ class MediaCore extends MediaBase {
             $this->time_updated = time();
         }
 
+        if (!$this->_oldAttributes['description'] !== $this->description) $this->description_jvx = HelpersTxt::simpleText($this->description);
+
         return parent::beforeValidate();
     }
 
@@ -123,6 +126,20 @@ class MediaCore extends MediaBase {
     public function afterFind() {
         $this->getPathDetails();
         $this->getThumbs();
+    }
+
+    /**
+    * Returns the field name that represents the owner user id
+    */
+    public function getCreatorIdField() {
+        return 'created_by';
+    }
+
+    /**
+    * Returns the criteria whether or not this item is public
+    */
+    public function getIsPublic() {
+        return true;
     }
 
     /**
@@ -393,6 +410,14 @@ class MediaCore extends MediaBase {
      */
     public function markDeleted() {
         $this->is_deleted = 1;
+        $this->save();
+    }
+
+    /**
+     * Recovers item from deleetd state
+     */
+    public function recoverDeleted() {
+        $this->is_deleted = 0;
         $this->save();
     }
 

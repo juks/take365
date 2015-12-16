@@ -30,7 +30,7 @@ $api = [
                         'title' => 'Retrieves User Profile Information',
                         'auth'  => true,
                         'params'                => [
-                                                        ['n' => 'id',           't' => 'Username or User Id',   'h' => 'eg. "bob" for Bob or "1" for user with ID 1'],
+                                                        ['n' => 'id',           't' => 'Username or User Id',   'h' => 'Eg. "bob" for Bob or "1" for user with ID 1'],
                                                 ]
                     ],
 
@@ -110,7 +110,7 @@ $api = [
                         'params'                => [
                                                         ['n' => 'page',         't' => 'Page Number',                       'o' => true],
                                                         ['n' => 'maxItems' ,    't' => 'Maximal Items Count',               'o' => true],
-                                                        ['n' => 'username' ,    't' => 'Name of User to Fetch Stories of',  'o' => true,    'h' => 'eg. "bob" for Bob or "me" for current user']
+                                                        ['n' => 'username' ,    't' => 'Name of User to Fetch Stories of',  'o' => true,    'h' => 'Eg. "bob" for Bob or "me" for current user']
                                                 ]
                     ]
                 ]
@@ -119,6 +119,16 @@ $api = [
             [
                 'title'                     => 'Media',
                 'methods'                   => [
+                    '/media/player-data'     => [
+                        'title' => 'Retrieves images for player',
+                        'method' => 'GET',
+                        'params'                => [
+                                                        ['n' => 'storyId',      't' => 'Story Id',                      'h'=>'1 for user, 2 for story'],
+                                                        ['n' => 'date',         't' => 'Target Date',                   'h'=>''],
+                                                        ['n' => 'span',         't' => 'Select Span',                   'h'=>'Eg. "-10 (left)", "10" (right)'],
+                                                ]
+                    ],
+
                     '/media/upload'     => [
                         'auth'  => true,
                         'title' => 'Uploads new media resorce',
@@ -126,19 +136,40 @@ $api = [
                         'params'                => [
                                                         ['n' => 'targetId',     't' => 'Target Object Id',              'h'=>''],
                                                         ['n' => 'targetType',   't' => 'Target Object Type',            'h'=>'1 for user, 2 for story'],
-                                                        ['n' => 'mediaType',    't' => 'Type of Uploaded Media',        'h'=>'eg. "userpic", "storyImage"'],
+                                                        ['n' => 'mediaType',    't' => 'Type of Uploaded Media',        'h'=>'Eg. "userpic", "storyImage"'],
                                                         ['n' => 'date',         't' => 'Calendar data',                 'h'=>'Only for story images, eg. "2015-11-25"'],
-                                                        ['n' => 'file',         't' => 'Media Resource',                'h'=>'eg. "userpic", "storyImage"'],
+                                                        ['n' => 'file',         't' => 'Media Resource',                'h'=>'Eg. "userpic", "storyImage"'],
                                                 ]
                     ],
 
-                    '/media/player-data'     => [
-                        'title' => 'Retrieves images for player',
-                        'method' => 'GET',
+                    '/media/write'     => [
+                        'auth'  => true,
+                        'title' => 'Updates media item\'s attributes',
+                        'method' => 'POST',
                         'params'                => [
-                                                        ['n' => 'storyId',      't' => 'Story Id',                      'h'=>'1 for user, 2 for story'],
-                                                        ['n' => 'date',         't' => 'Target Date',                   'h'=>''],
-                                                        ['n' => 'span',         't' => 'Select Span',                   'h'=>'eg. "-10 (left)", "10" (right)'],
+                                                        ['n' => 'id',           't' => 'Media Item Id',                'h'=>''],
+                                                        ['n' => 'title',        't' => 'New Title',                    'h'=>''],
+                                                        ['n' => 'description',  't' => 'New Description',              'h'=>''],
+                                                ]
+                    ],
+
+                    '/media/swap-days'     => [
+                        'auth'  => true,
+                        'title' => 'Swaps the date of two story images',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'idA',          't' => 'The first item Id',             'h'=>'Eg. "1"'],
+                                                        ['n' => 'idB',          't' => 'The second item Id',            'h'=>'Eg. "2"'],
+                                                ]
+                    ],
+
+                    '/media/delete-recover'     => [
+                        'auth'  => true,
+                        'title' => 'Deletes or recovers media items',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'idString',     't' => 'Media Items Identifiers',      'h'=>'Eg. "1,2,3"'],
+                                                        ['n' => 'doRecover',    't' => 'Recover Deleted Items',        'h'=>'If set, the deleted items will be recovered'],
                                                 ]
                     ],
                 ]
