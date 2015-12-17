@@ -18,7 +18,7 @@ class UserPageController extends MyController {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions'   => ['home', 'profile', 'story'],
+                        'actions'   => ['home', 'profile', 'edit', 'story'],
                         'allow'     => true,
                         'roles'     => ['?', '@']
                     ],
@@ -73,10 +73,31 @@ class UserPageController extends MyController {
         $user = User::getActiveUser($username);
 
         if (!$user) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        $user->format();
 
         return $this->render('profile', [
                                         'user'         => $user,
                                         'pageType'     => 'profile'
+                                    ]);
+    }
+
+    /*
+    * Edit user profile
+    */
+    public function actionEdit($username) {
+        $user = User::getActiveUser($username);
+
+        if (!$user) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        $user->hasPermission(Yii::$app->user, IPermissions::permWrite);
+
+        $user->format();
+
+        return $this->render('edit', [
+                                        'user'         => $user,
+                                        'pageType'     => 'profile',
+                                        'targetId'     => $user->id,
+                                        'targetType'   => User::typeId,
+                                        'mediaType'    => Media::typeUserpic
                                     ]);
     }
 

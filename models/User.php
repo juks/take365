@@ -28,6 +28,9 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     public $accessToken;
     public $accessTokenExpires;
 
+    public $userpic;
+    public $sexTitle;
+
     const typeId = 1;
 
     /**
@@ -258,7 +261,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     public function getUserpic() {
        $mo = Media::getMediaOptions('userpic');
 
-       return $this->hasOne(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[MediaCore::typeId], 'is_deleted' => 0]);
+       return $this->hasOne(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[MediaCore::typeId], 'is_deleted' => 0])->one();
     }
 
     /**
@@ -274,6 +277,16 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         }
 
         return $this->hasMany(Story::className(), ['created_by' => 'id'])->where($conditions)->orderBy($order);
+    }
+
+    public function format($xtra = []) {
+        $this->getImages();
+
+        $this->sexTitle = ['undefined', 'male', 'female'][$this->sex];
+    }
+
+    public function getImages($extra = []) {
+        $this->userpic = $this->getUserpic();
     }
 
     public function getFullnameFilled() {
