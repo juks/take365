@@ -5,7 +5,7 @@ namespace app\components\traits;
 use app\components\interfaces\IPermissions;
 
 /**
- * Trait implementing CheckField method
+ * Trait implementing Permissions checks
  */
 trait THasPermission {
     /**

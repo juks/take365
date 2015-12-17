@@ -282,7 +282,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         $this->yearStart        = $year;
         $this->yearEnd          = $year + 1;
-        $this->isDeleted        = $this->is_deleted;
+        $this->isDeleted        = $this->is_deleted ? true : false;
         $this->isHidden         = $this->status != self::statusPublic;
     }
 }
