@@ -259,6 +259,14 @@ class Story extends StoryBase implements IPermissions, IGetType {
                             'monthDay'      => $monthDay,
                             'url'           => $this->getUrlDay($dateDict[$date]->date)                
                         ];
+
+                if ($dateDict[$date]->is_deleted) {
+                    if ($canManage) {
+                        $drop['isDeletedVislble'] = true;
+                    } else {
+                        $drop['isDeleted'] = true;
+                    }
+                }
             } else {
                 $drop = [
                             'date'          => $date,
@@ -269,10 +277,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
 
             if (!$lastMonth || $lastMonth != $month)    $drop['monthSwitch'] = $this->monthTitle[$month - 1];
-            if ($image->is_deleted)                     $drop['isDeleted'] = true;
-            if ($image->is_deleted) {
-                if ($canManage) $drop['isDeletedVislble']; else $drop['isInvisible'];
-            } 
+
 
             $lastMonth          = $month;
             $this->calendar[]   = $drop;
