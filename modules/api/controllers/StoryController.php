@@ -41,7 +41,7 @@ class StoryController extends ApiController {
         $b['verbs'] = [
             'class' => VerbFilter::className(),
             'actions' => [
-                //'write' => ['post'],
+                'write' => ['post'],
             ],
         ];
 
