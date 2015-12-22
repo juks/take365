@@ -41,7 +41,7 @@ class StoryController extends ApiController {
         $b['verbs'] = [
             'class' => VerbFilter::className(),
             'actions' => [
-                'write' => ['post'],
+                //'write' => ['post'],
             ],
         ];
 
@@ -68,7 +68,7 @@ class StoryController extends ApiController {
 	 */
 	public function actionWrite($id = null) {
 		if ($id) {
-			$model = $this->checkModelPermission($id, IPermissions::permWrite);
+			$model = $this->checkModelPermission(intval($id), IPermissions::permWrite);
 		} else {
 			$model = new ApiStory();
             if (!$model->checkQuota()) {

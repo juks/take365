@@ -139,10 +139,6 @@ class MyJsonController extends Controller {
 			$cond = ['username' => $id];
 		}
 
-		if (method_exists($modelInstance, 'getActiveCondition')) {
-			$cond = array_merge($cond, call_user_func($this->getModelClass() . '::getActiveCondition'));
-		} 
-
 		$model = call_user_func($this->getModelClass() . '::find')->where($cond)->one();
 
 		if (!$model) {
