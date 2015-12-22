@@ -12,13 +12,15 @@ use app\models\Story;
  */
 class Media extends MediaCore {
     const typeUserpic       = 1;
+    const aliasUserpic      = 'userpic';
     const typeStoryImage    = 2;
+    const aliasStoryImage   = 'storyImage';
 
     protected static $_globalOptions = [
                                     Media::typeUserpic => [
                                                         MediaCore::typeId                => 1,
                                                         MediaCore::targetType            => 1,
-                                                        MediaCore::alias                 => 'userpic',
+                                                        MediaCore::alias                 => Media::aliasUserpic,
                                                         MediaCore::cleanPrev             => true,
                                                         MediaCore::allowedFormats        => [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG],
                                                         MediaCore::maxFileSize           => 1048576 * 10,
@@ -41,7 +43,7 @@ class Media extends MediaCore {
                                     Media::typeStoryImage => [
                                                         MediaCore::typeId                => 2,
                                                         MediaCore::targetType            => 2,
-                                                        MediaCore::alias                 => 'storyImage',
+                                                        MediaCore::alias                 => Media::aliasStoryImage,
                                                         MediaCore::cleanPrev             => true,
                                                         MediaCore::allowedFormats        => [IMAGETYPE_JPEG, IMAGETYPE_PNG],
                                                         MediaCore::maxFileSize           => 1048576 * 10,

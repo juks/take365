@@ -97,12 +97,12 @@ class UserPageController extends MyController {
                                         'pageType'     => 'profile',
                                         'targetId'     => $user->id,
                                         'targetType'   => User::typeId,
-                                        'mediaType'    => Media::typeUserpic
+                                        'mediaType'    => Media::aliasUserpic
                                     ]);
     }
 
     /*
-    * Display user profile
+    * Display user story
     */
     public function actionStory($username, $storyId) {
         $owner = User::getActiveUser($username);
@@ -117,7 +117,7 @@ class UserPageController extends MyController {
         $this->addJsVars([  
                             'storyId'       => $storyId,
                             'targetType'    => Story::typeId,
-                            'mediaType'     => Media::typeStoryImage,
+                            'mediaType'     => Media::aliasStoryImage,
                             'canManage'     => $canManage,
                             'storyDeleted'  => $story->isDeleted
                         ]);

@@ -173,7 +173,6 @@ class MediaCore extends MediaBase {
      */
     public function getOption($optionName) {
         return isset(static::$_globalOptions[$this->type][$optionName]) ? static::$_globalOptions[$this->type][$optionName] : null;
-        //return isset($this->_options[$optionName]) ? $this->_options[$optionName] : null;
     }
 
      /**
@@ -199,7 +198,7 @@ class MediaCore extends MediaBase {
     public function takeFile($fileSource, $mediaType, $parent = null, $extra = []) {
         if ($parent) $this->setParent($parent);
 
-        $this->type = self::getTypeByAlias($mediaType);
+        if (is_int($mediaType)) $this->type = $mediaType; else $this->type = self::getTypeByAlias($mediaType);
 
         if (!$this->type)                                           throw new \Exception(Ml::t('No media type Id', 'media'));
         if ($this->type != $parent->getType())                      throw new \Exception(Ml::t('Wrong target type id', 'media'));
