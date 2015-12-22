@@ -45,7 +45,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
     /**
     *   Sets the Story model scenarios
-    **/    
+    **/
     public function scenarios() {
         return [
             'import' => ['id_old', 'created_by', 'status', 'is_deleted', 'time_deleted', 'is_active', 'time_created', 'time_updated', 'time_start', 'time_published', 'media_count', 'title', 'description', 'description_jvx']
@@ -142,7 +142,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * Forms story URL
     */
     public function getUrl() {
-        if ($this->_authorCache === false) 
+        if ($this->_authorCache === false)
             $this->_authorCache = User::find()->where(User::getActiveCondition())->andWhere(['id' => $this->created_by])->one();
 
         return $this->_authorCache ? $this->_authorCache->url . '/story/' . $this->id : null;
@@ -257,7 +257,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                             'image'         => ['url' => $dateDict[$date]['t']['squareCrop']['200']['url'], 'width' => 200, 'height' => 200],
                             'imageLarge'    => ['url' => $dateDict[$date]['t']['squareCrop']['400']['url'], 'width' => 400, 'height' => 400],
                             'monthDay'      => $monthDay,
-                            'url'           => $this->getUrlDay($dateDict[$date]->date)                
+                            'url'           => $this->getUrlDay($dateDict[$date]->date)
                         ];
 
                 if ($dateDict[$date]->is_deleted) {

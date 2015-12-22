@@ -14,12 +14,14 @@ FormBase.prototype.onSubmit = function(e) {
     type: 'POST',
     context: this,
     success: function(result) {
-      if (!result.errors) {
-        this.success(form, result);
-      } else {
-        result.errors.forEach(function(error) {
-          if (form[0][error.note]) {
-            $(form[0][error.note])
+      this.success(form, result);
+    },
+    error: function(result) {
+      if (result.status === 422) {
+        var data = JSON.parse(result.responseText);
+        data.errors.forEach(function(error) {
+          if (form[0][error.field]) {
+            $(form[0][error.field])
               .one('input', function() {
                 $(this.parentNode)
                   .removeClass('error')
@@ -32,10 +34,9 @@ FormBase.prototype.onSubmit = function(e) {
             console.log('Not found input with name: ' + error.note);
           }
         });
+      } else {
+        notice('Ошибка получения данных с сервера.');
       }
-    },
-    error: function() {
-      notice('Ошибка получения данных с сервера.');
     }
   });
 };
@@ -47,7 +48,7 @@ FormBase.prototype.success = function(form, result) {
 var AuthForm = new FormBase();
 
 AuthForm.success = function(form, result) {
-  document.location = result.redirect;
+  document.location = '/' + result.result.username;
 };
 
 var Auth = {};
@@ -79,46 +80,29 @@ Auth.onClickRegister = function(e) {
   }
 };
 
-// Search a book inside the library
-function doLogin(mode) {
-	$('#errorBox').innerHTML = '&nbsp;';
-	$('#loginInput').removeClass('errorBack');
-	$('#passwordInput').removeClass('errorBack');
+function logout() {
+  $.ajax('/api/auth/logout', {
+    type: 'POST',
+    success: function(result) {
+      document.location = '/';
+    },
+    error: function(result) {
+      if (result.errors) {
+        if (mode) {
+          inputs = { login: '#loginInput', password: '#passwordInput' };
 
-	var url, data;
-
-	if(mode) {
-		url = '/auth/login/';
-		data = $('#loginForm').serialize();
-	} else {
-		url = '/auth/logout/';
-		data = '';
-	}
-
-	$.ajax(url, {
-	data: data,
-	type: 'POST',
-	success: function(result) {
-		if(!result.errors) {
-			if(result.redirect) {
-				document.location = result.redirect;
-			}
-		} else {
-			if(mode) {
-				inputs = { login: '#loginInput', password: '#passwordInput' };
-
-				$('#errorBox').html($.map(result.errors, function(error) {
-					if(error.note && inputs[error.note]) {
-						$(inputs[error.note]).addClass('errorBack');
-					}
-					return '<p>' + error.value + '</p>';
-				}).join(''));
-			}
-		}
-	},
-	error: function() {
-		notice('Ошибка получения данных с сервера!');
-	}});
+          $('#errorBox').html($.map(result.errors, function(error) {
+            if(error.note && inputs[error.note]) {
+              $(inputs[error.note]).addClass('errorBack');
+            }
+            return '<p>' + error.value + '</p>';
+          }).join(''));
+        }
+      } else {
+        notice('Ошибка получения данных с сервера!');
+      }
+    }
+  });
 }
 
 // Make popup

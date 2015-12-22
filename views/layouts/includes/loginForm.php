@@ -1,9 +1,9 @@
 <div class="auth-popup popup-wrap" style="display:none" onclick="event.target===this&&Auth.close(event)">
     <div class="popup">
       <h2>Точка входа</h2>
-      <form action="/auth/login/" onsubmit="AuthForm.onSubmit(event)" class="form form-login">
+      <form action="/api/auth/login" onsubmit="AuthForm.onSubmit(event)" class="form form-login">
         <fieldset>
-          <input name="login" type="text" placeholder="Пользователь">
+          <input name="username" type="text" placeholder="Пользователь">
         </fieldset>
         <fieldset>
           <input name="password" type="password" placeholder="Пароль">
