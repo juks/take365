@@ -20,7 +20,7 @@ class StoryController extends ApiController {
             'class' => AccessControl::className(),
             'rules' => [
                 [
-                    'actions' => ['write', 'list'],
+                    'actions' => ['write', 'list', 'delete-recover'],
                     'allow' => true,
                     'roles' => ['@'],
                 ],
@@ -84,7 +84,22 @@ class StoryController extends ApiController {
 	}
 
     /**
-     * Lists users
+    * Marks story for deletion
+    *
+    * @param int $id
+    */
+    public function actionDeleteRecover($id, $doRecover = false) {
+        $story = $this->checkModelPermission(intval($id), IPermissions::permWrite);
+
+        if (!$doRecover) {
+            $this->addContent($story->markDeleted());
+        } else {
+            $this->addContent($story->undelete()); 
+        }
+    }
+
+    /**
+     * List stories
      *
      * @param int $page
      * @param int $maxItems

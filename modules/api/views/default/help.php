@@ -40,6 +40,16 @@ $api = [
                                                 ]
                     ],
 
+                    '/user/list'   => [
+                        'title' => 'Fetches the list of users',
+                        'method' => 'POST',
+                        'auth'  => true,
+                        'params'                => [
+                                                        ['n' => 'page',         't' => 'Page Number',                   'o' => true],
+                                                        ['n' => 'maxItems' ,    't' => 'Maximal Items Count',           'o' => true]
+                                                ]
+                    ],
+
                     '/user/check-username'   => [
                         'title' => 'Checks if given username is available',
                         'params'                => [
@@ -76,16 +86,6 @@ $api = [
                                                         ['n' => 'description',  't' => 'User Profile Description',      'o' => true],
                                                 ]
                     ],
-
-                     '/user/list'   => [
-                        'title' => 'Fetches the list of users',
-                        'method' => 'POST',
-                        'auth'  => true,
-                        'params'                => [
-                                                        ['n' => 'page',         't' => 'Page Number',                   'o' => true],
-                                                        ['n' => 'maxItems' ,    't' => 'Maximal Items Count',           'o' => true]
-                                                ]
-                    ]
                 ]
              ],
 
@@ -96,6 +96,16 @@ $api = [
                     '/story/id'         => [
                         'title' => 'Fetches Story information',
                         'auth'  => true,
+                    ],
+
+                    '/story/list'   => [
+                        'title' => 'Fetches the list of public or given user stories',
+                        'auth'  => true,
+                        'params'                => [
+                                                        ['n' => 'page',         't' => 'Page Number',                       'o' => true],
+                                                        ['n' => 'maxItems' ,    't' => 'Maximal Items Count',               'o' => true],
+                                                        ['n' => 'username' ,    't' => 'Name of User to Fetch Stories of',  'o' => true,    'h' => 'Eg. "bob" for Bob or "me" for current user']
+                                                ]
                     ],
 
                     '/story/write'      => [
@@ -110,15 +120,15 @@ $api = [
                                                 ]
                     ],
 
-                    '/story/list'   => [
-                        'title' => 'Fetches the list of public or given user stories',
+                    '/story/delete-recover'      => [
+                        'title' => 'Deletes or recovers story',
+                        'method' => 'POST',
                         'auth'  => true,
                         'params'                => [
-                                                        ['n' => 'page',         't' => 'Page Number',                       'o' => true],
-                                                        ['n' => 'maxItems' ,    't' => 'Maximal Items Count',               'o' => true],
-                                                        ['n' => 'username' ,    't' => 'Name of User to Fetch Stories of',  'o' => true,    'h' => 'Eg. "bob" for Bob or "me" for current user']
+                                                        ['n' => 'id',           't' => 'Story Id',                      'h'=>'If not given, a new story will be created'],
+                                                        ['n' => 'doRecover',    't' => 'Recover Deleted Items',         'h'=>'If set, the deleted items will be recovered'],
                                                 ]
-                    ]
+                    ],
                 ]
              ],
 

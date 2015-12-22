@@ -192,7 +192,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                 ];
 
         if ($delayDays <= 365 && !$percentsComplete != 100) $this->progress['delayDays'] = $delayDays;
-   }
+    }
 
     /**
      * Images relation
@@ -289,5 +289,33 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $this->yearEnd          = $year + 1;
         $this->isDeleted        = $this->is_deleted ? true : false;
         $this->isHidden         = $this->status != self::statusPublic;
+    }
+
+    /**
+    * Mark story for deletion
+    */
+    public function markDeleted() {
+        if (!$this->is_deleted) {
+            $this->is_deleted = true;
+            $this->save();
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+    * Undelete story
+    */
+    public function undelete() {
+        if ($this->is_deleted) {
+            $this->is_deleted = false;
+            $this->save();
+
+            return true;
+        } else {
+            return false;
+        }
     }
 }
