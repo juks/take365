@@ -44,7 +44,7 @@ $('.notifyTip').tooltipsy({
 <div class="yearTitle"><?= $story->yearStart ?>—<?= $story->yearEnd ?></div>
 <?php foreach ($story->calendar as $day): ?>
 <?php if (!empty($day['monthSwitch'])): ?><p class="hugeTitle tbo story-mounth cl"><?= $day['monthSwitch'] ?></p><?php endif ?>
-	<div id="day-<?= $day['date'] ?>" class="user-photo available<?php if ($day['isEmpty']): ?> empty i-upload<?php endif ?>">
+	<div id="day-<?= $day['date'] ?>" class="user-photo available<?php if (!empty($day['isEmpty'])): ?> empty i-upload<?php endif ?>">
 		<div class="user-photo-day"><?= $day['monthDay'] ?></div>
 		<?php if (empty($day['isEmpty'])): ?>
 			<?php if (empty($day['invisible'])): ?>
