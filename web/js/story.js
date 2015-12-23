@@ -81,7 +81,7 @@ function initStoriesIndex() {
 			runtimes: "html5,html4",
 			browse_button: "startNewStory",
 			max_file_size: "10mb",
-			url: "/mediaActions/upload/?json=1",
+			url: "/api/media/upload",
 			flash_swf_url: "/js/plupload/plupload.flash.swf",
 			silverlight_xap_url: "/js/plupload/js/plupload.silverlight.xap",
 			filters: [
@@ -252,7 +252,7 @@ function initStoryUploder() {
 		uploader = new plupload.Uploader({
 			runtimes: "html5,html4",
 			max_file_size: "10mb",
-			url: "/mediaActions/upload/?json=1",
+			url: "/api/media/upload",
 			//resize: { width: 1500, height: 1500, quality: 80 },
 			flash_swf_url: "/js/plupload/plupload.flash.swf",
 			silverlight_xap_url: "/js/plupload/js/plupload.silverlight.xap",
@@ -584,9 +584,8 @@ Story = {
 	},
 
 	updateStatus: function(id) {
-		$.ajax('/story/write/', {
-			data: {json: 1, storyId: id, status: $('#storyStatusSelector').val()},
-			dataType: 'json',
+		$.ajax('/api/story/write', {
+			data: {id: id, status: $('#storyStatusSelector').val()},
 			type: 'post',
 			success: function(data) {
 				if (!data.errors) {
@@ -596,7 +595,6 @@ Story = {
 				}
 			}, error: function() {
 				notice("Ошибка при изменении статуса!", true);
-				if (error) error();
 			}
 		});
 	},
@@ -622,11 +620,11 @@ Story = {
 
 	winOpen: function(container) {
 		$(document).mousedown(Story.winCloseMousedown);
-		
+
 		var content = container.find(".user-photo-content");
 		var id = container[0].id.replace("day-", ""),
 			img = content.find(".user-photo-image").parent().clone().find('img').removeClass('user-photo-image');
-		img.css('position', 'static'); // IE8 fix 
+		img.css('position', 'static'); // IE8 fix
 		var win = $('<div/>', {
 				'class': 'user-photo-manage-win',
 				html: '<div class="manage-win">'
@@ -722,7 +720,7 @@ Story = {
 		}
 	},
 
-	deleteRestore: function(id, success, error) {
+	deleteRecover: function(id, success, error) {
 		var status, msg;
 		if (pp.storyDeleted) {
 			status = 0;
@@ -734,19 +732,18 @@ Story = {
 
 		if (!confirm(msg)) return false;
 
-		$.ajax('/story/deleteRestore/', {
-		data: {json: 1, storyId: id, status: status},
-		dataType: 'json',
+		$.ajax('/story/delete-recover', {
+		data: { id: id, status: status},
 		type: 'post',
 		success: function(data) {
 			if (!data.errors) {
 				if (status) {
 					pp.storyDeleted = 1;
-					$('#deleteRestore').text('Восстановить историю');
+					$('#delete-recover').text('Восстановить историю');
 					notice('История приготовлена к удалению');
 				} else {
 					pp.storyDeleted = 0;
-					$('#deleteRestore').text('Удалить историю');
+					$('#delete-recover').text('Удалить историю');
 					notice('История восстановлена');
 				}
 
@@ -755,8 +752,7 @@ Story = {
 				noticeErrors(data.errors);
 			}
 		}, error: function() {
-			notice("Ошибка при удалении изображения!", true);
-			if (error) error();
+			notice('Ошибка при удалении истории.', true);
 		}});
 	},
 

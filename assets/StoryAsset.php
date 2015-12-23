@@ -16,8 +16,11 @@ class StoryAsset extends AssetBundle
         'css/story.css',
     ];
     public $js = [
-        'js/story.js'
+        'js/plupload/plupload.full.js',
+        'js/story.js',
     ];
-    public $depends = [];
+    public $depends = [
+        'yii\web\YiiAsset',
+    ];
     public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
 }

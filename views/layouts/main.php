@@ -35,6 +35,7 @@ $user = Yii::$app->user;
       <div class="content">
         <article class="article">
         	<?= $content ?>
+          <div class="cl"></div>
         </article>
       </div>
     </div>

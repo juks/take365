@@ -15,5 +15,5 @@
 </li>
 <?php endif ?>
 <li>
-  <a href="#" onclick="doLogin(false);return false">Выйти</a>
+  <a href="#" onclick="logout();return false">Выйти</a>
 </li>
