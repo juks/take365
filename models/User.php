@@ -7,6 +7,7 @@ use yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use app\components\Helpers;
+use app\components\HelpersTxt;
 use yii\web\IdentityInterface;
 use app\models\AuthToken;
 use app\models\Media;

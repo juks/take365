@@ -147,7 +147,7 @@ $api = [
 
                     '/media/upload'     => [
                         'auth'  => true,
-                        'title' => 'Uploads new media resorce',
+                        'title' => 'Uploads new media resource',
                         'method' => 'POST',
                         'params'                => [
                                                         ['n' => 'targetId',     't' => 'Target Object Id',              'h'=>''],
