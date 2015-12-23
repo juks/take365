@@ -24,7 +24,7 @@ trait TModelExtra {
      * @return mixed
      */
     public static function sqlSelect($columns, $condition = null, $order = null, $limit = null) {
-        $st = Yii::$app->db->createCommand()
+        $st = (new \yii\db\Query())
             ->select($columns)
             ->from(self::tableName())
             ->where(self::makeCondition($condition));
@@ -34,7 +34,7 @@ trait TModelExtra {
             if(!is_array($limit)) $st->limit($limit); else $st->limit($limit[1], $limit[0]);
         }
 
-        return $st->queryAll();
+        return $st->all();
     }
 
     /** Performs insert

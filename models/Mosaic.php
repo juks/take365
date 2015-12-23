@@ -36,6 +36,8 @@ class Mosaic extends MosaicBase {
     */
     public function generate() {
         $storyIds = [28, 38, 42, 50, 115, 135, 159, 162, 183, 189, 194, 197, 203, 205, 240, 271, 273, 285, 295, 325, 336, 359, 389, 392, 416];
+        $storyIds = Helpers::fetchFields(Story::sqlSelect('id', ['is_featured' => 1, 'status' => 0]), ['id'], ['isSingle' => true]);
+
         $storiesUrl = [];
 
         $cnt = count($storyIds);
