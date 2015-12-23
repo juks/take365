@@ -9,8 +9,24 @@ use app\models\Story;
 use app\models\Media;
 
 class ImportController extends Controller {
-    public function actionUsers($truncate = null) {
-        if ($truncate) {
+    public $skipFiles;
+    public $truncate;
+    public $targetId;
+    public $userId;
+    public $mediaType;
+
+    public function options($actionId) {
+        $o = [
+                'users'     => ['truncate'],
+                'stories'   => ['truncate'],
+                'media'     => ['truncate', 'targetId', 'userId', 'mediaType', 'skipFiles']
+            ];
+
+        if (!empty($o[$actionId])) return $o[$actionId]; else return null;
+    }
+
+    public function actionUsers() {
+        if ($this->truncate) {
 		    $connection = Yii::$app->getDb();
     	    $connection->createCommand()->truncateTable('auth_user')->execute();
         }
@@ -58,8 +74,8 @@ class ImportController extends Controller {
         }
     }
 
-    public function actionStories($truncate = null) {
-        if ($truncate) {
+    public function actionStories() {
+        if ($this->truncate) {
             $connection = Yii::$app->getDb();
     	    $connection->createCommand()->truncateTable('story')->execute();
         }
@@ -117,8 +133,8 @@ class ImportController extends Controller {
         }
     }
 
-    public function actionMedia($targetId = null, $userId = null, $mediaType = null, $truncate = null) {
-		if ($truncate) {
+    public function actionMedia() {
+		if ($this->truncate) {
             $connection = Yii::$app->getDb();
     	    $connection->createCommand()->truncateTable('media')->execute();
         }
@@ -127,9 +143,9 @@ class ImportController extends Controller {
 		    ->select('*')
 		    ->from('media');
 
-		if ($targetId) $rows->where('target_id = ' . $targetId);
-		if ($userId) $rows->where('user_id = ' . $userId);
-        if ($mediaType) $rows->where('media_type = ' . $mediaType);
+		if ($this->targetId) $rows->where('target_id = ' . $targetId);
+		if ($this->userId) $rows->where('user_id = ' . $userId);
+        if ($this->mediaType) $rows->where('media_type = ' . $mediaType);
 
 		$b = $rows->batch(100);
 		$b->db = \Yii::$app->db1;
@@ -173,7 +189,7 @@ class ImportController extends Controller {
         		$path = Yii::$app->params['mediaImportPath'] . '/' . $mediaData['path_partition'] . '/' . $pathAlias . '/' . $mediaData['path'] . '/' . $mediaData['filename'] . '.' . $mediaData['ext'];
         		$url = 'http://take365.org/media/' . $mediaData['path_partition'] . '/' . $downloadAlias . '/' . $mediaData['path'] . '/' . $mediaData['filename'] . '.' . $mediaData['ext'];
 
-        		echo $path . "\n";
+        		if (!$this->skipFiles) echo $path . "\n";
 
         		$media = new Media();
                 $media->setScenario('import');
@@ -187,6 +203,25 @@ class ImportController extends Controller {
                     'description_jvx'       => $mediaData['description_jvx'],
         			'created_by'			=> $mediaData['user_id'],
         		]);
+
+                if ($this->skipFiles) {
+                    $media->setAttributes([
+                                                'target_id'     => $target->id,
+                                                'target_type'   => $target->getType(),
+                                                'filename'      => 'empty',
+                                                'ext'           => 'emp',
+                                                'type'          => Media::getTypeByAlias($mediaAlias)
+                                            ]);
+
+                    if (!$media->save()) {
+                        echo "--- Failed to save media ---";
+                        print_r($media->getErrors());
+
+                        die();
+                    }
+
+                    continue;
+                }
 
        			try {
 	       			if (file_exists($path)) {

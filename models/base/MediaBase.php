@@ -54,10 +54,10 @@ class MediaBase extends \yii\db\ActiveRecord
             [['target_id', 'target_type', 'type', 'is_deleted', 'position', 'created_by', 'size', 'width', 'height', 'is_vertical', 'format', 'time_created', 'time_updated'], 'integer'],
             [['exif'], 'string'],
             [['filename', 'title'], 'string', 'max' => 100],
-            [['ext'], 'string', 'max' => 3],
+            [['ext'], 'string', 'max' => 4],
             [['partition'], 'string', 'max' => 15],
             [['path', 'path_thumb'], 'string', 'max' => 255],
-            [['description', 'description_jvx'], 'string', 'max' => 1024],
+            [['description', 'description_jvx'], 'string', 'max' => 10000],
             ['date', 'date', 'format' => 'yyyy-M-d'],
         ];
     }

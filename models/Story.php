@@ -255,9 +255,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $blankSpace = true;
 
         for ($i = 0; $i < $daysDiff; $i++) {
-            //if ($dt->getTimestamp() > time()) continue;
-
             $date       = $dt->format('Y-m-d');
+
             $p          = preg_split('/-/', $date);
             $year       = intval($p[0]);
             $month      = intval($p[1]);
@@ -289,14 +288,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
                         ];
             }
 
-            // Skip empty tail for non-owners
-            if ($blankSpace && !$canManage) continue;
-
             if (!$lastMonth || $lastMonth != $month) $drop['monthSwitch'] = $this->monthTitle[$month - 1];
             $drop['blankSpace'] = $blankSpace;
 
             $lastMonth          = $month;
-            $this->calendar[]   = $drop;
+            if (!$blankSpace || $canManage) $this->calendar[] = $drop;
 
             $dt->sub($dateStep);
         }
