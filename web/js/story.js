@@ -307,7 +307,7 @@ function initStoryUploder() {
 	});
 
 	// for correct error (ex. 500)
-	uploader.bind("UploadComplete", function(uploader, files) {
+	uploader.bind("UploadComplete", function(uploader, data) {
 		$.each(files, function(i, file) {
 			if (file.status === plupload.FAILED) {
 				uploader.removeFile(file);
@@ -325,12 +325,12 @@ function initStoryUploder() {
 			return;
 		}
 
-		response = $.parseJSON(response.response);
-		if (response.item) {
+		response = JSON.parse(response.response);
+		if (response.result) {
 			$('#' + file.storyNodeId + ' .user-photo-content').remove();
 			var content = $('<div/>', {
 				'class': 'user-photo-content',
-				html: '<a href="'+response.item.urlDay+'"><img class="user-photo-image" src="'+response.item.url+'" width="'+response.item.width+'" height="'+response.item.height+'"></a>'
+				html: '<a href="'+response.result.urlDay+'"><img class="user-photo-image" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
 						+'<div class="user-photo-manage">Редактировать</div>'
 			});
 

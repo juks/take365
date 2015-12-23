@@ -97,22 +97,22 @@ var Photoview = (function(){
 		},
 
 		get: function(date, span, callback, isFirstReq) {
-			request = $.ajax('/mediaActions/getPlayerData/', {
-			data: {json: 1, date: date, storyId: pp.storyId, span: span},
+			request = $.ajax('/api/media/player-data', {
+			data: {date: date, storyId: pp.storyId, span: span},
 			dataType: 'json',
 			success: function(data) {
 				if (!data.errors) {
 					if (span > 0) {
-						images = [].concat(data.items, images);
-						now += data.items.length;
+						images = [].concat(data.result.media, images);
+						now += data.result.media.length;
 					} else {
 						if (!isFirstReq) {
-							data.items.shift(); // TODO хак, убирает из фоток саму себя, которая нужна при первом запросе
+							data.result.media.shift(); // TODO хак, убирает из фоток саму себя, которая нужна при первом запросе
 						}
-						images = images.concat(data.items);
+						images = images.concat(data.result.media);
 					}
 					if (callback) {
-						callback(data.items);
+						callback(data.result.media);
 					}
 				} else {
 					noticeErrors(data.errors);
@@ -138,7 +138,7 @@ var Photoview = (function(){
 					'class': 'photoview-data',
 					css: { opacity: 0 },
 					html: '<h1 class="photoview-title" style="display:inline">'+(item.title || '')+'</h1><br>'
-						+'<p class="photoview-img-container"><img src="'+item.url+'" width="'+item.width+'" height="'+item.height+'"></p>'
+						+'<p class="photoview-img-container"><img src="'+item.thumbLarge.url+'" width="'+item.thumbLarge.width+'" height="'+item.thumbLarge.height+'"></p>'
 						+'<p style="display:inline">'+(item.description || '')+'</p>'
 				}).appendTo(itemContainer);
 
