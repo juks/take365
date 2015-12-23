@@ -282,6 +282,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
 
     public function format($xtra = []) {
         $this->getImages();
+        $this->sex = intval($this->sex);
 
         $this->sexTitle = ['undefined', 'male', 'female'][$this->sex];
     }

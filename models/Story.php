@@ -241,10 +241,22 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         foreach ($this->images as $image) $dateDict[$image['date']] = $image;
 
-        $dt = new \DateTime('@' . ($this->time_start + 86400 * 365));
-        $dateStep = new \DateInterval('P1D');
+        $dt = new \DateTime('@' . $this->time_start);
+        $now = new \DateTime('@' . time());
+        $diff = $now->diff($dt);
+        $daysDiff = $diff->days;
+        if ($diff->h || $diff->i || $diff->s) $daysDiff ++;
 
-        for ($i = 0; $i < 365; $i++) {
+        if ($daysDiff > 365) $daysDiff = 365;
+
+        $dt->add(new \DateInterval('P' . $daysDiff . 'D'));
+
+        $dateStep = new \DateInterval('P1D');
+        $blankSpace = true;
+
+        for ($i = 0; $i < $daysDiff; $i++) {
+            //if ($dt->getTimestamp() > time()) continue;
+
             $date       = $dt->format('Y-m-d');
             $p          = preg_split('/-/', $date);
             $year       = intval($p[0]);
@@ -267,6 +279,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
                         $drop['isDeleted'] = true;
                     }
                 }
+
+                $blankSpace = false;
             } else {
                 $drop = [
                             'date'          => $date,
@@ -275,9 +289,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
                         ];
             }
 
+            // Skip empty tail for non-owners
+            if ($blankSpace && !$canManage) continue;
 
-            if (!$lastMonth || $lastMonth != $month)    $drop['monthSwitch'] = $this->monthTitle[$month - 1];
-
+            if (!$lastMonth || $lastMonth != $month) $drop['monthSwitch'] = $this->monthTitle[$month - 1];
+            $drop['blankSpace'] = $blankSpace;
 
             $lastMonth          = $month;
             $this->calendar[]   = $drop;
