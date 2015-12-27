@@ -26,7 +26,7 @@ class MediaController extends ApiController {
                         'class' => AccessControl::className(),
                         'rules' => [
                             [
-                                'actions' => ['upload', 'write', 'swap-days', 'delete-recover'],
+                                'actions' => ['get', 'upload', 'write', 'swap-days', 'delete-recover'],
                                 'allow' => true,
                                 'roles' => ['@'],
                             ],
@@ -82,7 +82,7 @@ class MediaController extends ApiController {
 
         $form->load(Helpers::getRequestParams('post'));
         $form->file = UploadedFile::getInstance($form, 'file');
- 
+
         if ($form->validate()) {
             // Userpic
             if ($form->targetType == ApiUser::typeId) {
@@ -92,7 +92,7 @@ class MediaController extends ApiController {
             // Story Image
             } elseif ($form->targetType == ApiStory::typeId) {
                 $parent = $this->checkParentModelPermission($form->targetId, 'write', ['parentModelClass' => ApiStory::className()]);
-                if (!$parent->isValidDate($form->date)) throw new \Exception(Ml::t('Invalid story date', 'media')); 
+                if (!$parent->isValidDate($form->date)) throw new \Exception(Ml::t('Invalid story date', 'media'));
 
                 $model = $parent->addMedia($form->file, $form->mediaType, new ApiMedia(), ['fields' => ['date' => $form->date]]);
             }
@@ -101,6 +101,17 @@ class MediaController extends ApiController {
         } else {
             $this->addContent($form);
         }
+    }
+
+    /**
+    * Get media for edit
+    *
+    * @param integer $id
+    */
+    public function actionGet($id) {
+        $item = $this->checkModelPermission(intval($id), IPermissions::permWrite);
+
+        $this->addContent($item);
     }
 
     /**
@@ -130,7 +141,7 @@ class MediaController extends ApiController {
         $itemB = $this->checkModelPermission(intval($idB), IPermissions::permWrite);
 
         if ($itemA->target_id != $itemB->target_id) throw new \Exception("Items hav different target ID");
-        
+
         $story = $this->checkParentModelPermission($itemA->target_id, IPermissions::permWrite, ['parentModelClass' => ApiStory::className()]);
 
         if (!$story->isValidDate($itemA->date) || !$story->isValidDate($itemB->date)) throw new Exception('Invalid date problem');

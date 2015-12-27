@@ -13,6 +13,7 @@ class StoryAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'css/photoview.css',
         'css/story.css',
     ];
     public $js = [

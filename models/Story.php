@@ -264,6 +264,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
             if (!empty($dateDict[$date])) {
                 $drop = [
+                            'id'            => $dateDict[$date]['id'],
                             'date'          => $date,
                             'image'         => ['url' => $dateDict[$date]['t']['squareCrop']['200']['url'], 'width' => 200, 'height' => 200],
                             'imageLarge'    => ['url' => $dateDict[$date]['t']['squareCrop']['400']['url'], 'width' => 400, 'height' => 400],

@@ -14,8 +14,6 @@ $('.notifyTip').tooltipsy({
 <?php
 	//var_dump($story);die()
 ?>
-<?php if ($story): ?>
-<?php if ($canManage): ?>
 <div id="userPhotos" class="user-photos">
   <?php
     //var_dump($story);die()
@@ -50,7 +48,7 @@ $('.notifyTip').tooltipsy({
   <div class="yearTitle"><?= $story->yearStart ?>—<?= $story->yearEnd ?></div>
   <?php foreach ($story->calendar as $day): ?>
   <?php if (!empty($day['monthSwitch'])): ?><p class="hugeTitle tbo story-mounth cl"><?= $day['monthSwitch'] ?></p><?php endif ?>
-    <div id="day-<?= $day['date'] ?>" class="user-photo available<?php if (!empty($day['isEmpty'])): ?> empty i-upload<?php endif ?>">
+    <div <?php if (!empty($day['id'])): ?> data-id="<?= $day['id'] ?>" <?php endif ?>id="day-<?= $day['date'] ?>" class="user-photo available<?php if (!empty($day['isEmpty'])): ?> empty i-upload<?php endif ?>">
       <div class="user-photo-day"><?= $day['monthDay'] ?></div>
       <?php if (empty($day['isEmpty'])): ?>
         <?php if (empty($day['invisible'])): ?>
@@ -64,3 +62,4 @@ $('.notifyTip').tooltipsy({
     </div>
   <?php endforeach ?>
   <?php endif ?>
+</div>
