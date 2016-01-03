@@ -463,7 +463,8 @@ StoryDragAndDrop = {
 		container.addClass(this.classNames.contentIsDragging);
 		this.removeEvents(container);
 		this.options.onDragstart();
-		if ($.browser.msie && $.browser.version < 10) {
+		// need for IE<10
+		if (window.attachEvent) {
 			window.event.dataTransfer.effectAllowed = 'move';
 			window.event.dataTransfer.dropEffect = 'move';
 		}
@@ -478,7 +479,8 @@ StoryDragAndDrop = {
 	},
 
 	onDragover: function(e) {
-		if ($.browser.msie && $.browser.version < 10) {
+		// need for IE<10
+		if (window.attachEvent) {
 			window.event.returnValue = false;
 		}
 	},
@@ -541,15 +543,9 @@ StoryDragAndDrop = {
 
 		this.isDragging = false;
 
-		$.ajax('/mediaActions/swapDays/', {
-			data: {json: 1, storyId: pp.storyId, dateA: dateFrom, dateB: dateTo},
-			dataType: 'json',
+		$.ajax('/api/media/swap-days/', {
+			data: {storyId: pp.storyId, dateA: dateFrom, dateB: dateTo},
 			type: 'post',
-			success: function(data) {
-				if (data.errors) {
-					noticeErrors(data.errors);
-				}
-			},
 			error: function() {
 				noticeErrors('Ошибка при перемещении изображения!');
 			}

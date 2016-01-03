@@ -52,21 +52,10 @@ function passwordStrength() {
 }
 
 function updateProfile(formName) {
-	var action;
 	// Main form data
-	if(formName == 'mainForm') {
-		var formData = $('#' + formName).serialize();
-		document.forms[formName].submitButton.disabled = true;
+	document.forms[formName].submitButton.disabled = true;
 
-		action = 'updateMain';
-	// Security form data
-	} else if (formName == 'secForm') {
-		document.forms[formName].submitButton.disabled = true;
-
-		action = 'updateSec';
-	}
-
-	var data = 'action=' + action + '&' + $('#' + formName).serialize();
+	var data = $('#' + formName).serialize();
 
 	profileUpdateTimer = setTimeout(function() {
 		notice("Время ожидания ответа с сервера истекло. Попробуйте повторить попытку через некоторое время.");
@@ -74,28 +63,17 @@ function updateProfile(formName) {
 	}, 10000);
 
 
-	$.ajax("../submit/", {
+	$.ajax('/api/user/update-profile', {
 	data: data,
-	dataType: 'json',
 	type: 'post',
 	success: function(data) {
-		if(!data.errors) {
-			notice("Данные успешно обновлены");
-		} else {
-			data.errors.each(function(item) {
-				if (validation[item.note]) {
-					validation[item.note].customError(item.value);
-				} else {
-					notice(item.value);
-				}
-			});
-		}
+		notice('Данные успешно обновлены');
 
 		clearTimeout(profileUpdateTimer);
 		document.forms[formName].submitButton.disabled = false;
 	},
 	error: function() {
-		notice("Произошла ошибка. Повторите сохранение.");
+		noticeErrors("Произошла ошибка. Повторите сохранение.");
 
 		clearTimeout(profileUpdateTimer);
 		document.forms[formName].submitButton.disabled = false;
@@ -127,7 +105,7 @@ function addContact() {
 			}
 		},
 		error: function() {
-			notice('Ошибка добавление данных!', true);
+			noticeErrors('Ошибка добавление данных!', true);
 		}});
 	}
 }
@@ -153,7 +131,7 @@ function deleteContact(id) {
 		}
 	},
 	error: function() {
-		notice('Ошибка удаления данных!', true);
+		noticeErrors('Ошибка удаления данных!', true);
 	}});
 }
 
@@ -173,9 +151,8 @@ $(function() {
 		against: function(value) {
 			var is_valid = true;
 
-			$.ajax("checkEmail/", {
-			data: "json=1&email=" + value,
-			dataType: 'json',
+			$.ajax("/api/user/check-email", {
+			data: "email=" + value,
 			async: false,
 			success: function(data) {
 				if (data.errors && data.errors.length) {

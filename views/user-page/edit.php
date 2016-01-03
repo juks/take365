@@ -16,16 +16,16 @@ ProfileAsset::register($this);
 	<li id="secSwHolder" class="fl ro bbo"><a href="#" id="secLink" onclick="switchSection('sec'); return false;" title="Изменение пароля и параметров безопасности" class="noOl">Безопасность</a></li>
 </ul>
 <div id="mainHolder">
-	<form name="mainForm" id="mainForm" onsubmit="updateProfile('mainForm'); return false;" class="form">
-		<input type="hidden" name="userId" value="<?= $user->id ?>">
+	<form action="#" name="mainForm" id="mainForm" onsubmit="updateProfile('mainForm'); return false;" class="form">
+		<input type="hidden" name="id" value="<?= $user->id ?>">
 		<div id="mainFormDefaultMessage" class="small error">&nbsp;</div>
 		<div class="fTitle">Меня зовут<span class="lo small" id="emailMessage">&nbsp;</span></div>
-		<div class="fElem"><input type="text" name="fullName" id="fullName" value="<?= $user->fullname ?>" class="halfWide" maxlengt="255" /></div>
+		<div class="fElem"><input type="text" name="fullName" id="fullName" value="<?= $user->fullname ?>" class="halfWide" maxlength="255" /></div>
 		<div class="fTitle"><label for="email" id="emailLabel">Email</label></div>
-		<div class="fElem"><input type="text" name="email" id="email" value="<?= $user->email ?>" class="halfWide" maxlengt="255" /></div>
+		<div class="fElem"><input type="text" name="email" id="email" value="<?= $user->email ?>" class="halfWide" maxlength="255" /></div>
 		<div class="fTitle">Описание</div>
 		<div class="fElem"><textarea name="description" class="halfWide" style="height: 15em"><?= $user->description ?></textarea></div>
-		<div class="fTitle">Адрес моего сайта или просто сайта про меня</div><div class="fElem"><input type="text" name="url" value="<?= $user->homepage ?>" class="halfWide" maxlengt=255 /></div>
+		<div class="fTitle">Адрес моего сайта или просто сайта про меня</div><div class="fElem"><input type="text" name="url" value="<?= $user->homepage ?>" class="halfWide" maxlength=255 /></div>
 		<div class="fTitle">Пол</div>
 		<div class="fElem">
 			<select name='sex' id='genderSelect'>
@@ -46,7 +46,7 @@ ProfileAsset::register($this);
 	<div class="element">
 		<div>
 		<?php if ($user->userpic): ?>
-			<img id="userPhoto" src="<?= $user->userpic['t']['maxSide']['500']['url'] ?>" width="<?= $user->userpic['t']['maxSide']['500']['width'] ?>" height="<?php $user->userpic['t']['maxSide']['500']['height'] ?>" />{
+			<img id="userPhoto" src="<?= $user->userpic['t']['maxSide']['500']['url'] ?>" width="<?= $user->userpic['t']['maxSide']['500']['width'] ?>" height="<?php $user->userpic['t']['maxSide']['500']['height'] ?>" />
 			<div id="userPhotoDelete"><a href="javascript:;" onclick="deleteMedia(<?= $user->userpic->id ?>,'userPhoto')">удалить</a></div>
 		<?php else: ?>
 			<div id="userPhoto"></div>
@@ -67,18 +67,18 @@ ProfileAsset::register($this);
 			<td width="500">
 				<form name="secForm" id="secForm" onsubmit="updateProfile('secForm'); return false;" class="form">
 					<div id="secFormDefaultMessage" class="small error">&nbsp;</div>
-					<input type="hidden" name="userId" value="<?= $targetId ?>">
+					<input type="hidden" name="id" value="<?= $targetId ?>">
 					<div class="fTitle to">
 						<label for="password" id="passwordLabel">Новый пароль:</label>
 					</div>
 					<div class="fElem">
-						<input type="password" name="password" id="password" class="fMegaField" maxlengt="20" onkeyup="passwordStrength()"/>
+						<input type="password" name="password" id="password" class="fMegaField" maxlength="20" onkeyup="passwordStrength()"/>
 					</div>
 					<div class="fTitle">
 						<label for="password1" id="password1Label">Подтверждение пароля:</label>
 					</div>
 					<div class="fElem">
-						<input type="password" name="password1" id="password1" class="fMegaField" maxlengt="20" />
+						<input type="password" name="password1" id="password1" class="fMegaField" maxlength="20" />
 					</div>
 					<input type="submit" class="fSubmit" name="submitButton" value="Сохранить" />
 				</form>

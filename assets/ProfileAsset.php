@@ -1,9 +1,4 @@
 <?php
-/**
- * @link http://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
 
 namespace app\assets;
 
@@ -13,20 +8,19 @@ use yii\web\AssetBundle;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class AppAsset extends AssetBundle
+class ProfileAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/base.css',
-        'css/style.css',
-        'css/font-awesome.min.css'
+        'css/profile.css',
     ];
     public $js = [
         'js/jquery.js',
-        'js/common.js',
-        'js/jquery.onepage-scroll.js',
-        'js/jquery.slick.min.js',
+        'js/liveValidation.js',
+        'js/plupload/plupload.full.js',
+        'js/profile.js',
+        'js/profileMedia.js',
     ];
     public $depends = [
         'yii\bootstrap\BootstrapAsset',
