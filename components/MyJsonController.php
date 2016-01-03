@@ -131,8 +131,6 @@ class MyJsonController extends Controller {
     public function checkModelPermission($id, $permission, $extra = []) {
     	if (empty($extra['user'])) $extra['user'] = Yii::$app->user;
 
-		$modelInstance = Yii::createObject($this->getModelClass());
-
 		if (is_int($id)) {
 			$cond = ['id' => $id];
 		} else {

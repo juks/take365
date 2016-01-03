@@ -52,17 +52,6 @@ class UserController extends ApiController {
         return ApiUser::className();
     }
 
-	/**
-	 * Проверить доступность имени пользователя
-	 *
-	 * @param string $username
-	 */
-	public function actionCheckUsername($username) {
-		$user = new ApiUser();
-		$user->checkField('username', $username);
-		$this->addContent($user);
-	}
-
     /**
      * Fetches user profile data
      *
@@ -86,7 +75,18 @@ class UserController extends ApiController {
     	if ($maxItems > 500) $maxItems = 500;
 
         $this->addContent(ApiUser::find()->where(['is_active' => 1])->orderBy('time_registered')->offset(($page - 1) * $maxItems)->limit($maxItems)->all());
-    }    
+    }
+
+	/**
+	 * Проверить доступность имени пользователя
+	 *
+	 * @param string $username
+	 */
+	public function actionCheckUsername($username) {
+		$user = new ApiUser();
+		$user->checkField('username', $username);
+		if ($user->hasErrors()) $this->addContent($user);
+	}
 
 	/**
 	 * Проверить доступность имейла
@@ -96,7 +96,7 @@ class UserController extends ApiController {
 	public function actionCheckEmail($email) {
 		$user = new ApiUser();
 		$user->checkField('email', $email);
-		$this->addContent($user);
+		if ($user->hasErrors()) $this->addContent($user);
 	}
 
 	/**

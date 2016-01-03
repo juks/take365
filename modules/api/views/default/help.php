@@ -174,8 +174,9 @@ $api = [
                         'title' => 'Swaps the date of two story images',
                         'method' => 'POST',
                         'params'                => [
-                                                        ['n' => 'idA',          't' => 'The first item Id',             'h'=>'Eg. "1"'],
-                                                        ['n' => 'idB',          't' => 'The second item Id',            'h'=>'Eg. "2"'],
+                                                        ['n' => 'storyId',        't' => 'The story id'],
+                                                        ['n' => 'dateA',          't' => 'The first item date',             'h'=>'Eg. "2015-05-20"'],
+                                                        ['n' => 'dateB',          't' => 'The second item date',            'h'=>'Eg. "2015-05-15"'],
                                                 ]
                     ],
 

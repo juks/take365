@@ -52,9 +52,9 @@ class AuthUserBase extends \yii\db\ActiveRecord
             [['username', 'email', 'password', 'time_created', 'ip_created'], 'required'],
             [['username'], 'string', 'min' => 1, 'max' => 20],
             [['password', 'fullname'], 'string', 'max' => 64],
-            ['username', 'unique'],
-            ['username', 'checkReserved'],
-            ['username', 'checkValid'],
+            ['username', 'checkUsernameReserved'],
+            ['username', 'checkUsernameValid'],
+            ['username', 'checkUsernameExists'],
             [['email'], 'email'],
             [['email'], 'checkEmailExists'],
             [['description', 'description_jvx'], 'string', 'max' => 1024],
@@ -96,7 +96,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
     /*
     *   Check if username is not reserved
     */
-    public function checkReserved($attribute, $params) {
+    public function checkUsernameReserved($attribute, $params) {
         if (array_search(strtolower($this->$attribute), $this->_reservedNames) != null) {
             $this->addError($attribute, Ml::t('Sorry, username ' . $this->$attribute . ' is reserved'));
         }
@@ -105,11 +105,21 @@ class AuthUserBase extends \yii\db\ActiveRecord
     /*
     *   Check if username contains only valid symbols
     */
-    public function checkValid($attribute, $params) {
+    public function checkUsernameValid($attribute, $params) {
         if ($this->scenario != 'import' && !preg_match('/^[a-z][a-z0-9-]{1,}$/i', $this->$attribute)) $this->addError($attribute, Ml::t('Invalid username'));
     }
 
+    public function checkUsernameExists($attribute, $params) {
+        $cond = ['username' => $this->$attribute, 'is_active' => 1];
+        if ($this->id) $cond['id'] = ['!=', $this->id];
+
+        if (self::find()->where(static::makeCondition($cond))->count()) $this->addError($attribute, Ml::t('This username has been already taken'));
+    }
+
     public function checkEmailExists($attribute, $params) {
-        if (self::find()->where(['email' => $this->$attribute, 'is_active' => 1, 'id' => ['!=', $this->id]])->count()) $this->addError($attribute, Ml::t('This email has been already taken'));
+        $cond = ['email' => $this->$attribute, 'is_active' => 1];
+        if ($this->id) $cond['id'] = ['!=', $this->id];
+
+        if (self::find()->where(static::makeCondition($cond))->count()) $this->addError($attribute, Ml::t('This email has been already taken'));
     }
 }

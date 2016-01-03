@@ -136,22 +136,25 @@ class MediaController extends ApiController {
     * @param string $idString
     * @param boolean $doRecover
     */
-    public function actionSwapDays($idA, $idB) {
-        $itemA = $this->checkModelPermission(intval($idA), IPermissions::permWrite);
-        $itemB = $this->checkModelPermission(intval($idB), IPermissions::permWrite);
+    public function actionSwapDays($storyId, $dateA, $dateB) {
+        $story = $this->checkParentModelPermission($storyId, IPermissions::permWrite, ['parentModelClass' => ApiStory::className()]);
+        if (!$story->isValidDate($dateA) || !$story->isValidDate($dateB)) throw new Exception('Invalid date');
 
-        if ($itemA->target_id != $itemB->target_id) throw new \Exception("Items hav different target ID");
+        $itemA = ApiMedia::find()->where(['target_id' => $storyId, 'date' => $dateA])->one();
+        $itemB = ApiMedia::find()->where(['target_id' => $storyId, 'date' => $dateB])->one();
 
-        $story = $this->checkParentModelPermission($itemA->target_id, IPermissions::permWrite, ['parentModelClass' => ApiStory::className()]);
+        if ($itemA && !$itemA->hasPermission(Yii::$app->user, IPermissions::permWrite)) throw new ForbiddenHttpException();
+        if ($itemB && !$itemB->hasPermission(Yii::$app->user, IPermissions::permWrite)) throw new ForbiddenHttpException();
 
-        if (!$story->isValidDate($itemA->date) || !$story->isValidDate($itemB->date)) throw new Exception('Invalid date problem');
+        if ($itemA) {
+            $itemA->date = $dateB;
+            $itemA->save();
+        }
 
-        $swapDate = $itemB->date;
-        $itemB->date = $itemA->date;
-        $itemB->save();
-
-        $itemA->date = $swapDate;
-        $itemA->save();
+        if ($itemB) {
+            $itemB->date = $dateA;
+            $itemB->save();
+        }
     }
 
     /**
