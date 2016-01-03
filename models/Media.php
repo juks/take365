@@ -29,8 +29,8 @@ class Media extends MediaCore {
                                                         MediaCore::thumbsList            => [
                                                                                                 MediaCore::resizeMaxSide => [500, 200, 100, 50],
                                                                                         ],
-                                                        MediaCore::mainThumbDimension    => 100,
-                                                        MediaCore::largeThumbDimension   => 200,
+                                                        MediaCore::mainThumbDimension    => 500,
+                                                        MediaCore::largeThumbDimension   => 500,
                                                         MediaCore::quality               => 95,
                                                         MediaCore::engine                => MediaCore::engineImageMagick,
                                                         MediaCore::resizeFilter          => \Imagick::FILTER_BLACKMAN,
