@@ -14,7 +14,7 @@ function initUploder() {
 				runtimes: "html5,gears,flash,silverlight,browserplus,html4",
 				browse_button: name + "Pick",
 				max_file_size: "10mb",
-				url: "/mediaActions/upload/?json=1",
+				url: "/api/media/upload",
 				resize: conf.resize,
 				flash_swf_url: "/js/plupload/plupload.flash.swf",
 				silverlight_xap_url: "/js/plupload/js/plupload.silverlight.xap",
@@ -74,7 +74,7 @@ function initUploder() {
 			errorsNode = node;
 		});
 
-		// for correct error (ex. 500) 
+		// for correct error (ex. 500)
 		uploader.bind("UploadComplete", function() {
 			$('#' + name + 'UploadWrap').css('visibility', 'visible');
 			procces.remove();
@@ -82,11 +82,11 @@ function initUploder() {
 
 		uploader.bind("FileUploaded", function(uploader, file, response) {
 			response = $.parseJSON(response.response);
-			if (response.item) {
+			if (response.result) {
 				var img = new Image();
-				img.src = response.item.url;
-				img.width = response.item.width;
-				img.height = response.item.height;
+				img.src = response.result.thumbLarge.url;
+				img.width = response.result.thumbLarge.width / 2;
+				img.height = response.result.thumbLarge.height / 2;
 				$('#' + name).replaceWith(img);
 				img.id = name;
 
@@ -94,7 +94,7 @@ function initUploder() {
 				.removeClass('hidden')
 					.find('a')[0]
 					.onclick = function() {
-						deleteMedia(response.item.id, name);
+						deleteMedia(response.result.id, name);
 					};
 
 				uploader.refresh();
@@ -161,13 +161,13 @@ $(function() {
 
 function deleteMedia(id, name) {
 	if (confirm(controlsObj[name].deleteText)) {
-		$.ajax('/mediaActions/delete/', {
+		$.ajax('/api/media/delete-recover', {
 		data: {idString: id},
 		dataType: 'json',
 		type: 'post',
 		success: function(data) {
 			if (!data.errors) {
-				$('<div id="' + name + '"/>').replaceAll('#' + name);
+				$('<div id="' + name + '"></div>').replaceAll('#' + name);
 				$('#' +name + 'Delete').addClass('hidden');
 
 				notice("Изображение удалено");

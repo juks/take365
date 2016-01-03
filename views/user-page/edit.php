@@ -1,3 +1,11 @@
+<?php
+
+use app\assets\ProfileAsset;
+
+ProfileAsset::register($this);
+
+?>
+
 <header class="article-header">
 	<h1 class="article-title">Редактирование профиля</h1>
 </header>
@@ -38,8 +46,8 @@
 	<div class="element">
 		<div>
 		<?php if ($user->userpic): ?>
-			<img id="userPhoto" src="<?= $user->userpic['t']['maxSide']['500']['url'] ?>" width="$user->userpic['t']['maxSide']['500']['width']" height="$user->userpic['t']['maxSide']['500']['height']" />{
-			<div id="userPhotoDelete"><a href="javascript:;" onclick="deleteMedia(<?= $user->userpic->id ?>,'userpic')">удалить</a></div>
+			<img id="userPhoto" src="<?= $user->userpic['t']['maxSide']['500']['url'] ?>" width="<?= $user->userpic['t']['maxSide']['500']['width'] ?>" height="<?php $user->userpic['t']['maxSide']['500']['height'] ?>" />{
+			<div id="userPhotoDelete"><a href="javascript:;" onclick="deleteMedia(<?= $user->userpic->id ?>,'userPhoto')">удалить</a></div>
 		<?php else: ?>
 			<div id="userPhoto"></div>
 			<div id="userPhotoDelete" class="hidden"><a href="javascript:;">удалить</a></div>
