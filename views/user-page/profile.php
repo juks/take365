@@ -1,11 +1,3 @@
-<?php
-
-use app\assets\ProfileAsset;
-
-ProfileAsset::register($this);
-
-?>
-
 <header class="article-header">
   <h1 class="article-title">Профиль <a href="<?= $user->url ?>"><?= $user->fullnameFilled ?></a></h1>
   <?php if ($user->thisIsMe): ?><a href="<?= $user->urlEdit ?>" class="fa fa-pencil-square-o" title="Редактировать профиль"></a><?php endif ?>

@@ -46,7 +46,7 @@ ProfileAsset::register($this);
 	<div class="element">
 		<div>
 		<?php if ($user->userpic): ?>
-			<img id="userPhoto" src="<?= $user->userpic['t']['maxSide']['500']['url'] ?>" width="<?= $user->userpic['t']['maxSide']['500']['width'] ?>" height="<?php $user->userpic['t']['maxSide']['500']['height'] ?>" />
+			<img id="userPhoto" src="<?= $user->userpic['t']['maxSide']['500']['url'] ?>" width="<?= $user->userpic['t']['maxSide']['500']['width'] ?>" height="<?= $user->userpic['t']['maxSide']['500']['height'] ?>" />
 			<div id="userPhotoDelete"><a href="javascript:;" onclick="deleteMedia(<?= $user->userpic->id ?>,'userPhoto')">удалить</a></div>
 		<?php else: ?>
 			<div id="userPhoto"></div>
