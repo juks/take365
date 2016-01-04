@@ -123,7 +123,7 @@ class UserController extends ApiController {
 	 * @param string $password
 	 */
 	public function actionUpdateProfile($id) {
-		$model = $this->checkModelPermission($id, IPermissions::permWrite);
+		$model = $this->checkModelPermission(intval($id), IPermissions::permWrite);
 		$model->load(Helpers::getRequestParams('post'));
 		$model->save();
 
