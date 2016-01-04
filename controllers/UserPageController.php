@@ -89,9 +89,8 @@ class UserPageController extends MyController {
 
         if (!$user) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
         $user->hasPermission(Yii::$app->user, IPermissions::permWrite);
-
         $user->format();
-
+        
         return $this->render('edit', [
                                         'user'         => $user,
                                         'pageType'     => 'profile',

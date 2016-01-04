@@ -143,9 +143,9 @@ class ImportController extends Controller {
 		    ->select('*')
 		    ->from('media');
 
-		if ($this->targetId) $rows->where('target_id = ' . $targetId);
-		if ($this->userId) $rows->where('user_id = ' . $userId);
-        if ($this->mediaType) $rows->where('media_type = ' . $mediaType);
+		if ($this->targetId) $rows->where('target_id = ' . $this->targetId);
+		if ($this->userId) $rows->where('user_id = ' . $this->userId);
+        if ($this->mediaType) $rows->where('media_type = ' . $this->mediaType);
 
 		$b = $rows->batch(100);
 		$b->db = \Yii::$app->db1;

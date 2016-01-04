@@ -57,12 +57,10 @@ trait TMediaThumbExtra {
                 if (empty($this->t[$resizeMode])) $this->t[$resizeMode] = [];
                 
                 if($thumb) {
-                    $this->t[$resizeMode][$targetDimension] 		= $thumb;
-                    $this->t[$resizeMode]['i' . $targetDimension] 	= $thumb;
+                    $this->t[$resizeMode][$targetDimension]	= $thumb;
                     $lastResized = $thumb;
                 } else {
-                    $this->t[$resizeMode][$targetDimension] 		= $lastResized;
-                    $this->t[$resizeMode]['i' . $targetDimension] 	= $thumb;
+                    $this->t[$resizeMode][$targetDimension]	= $lastResized;
                 }
             }
         }
