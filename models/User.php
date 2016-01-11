@@ -6,9 +6,9 @@ use app\models\base\AuthUserBase;
 use yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 use app\components\Helpers;
 use app\components\HelpersTxt;
-use yii\web\IdentityInterface;
 use app\models\AuthToken;
 use app\models\Media;
 use app\models\Story;
@@ -67,20 +67,22 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     /**
      * Returns the active user's criteria
      */
-    static function getActiveCondition() {
+    public static function getActiveCondition() {
         return ['is_active' => 1];
     }
 
     /**
      * Returns user entity only if it is active
      */
-    static function getActiveUser($userIdName) {
+    public static function getActiveUser($identity) {
         $condition = [];
 
-        if (is_int($userIdName)) {
-            $condition['id'] = $userIdName;
+        if (is_int($identity)) {
+            $condition['id'] = $identity;
+        } elseif (Helpers::checkEmail($identity)) {
+            $conditions['email'] = $identity;
         } else {
-            $condition['username'] = $userIdName;
+            $condition['username'] = $identity;
         }
 
         return self::find()->where(array_merge($condition, self::getActiveCondition()))->one();
@@ -125,7 +127,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * @return static|null
      */
     public static function findByUsername($username) {
-        return static::findOne(['username' => $username]);
+        return self::getActiveUser($username);
     }
 
     /**

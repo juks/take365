@@ -63,6 +63,8 @@ class AuthController extends ApiController {
         if ($model->load(Helpers::getRequestParams('post'))) $model->login();
        
         $this->addContent($model);
+
+        if (!$model->hasErrors()) $this->addContent($model->user->url, 'redirect');
     }
 
     public function actionCheckToken($accessToken) {
