@@ -56,6 +56,9 @@ class SiteController extends MyController
     }
 
     public function actionIndex() {
+        $user = Yii::$app->user;
+        if (!$user->isGuest) $this->redirect($user->identity->url);
+
         $mItem = Mosaic::getCurrent();
 
         if ($mItem) {
@@ -72,6 +75,7 @@ class SiteController extends MyController
 
         $model = new RegisterForm();
         $this->layout = 'front';
+
         return $this->render('index', ['model' => $model]);
     }
 
