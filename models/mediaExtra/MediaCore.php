@@ -57,7 +57,7 @@ class MediaCore extends MediaBase {
     const resizeHeight              = 'height';                 // Image height is converted to this dimension, width goes in proportional way
     const resizeMaxSide             = 'maxSide';                // An image size which is longer is converted to this dimension, the other one goes in proportional way
     const resizeMinSide             = 'minSide';                // An image size which is shorter is converted to this dimension, the other one goes in proportional way
-    const resizeScaleUp             = 'scaleUp';                // Do image scale up if it is smaller than required
+    const resizeScaleUpDimension    = 'scaleUpDimension';       // Do image scale up if it is smaller than required but not greater than this dimension
     const resizeFullFill            = 'fullFill';               // A mode when the image should fullfill the given area and be cropped if necessary
     const resizeProportionalFill    = 'proportionalFill';       // A mode when the image sould be shrinked untill it fits the given area without being cropped
     const resizeSquareCrop          = 'squareCrop';             // A mode when the thumb is taken out of the square, located in the middle of given image

@@ -172,7 +172,7 @@ class ImportController extends Controller {
 					$target = Story::find()->where(['id_old' => $mediaData['target_id']])->one(); //One($mediaData['target_id']);
 					$mediaAlias = 'storyImage';
 					$pathAlias = 'story_image';
-                    $downloadAlias = 'storyImage';
+                    $downloadAlias = 'story_image';
 				// Unsupported Type
         		} else {
         			echo "Invalid target type!";
@@ -233,7 +233,7 @@ class ImportController extends Controller {
         		} catch (\Exception $e) {
                     echo "---------------------------------\n";
         			echo "Warning: failed to load file!\n";
-                    echo $e->getMessage();
+                    echo $e->getMessage() . "\n";
                     echo "---------------------------------\n\n";
 
         			continue;

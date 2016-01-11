@@ -8,7 +8,7 @@ namespace app\components;
 
 class Download {
 	protected $tmpPath = '';
-	protected $timeout = 5;
+	protected $timeout = 15;
 	protected $userAgent = '';
 	
 	# Константы кодов ошибок

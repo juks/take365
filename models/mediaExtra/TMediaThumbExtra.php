@@ -77,7 +77,7 @@ trait TMediaThumbExtra {
 
         // Should we resize?
         // No, do not resize
-        if (!$dimensions || $this->width <= $dimensions['width'] && $this->height <= $dimensions['height']) {
+        if (!$dimensions) {
             return [
             			'id' 		=> $this->id,
             			'path' 		=> $this->path,
@@ -187,7 +187,7 @@ trait TMediaThumbExtra {
         $dimensionValue = $dimensionIndex ? $height : $width;
         $otherDimensionValue = $dimensionIndex ? $width : $height;
 
-        if ($this->getOption(self::resizeScaleUp) || ($dimensionValue > $targetDimension)) {
+        if ($this->getOption(self::resizeScaleUpDimension) >= $dimensionValue || $dimensionValue > $targetDimension) {
             $proportion = $otherDimensionValue / $dimensionValue;
 
             if (!$dimensionIndex) {
@@ -198,7 +198,7 @@ trait TMediaThumbExtra {
                 $newWidth  = round($newHeight * $proportion);
             }
 
-            return [
+            $t = [
                         'width'     => $newWidth,
                         'height'    => $newHeight,
                         'cx'        => $cx,
@@ -207,6 +207,8 @@ trait TMediaThumbExtra {
                         'ch'        => $ch,
                         'crop'      => $crop
                     ];
+
+            return $t;
         } else {
             return null;
         }

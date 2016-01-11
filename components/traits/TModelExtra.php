@@ -162,7 +162,7 @@ trait TModelExtra {
      * @return bool|void
      */
     public static function sqlDelete($conditions) {
-        $sql = 'DELETE FROM `' . self::tableName() . '` WHERE ' . self::akeCondition($conditions);
+        $sql = 'DELETE FROM `' . self::tableName() . '` WHERE ' . self::makeCondition($conditions);
 
         $command = Yii::$app->db->createCommand($sql);
         $command->execute();
