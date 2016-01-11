@@ -84,7 +84,8 @@ function logout() {
   $.ajax('/api/auth/logout', {
     type: 'POST',
     success: function(result) {
-      document.location = '/';
+
+      document.location = result.redirect || document.location.href;
     },
     error: function(result) {
       if (result.errors) {

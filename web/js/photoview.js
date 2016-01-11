@@ -138,14 +138,14 @@ var Photoview = (function(){
 					'class': 'photoview-data',
 					css: { opacity: 0 },
 					html: '<h1 class="photoview-title" style="display:inline">'+(item.title || '')+'</h1><br>'
-						+'<p class="photoview-img-container"><img src="'+item.thumbLarge.url+'" width="'+item.thumbLarge.width+'" height="'+item.thumbLarge.height+'"></p>'
+						+'<p class="photoview-img-container"><img src="'+item.thumbLarge.url+'" width="'+(item.thumbLarge.width/2)+'" height="'+(item.thumbLarge.height/2)+'"></p>'
 						+'<p style="display:inline">'+(item.description || '')+'</p>'
 				}).appendTo(itemContainer);
 
 			if (!item.isFirst) {
 				prev = $('<div/>', {
 					'class': 'photoview-prev',
-					css: { top: Math.floor(item.height/2) },
+					css: { top: Math.floor(item.thumbLarge.height/4) },
 					html: '<div class="photoview-prev-in"></div>'
 				})
 				.appendTo(itemContainer)
