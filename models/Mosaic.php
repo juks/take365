@@ -91,7 +91,10 @@ class Mosaic extends MosaicBase {
                 foreach($thumbTargetDimensions as $thumbTargetDimension) {
                     $wallpaperImage->resizeimage($thumbTargetDimension, 0, \Imagick::FILTER_BLACKMAN, 0.80, false);
 
-                    $outputPath = $this->getStorePath() . '/' . $this->id . '_' . $blockNum . '_' . $thumbTargetDimension . '.jpg';
+                    $storePath = $this->getStorePath();
+                    if (!file_exists($storePath)) mkdir($storePath);
+                    
+                    $outputPath = $storePath . '/' . $this->id . '_' . $blockNum . '_' . $thumbTargetDimension . '.jpg';
 
                     $wallpaperImage->setImageFormat("jpg");
                     $wallpaperImage->setImageCompressionQuality($thumbQuality);
