@@ -117,4 +117,15 @@ class Media extends MediaCore {
 
         return $condition;
     }
+
+    public function afterUpload() {
+        // Mark Predecessors as deleted
+        if ($this->type == self::typeStoryImage) {
+            $oldies = $this->find()->where(self::makeCondition(['target_id' => $this->target_id, 'target_type' => $this->target_type, 'is_deleted' => 0, 'date' => $this->date, 'id' => ['!=', $this->id]]))->all();
+
+            foreach ($oldies as $pred) {
+                $pred->markDeleted();
+            }
+        }
+    }
 }

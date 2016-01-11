@@ -265,6 +265,8 @@ class MediaCore extends MediaBase {
         }
 
         $transaction->commit();
+
+        if (method_exists($this, 'afterUpload')) $this->afterUpload();
     }
 
     /**
