@@ -63,7 +63,7 @@ class Media extends MediaCore {
                                                         MediaCore::thumbQuality          => 96,
                                                         MediaCore::saveExif              => true,
                                                         MediaCore::autoOrient            => true,
-                                                        MediaCore::resizeScaleUp         => 400
+                                                        MediaCore::resizeScaleUpDimension=> 400
                                                     ]
                                 ];
 
