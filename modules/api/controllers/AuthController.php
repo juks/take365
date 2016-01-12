@@ -78,5 +78,7 @@ class AuthController extends ApiController {
      */
     public function actionLogout() {
         Yii::$app->user->logout();
+
+        $this->addContent(\yii\helpers\Url::base(true), 'redirect');
     }
 }

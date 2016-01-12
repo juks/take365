@@ -51,15 +51,15 @@ class UserPageController extends MyController {
     * Display user home page
     */
     public function actionHome($username) {
-        $user = User::getActiveUser($username);
+        $owner = User::getActiveUser($username);
 
-        if (!$user) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
 
-        $stories = $user->stories;
+        $stories = $owner->stories;
         foreach ($stories as $story) $story->formatShort(['imageLimit' => 90]);
 
         return $this->render('home', [
-                                        'user'          => $user,
+                                        'owner'          => $owner,
                                         'stories'       => $stories,
                                         'canCreate'     => false,
                                         'pageType'      => 'home'

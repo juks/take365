@@ -1,5 +1,5 @@
 <header class="article-header">
-  <h1 class="article-title"><?php if ($user->thisIsMe): ?>Привет, <a href="<?= $user->urlProfile ?>"><?= $user->username ?></a>!<?php else: ?>Истории <a href="<?= $user->urlProfile ?>"><?= $user->username ?></a><?php endif ?></h1>
+  <h1 class="article-title"><?php if ($owner->thisIsMe): ?>Привет, <a href="<?= $owner->urlProfile ?>"><?= $owner->username ?></a>!<?php else: ?>Истории <a href="<?= $owner->urlProfile ?>"><?= $owner->username ?></a><?php endif ?></h1>
 </header>
 <?php if ($stories): ?>
 <?php foreach ($stories as $story): ?>
@@ -22,11 +22,11 @@
 <section class="story">
   <div class="story-content">
     <p>
-    {{ IF thisIsMe }}
+    <?php if ($owner->thisIsMe): ?>
     У вас нет доступных историй!
-    {{ ELSE }}
+    <?php else: ?>
     У этого человека нет доступных историй.
-    {{ END }}
+    <?php endif ?>
     </p>
   </div>
 </section>
