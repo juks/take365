@@ -29,10 +29,10 @@ class ApiMedia extends BaseMedia {
     public static function getPlayerData($params) {
         $isEdge = false;
 
-        $conditions = [
-                        'target_id'      => $params['storyId'],
-                        'target_type'    => Story::typeId,
-                      ];
+        $conditions = static::getActiveCondition();
+
+        $conditions['target_id']    = $params['storyId'];
+        $conditions['target_type']  = Story::typeId;
 
         if ($params['span'] > 0) {
             $conditions['date'] = ['<=', $params['date']];

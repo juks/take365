@@ -118,6 +118,11 @@ class Media extends MediaCore {
         return $condition;
     }
 
+
+    public static function getActiveCondition() {
+        return ['is_deleted' => 0];
+    }
+
     public function afterUpload() {
         // Mark Predecessors as deleted
         if ($this->type == self::typeStoryImage) {
