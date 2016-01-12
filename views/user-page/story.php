@@ -26,7 +26,7 @@ $('.notifyTip').tooltipsy({
     <p class="story-desc editable"><span class="editable-placeholder<?php if ($story->description): ?> hidden<?php endif ?>">Кликните, чтобы добавить описание</span><span class="editable-text"><?= $story->description ?></span><textarea class="editable-input" placeholder="Кликните, чтобы добавить описание" name="description"><?= $story->description ?></textarea></p>
     <p class="story-submit"><input value="Сохранить" type="submit" class="editable-submit"> <input value="Отмена" type="reset" class="editable-cancel"></p>
     <table id="settingsHolder">
-    <tr>
+    <tr id="statusSelectorHoder"<?php if ($story->is_deleted): ?> class="hidden"<?php endif ?>>
     <td>Статус</td>
     <td><select name="status" id="storyStatusSelector" onchange="Story.updateStatus(pp.storyId); return false;">
       <option value="0"<?php if ($story->status == 0): ?> selected<?php endif ?>>Скрыта</option>
