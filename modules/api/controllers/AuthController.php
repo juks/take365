@@ -40,7 +40,7 @@ class AuthController extends ApiController {
         $b['verbs'] = [
                         'class' => VerbFilter::className(),
                         'actions' => [
-                            //'login'     => ['post'],
+                            'login'     => ['post'],
                             'logout'    => ['post']
                         ],
                     ];
@@ -64,7 +64,7 @@ class AuthController extends ApiController {
        
         $this->addContent($model);
 
-        if (!$model->hasErrors()) $this->addContent($model->user->url, 'redirect');
+        if (!$model->hasErrors() && Yii::$app->request->isAjax) $this->addContent($model->user->url, 'redirect');
     }
 
     public function actionCheckToken($accessToken) {
@@ -79,6 +79,6 @@ class AuthController extends ApiController {
     public function actionLogout() {
         Yii::$app->user->logout();
 
-        $this->addContent(\yii\helpers\Url::base(true), 'redirect');
+        if (Yii::$app->request->isAjax) $this->addContent(\yii\helpers\Url::base(true), 'redirect');
     }
 }

@@ -6,6 +6,7 @@ use Yii;
 use app\components\MyJsonController;
 use app\components\Helpers;
 use app\components\interfaces\IPermissions;
+use app\models\MQueue;
 use app\modules\api\components\ApiController;
 use app\modules\api\models\ApiUser;
 use yii\filters\AccessControl;
@@ -41,7 +42,7 @@ class UserController extends ApiController {
             'class' => VerbFilter::className(),
             'actions' => [
                 'update-profile' => ['post'],
-                'register'		 => ['post']
+                //'register'		 => ['post']
             ],
         ];
 
@@ -110,7 +111,25 @@ class UserController extends ApiController {
 		$user = new ApiUser();
 
 		$user->load(Helpers::getRequestParams('post'));
-		$user->save();
+
+        $connection = Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+
+        try {	
+            if ($user->save()) {
+                MQueue::compose()
+                                        ->to($user->email)
+                                        ->subject('Регистрация')
+                                        ->body('проверка')
+                                        ->send();
+            }
+        } catch (\Exception $e) {
+            $transaction->rollback();
+
+            throw $e;
+        }
+
+        $transaction->commit();
 
 		$this->addContent($user);
 	}
