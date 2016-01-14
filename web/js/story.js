@@ -45,19 +45,15 @@ function inlineEdit(form) {
 		dataType: 'json',
 		type: 'post',
 		success: function(data) {
-			if (!data.errors) {
-				notice('Данные обновлены!');
-			} else {
-				noticeErrors(data.errors);
-				return;
-			}
+			notice('Данные обновлены!');
+			var result = data.result;
 
-			for (var key in data) {
-				form[0][key].value = data[key];
+			['title'].forEach(function(key) {
+				form[0][key].value = result[key];
 				var editable = $(form[0][key]).closest('.editable');
-				editable.find('.editable-text').text(data[key]);
-				editable.find('.editable-placeholder').toggleClass('hidden', !!data[key]);
-			}
+				editable.find('.editable-text').text(result[key]);
+				editable.find('.editable-placeholder').toggleClass('hidden', !!result[key]);
+			});
 		},
 		error: function() {
 			notice("Ошибка при отправке данных!", true);
@@ -598,9 +594,8 @@ Story = {
 	},
 
 	updateNotify: function(id) {
-		$.ajax('/story/write/', {
-			data: {storyId: id, notifyPeriod: $('#storyNotifySelector').val()},
-			dataType: 'json',
+		$.ajax('/api/story/write', {
+			data: {id: id, notifyPeriod: $('#storyNotifySelector').val()},
 			type: 'post',
 			success: function(data) {
 				if (!data.errors) {
@@ -730,9 +725,11 @@ Story = {
 			if (!status) {
 				pp.storyDeleted = 1;
 				$('#delete-recover').text('Восстановить историю');
+				$('#statusSelectorHoder').addClass('hidden')
 				notice('История приготовлена к удалению');
 			} else {
 				pp.storyDeleted = 0;
+				$('#statusSelectorHoder').removeClass('hidden')
 				$('#delete-recover').text('Удалить историю');
 				notice('История восстановлена');
 			}
@@ -767,21 +764,6 @@ Story = {
 	}
 };
 
-function submitStoryForm() {
-	$.ajax('/story/write/?json=1', {
-	data: $('.storyEditForm').serialize(),
-	dataType: 'json',
-	type: 'post',
-	success: function(data) {
-		if (!data.errors) {
-			notice('Данные обновлены!');
-		} else {
-			noticeErrors(data.errors);
-		}
-	}, error: function() {
-		notice("Ошибка при отправке данных!", true);
-	}});
-}
 
 /*
 jQuery plugins

@@ -56,7 +56,7 @@ var Photoview = (function(){
 
 			viewIn = $('<div class="photoview-in"/>').appendTo(viewNode);
 
-			t.get(date, -10, function(items) {
+			t.get(date, 10, function(items) {
 				t.showImage(items[0]);
 				return items;
 			}, true);
@@ -70,7 +70,7 @@ var Photoview = (function(){
 				t.showImage(images[++now]);
 			} else if (!images[now].isLast) {
 				t.beforeShowImage();
-				t.get(images[now].date, -10, function(items) {
+				t.get(images[now].date, 10, function(items) {
 					if (items.length) {
 						t.showImage(images[++now]);
 					} else {
@@ -86,7 +86,7 @@ var Photoview = (function(){
 				t.showImage(images[--now]);
 			} else if (!images[now].isFirst) {
 				t.beforeShowImage();
-				t.get(images[now].date, 10, function(items) {
+				t.get(images[now].date, -10, function(items) {
 					if (items.length) {
 						t.showImage(images[--now]);
 					} else {
@@ -155,7 +155,7 @@ var Photoview = (function(){
 			if (!item.isLast) {
 				next = $('<div/>', {
 					'class': 'photoview-next',
-					css: { top: Math.floor(item.height/2) },
+					css: { top: Math.floor(item.thumbLarge.height/4) },
 					html: '<div class="photoview-next-in"></div>'
 				})
 				.appendTo(itemContainer)

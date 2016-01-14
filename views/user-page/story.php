@@ -20,8 +20,8 @@ $('.notifyTip').tooltipsy({
   ?>
   <?php if ($story): ?>
   <?php if ($canManage): ?>
-  <form id="storyEditForm" class="editable-not-editing form" action="/story/write/" method="post" name="storyEditForm">
-    <input name="storyId" type="hidden" value="<?= $story->id ?>">
+  <form id="storyEditForm" class="editable-not-editing form" action="/api/story/write" method="post" name="storyEditForm">
+    <input name="id" type="hidden" value="<?= $story->id ?>">
     <h1 class="story-title editable"><span class="editable-placeholder<?php if ($story->title): ?> hidden<?php endif ?>">Кликните, чтобы добавить заголовок</span><span class="editable-text"><?= $story->title ?></span><input class="editable-input" placeholder="Кликните, чтобы добавить заголовок" type="text" maxlength="255" value="<?= $story->title ?>" name="title"></h1>
     <p class="story-desc editable"><span class="editable-placeholder<?php if ($story->description): ?> hidden<?php endif ?>">Кликните, чтобы добавить описание</span><span class="editable-text"><?= $story->description ?></span><textarea class="editable-input" placeholder="Кликните, чтобы добавить описание" name="description"><?= $story->description ?></textarea></p>
     <p class="story-submit"><input value="Сохранить" type="submit" class="editable-submit"> <input value="Отмена" type="reset" class="editable-cancel"></p>
