@@ -24,7 +24,7 @@ class MediaController extends Controller
      * This command echoes what you have entered as the message.
      * @param string $message the message to be echoed.
      */
-    public function actionMosaic($message = 'hello world')
+    public function actionMosaic()
     {
         $m = new Mosaic();
         $m->save();

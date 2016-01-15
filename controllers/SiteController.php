@@ -95,6 +95,18 @@ class SiteController extends MyController
         return $this->goHome();
     }
 
+    public function actionConfirm() {
+
+    }
+
+    public function actionRecover() {
+
+    }
+
+    public function actionRecoverConfirm() {
+
+    }    
+
     public function actionHelp() {
         return $this->render('help');
     }

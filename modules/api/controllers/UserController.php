@@ -20,13 +20,13 @@ class UserController extends ApiController {
             'class' => AccessControl::className(),
             'rules' => [
                 [
-                    'actions' => ['get', 'list', 'update-profile'],
+                    'actions' => ['get', 'list', 'update-profile', 'foo'],
                     'allow' => true,
                     'roles' => ['@'],
                 ],
 
                 [
-                    'actions' => ['check-username', 'check-email', 'register'],
+                    'actions' => ['check-username', 'check-email', 'register', 'recover', 'recover-update'],
                     'allow' => true,
                     'roles' => ['?', '@'],
                 ],
@@ -79,7 +79,7 @@ class UserController extends ApiController {
     }
 
 	/**
-	 * Проверить доступность имени пользователя
+	 * Check if username is available
 	 *
 	 * @param string $username
 	 */
@@ -90,7 +90,7 @@ class UserController extends ApiController {
 	}
 
 	/**
-	 * Проверить доступность имейла
+	 * Check if email is available
 	 *
 	 * @param string $message
 	 */
@@ -101,41 +101,83 @@ class UserController extends ApiController {
 	}
 
 	/**
-	 * Регистрация пользователя
+	 * Register new user
 	 *
 	 * @param string $username
 	 * @param string $email
 	 * @param string $password
 	 */
 	public function actionRegister($username, $email, $password) {
-		$user = new ApiUser();
+        $form = new \app\modules\api\models\ApiRegisterForm;
+        
+        if ($form->load(Helpers::getRequestParams('post'))) {
+            $user = new ApiUser();
+            $user->load($form->attributes);
 
-		$user->load(Helpers::getRequestParams('post'));
+            $connection = Yii::$app->db;
+            $transaction = $connection->beginTransaction();
 
-        $connection = Yii::$app->db;
-        $transaction = $connection->beginTransaction();
+            try {   
+                if ($user->save()) {
+                    $user->afterRegister();
+                }
+            } catch (\Exception $e) {
+                $transaction->rollback();
 
-        try {	
-            if ($user->save()) {
-                MQueue::compose()
-                                        ->to($user->email)
-                                        ->subject('Регистрация')
-                                        ->body('проверка')
-                                        ->send();
+                throw $e;
             }
-        } catch (\Exception $e) {
-            $transaction->rollback();
 
-            throw $e;
+            $transaction->commit();
+
+            $this->addContent($user);
+        } else {
+            $this->addContent($form);
         }
-
-        $transaction->commit();
-
-		$this->addContent($user);
 	}
 
+    /**
+     * Request password recovery
+     *
+     * @param string $email
+     */
+    public function actionRecover($email) {
+        $form = new \app\modules\api\models\ApiRecoverForm();
+        
+        if ($form->load(Helpers::getRequestParams('post'))) {
+            $user = ApiUser::getActiveUser($email);
+            if ($user) {
+                $user->recover();
+                $this->addContent($user);
+            };
+        } else {
+            $this->addContent($form);
+        }
+    }
+
+    /**
+     * Update user password on successful recovery
+     *
+     * @param id $id
+     * @param string $code
+     * @param string $password
+     */
+    public function actionRecoverUpdate($id, $code, $password) {
+        $form = new \app\modules\api\models\ApiRecoverUpdateForm();
+        
+        if ($form->load(Helpers::getRequestParams('post'))) {
+            $user = ApiUser::findByPasswordResetToken($code, $id);
+            if ($user) {
+                $user->recoverUpdate($password);
+
+                $this->addContent($user);
+            };
+        } else {
+            $this->addContent($form);
+        }
+    }
+
 	/**
-	 * Обновление профиля пользователя
+	 * Update user profile
 	 *
 	 * @param string $username
 	 * @param string $email

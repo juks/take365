@@ -74,6 +74,24 @@ $api = [
                                                 ]
                     ],
 
+                    '/user/recover'   => [
+                        'title' => 'Request password recovery',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'email',        't' => 'User Email'],
+                                                ]
+                    ],
+
+                    '/user/recover-update'   => [
+                        'title' => 'Update user password using recovery code',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'id',           't' => 'User Id'],
+                                                        ['n' => 'code',         't' => 'Security Code'],
+                                                        ['n' => 'password',     't' => 'New Password'],
+                                                ]
+                    ],
+
                     '/user/update-profile'   => [
                         'title' => 'Updates user profile',
                         'method' => 'POST',

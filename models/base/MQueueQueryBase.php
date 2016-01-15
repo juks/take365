@@ -7,7 +7,7 @@ namespace app\models\base;
  *
  * @see Mqueue
  */
-class MqueueQueryBase extends \yii\db\ActiveQuery
+class MQueueQueryBase extends \yii\db\ActiveQuery
 {
     /*public function active()
     {

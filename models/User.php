@@ -11,9 +11,10 @@ use app\components\Helpers;
 use app\components\HelpersTxt;
 use app\models\AuthToken;
 use app\models\Media;
-use app\models\Story;
 use app\models\mediaExtra\MediaCore;
 use app\models\mediaExtra\TMediaUploadExtra;
+use app\models\Story;
+use app\models\MQueue;
 use app\components\traits\TCheckField;
 use app\components\traits\THasPermission;
 use app\components\traits\TModelExtra;
@@ -114,7 +115,6 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
                 $user->accessToken = $token;
                 $user->accessTokenExpires = $token;
             }
-           
 
             return $user;  
         }
@@ -136,18 +136,22 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * @param  string      $token password reset token
      * @return static|null
      */
-    public static function findByPasswordResetToken($token) {
-        $expire = \Yii::$app->params['user.passwordResetTokenExpire'];
-        $parts = explode('_', $token);
-        $timestamp = (int) end($parts);
-        if ($timestamp + $expire < time()) {
-            // token expired
-            return null;
-        }
+    public static function findByPasswordResetToken($token, $id = null) {
 
-        return static::findOne([
+
+        $user = static::findOne([
             'recovery_code' => $token
         ]);
+
+        if ($id && $user && $user->id != $id) {
+            throw new \app\components\ModelException("Invalid security code!");
+        }
+
+        if ($user && (time() - $user->recovery_code_time_issued > Helpers::getParam('user/recoveryLifetime'))) {
+            throw new \app\components\ModelException("Security token is expired!");
+        }
+        
+        return $user;
     }
 
     /**
@@ -221,13 +225,17 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * Generates new password reset token
      */
     public function generatePasswordResetToken() {
-        $this->recovery_code = Helpers::randomString(32) . '_' . time();
+        if (time() - $this->recovery_code_time_issued < 60) throw new \Exception("Too many recovery attempts");
+
+        $this->recovery_code = Helpers::randomString(16);
+        $this->recovery_code_time_issued = time();
     }
 
     /**
      * Removes password reset token
      */
     public function removePasswordResetToken() {
+        $this->recovery_code_time_issued = null;
         $this->recovery_code = null;
     }
 
@@ -239,6 +247,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
             $this->is_active    = true;
             $this->time_created = time();
             if (!$this->ip_created) $this->ip_created = ip2long(Yii::$app->request->userIP);
+            $this->generatePasswordResetToken();
         } else {
             $this->time_updated = time();
         }
@@ -246,6 +255,43 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         if (!$this->_oldAttributes['description'] !== $this->description) $this->description_jvx = HelpersTxt::simpleText($this->description);
 
         return parent::beforeValidate();
+    }
+
+    /**
+     * Register new user
+     */
+    public function register() {
+        MQueue::compose()
+                        ->to($this->email)
+                        ->subject('Регистрация')
+                        ->bodyTemplate('registrationConfirm.php', ['confirmUrl' => $this->urlConfirm])
+                        ->send();
+    }
+
+    /**
+     * Recover User password
+     */
+    public function recover() {
+        $this->generatePasswordResetToken();
+        $this->save();
+        
+        MQueue::compose()
+                        ->to($this->email)
+                        ->subject('Изменение пароля')
+                        ->bodyTemplate('recoverConfirm.php', ['confirmUrl' => $this->urlRecoverConfirm, 'username' => $this->fullNameFilled])
+                        ->send();
+    }
+
+    public function recoverUpdate($password) {
+        $this->removePasswordResetToken();
+        $this->password = $password;
+        $this->save();
+
+        MQueue::compose()
+                        ->to($this->email)
+                        ->subject('Изменение пароля')
+                        ->bodyTemplate('recoverNotice.php', ['confirmUrl' => $this->urlRecoverConfirm, 'username' => $this->fullNameFilled, 'ip' => Yii::$app->request->userIP])
+                        ->send();
     }
 
     /**
@@ -325,6 +371,19 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         return \yii\helpers\Url::base(true) . '/' . $this->username . '/profile/edit/';
     }
 
+    /**
+    * Forms user register confirm url
+    */
+    public function getUrlConfirm() {
+        return \yii\helpers\Url::base(true) . '/register/confirm?id=' . $this->id . '&code=' . $this->recovery_code;
+    }
+
+    /**
+    * Forms user recover confirm url
+    */
+    public function getUrlRecoverConfirm() {
+        return \yii\helpers\Url::base(true) . '/register/recover?id=' . $this->id . '&code=' . $this->recovery_code;
+    }
 
     /**
     * Checks if user owns any stories

@@ -11,8 +11,10 @@ use app\components\traits\TModelExtra;
  * MQueue class
  */
 class MQueue extends MQueueBase {
+    use TModelExtra;
+
     protected $_headersArray = [
-                                    "MIME-Version" => "1.0",
+                                    'MIME-Version'              => '1.0',
                                 ];
 
     /*
@@ -52,13 +54,35 @@ class MQueue extends MQueueBase {
      * Process queue, send new messages
      */
     public static function processQueue() {
-        $limit = Helpers::getParam('MQueue/sendLimit', 5);
+        $limit = Helpers::getParam('mQueue/sendLimit', 5);
 
         $messages = MQueue::find()->where(['send_me' => 1, 'is_pending' => 0])->orderBy('time_created')->all();
 
         foreach($messages as $message) {
             $message->deliver();
         }
+    }
+
+    /**
+     * Release messages that are pending too long
+     */
+    public static function releasePending() {
+        $pendingTime = Helpers::getParam('mQueue/pendingTime', 3600);
+
+        $messages = MQueue::find()->where(self::makeCondition(['is_pending' => 1, 'pending_since' => ['<', time() - $pendingTime], 'send_me' => 0]))->all();
+
+        foreach($messages as $message) {
+            $message->unlock();
+        }    
+    }
+
+    /**
+     * Drop old messages
+     */
+    public static function dropOldies() {
+        $storeTime = Helpers::getParam('mQueue/storeTime', 86400 * 7);
+
+        $messages = MQueue::deleteAll(self::makeCondition(['send_me' => 0, 'time_created' => ['<', time() - $storeTime]]));          
     }
 
     /**
@@ -92,6 +116,19 @@ class MQueue extends MQueueBase {
     }
 
     /**
+     * Sets message body from template
+     * @param string $body
+     */
+    public function bodyTemplate($templateName, $parameters = []) {
+        $parameters['projectName'] = Helpers::getParam('projectName');
+        $parameters['projectUrl'] = Helpers::getParam('projectUrl');
+
+        $this->body = Yii::$app->view->renderFile('@app/views/email/' . $templateName, $parameters);
+
+        return $this;
+    }
+
+    /**
      * Sets message header
      * @param string $name
      * @param string $value
@@ -116,47 +153,63 @@ class MQueue extends MQueueBase {
     * Puts the message into message queue
     */
     public function send() {
-        $this->headers = '';
         $this->send_me = 1;
 
+        if (!$this->save()) throw new \Exception("Failed to queue message!");
+    }
+
+    /**
+    * Generates headers string
+    */
+    public function getHeadersString() {
+        $result = $this->headers;
+
         foreach ($this->_headersArray as $header => $value) {
-            if ($this->headers) $this->headers .= "\n";
-            $this->headers .= $header . ': ' . $value;
+            if ($result) $result .= "\n";
+            $result .= $header . ': ' . $value;
         }
 
-        if (!$this->save()) throw new \Exception("Failed to queue message!");
+        return $result;
     }
 
     /**
     * Actually sends message to delivery
     */
     public function deliver() {
-        $doEncode = true;
+        $doEncode = true; //false;
 
         $this->lock();
 
-        $boundary = Helpers::randomString(6);
+        $senderEmail = Helpers::getParam('projectRobotEmail');
+        $this->setHeader('From', Helpers::getParam('projectTitle') . ' mailer <' . $senderEmail . '>');
+        $stringHeaders = $this->getHeadersString();
 
-        $stringHeaders = $this->headers;
         if ($stringHeaders) $stringHeaders .= "\n";
-        $stringHeaders .= "Content-Type: multipart/alternative;" . "\n\t" . "boundary=\"" . $boundary . "\"\n\n";
+        $boundary = '==' . Helpers::randomString(10) . '==';
+
+        $stringHeaders .= "Content-Type: multipart/alternative;" . "\n " . "boundary=\"" . $boundary . "\"\n\n";
 
         $dataPlain  = "\n--" . $boundary . "\n";
         $dataPlain .= "Content-Type: text/plain; charset=utf-8\n";
-        if ($doEncode) $dataPlain .= "Content-Transfer-Encoding: base64\n\n";
+        $dataPlain .= "MIME-Version: 1.0\n";
+        if ($doEncode) $dataPlain .= "Content-Transfer-Encoding: base64\n";
+        $dataPlain .= "\n";
         $dataPlain .= $doEncode ? self::base64trim(base64_encode(strip_tags(trim($this->body)))) : strip_tags(trim($this->body));
 
         $dataHTML   = "\n\n--" . $boundary . "\n";
         $dataHTML  .= "Content-Type: text/html; charset=utf-8\n";
-        if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n\n";
-        $dataHTML  .= $doEncode ? self::base64trim(base64_encode(trim($this->body))) : trim($$this->body);
+        $dataHTML  .= "MIME-Version: 1.0\n";
+        if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n";
+        $dataHTML .= "\n";
+        $dataHTML  .= $doEncode ? self::base64trim(base64_encode(trim($this->body))) : trim($this->body);
         $dataHTML  .= "\n\n--" . $boundary . "--";
 
         $mailBody = $dataPlain . $dataHTML;
 
-        $mailSubject = $doEncode ? "=?UTF-8?B?" . base64_encode($this->subject) . "?=" : $this->subject;
+        //$mailSubject = $doEncode ? "=?UTF-8?B?" . base64_encode($this->subject) . "?=" : $this->subject;
+        $mailSubject = $this->subject;
 
-        if (!mail($recipient, $mailSubject, $mailBody, $stringHeaders)) {
+        if (!mail($this->to, $mailSubject, $mailBody, $stringHeaders)) {
             $this->unlock();
             throw new \Exception('Cannot send mail');
         }

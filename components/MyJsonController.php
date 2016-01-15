@@ -68,11 +68,27 @@ class MyJsonController extends Controller {
 	 * @param string $route
 	 * @param mixed $params
 	 */
-	public function run($route, $params = []) {
+	/*public function run($route, $params = []) {
 		try {
 			parent::run($route, $params);
-		} catch (Exception $e) {
-			echo 'exception (remove me at MyJsonCOntroller)';
+		} catch (\app\components\ModelException $e) {
+			$this->addErrorMessage($e->getMessage(), ['field' => $e->getFieldName()]);
+		} catch (\Exception $e) {
+			$this->addErrorMessage($e->getMessage());
+		}
+	}*/
+
+	public function runAction($id, $params = []) {
+		try {
+			return parent::runAction($id, $params);
+		} catch (\app\components\ModelException $e) {
+			$this->addErrorMessage($e->getMessage(), ['field' => $e->getFieldName()]);
+
+			return $this->afterAction($id, null);
+		} catch (\app\components\ControllerException $e) {
+			$this->addErrorMessage($e->getMessage());
+
+			return $this->afterAction($id, null);
 		}
 	}
 

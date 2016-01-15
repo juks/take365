@@ -66,6 +66,6 @@ class MQueueBase extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        return new MqueueQuery(get_called_class());
+        return new MQueueQueryBase(get_called_class());
     }
 }
