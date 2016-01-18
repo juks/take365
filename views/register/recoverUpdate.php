@@ -1,3 +1,9 @@
+<?php
+use app\assets\RecoverAsset;
+
+RecoverAsset::register($this);
+?>
+
 <h1>Восстановление пароля</h1>
 
 <?php if ($recoverError): ?>
@@ -5,15 +11,15 @@
 <p>Если вам всё ещё необходимо восстановить пароль, пожалуйста, повторите <a href="/register/recover/">процедуру восстановления</a> заново.<br>Срок годности кода — 2 часа.</p>
 <?php else: ?>
 
-<form action="/register/recoverPassword/" onsubmit="RecoverUpdate.onSubmit(event)" class="form form-register">
+<form action="/api/user/recover-update" onsubmit="RecoverUpdate.onSubmit(event)" class="form form-register">
   <fieldset>
     <input oninput="RecoverUpdate.onPassword(event)" name="password" type="password" placeholder="Ваш новый пароль" autofocus>
   </fieldset>
   <fieldset>
     <input oninput="RecoverUpdate.onPassword(event)" name="password" type="password" placeholder="Повторите ваш новый пароль">
   </fieldset>
-  <input name="code" type="hidden" value="{{ $code }}">
-  <input name="userId" type="hidden" value="{{ $userId }}">
+  <input name="code" type="hidden" value="<?php $code ?>">
+  <input name="id" type="hidden" value="<?php $userId ?>">
   <fieldset>
     <input type="submit" value="Отправить">
     <a href="/" class="cancel">Отмена</a>
