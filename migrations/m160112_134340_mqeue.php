@@ -22,7 +22,7 @@ class m160112_134340_mqeue extends Migration
                         KEY `pending` (`is_pending`,`pending_since`),
                         KEY `time_created` (`time_created`),
                         KEY `send_me` (`send_me`,`is_pending`,`time_created`)
-                    ) ENGINE=InnoDB');
+                    ) ENGINE=InnoDB DEFAULT CHARSET utf8');
     }
 
     public function down()

@@ -282,6 +282,9 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
                         ->send();
     }
 
+    /**
+     * Update Recovery Password
+     */
     public function recoverUpdate($password) {
         $this->removePasswordResetToken();
         $this->password = $password;

@@ -201,7 +201,7 @@ trait TMediaFileExtra {
      * @throws \Exception
      */
     public function getPartitionName() {
-        if (!$this->getSaltValue()) throw new \Exception(Ml::t('Failed to get salt value for the media item', 'PanelModule.media'));
+        if (!$this->getSaltValue()) throw new \Exception(Ml::t('Failed to get salt value for the media item', 'media'));
 
         $clusterSize = Yii::$app->params['mediaFileClusterSize'];
 
@@ -217,7 +217,7 @@ trait TMediaFileExtra {
      */
     public function getSpreadPath() {
         $salt = $this->getSaltValue();
-        if (!$salt) throw new \Exception(Ml::t('Failed to get salt value for the media item', 'PanelModule.media'));
+        if (!$salt) throw new \Exception(Ml::t('Failed to get salt value for the media item', 'media'));
 
         $depth = $this->getParam(self::pMediaFolderSpreadDepth);
         if (!$depth) $depth = 2;

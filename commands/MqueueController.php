@@ -10,9 +10,6 @@ class MqueueController extends MyJobController {
     	MQueue::processQueue();
 
         if ($this->checkPeriod('m', 30)) MQueue::releasePending();
-        if ($this->checkPeriod('h', 1)) {
-            echo "Drop Oldies\n";
-            MQueue::dropOldies();
-        }
+        if ($this->checkPeriod('h', 1)) MQueue::dropOldies();
     }
 }
