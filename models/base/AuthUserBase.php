@@ -58,7 +58,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
             [['email'], 'email'],
             [['email'], 'checkEmailExists'],
             [['description', 'description_jvx'], 'string', 'max' => 1024],
-            [['recovery_code'], 'string', 'max' => 8],
+            [['recovery_code'], 'string', 'max' => 16],
         ];
     }
 
