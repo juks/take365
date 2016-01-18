@@ -83,10 +83,10 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         } elseif (Helpers::checkEmail($identity)) {
             $conditions['email'] = $identity;
         } else {
-            $condition['username'] = $identity;
+            $conditions['username'] = $identity;
         }
 
-        return self::find()->where(array_merge($condition, self::getActiveCondition()))->one();
+        return self::find()->where(array_merge($conditions, self::getActiveCondition()))->one();
     }
 
     /**
