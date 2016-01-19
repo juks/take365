@@ -39,7 +39,7 @@ class RegisterController extends MyController
                 $recoverError = $e->getMessage();
             }
 
-            return $this->render('recoverUpdate', ['recoverError' => $recoverError]);
+            return $this->render('recoverUpdate', ['recoverError' => $recoverError, 'id' => $id, 'code' => $code]);
         } else {
             return $this->render('recover', ['recoverError' => $recoverError]);
         }

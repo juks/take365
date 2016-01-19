@@ -19,7 +19,7 @@ RecoverAsset::register($this);
     <input oninput="RecoverUpdate.onPassword(event)" name="password" type="password" placeholder="Повторите ваш новый пароль">
   </fieldset>
   <input name="code" type="hidden" value="<?php $code ?>">
-  <input name="id" type="hidden" value="<?php $userId ?>">
+  <input name="id" type="hidden" value="<?php $id ?>">
   <fieldset>
     <input type="submit" value="Отправить">
     <a href="/" class="cancel">Отмена</a>
