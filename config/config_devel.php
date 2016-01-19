@@ -4,6 +4,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 
 return [
+			'params'	=> [
+								'captchaHack'	=> '123'
+			]
 ];
 
 ?>
