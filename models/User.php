@@ -9,17 +9,19 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use app\components\Helpers;
 use app\components\HelpersTxt;
+use app\components\Ml;
+use app\components\traits\TCheckField;
+use app\components\traits\THasPermission;
+use app\components\traits\TModelExtra;
+use app\components\interfaces\IPermissions;
+use app\components\interfaces\IGetType;
 use app\models\AuthToken;
 use app\models\Media;
 use app\models\mediaExtra\MediaCore;
 use app\models\mediaExtra\TMediaUploadExtra;
 use app\models\Story;
 use app\models\MQueue;
-use app\components\traits\TCheckField;
-use app\components\traits\THasPermission;
-use app\components\traits\TModelExtra;
-use app\components\interfaces\IPermissions;
-use app\components\interfaces\IGetType;
+
 
 class User extends AuthUserBase implements IdentityInterface, IPermissions, IGetType {
     use TCheckField;
@@ -225,7 +227,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * Generates new password reset token
      */
     public function generatePasswordResetToken() {
-        if (time() - $this->recovery_code_time_issued < 60) throw new \app\components\ControllerException("Too many recovery attempts");
+        if (time() - $this->recovery_code_time_issued < 60) throw new \app\components\ControllerException(Ml::t('Too many recovery attempts. Try again in few moments'));
 
         $this->recovery_code = Helpers::randomString(16);
         $this->recovery_code_time_issued = time();
