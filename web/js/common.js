@@ -10,14 +10,13 @@ FormBase.prototype.onSubmit = function(e) {
 
   $.ajax(form.attr('action'), {
     data: form.serialize(),
-    dataType: 'json',
     type: 'POST',
     context: this,
     success: function(result) {
       this.success(form, result);
     },
     error: function(result) {
-      if (result.status === 422) {
+      if (result.status === 406) {
         var data = JSON.parse(result.responseText);
         data.errors.forEach(function(error) {
           if (form[0][error.field]) {
