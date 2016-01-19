@@ -106,6 +106,7 @@ class ImportController extends Controller {
                 }
 
         		$story->setAttributes([
+                        'id'                    => $storyData['id'],
                         'id_old'                => $storyData['id'],
         				'created_by'			=> $creator->id,
         				'status'				=> $storyData['status'] ? 0 : 1,
