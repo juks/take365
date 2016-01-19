@@ -225,7 +225,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * Generates new password reset token
      */
     public function generatePasswordResetToken() {
-        if (time() - $this->recovery_code_time_issued < 60) throw new \Exception("Too many recovery attempts");
+        if (time() - $this->recovery_code_time_issued < 60) throw new \app\components\ControllerException("Too many recovery attempts");
 
         $this->recovery_code = Helpers::randomString(16);
         $this->recovery_code_time_issued = time();
