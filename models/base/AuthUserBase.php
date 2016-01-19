@@ -117,6 +117,8 @@ class AuthUserBase extends \yii\db\ActiveRecord
     }
 
     public function checkEmailExists($attribute, $params) {
+        if (!$this->is_active) return;
+
         $cond = ['email' => $this->$attribute, 'is_active' => 1];
         if ($this->id) $cond['id'] = ['!=', $this->id];
 

@@ -52,6 +52,7 @@ class ImportController extends Controller {
 
         		$user->setAttributes([
                         'id_old'            => $userData['id'],
+                        'is_active'         => $userData['active'],
         				'username'			=> $userData['login'],
         				'fullname'			=> $userData['fullname'],
         				'email'				=> $userData['email'],

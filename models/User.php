@@ -246,7 +246,6 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      */
     public function beforeValidate() {
         if ($this->isNewRecord) {
-            $this->is_active    = true;
             $this->time_created = time();
             if (!$this->ip_created) $this->ip_created = ip2long(Yii::$app->request->userIP);
             $this->generatePasswordResetToken();
