@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\RegisterForm;
 use app\components\MyController;
+use app\components\Ml;
 use app\models\User;
 
 class RegisterController extends MyController
@@ -30,7 +31,7 @@ class RegisterController extends MyController
         $recoverError = false;
         $id = Yii::$app->request->getQueryParam('id');
         $code = Yii::$app->request->getQueryParam('code');
-
+        
         if ($id && $code) {
             try {
                 $user = User::findByPasswordResetToken($code, $id);
@@ -41,7 +42,7 @@ class RegisterController extends MyController
 
             return $this->render('recoverUpdate', ['recoverError' => $recoverError, 'id' => $id, 'code' => $code]);
         } else {
-            return $this->render('recover', ['recoverError' => $recoverError]);
+            return $this->render('recoverUpdate', ['recoverError' => Ml::t('No recovery parameters')]);
         }
     }
 }
