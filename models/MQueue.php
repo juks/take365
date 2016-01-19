@@ -181,7 +181,7 @@ class MQueue extends MQueueBase {
         $this->lock();
 
         $senderEmail = Helpers::getParam('projectRobotEmail');
-        $this->setHeader('From', Helpers::getParam('projectTitle') . ' mailer <' . $senderEmail . '>');
+        $this->setHeader('From', Helpers::getParam('projectName') . ' mailer <' . $senderEmail . '>');
         $stringHeaders = $this->getHeadersString();
 
         if ($stringHeaders) $stringHeaders .= "\n";
