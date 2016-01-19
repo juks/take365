@@ -6,7 +6,8 @@ use Yii;
 use app\components\Language;
 
 class Ml {
-    public static $preferredLanguage;
+    // Remove value for auto language detection
+    public static $preferredLanguage = 'ru';
 
     /**
      * Yii::t addon. Makes it easier to reference ML tables from different modules
