@@ -9,6 +9,7 @@ use app\models\Mosaic;
 use app\models\RegisterForm;
 use app\components\MyController;
 use app\components\Captcha;
+use app\components\Ml;
 
 class SiteController extends MyController
 {
@@ -108,10 +109,12 @@ class SiteController extends MyController
     }    
 
     public function actionHelp() {
+         $this->setTitle(Ml::t('About the project'));
         return $this->render('help');
     }
 
     public function actionHowto() {
+        $this->setTitle(Ml::t('Howto'));
         return $this->render('howto');
     }
 

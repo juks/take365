@@ -20,6 +20,7 @@ class RegisterController extends MyController
     }
 
     public function actionConfirm($id, $code) {
+        $this->setTitle(Ml::t('Password recovery'));
         $confirmError = false;
 
         $user = User::findOne($id);
@@ -28,6 +29,8 @@ class RegisterController extends MyController
     }
 
     public function actionRecover() {
+        $this->setTitle(Ml::t('Password recovery'));
+
         $recoverError = false;
         $id = Yii::$app->request->getQueryParam('id');
         $code = Yii::$app->request->getQueryParam('code');

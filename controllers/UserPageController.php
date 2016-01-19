@@ -10,6 +10,7 @@ use app\models\Story;
 use app\models\Media;
 use app\components\MyController;
 use app\components\interfaces\IPermissions;
+use app\components\Ml;
 
 class UserPageController extends MyController {
     public function behaviors() {
@@ -54,6 +55,8 @@ class UserPageController extends MyController {
         $owner = User::getActiveUser($username);
 
         if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        $owner->format();
+        $this->setTitle(Ml::t('{user} stories', null, ['user' => $owner->fullnameFilled]));
 
         $stories = $owner->stories;
         foreach ($stories as $story) $story->formatShort(['imageLimit' => 90]);
@@ -70,13 +73,14 @@ class UserPageController extends MyController {
     * Display user profile
     */
     public function actionProfile($username) {
-        $user = User::getActiveUser($username);
+        $owner = User::getActiveUser($username);
 
-        if (!$user) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
-        $user->format();
+        if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        $owner->format();
+        $this->setTitle(Ml::t('{user} profile page', null, ['user' => $owner->fullnameFilled]));
 
         return $this->render('profile', [
-                                        'user'         => $user,
+                                        'user'         => $owner,
                                         'pageType'     => 'profile'
                                     ]);
     }
@@ -85,16 +89,18 @@ class UserPageController extends MyController {
     * Edit user profile
     */
     public function actionEdit($username) {
-        $user = User::getActiveUser($username);
+        $owner = User::getActiveUser($username);
 
-        if (!$user) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
-        $user->hasPermission(Yii::$app->user, IPermissions::permWrite);
-        $user->format();
+        if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        $owner->hasPermission(Yii::$app->user, IPermissions::permWrite);
+        $owner->format();
+
+        $this->setTitle(Ml::t('Profile update'));
         
         return $this->render('edit', [
-                                        'user'         => $user,
+                                        'user'         => $owner,
                                         'pageType'     => 'profile',
-                                        'targetId'     => $user->id,
+                                        'targetId'     => $owner->id,
                                         'targetType'   => User::typeId,
                                         'mediaType'    => Media::aliasUserpic
                                     ]);
@@ -111,6 +117,8 @@ class UserPageController extends MyController {
         if (!$story || $story->created_by != $owner->id) if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
 
         $story->format();
+        $this->setTitle($story->titleFilled);
+
         $canManage = $story->hasPermission(Yii::$app->user, IPermissions::permWrite);
 
         $this->addJsVars([  
