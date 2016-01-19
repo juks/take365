@@ -4,6 +4,7 @@ namespace app\modules\api\models;
 
 use Yii;
 use yii\base\Model;
+use app\components\Ml;
 
 class ApiRecoverForm extends Model {
     public $email;
@@ -16,7 +17,7 @@ class ApiRecoverForm extends Model {
         return [
             [['email'], 'required'],
             ['email', 'email'],
-            ['captcha', 'validateCaptcha'],
+            ['captcha', 'validateCaptcha', 'skipOnEmpty' => false],
         ];
     }
 
@@ -46,8 +47,11 @@ class ApiRecoverForm extends Model {
      * @param array $params the additional name-value pairs given in the rule
      */
     public function validateCaptcha($attribute, $params) {
-        if (Yii::$app->request->isAjax && empty($_SESSION['CAPTCHAString']) || $this->attribute != $_SESSION['CAPTCHAString']) {
-            $this->addError($attribute, 'Incorrect security code');
+        if (Yii::$app->request->isAjax) {
+            if (!$this->$attribute)
+                $this->addError($attribute, Ml::t('Please enter security code'));
+            elseif (!\app\components\Captcha::validate($this->$attribute))
+                $this->addError($attribute, Ml::t('Incorrect security code'));
         }
     }
 }

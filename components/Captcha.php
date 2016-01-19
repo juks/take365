@@ -172,5 +172,9 @@ class Captcha {
 		imagedestroy ( $imgBlur );
 	
 	} //blur
+
+	public static function validate($value) {
+		return !empty($_SESSION['CAPTCHAString']) && strtolower($value) == strtolower($_SESSION['CAPTCHAString']);
+	}
 } //class: captcha
 ?>

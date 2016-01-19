@@ -18,7 +18,7 @@ class ApiRegisterForm extends Model {
         return [
             [['username', 'email', 'password'], 'required'],
             ['email', 'email'],
-            ['captcha', 'validateCaptcha'],
+            ['captcha', 'validateCaptcha', 'skipOnEmpty' => false],
         ];
     }
 
@@ -50,8 +50,10 @@ class ApiRegisterForm extends Model {
      * @param array $params the additional name-value pairs given in the rule
      */
     public function validateCaptcha($attribute, $params) {
-        if (Yii::$app->request->isAjax && empty($_SESSION['CAPTCHAString']) || $this->attribute != $_SESSION['CAPTCHAString']) {
-            $this->addError($attribute, 'Incorrect security code');
+        if (Yii::$app->request->isAjax) {
+            if (!$this->$attribute)
+                $this->addError($attribute, 'Please enter security code');
+            elseif (!\app\components\Captcha::validate($this->$attribute))
+                $this->addError($attribute, 'Incorrect security code');
         }
-    }
-}
+    }}

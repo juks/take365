@@ -126,7 +126,7 @@ class MyJobController extends Controller
     public function actionJob($jobName) {
         $jobMethodName = 'job' . ucfirst($jobName);
 
-        if (!method_exists($this, $jobMethodName)) throw new Exception('Job method ' . $jobMethodName . ' does not exist');
+        if (!method_exists($this, $jobMethodName)) throw new \Exception('Job method ' . $jobMethodName . ' does not exist');
 
         $this->init();
         

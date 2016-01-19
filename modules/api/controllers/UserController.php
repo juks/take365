@@ -143,7 +143,7 @@ class UserController extends ApiController {
     public function actionRecover($email) {
         $form = new \app\modules\api\models\ApiRecoverForm();
         
-        if ($form->load(Helpers::getRequestParams('post'))) {
+        if ($form->load(Helpers::getRequestParams('post')) && $form->validate()) {
             $user = ApiUser::getActiveUser($email);
             if ($user) {
                 $user->recover();
@@ -164,7 +164,7 @@ class UserController extends ApiController {
     public function actionRecoverUpdate($id, $code, $password) {
         $form = new \app\modules\api\models\ApiRecoverUpdateForm();
         
-        if ($form->load(Helpers::getRequestParams('post'))) {
+        if ($form->load(Helpers::getRequestParams('post')) && $form->validate()) {
             $user = ApiUser::findByPasswordResetToken($code, $id);
             if ($user) {
                 $user->recoverUpdate($password);
