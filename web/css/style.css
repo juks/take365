@@ -6,7 +6,7 @@
   font-weight: normal;
   font-style: normal;
   font-family: 'RobotoLight';
-  src: url('/fonts/roboto-light.eot');
+  src: url('/fonts/roboto/roboto-light.eot');
   src: url('/fonts/roboto/roboto-light.eot?#iefix') format('embedded-opentype'),
        url('/fonts/roboto/roboto-light.woff') format('woff'),
        url('/fonts/roboto/roboto-light.ttf') format('truetype');
