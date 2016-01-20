@@ -12,10 +12,6 @@ class MyView extends View {
 	public function render($view, $params = [], $context = null) {
 		return parent::render($view, $params, $context);
 	}
-
-	public function hCurrentYear() {
-		return '2015';
-	}
 }
 
 ?>
