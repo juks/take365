@@ -167,7 +167,7 @@ $(function() {
 
 	window.validation = {};
 
-	validation.email = new LiveValidation("email", {
+	validation.email = new LiveValidation(document.getElementById('email'), {
 			insertAfterWhatNode: "emailLabel",
 			validMessage: " "
 		})
@@ -175,7 +175,7 @@ $(function() {
 		//.add( ValidateCustom, emailCustomParams )
 		.add( Validate.Presence, { failureMessage: "Пожалуйста, укажите адрес электронной почты" } );
 
-	new LiveValidation("password", {
+	new LiveValidation(document.getElementById('password'), {
 			insertAfterWhatNode: "passwordLabel",
 			validMessage: " ",
 			onlyOnBlur: true
@@ -183,7 +183,7 @@ $(function() {
 		.add( Validate.Length, { minimum: 6, tooShortMessage: "Минимальная длина пароля — 6 символов" } )
 		.add( Validate.Presence, { failureMessage: "Пожалуйста, введите пароль" } );
 
-	new LiveValidation("password1", {
+	new LiveValidation(document.getElementById('password1'), {
 			insertAfterWhatNode: "password1Label",
 			validMessage: " "
 		})
