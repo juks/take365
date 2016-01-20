@@ -79,42 +79,9 @@ Bg.create = function(ids, urls, maxSpritesPerFile, currentMosaicId) {
 };
 
 
-var Register = {};
 
-Register.onSubmit = function(e) {
-  e.preventDefault();
+var Register = new FormBase();
 
-  var form = $(e.target);
-  form.find('.error').removeClass('error');
-  form.find('.error-message').remove();
-
-  $.ajax('/register/submit/', {
-    data: form.serialize(),
-    dataType: 'json',
-    type: 'POST',
-    success: function(result) {
-      if (!result.errors) {
-        form.html('<p>Для завершении регистрации, проверьте свой адрес электронной почты, щелкнув ссылку в подтверждающем сообщении, отправленном по электронной почте.</p>');
-      } else {
-        result.errors.forEach(function(error) {
-          if (form[0][error.note]) {
-            $(form[0][error.note])
-              .one('input', function() {
-                $(this.parentNode)
-                  .removeClass('error')
-                  .find('.error-message').remove();
-              })
-              .after('<span class="error-message">' + error.value + '</span>')
-              .parent().addClass('error');
-          } else {
-            noticeErrors(error);
-            console.log('Not found input with name: ' + error.note);
-          }
-        });
-      }
-    },
-    error: function() {
-      notice('Ошибка получения данных с сервера.');
-    }
-  });
+Register.success = function(form, result) {
+  window.location = result.redirect;
 };

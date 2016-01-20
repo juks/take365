@@ -47,7 +47,7 @@ FormBase.prototype.success = function(form, result) {
 var AuthForm = new FormBase();
 
 AuthForm.success = function(form, result) {
-  document.location = '/' + result.result.username;
+  window.location = result.redirect;
 };
 
 var Auth = {};
@@ -83,24 +83,10 @@ function logout() {
   $.ajax('/api/auth/logout', {
     type: 'POST',
     success: function(result) {
-
-      document.location = result.redirect || document.location.href;
+      window.location = result.redirect || document.location.href;
     },
     error: function(result) {
-      if (result.errors) {
-        if (mode) {
-          inputs = { login: '#loginInput', password: '#passwordInput' };
-
-          $('#errorBox').html($.map(result.errors, function(error) {
-            if(error.note && inputs[error.note]) {
-              $(inputs[error.note]).addClass('errorBack');
-            }
-            return '<p>' + error.value + '</p>';
-          }).join(''));
-        }
-      } else {
-        notice('Ошибка получения данных с сервера!');
-      }
+      notice('Ошибка получения данных с сервера!');
     }
   });
 }
