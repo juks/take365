@@ -30,6 +30,7 @@ A {
   }
 A:hover {
   color: #E02929;
+  text-decoration: none;
   }
 .hidden {
   display: none;
