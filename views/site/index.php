@@ -29,9 +29,9 @@ use yii\widgets\ActiveForm;
     <section>
       <article class="article">
         <h2>Регистрация</h2>
-        <form action="/register/submit/" method="post" onsubmit="Register.onSubmit(event)" class="form form-register">
+        <form action="/api/user/register" method="post" onsubmit="Register.onSubmit(event)" class="form form-register">
           <fieldset>
-            <input name="login" type="text" placeholder="Имя учётной записи">
+            <input name="username" type="text" placeholder="Имя учётной записи">
           </fieldset>
           <fieldset>
             <input name="email" type="text" placeholder="Электронный адрес">
