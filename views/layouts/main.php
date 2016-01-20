@@ -18,7 +18,7 @@ $user = Yii::$app->user;
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <link rel="stylesheet" href="/css/style.css">
-<link rel="icon" href="<?= \yii\helpers\Url::base(true) ?>i//favicon.ico">
+<link rel="icon" href="<?= \yii\helpers\Url::base(true) ?>/i/favicon.ico">
 <?php $this->head(); echo "\n"; ?>
 <script><?= $this->params['jsVarsString'] ?></script>
 </head>
