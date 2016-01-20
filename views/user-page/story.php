@@ -4,6 +4,7 @@ use app\assets\StoryAsset;
 use app\components\Helpers;
 
 StoryAsset::register($this);
+$lastMonth = null;
 
 $this->registerJs("initStory();
 $('.notifyTip').tooltipsy({
@@ -47,7 +48,7 @@ $('.notifyTip').tooltipsy({
   <div class="cl"></div>
   <div class="yearTitle"><?= $story->yearStart ?>—<?= $story->yearEnd ?></div>
   <?php foreach ($story->calendar as $day): ?>
-  <?php if (!empty($day['monthSwitch'])): ?><p class="hugeTitle tbo story-mounth cl"><?= $day['monthSwitch'] ?></p><?php endif ?>
+  <?php if ($lastMonth != $day['monthTitle']): ?><p class="hugeTitle tbo story-mounth cl"><?= $day['monthTitle'] ?></p><?php endif ?>
     <div <?php if (!empty($day['id'])): ?> data-id="<?= $day['id'] ?>" <?php endif ?>id="day-<?= $day['date'] ?>" class="user-photo available<?php if (!empty($day['isEmpty'])): ?> empty i-upload<?php endif ?>">
       <div class="user-photo-day"><?= $day['monthDay'] ?></div>
       <?php if (empty($day['isEmpty'])): ?>
@@ -60,6 +61,9 @@ $('.notifyTip').tooltipsy({
         <?php endif ?>
       <?php endif ?>
     </div>
+  <?php 
+          $lastMonth = $day['monthTitle'];
+  ?>
   <?php endforeach ?>
   <?php endif ?>
 </div>
