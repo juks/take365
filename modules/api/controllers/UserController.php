@@ -120,7 +120,7 @@ class UserController extends ApiController {
 
             try {   
                 if ($user->save()) {
-                    $user->afterRegister();
+                    $user->register();
                 }
             } catch (\Exception $e) {
                 $transaction->rollback();
