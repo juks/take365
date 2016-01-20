@@ -114,7 +114,7 @@ class UserPageController extends MyController {
         if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
 
         $story = Story::getActiveStory($storyId);
-        if (!$story || $story->created_by != $owner->id) if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        if (!$story || $story->created_by != $owner->id) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
 
         $story->format();
         $this->setTitle($story->titleFilled);

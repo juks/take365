@@ -289,7 +289,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                         ];
             }
 
-            if (!$lastMonth || $lastMonth != $month) $drop['monthSwitch'] = $this->monthTitle[$month - 1];
+            $drop['monthTitle'] = $this->monthTitle[$month - 1];
             $drop['blankSpace'] = $blankSpace;
 
             $lastMonth          = $month;
