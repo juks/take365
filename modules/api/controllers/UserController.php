@@ -112,6 +112,7 @@ class UserController extends ApiController {
         
         if ($form->load(Helpers::getRequestParams('post'))) {
             $user = new ApiUser();
+            $user->is_active = true;
             $user->load($form->attributes);
 
             $connection = Yii::$app->db;
