@@ -110,7 +110,7 @@ class UserController extends ApiController {
 	public function actionRegister($username, $email, $password) {
         $form = new \app\modules\api\models\ApiRegisterForm;
         
-        if ($form->load(Helpers::getRequestParams('post'))) {
+        if ($form->load(Helpers::getRequestParams('post')) && $form->validate()) {
             $user = new ApiUser();
             $user->is_active = true;
             $user->load($form->attributes);
