@@ -5,6 +5,7 @@ namespace app\modules\api\models;
 use Yii;
 use yii\base\Model;
 use app\modules\api\models\ApiUser;
+use app\components\Ml;
 
 /**
  * LoginForm is the model behind the login form.
@@ -64,7 +65,7 @@ class ApiLoginForm extends Model {
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, Ml::t('Incorrect username or password'));
             }
         }
     }
