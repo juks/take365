@@ -108,8 +108,13 @@ class Mosaic extends MosaicBase {
         }
 
         $this->cleanup();
-        $this->setAttributes(['is_ready' => 1, 'data' => $data]);
-        $this->save();
+        
+        if (count($mediaList)) {
+            $this->setAttributes(['is_ready' => 1, 'data' => $data]);
+            $this->save();
+        } else {
+            echo "Empty set\n";
+        }
     }
 
     public function getParsedData() {

@@ -73,7 +73,7 @@ class Media extends MediaCore {
     **/    
     public function scenarios() {
         return [
-            'import' => ['id', 'target_id', 'filename', 'ext', 'target_type', 'type', 'id_old', 'date', 'time_created', 'title', 'description', 'description_jvx', 'created_by']
+            'import' => ['id', 'target_id', 'filename', 'ext', 'target_type', 'type', 'id_old', 'date', 'is_deleted', 'time_created', 'title', 'description', 'description_jvx', 'created_by']
         ];
     }
 

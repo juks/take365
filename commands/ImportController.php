@@ -120,7 +120,6 @@ class ImportController extends Controller {
         				'media_count'			=> $storyData['media_count'],
         				'title'					=> $storyData['title'],
         				'description'			=> $storyData['description'],
-                        'description_jvx'       => $storyData['description_jvx'],
         			]);
 
         		if (!$story->save()) {
@@ -199,6 +198,7 @@ class ImportController extends Controller {
        			$media->setAttributes([
                     'id_old'                => $mediaData['id'],
         			'date'					=> $mediaData['calendar_date'],
+                    'is_deleted'            => $mediaData['is_deleted'],
         			'time_created'			=> $mediaData['time_created'],
         			'title'					=> $mediaData['title'],
         			'description'			=> $mediaData['description'],

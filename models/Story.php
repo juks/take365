@@ -48,7 +48,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     **/
     public function scenarios() {
         return [
-            'import' => ['id_old', 'created_by', 'status', 'is_deleted', 'time_deleted', 'is_active', 'time_created', 'time_updated', 'time_start', 'time_published', 'media_count', 'title', 'description', 'description_jvx']
+            'import' => ['id', 'id_old', 'created_by', 'status', 'is_deleted', 'time_deleted', 'is_active', 'time_created', 'time_updated', 'time_start', 'time_published', 'media_count', 'title', 'description', 'description_jvx']
         ];
     }
 
