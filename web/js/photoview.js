@@ -56,7 +56,7 @@ var Photoview = (function(){
 
 			viewIn = $('<div class="photoview-in"/>').appendTo(viewNode);
 
-			t.get(date, 10, function(items) {
+			t.get(date, -10, function(items) {
 				t.showImage(items[0]);
 				return items;
 			}, true);
@@ -70,7 +70,7 @@ var Photoview = (function(){
 				t.showImage(images[++now]);
 			} else if (!images[now].isLast) {
 				t.beforeShowImage();
-				t.get(images[now].date, 10, function(items) {
+				t.get(images[now].date, -10, function(items) {
 					if (items.length) {
 						t.showImage(images[++now]);
 					} else {
@@ -86,7 +86,7 @@ var Photoview = (function(){
 				t.showImage(images[--now]);
 			} else if (!images[now].isFirst) {
 				t.beforeShowImage();
-				t.get(images[now].date, -10, function(items) {
+				t.get(images[now].date, 10, function(items) {
 					if (items.length) {
 						t.showImage(images[--now]);
 					} else {
@@ -98,7 +98,7 @@ var Photoview = (function(){
 
 		get: function(date, span, callback, isFirstReq) {
 			request = $.ajax('/api/media/player-data', {
-			data: {date: date, storyId: pp.storyId, span: span},
+			data: {date: date, storyId: pp.storyId, span: -span},
 			dataType: 'json',
 			success: function(data) {
 				if (!data.errors) {
