@@ -135,7 +135,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $dtStart = new \DateTime('@' . $this->time_start);
         $interval = date_diff($dtStart, $dtDate);
 
-        if (!$interval->invert && $interval->days >= 0 && $interval->days <= 365) return true; else return false;
+        if (!$interval->invert && $interval->days >= 0 && $interval->days <= 365 || $interval->invert && $interval->h <= 24) return true; else return false;
     }
 
     /**
@@ -245,11 +245,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $now = new \DateTime('@' . time());
         $diff = $now->diff($dt);
         $daysDiff = $diff->days;
-        if ($diff->h || $diff->i || $diff->s) $daysDiff ++;
+        if ($diff->h || $diff->i || $diff->m || $diff->s) $daysDiff ++;
 
         if ($daysDiff > 365) $daysDiff = 365;
 
-        $dt->add(new \DateInterval('P' . $daysDiff . 'D'));
+        //$dt->add(new \DateInterval('P' . $daysDiff . 'D'));
 
         $dateStep = new \DateInterval('P1D');
         $blankSpace = true;

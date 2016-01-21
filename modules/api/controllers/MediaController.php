@@ -91,7 +91,7 @@ class MediaController extends ApiController {
                 $model = $parent->addMedia($form->file, $form->mediaType, new ApiMedia());
             // Story Image
             } elseif ($form->targetType == ApiStory::typeId) {
-                if ($form->targetId === 0) {
+                if ($form->targetId == 0) {
                     if (!ApiStory::checkQuota()) {
                         $this->addErrorMessage('За последнее время мы создали слишком много историй');
                         return;
@@ -102,9 +102,8 @@ class MediaController extends ApiController {
                     
                     if (!$model->save()) throw new \app\components\ControllerException("Не удалось создать историю!");
 
-                    $this->addContent('redirect', $model->url);
-
-                    $form->targetId = $model->id();
+                    $this->addContent($model->url, 'redirect');
+                    $form->targetId = $model->id;
                 }
 
                 $parent = $this->checkParentModelPermission($form->targetId, 'write', ['parentModelClass' => ApiStory::className()]);
