@@ -83,5 +83,5 @@ Bg.create = function(ids, urls, maxSpritesPerFile, currentMosaicId) {
 var Register = new FormBase();
 
 Register.success = function(form, result) {
-  window.location = result.redirect;
+  form.html('<p>Для завершении регистрации, проверьте свой адрес электронной почты, щелкнув ссылку в подтверждающем сообщении, отправленном по электронной почте.</p>');
 };
