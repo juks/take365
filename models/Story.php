@@ -40,7 +40,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public $monthTitle = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     public $monthTitleGen = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
-    protected static $_monthQuota = 150;
+    protected static $_monthQuota = 5;
     protected $_authorCache = false;
 
     /**
@@ -246,7 +246,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $now = new \DateTime('@' . time());
         $diff = $now->diff($dt);
         $daysDiff = $diff->days;
-        
+
         if ($diff->h || $diff->i || $diff->m || $diff->s) $daysDiff ++;
         if ($daysDiff > 365) $daysDiff = 365;
         if ($daysDiff > 1) $dt->add(new \DateInterval('P' . $daysDiff . 'D'));
