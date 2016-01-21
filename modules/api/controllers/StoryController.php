@@ -71,7 +71,7 @@ class StoryController extends ApiController {
 			$model = $this->checkModelPermission(intval($id), IPermissions::permWrite);
 		} else {
             if (!ApiStory::checkQuota()) {
-                $this->addErrorMessage('Вы создали слишком много историй');
+                $this->addErrorMessage('За последнее время вы создали слишком много историй');
                 return;
             }
 

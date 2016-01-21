@@ -22,8 +22,8 @@ class ApiMediaForm extends Model {
         return [
             [['targetId', 'targetType', 'mediaType'], 'required'],
             [['targetId', 'targetType'], 'integer'],
-            ['date', 'date', 'format' => 'yyyy-M-d'],
-            [['file'], 'file', 'skipOnEmpty' => false]
+            ['date',        'date', 'format' => 'yyyy-M-d'],
+            [['file'],      'file', 'skipOnEmpty' => false]
         ];
     }
 
