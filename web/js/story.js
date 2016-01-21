@@ -539,7 +539,7 @@ StoryDragAndDrop = {
 
 		this.isDragging = false;
 
-		$.ajax('/api/media/swap-days/', {
+		$.ajax('/api/media/swap-days', {
 			data: {storyId: pp.storyId, dateA: dateFrom, dateB: dateTo},
 			type: 'post',
 			error: function() {
