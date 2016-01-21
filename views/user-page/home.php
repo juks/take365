@@ -1,3 +1,13 @@
+<?php
+
+use app\assets\StoryAsset;
+use app\components\Helpers;
+
+StoryAsset::register($this);
+
+$this->registerJs("initStoriesIndex();");
+?>
+
 <header class="article-header">
   <h1 class="article-title"><?php if ($owner->thisIsMe): ?>Привет, <a href="<?= $owner->urlProfile ?>"><?= $owner->username ?></a>!<?php else: ?>Истории <a href="<?= $owner->urlProfile ?>"><?= $owner->username ?></a><?php endif ?></h1>
 </header>

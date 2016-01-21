@@ -6,19 +6,10 @@ use app\components\Helpers;
 StoryAsset::register($this);
 $lastMonth = null;
 
-$this->registerJs("initStory();
-$('.notifyTip').tooltipsy({
-  offset: [0, 1],
-  delay: 200
-})");
-?>
-<?php
-	//var_dump($story);die()
+$this->registerJs("initStory();");
+
 ?>
 <div id="userPhotos" class="user-photos">
-  <?php
-    //var_dump($story);die()
-  ?>
   <?php if ($story): ?>
   <?php if ($canManage): ?>
   <form id="storyEditForm" class="editable-not-editing form" action="/api/story/write" method="post" name="storyEditForm">
@@ -61,7 +52,7 @@ $('.notifyTip').tooltipsy({
         <?php endif ?>
       <?php endif ?>
     </div>
-  <?php 
+  <?php
           $lastMonth = $day['monthTitle'];
   ?>
   <?php endforeach ?>

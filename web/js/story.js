@@ -69,10 +69,6 @@ function inlineEdit(form) {
 }
 
 function initStoriesIndex() {
-	if(!$("#startNewStory").length) {
-		return;
-	}
-
 	var uploader = new plupload.Uploader({
 			runtimes: "html5,html4",
 			browse_button: "startNewStory",
@@ -87,9 +83,10 @@ function initStoriesIndex() {
 			multiple_queues: true,
 			multipart: true,
 			multipart_params: {
-				targetId: pp.storyId,
-				targetType: pp.targetType,
-				mediaType: pp.mediaType
+				date: (new Date()).toISOString().split('T')[0],
+				targetId: 0,
+				targetType: 2,
+				mediaType: 'storyImage'
 			}
 		}),
 		procces, proccesPercent, errorsNode;
