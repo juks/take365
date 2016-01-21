@@ -242,21 +242,20 @@ class Story extends StoryBase implements IPermissions, IGetType {
         foreach ($this->images as $image) $dateDict[$image['date']] = $image;
 
         $dt = new \DateTime('@' . $this->time_start);
+
         $now = new \DateTime('@' . time());
         $diff = $now->diff($dt);
         $daysDiff = $diff->days;
+        
         if ($diff->h || $diff->i || $diff->m || $diff->s) $daysDiff ++;
-
         if ($daysDiff > 365) $daysDiff = 365;
-
-        $dt->add(new \DateInterval('P' . $daysDiff . 'D'));
+        if ($daysDiff > 1) $dt->add(new \DateInterval('P' . $daysDiff . 'D'));
 
         $dateStep = new \DateInterval('P1D');
         $blankSpace = true;
 
         for ($i = 0; $i < $daysDiff; $i++) {
             $date       = $dt->format('Y-m-d');
-
             $p          = preg_split('/-/', $date);
             $year       = intval($p[0]);
             $month      = intval($p[1]);
