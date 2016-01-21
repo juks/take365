@@ -102,6 +102,8 @@ class MediaController extends ApiController {
                     
                     if (!$model->save()) throw new \app\components\ControllerException("Не удалось создать историю!");
 
+                    $this->addContent('redirect', $model->url);
+
                     $form->targetId = $model->id();
                 }
 
