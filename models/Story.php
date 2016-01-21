@@ -248,6 +248,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $daysDiff = $diff->days;
 
         if ($diff->h || $diff->i || $diff->m || $diff->s) $daysDiff ++;
+        if (!$daysDiff) $daysDiff = 1;
+        
         if ($daysDiff > 365) $daysDiff = 365;
         if ($daysDiff > 1) $dt->add(new \DateInterval('P' . $daysDiff . 'D'));
 

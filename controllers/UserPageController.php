@@ -64,7 +64,7 @@ class UserPageController extends MyController {
         return $this->render('home', [
                                         'owner'          => $owner,
                                         'stories'       => $stories,
-                                        'canCreate'     => Story::checkQuota(),
+                                        'canCreate'     => $owner->thisIsMe && Story::checkQuota(),
                                         'pageType'      => 'home'
                                     ]);
     }
