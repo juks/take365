@@ -40,7 +40,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public $monthTitle = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     public $monthTitleGen = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
-    protected $_monthQuota = 5;
+    protected static $_monthQuota = 5;
     protected $_authorCache = false;
 
     /**
@@ -118,12 +118,12 @@ class Story extends StoryBase implements IPermissions, IGetType {
      * @param  object $user
      * @return string $type
      */
-    public function checkQuota($user = null, $type = 'month') {
+    public static function checkQuota($user = null, $type = 'month') {
         if (!$user) $user = Yii::$app->user;
 
-        $cnt = $this->getCount(['created_by' => $user->id, 'time_created' => ['>=', time() - 86400]]);
+        $cnt = self::getCount(['created_by' => $user->id, 'time_created' => ['>=', time() - 86400]]);
 
-        return $cnt <= $this->_monthQuota;
+        return $cnt <= self::$_monthQuota;
     }
 
     /**

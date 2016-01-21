@@ -70,11 +70,12 @@ class StoryController extends ApiController {
 		if ($id) {
 			$model = $this->checkModelPermission(intval($id), IPermissions::permWrite);
 		} else {
-			$model = new ApiStory();
-            if (!$model->checkQuota()) {
+            if (!ApiStory::checkQuota()) {
                 $this->addErrorMessage('Вы создали слишком много историй');
                 return;
             }
+
+            $model = new ApiStory();
 		}
 
 		$model->load(Helpers::getRequestParams('post'));
