@@ -11,7 +11,7 @@ use yii\web\AssetBundle;
 class ProfileAsset extends AssetBundle
 {
     public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $baseUrl = '@web/assets';
     public $css = [
         'css/profile.css',
     ];
