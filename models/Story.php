@@ -174,7 +174,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     /**
     * Returns story progress information
     */
-    public function getProgress() {
+    public function calculateProgress() {
         $totalDays      = 365;
         $imagesCount    = $this->imagesCount;
         $lastTime       = $imagesCount ? strtotime($this->images[0]['date']) : $this->time_start;
@@ -237,7 +237,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $this->calendar = [];
         $this->getImages($extra);
         $this->getImagesCount($extra);
-        $this->getProgress();
+        $this->calculateProgress();
 
         $lastMonth = null;
         $canManage = $this->hasPermission(Yii::$app->user, IPermissions::permWrite);

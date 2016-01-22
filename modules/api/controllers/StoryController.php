@@ -130,7 +130,10 @@ class StoryController extends ApiController {
 
         $stories = ApiStory::find()->where($conditions)->orderBy('time_published')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
 
-        foreach ($stories as $story) $story->setScenario('listView');
+        foreach ($stories as $story) {
+            $story->setScenario('listView');
+            $story->calculateProgress();
+        }
 
         $this->addContent($stories);
     } 
