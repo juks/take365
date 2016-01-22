@@ -23,7 +23,7 @@ class ProfileAsset extends AssetBundle
         'js/profileMedia.js',
     ];
     public $depends = [
-        'yii\bootstrap\BootstrapAsset',
+       
     ];
     public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
 }

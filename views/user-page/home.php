@@ -3,7 +3,7 @@
 use app\assets\StoryAsset;
 use app\components\Helpers;
 
-StoryAsset::register($this);
+//StoryAsset::register($this);
 
 $this->registerJs("initStoriesIndex();");
 ?>

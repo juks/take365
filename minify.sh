@@ -1,1 +1,1 @@
-./yii asset config/minify.php assets/Min.php
+./yii asset config/minify.php config/assets_min.php

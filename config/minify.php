@@ -28,40 +28,40 @@ return [
             'class' => 'yii\web\AssetBundle',
             'basePath' => '@webroot/assets',
             'baseUrl' => '@web/assets',
-            'js' => 'js.min/app-{hash}.js',
-            'css' => 'css.min/app-{hash}.css',
+            'js' => 'min/js/app-{hash}.js',
+            'css' => 'min/css/app-{hash}.css',
             'depends' => ['app\assets\AppAsset']
         ],
         'front' => [
             'class' => 'yii\web\AssetBundle',
             'basePath' => '@webroot/assets',
             'baseUrl' => '@web/assets',
-            'js' => 'js.min/front-{hash}.js',
-            'css' => 'css.min/front-{hash}.css',
+            'js' => 'min/js/front-{hash}.js',
+            'css' => 'min/css/front-{hash}.css',
             'depends' => ['app\assets\FrontAsset']
         ],
         'profile' => [
             'class' => 'yii\web\AssetBundle',
             'basePath' => '@webroot/assets',
             'baseUrl' => '@web/assets',
-            'js' => 'js.min/profile-{hash}.js',
-            'css' => 'css.min/profile-{hash}.css',
+            'js' => 'min/js/profile-{hash}.js',
+            'css' => 'min/css/profile-{hash}.css',
             'depends' => ['app\assets\ProfileAsset']
         ],
         'recover' => [
             'class' => 'yii\web\AssetBundle',
             'basePath' => '@webroot/assets',
             'baseUrl' => '@web/assets',
-            'js' => 'js.min/recover-{hash}.js',
-            'css' => 'css.min/recover-{hash}.css',
+            'js' => 'min/js/recover-{hash}.js',
+            'css' => 'min/css/recover-{hash}.css',
             'depends' => ['app\assets\RecoverAsset']
         ],
         'story' => [
             'class' => 'yii\web\AssetBundle',
             'basePath' => '@webroot/assets',
             'baseUrl' => '@web/assets',
-            'js' => 'js.min/story-{hash}.js',
-            'css' => 'css.min/app-{hash}.css',
+            'js' => 'min/js/story-{hash}.js',
+            'css' => 'min/css/app-{hash}.css',
             'depends' => ['app\assets\StoryAsset']
         ],
     ],

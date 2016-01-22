@@ -4,8 +4,9 @@ use yii\helpers\Html;
 use app\assets\AppAsset;
 use app\assets\FrontAsset;
 
+//Yii::$app->getAssetManager()->getBundle('app')->register($this);
 AppAsset::register($this);
-FrontAsset::register($this);
+//FrontAsset::register($this);
 
 $user = Yii::$app->user;
 
@@ -17,7 +18,6 @@ $user = Yii::$app->user;
 <title><?= Html::encode($this->title) ?></title>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<link rel="stylesheet" href="/css/style.css">
 <link rel="icon" href="<?= \yii\helpers\Url::base(true) ?>/i/favicon.ico">
 <?php $this->head(); echo "\n"; ?>
 <script><?= $this->params['jsVarsString'] ?></script>
