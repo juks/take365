@@ -13,7 +13,7 @@ class ApiStory extends Story {
     **/    
     public function scenarios() {
         return [
-            'default' => ['status', 'title', 'description']
+            'default' => ['time_start', 'status', 'title', 'description']
         ];
     }
 

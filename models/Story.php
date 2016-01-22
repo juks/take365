@@ -100,6 +100,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
      */
     public function beforeValidate() {
         if ($this->isNewRecord) {
+            if (!$this->title) $this->title = 'Без названия';
             if (!$this->time_created) $this->time_created = time();
             if (!$this->time_start) $this->time_start = time();
             if ($this->scenario != 'import' && !$this->created_by) $this->created_by = Yii::$app->user->id;
@@ -241,7 +242,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         foreach ($this->images as $image) $dateDict[$image['date']] = $image;
 
-        $dt = new \DateTime('@' . $this->time_start);
+        $dt = new \DateTime('@' . mktime(0, 0, 0, date('n', $this->time_start), date('j', $this->time_start), date('Y', $this->time_start)));
 
         $now = new \DateTime('@' . time());
         $diff = $now->diff($dt);
