@@ -15,7 +15,7 @@ use yii\web\AssetBundle;
  */
 class FrontAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
+    public $basePath = '@webroot/assets';
     public $baseUrl = '@web/assets';
     public $css = [
         'css/front.css',

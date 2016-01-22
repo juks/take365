@@ -10,7 +10,7 @@ use yii\web\AssetBundle;
  */
 class StoryAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
+    public $basePath = '@webroot/assets';
     public $baseUrl = '@web/assets';
     public $css = [
         'css/photoview.css',
