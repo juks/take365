@@ -100,12 +100,14 @@ class Story extends StoryBase implements IPermissions, IGetType {
      */
     public function beforeValidate() {
         if ($this->isNewRecord) {
-            if (!$this->title) $this->title = 'Без названия';
-            if (!$this->time_created) $this->time_created = time();
-            if (!$this->time_start) $this->time_start = time();
-            if ($this->scenario != 'import' && !$this->created_by) $this->created_by = Yii::$app->user->id;
+            if (!$this->title)                                      $this->title          = 'Без названия';
+            if (!$this->time_created)                               $this->time_created   = time();
+            if (!$this->time_start)                                 $this->time_start     = time();
+            if ($this->status == self::statusPublic)                $this->time_published = time();
+            if ($this->scenario != 'import' && !$this->created_by)  $this->created_by = Yii::$app->user->id;
         } else {
             $this->time_updated = time();
+            if ($this->status == self::statusPublic && !$this->time_published) $this->time_published = time();
         }
 
         if (!$this->_oldAttributes['description'] !== $this->description) $this->description_jvx = HelpersTxt::simpleText($this->description);
