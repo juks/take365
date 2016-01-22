@@ -143,7 +143,7 @@ function initStoriesIndex() {
 		uploader.bind("FileUploaded", function(uploader, file, response) {
 			response = $.parseJSON(response.response);
 			if (response.redirect) {
-				location = response.redirect;
+				window.location = response.redirect;
 			} else if (response.errors) {
 				uploader.trigger("Error", {
 					message: response.errors.join(" "),
