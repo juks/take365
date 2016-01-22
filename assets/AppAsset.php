@@ -29,7 +29,6 @@ class AppAsset extends AssetBundle
         'js/jquery.slick.min.js',
     ];
     public $depends = [
-        'yii\bootstrap\BootstrapAsset',
     ];
     public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
 }

@@ -114,9 +114,9 @@ SELECT {
   position: absolute;
   top: -6px;
   left: 50%;
-  width: 0; 
+  width: 0;
   height: 0;
-  margin-left: -6px; 
+  margin-left: -6px;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-bottom: 6px solid rgba(0, 0, 0, 0.8);
@@ -453,13 +453,19 @@ SELECT {
   position: relative;
   margin-bottom: 40px;
   }
-  .article-header .fa-pencil-square-o {
+  .article-header .fa-pencil-square-o,
+  .article-header .fa-plus-square-o {
     position: absolute;
     top: 6px;
     right: 0;
     font-size: 24px;
     }
-  .article-header .fa-pencil-square-o:hover {
+  .article-header .fa-plus-square-o {
+    top: 2px;
+    font-size: 30px;
+    }
+  .article-header .fa-pencil-square-o:hover,
+  .article-header .fa-plus-square-o:hover {
     cursor: pointer;
     color: #E02929;
     }
@@ -696,7 +702,7 @@ SELECT {
   .story-matrix IMG {
     width: 100%;
     height: 100%;
-    vertical-align: top; 
+    vertical-align: top;
     }
 .story-matrix-item:hover {
   opacity: 1;
@@ -963,7 +969,7 @@ SELECT {
     height: 90px;
     opacity: 1;
     -webkit-transition: all 0.3s ease-out 0;
-    -moz-transition: all 0.3s ease-out 0; 
+    -moz-transition: all 0.3s ease-out 0;
     -ms-transition: all 0.3s ease-out 0;
     -o-transition: all 0.3s ease-out 0;
     transition: all 0.3s ease-out 0;
@@ -976,7 +982,7 @@ SELECT {
 .edit .story-item:hover .story-day {
   display: none;
   }
-    
+
 /* Profile
 ----------------------------------------------- */
 .profile {
