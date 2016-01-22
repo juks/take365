@@ -81,7 +81,7 @@ $config = [
             ],
         ],
         'assetManager' => [
-            'bundles' => 1 ? [] : require(dirname(__FILE__) . '/' . 'assets_min.php')
+            'bundles' => YII_ENV == 'dev' ? [] : require(dirname(__FILE__) . '/' . 'assets_min.php')
         ]
     ],
 
