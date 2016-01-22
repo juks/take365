@@ -85,7 +85,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $user = Yii::$app->user;
 
         if ($story) {
-            if ($story->status == self::statusPublic) {
+            if ($story->status == self::statusPublic && !$story->is_deleted) {
                 return $story;
             } elseif ($story->created_by == $user->id) {
                 return $story;
