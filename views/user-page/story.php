@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Story;
 use app\assets\StoryAsset;
 use app\components\Helpers;
 
@@ -21,8 +22,8 @@ $this->registerJs("initStory();");
     <tr id="statusSelectorHoder"<?php if ($story->is_deleted): ?> class="hidden"<?php endif ?>>
     <td>Статус</td>
     <td><select name="status" id="storyStatusSelector" onchange="Story.updateStatus(pp.storyId); return false;">
-      <option value="0"<?php if ($story->status == 0): ?> selected<?php endif ?>>Скрыта</option>
-      <option value="1"<?php if ($story->status == 1): ?> selected<?php endif ?>>В публичном доступе</option>
+      <option value="<?= Story::statusHidden ?>"<?php if ($story->status == Story::statusHidden): ?> selected<?php endif ?>>Скрыта</option>
+      <option value="<?= Story::statusPublic ?>"<?php if ($story->status == Story::statusPublic): ?> selected<?php endif ?>>В публичном доступе</option>
     </select></td>
     </tr>
     </table>

@@ -27,6 +27,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     const typeId = 2;
 
     const statusPublic = 0;
+    const statusHidden = 1;
 
     public $calendar;
     public $yearStart;
