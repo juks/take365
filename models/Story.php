@@ -242,27 +242,21 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         foreach ($this->images as $image) $dateDict[$image['date']] = $image;
 
-        $dt = new \DateTime('@' . mktime(0, 0, 0, date('n', $this->time_start), date('j', $this->time_start), date('Y', $this->time_start)));
+        $timeTo = mktime(0, 0, 0, date('n', $this->time_start), date('j', $this->time_start), date('Y', $this->time_start));
+        $dateTarget = date('Y-m-d', $this->time_start);
 
-        $now = new \DateTime('@' . time());
-        $diff = $now->diff($dt);
-        $daysDiff = $diff->days;
+        $daysDiff = floor((time() - $timeTo) / 86400);
+        $timeFrom = $timeTo + $daysDiff * 86400;
 
-        if ($diff->h || $diff->i || $diff->m || $diff->s) $daysDiff ++;
-        if (!$daysDiff) $daysDiff = 1;
-        
-        if ($daysDiff > 365) $daysDiff = 365;
-        if ($daysDiff) $dt->add(new \DateInterval('P' . ($daysDiff - 1). 'D'));
-
-        $dateStep = new \DateInterval('P1D');
         $blankSpace = true;
 
-        for ($i = 0; $i < $daysDiff; $i++) {
-            $date       = $dt->format('Y-m-d');
-            $p          = preg_split('/-/', $date);
-            $year       = intval($p[0]);
-            $month      = intval($p[1]);
-            $monthDay   = intval($p[2]);
+        //for ($i = 0; $i < $daysDiff; $i++) {
+        while (true) {
+            $date       = date('Y-m-d', $timeFrom);
+
+            $year       = date('Y', $timeFrom);
+            $month      = date('m', $timeFrom);
+            $monthDay   = date('d', $timeFrom);
 
             if (!empty($dateDict[$date])) {
                 $drop = [
@@ -297,7 +291,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
             $lastMonth          = $month;
             if (!$blankSpace || $canManage) $this->calendar[] = $drop;
 
-            $dt->sub($dateStep);
+            if ($date == $dateTarget) break;
+            $timeFrom -= 86400;
         }
 
         $this->yearStart        = $year;
