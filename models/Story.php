@@ -250,7 +250,6 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         $blankSpace = true;
 
-        //for ($i = 0; $i < $daysDiff; $i++) {
         while (true) {
             $date       = date('Y-m-d', $timeFrom);
 

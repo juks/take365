@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use app\models\Story;
 use app\models\Mosaic;
 use app\models\RegisterForm;
 use app\components\MyController;
@@ -26,7 +27,7 @@ class SiteController extends MyController
                     ],
 
                     [
-                        'actions'   => ['index', 'login', 'captcha', 'help', 'howto', 'error', 'logout'],
+                        'actions'   => ['index', 'login', 'captcha', 'help', 'howto', 'error', 'cave'],
                         'allow'     => true,
                         'roles'     => ['?', '@']
                     ],
@@ -54,6 +55,14 @@ class SiteController extends MyController
                 'class' => 'yii\web\ErrorAction',
             ]
         ];
+    }
+
+    public function actionCave() {
+        $list = Story::find()->all();
+
+        foreach ($list as $item) {
+            echo '<a href="' . $item->url . '">' . $item->url . '</a><br>';
+        }
     }
 
     public function actionIndex() {
