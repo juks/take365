@@ -10,6 +10,9 @@ $this->registerJs("initStoriesIndex();");
 
 <header class="article-header">
   <h1 class="article-title"><?php if ($owner->thisIsMe): ?>Привет, <a href="<?= $owner->urlProfile ?>"><?= $owner->username ?></a>!<?php else: ?>Истории <a href="<?= $owner->urlProfile ?>"><?= $owner->username ?></a><?php endif ?></h1>
+  <?php if ($canCreate): ?>
+    <span class="fa fa-plus-square-o start-new-story" id="startNewStory1" title="Создать новую историю"></span>
+  <?php endif ?>
 </header>
 <?php if ($stories): ?>
 <?php foreach ($stories as $story): ?>
@@ -44,7 +47,7 @@ $this->registerJs("initStoriesIndex();");
 
 <?php if ($canCreate): ?>
 <p>
-  Вы можете начать новую историю, просто <a href="#" id="startNewStory">загрузив фотографию</a>.<br>
+  Вы можете начать новую историю, просто <a href="#" id="startNewStory2" class="start-new-story">загрузив фотографию</a>.<br>
   Фотографию следующего дня можно будет загрузить завтра, послезавтра — ещё, и так далее.
 </p>
 <?php endif ?>

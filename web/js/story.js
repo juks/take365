@@ -69,81 +69,91 @@ function inlineEdit(form) {
 }
 
 function initStoriesIndex() {
-	var uploader = new plupload.Uploader({
-			runtimes: "html5,html4",
-			browse_button: "startNewStory",
-			max_file_size: "10mb",
-			url: "/api/media/upload",
-			flash_swf_url: "/js/plupload/plupload.flash.swf",
-			silverlight_xap_url: "/js/plupload/js/plupload.silverlight.xap",
-			filters: [
-				{title : "Картинки", extensions : "jpg,gif,png"}
-			],
-			multi_selection: false,
-			multiple_queues: true,
-			multipart: true,
-			multipart_params: {
-				date: (new Date()).toISOString().split('T')[0],
-				targetId: 0,
-				targetType: 2,
-				mediaType: 'storyImage'
-			}
-		}),
-		procces, proccesPercent, errorsNode;
+	if(!$('.start-new-story').length) {
+		return;
+	}
 
-	uploader.bind("FilesAdded", function(uploader, files) {
-		//the timeout needed because the file isn't yet added to files collection of the uploader on some runtimes, and it has no files to upload
-		setTimeout(function(){
-			if (files[0].status !== plupload.FAILED) {
-				procces = $('<div/>', {
-					html: 'Загружается <span>0</span>%.',
-					css: {
-						position: 'absolute',
-						top: 0,
-						left: 0,
-						visibility: 'visible'
-					}
+	$('span.start-new-story').click(function() {
+		$('#startNewStory').click();
+	});
+
+	[1, 2].forEach(function(i) {
+		var uploader = new plupload.Uploader({
+				runtimes: "html5,html4",
+				browse_button: "startNewStory" + i,
+				max_file_size: "10mb",
+				url: "/api/media/upload",
+				flash_swf_url: "/js/plupload/plupload.flash.swf",
+				silverlight_xap_url: "/js/plupload/js/plupload.silverlight.xap",
+				filters: [
+					{title : "Картинки", extensions : "jpg,gif,png"}
+				],
+				multi_selection: false,
+				multiple_queues: true,
+				multipart: true,
+				multipart_params: {
+					date: (new Date()).toISOString().split('T')[0],
+					targetId: 0,
+					targetType: 2,
+					mediaType: 'storyImage'
+				}
+			}),
+			procces, proccesPercent, errorsNode;
+
+		uploader.bind("FilesAdded", function(uploader, files) {
+			//the timeout needed because the file isn't yet added to files collection of the uploader on some runtimes, and it has no files to upload
+			setTimeout(function(){
+				if (files[0].status !== plupload.FAILED) {
+					procces = $('<div/>', {
+						html: 'Загружается <span>0</span>%.',
+						css: {
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							visibility: 'visible'
+						}
+					});
+
+					$('#startNewStoryWrap').css({
+						position: 'relative',
+						visibility: 'hidden'
+					});
+
+					procces.appendTo("#startNewStoryWrap");
+					proccesPercent = procces.find("span");
+					uploader.start();
+				}
+			}, 0);
+		});
+
+		uploader.bind("UploadProgress", function(uploader, file) {
+			proccesPercent.html(file.percent);
+		});
+
+		uploader.bind("Error", function(uploader, error) {
+			noticeErrors(error.message);
+		});
+
+		// for correct error (ex. 500)
+		uploader.bind("UploadComplete", function() {
+			$('#startNewStoryWrap').css('visibility', 'visible');
+			procces.remove();
+		});
+
+		uploader.bind("FileUploaded", function(uploader, file, response) {
+			response = $.parseJSON(response.response);
+			if (response.redirect) {
+				location = response.redirect;
+			} else if (response.errors) {
+				uploader.trigger("Error", {
+					message: response.errors.join(" "),
+					file: file
 				});
-
-				$('#startNewStoryWrap').css({
-					position: 'relative',
-					visibility: 'hidden'
-				});
-
-				procces.appendTo("#startNewStoryWrap");
-				proccesPercent = procces.find("span");
-				uploader.start();
 			}
-		}, 0);
-	});
+		});
 
-	uploader.bind("UploadProgress", function(uploader, file) {
-		proccesPercent.html(file.percent);
+		uploader.init();
 	});
-
-	uploader.bind("Error", function(uploader, error) {
-		noticeErrors(error.message);
-	});
-
-	// for correct error (ex. 500)
-	uploader.bind("UploadComplete", function() {
-		$('#startNewStoryWrap').css('visibility', 'visible');
-		procces.remove();
-	});
-
-	uploader.bind("FileUploaded", function(uploader, file, response) {
-		response = $.parseJSON(response.response);
-		if (response.redirect) {
-			location = response.redirect;
-		} else if (response.errors) {
-			uploader.trigger("Error", {
-				message: response.errors.join(" "),
-				file: file
-			});
-		}
-	});
-
-	uploader.init();
 }
 
 function initStory() {
