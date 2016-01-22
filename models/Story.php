@@ -255,7 +255,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
             $year       = date('Y', $timeFrom);
             $month      = date('m', $timeFrom);
-            $monthDay   = date('d', $timeFrom);
+            $monthDay   = date('j', $timeFrom);
 
             if (!empty($dateDict[$date])) {
                 $drop = [
