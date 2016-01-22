@@ -10,8 +10,8 @@ use yii\web\AssetBundle;
  */
 class RecoverAsset extends AssetBundle
 {
-    public $basePath = '@webroot/assets';
-    public $baseUrl = '@web/assets';
+    public $basePath = '@webroot';
+    public $baseUrl = '@web';
     public $css = [
     ];
     public $js = [

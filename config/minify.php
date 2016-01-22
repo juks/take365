@@ -26,48 +26,48 @@ return [
     'targets' => [
         'app' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/assets',
-            'baseUrl' => '@web/assets',
-            'js' => 'min/js/app-{hash}.js',
-            'css' => 'min/css/app-{hash}.css',
+            'basePath' => '@webroot/min',
+            'baseUrl' => '@web/min',
+            'js' => 'js/app-{hash}.js',
+            'css' => 'css/app-{hash}.css',
             'depends' => ['app\assets\AppAsset']
         ],
         'front' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/assets',
-            'baseUrl' => '@web/assets',
-            'js' => 'min/js/front-{hash}.js',
-            'css' => 'min/css/front-{hash}.css',
+            'basePath' => '@webroot/min',
+            'baseUrl' => '@web/min',
+            'js' => 'js/front-{hash}.js',
+            'css' => 'css/front-{hash}.css',
             'depends' => ['app\assets\FrontAsset']
         ],
         'profile' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/assets',
-            'baseUrl' => '@web/assets',
-            'js' => 'min/js/profile-{hash}.js',
-            'css' => 'min/css/profile-{hash}.css',
+            'basePath' => '@webroot/min',
+            'baseUrl' => '@web/min',
+            'js' => 'js/profile-{hash}.js',
+            'css' => 'css/profile-{hash}.css',
             'depends' => ['app\assets\ProfileAsset']
         ],
         'recover' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/assets',
-            'baseUrl' => '@web/assets',
-            'js' => 'min/js/recover-{hash}.js',
-            'css' => 'min/css/recover-{hash}.css',
+            'basePath' => '@webroot/min',
+            'baseUrl' => '@web/min',
+            'js' => 'js/recover-{hash}.js',
+            'css' => 'css/recover-{hash}.css',
             'depends' => ['app\assets\RecoverAsset']
         ],
         'story' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/assets',
-            'baseUrl' => '@web/assets',
-            'js' => 'min/js/story-{hash}.js',
-            'css' => 'min/css/app-{hash}.css',
+            'basePath' => '@webroot/min',
+            'baseUrl' => '@web/min',
+            'js' => 'js/story-{hash}.js',
+            'css' => 'css/app-{hash}.css',
             'depends' => ['app\assets\StoryAsset']
         ],
     ],
     // Asset manager configuration:
     'assetManager' => [
-        'basePath' => '@webroot/assets',
-        'baseUrl' => '@web/assets',
+        'basePath' => '@webroot',
+        'baseUrl' => '@web',
     ],
 ];
