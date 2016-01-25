@@ -34,14 +34,14 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public $yearEnd;
     public $isDeleted;
     public $isHidden;
-    public $images;
+    public $images = [];
     public $imagesCount;
-    public $progress;
+    public $progressData = null;
 
     public $monthTitle = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     public $monthTitleGen = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
-    protected static $_monthQuota = 5;
+    protected static $_monthQuota = 15;
     protected $_authorCache = false;
 
     /**
@@ -171,6 +171,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
         return $a;
     }
 
+    public function getProgress() {
+        if ($this->progressData === null) $this->calculateProgress();
+        return $this->progressData;
+    }
+
     /**
     * Returns story progress information
     */
@@ -183,7 +188,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $percentsComplete = sprintf('%2.1f', (($imagesCount / $totalDays) * 100));
         if ($percentsComplete == 100) $percentsComplete = 100;
 
-        $this->progress = [
+        $this->progressData = [
                     'percentsComplete'      => $percentsComplete,
                     'isComplete'            => $percentsComplete == 100,
                     'passedDays'            => $passedDays,
@@ -195,21 +200,27 @@ class Story extends StoryBase implements IPermissions, IGetType {
                     'delayDaysMakeSense'    => $delayDays > 3 && $delayDays <= 365,
                 ];
 
-        if ($delayDays <= 365 && !$percentsComplete != 100) $this->progress['delayDays'] = $delayDays;
+        if ($delayDays <= 365 && !$percentsComplete != 100) $this->progressData['delayDays'] = $delayDays;
     }
 
     /**
      * Images relation
      */
-    public function getImages($extra = []) {
-        $mo = Media::getMediaOptions('storyImage');
-        $limit = !empty($extra['imageLimit']) ? $extra['imageLimit'] : null;
-        $this->images = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::typeId], 'is_deleted' => 0])->orderBy('date DESC')->limit($limit)->all();
+    public function fetchImages($extra = []) {
+        if ($this->imagesData === null) {
+            $mo = Media::getMediaOptions('storyImage');
+            $limit = !empty($extra['imageLimit']) ? $extra['imageLimit'] : null;
+            $this->imagesData = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::typeId], 'is_deleted' => 0])->orderBy('date DESC')->limit($limit)->all();
+        }
+         
+        return $this->imagesData;
     }
 
-    public function getImagesCount($extra = []) {
+    public function fetchImagesCount($extra = []) {
         $mo = Media::getMediaOptions('storyImage');
-        $this->imagesCount = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::typeId], 'is_deleted' => 0])->orderBy('date DESC')->count();
+        $this->imagesCount = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::typeId], 'is_deleted' => 0])->count();
+        // No null
+        if (!$this->imagesCount) $this->imagesCount = 0;
     }
 
     /**
@@ -223,8 +234,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * Formats story data for the shorm mode display
     */
     public function formatShort($extra = []) {
-        $this->getImages($extra);
-        $this->getImagesCount($extra);
+        $this->fetchImages($extra);
+        $this->fetchImagesCount($extra);
         $this->calculateProgress();
         $this->isDeleted = $this->is_deleted;
         $this->isHidden  = $this->status != self::statusPublic;
@@ -235,8 +246,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
     */
     public function format($extra = []) {
         $this->calendar = [];
-        $this->getImages($extra);
-        $this->getImagesCount($extra);
+        $this->fetchImages($extra);
+        $this->fetchImagesCount($extra);
         $this->calculateProgress();
 
         $lastMonth = null;
