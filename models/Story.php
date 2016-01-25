@@ -34,14 +34,14 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public $yearEnd;
     public $isDeleted;
     public $isHidden;
-    public $images = [];
+    public $images = null;
     public $imagesCount = null;
     public $progressData = null;
 
     public $monthTitle = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     public $monthTitleGen = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
-    protected static $_monthQuota = 15;
+    protected static $_monthQuota = 50;
     protected $_authorCache = false;
 
     /**
@@ -182,8 +182,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public function calculateProgress() {
         $totalDays      = 365;
         if ($this->imagesCount === null) $this->fetchImagesCount();
+        if ($this->images === null) $this->fetchImages();
+
         $imagesCount    = $this->imagesCount;
-        $lastTime       = $imagesCount ? strtotime($this->images[0]['date']) : $this->time_start;
+
+        $lastTime       = $this->images ? strtotime($this->images[0]['date']) : $this->time_start;
         $delayDays      = intval((time() - $lastTime) / 86400);
         $passedDays     = intval((time() - $this->time_start) / 86400);
         $percentsComplete = sprintf('%2.1f', (($imagesCount / $totalDays) * 100));
@@ -208,13 +211,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
      * Images relation
      */
     public function fetchImages($extra = []) {
-        if ($this->imagesData === null) {
+        if ($this->images === null) {
             $mo = Media::getMediaOptions('storyImage');
             $limit = !empty($extra['imageLimit']) ? $extra['imageLimit'] : null;
-            $this->imagesData = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::typeId], 'is_deleted' => 0])->orderBy('date DESC')->limit($limit)->all();
+            $this->images = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::typeId], 'is_deleted' => 0])->orderBy('date DESC')->limit($limit)->all();
         }
-         
-        return $this->imagesData;
     }
 
     public function fetchImagesCount($extra = []) {
