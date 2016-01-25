@@ -262,6 +262,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $dateTarget = date('Y-m-d', $this->time_start);
 
         $daysDiff = floor((time() - $timeTo) / 86400);
+        if ($daysDiff > 365) $daysDiff = 365;
         $timeFrom = $timeTo + $daysDiff * 86400;
 
         $blankSpace = true;
