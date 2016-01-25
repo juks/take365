@@ -35,7 +35,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public $isDeleted;
     public $isHidden;
     public $images = [];
-    public $imagesCount;
+    public $imagesCount = null;
     public $progressData = null;
 
     public $monthTitle = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
@@ -181,6 +181,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     */
     public function calculateProgress() {
         $totalDays      = 365;
+        if ($this->imagesCount === null) $this->fetchImagesCount();
         $imagesCount    = $this->imagesCount;
         $lastTime       = $imagesCount ? strtotime($this->images[0]['date']) : $this->time_start;
         $delayDays      = intval((time() - $lastTime) / 86400);
