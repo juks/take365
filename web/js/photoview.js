@@ -108,6 +108,9 @@ var Photoview = (function(){
 					data.result.media[data.result.media.length - 1].isLast = true;
 				}
 				if (span > 0) {
+					if (!isFirstReq) {
+						data.result.media.pop(); // TODO хак, убирает из фоток саму себя, которая нужна при первом запросе
+					}
 					images = [].concat(data.result.media, images);
 					now += data.result.media.length;
 				} else {
