@@ -248,7 +248,7 @@ class MediaCore extends MediaBase {
 
             $this->storeImageResource();
 
-            //if ($this->getOption(self::saveExif))    $this->getExifData();
+            if ($this->getOption(self::saveExif))    $this->getExifData();
             if ($this->getOption(self::autoOrient))  $this->autoOrient();
             if ($this->height > $this->width)        $this->is_vertical = true;
 
