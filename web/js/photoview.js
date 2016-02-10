@@ -41,7 +41,7 @@ var Photoview = (function(){
 				'class': 'photoview',
 				css: {
 					position: 'fixed',
-					top: 0,
+					top: ($(window).height() - 700) / 2,
 					bottom: 0,
 					width: '100%',
 					zIndex: 1002,
@@ -101,21 +101,23 @@ var Photoview = (function(){
 			data: {date: date, storyId: pp.storyId, span: -span},
 			dataType: 'json',
 			success: function(data) {
-				if (!data.errors) {
-					if (span > 0) {
-						images = [].concat(data.result.media, images);
-						now += data.result.media.length;
-					} else {
-						if (!isFirstReq) {
-							data.result.media.shift(); // TODO хак, убирает из фоток саму себя, которая нужна при первом запросе
-						}
-						images = images.concat(data.result.media);
-					}
-					if (callback) {
-						callback(data.result.media);
-					}
+				if (data.result.leftEdgeReached) {
+					data.result.media[0].isFirst = true;
+				}
+				if (data.result.rightEdgeReached) {
+					data.result.media[data.result.media.length - 1].isLast = true;
+				}
+				if (span > 0) {
+					images = [].concat(data.result.media, images);
+					now += data.result.media.length;
 				} else {
-					noticeErrors(data.errors);
+					if (!isFirstReq) {
+						data.result.media.shift(); // TODO хак, убирает из фоток саму себя, которая нужна при первом запросе
+					}
+					images = images.concat(data.result.media);
+				}
+				if (callback) {
+					callback(data.result.media);
 				}
 			}, error: function() {
 				notice("Ошибка при запросе данных!", true);
