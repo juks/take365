@@ -20,6 +20,7 @@ trait TMediaImageExtra {
      */
     public function getExifData() {
         if ($this->exif) {
+
             return unserialize($this->exif);
         } elseif($this->_imageResource) {
             $exifData = $this->_imageResource->getImageProperties("exif:*");
@@ -33,33 +34,59 @@ trait TMediaImageExtra {
      * Automatic image reorientation, based on exif data
      */
     function autoOrient() {
+
         $exifData = $this->getExifData();
 
         if (empty($exifData['exif:Orientation'])) return;
 
         $res = $this->getImageResource();
-        $rotated = false;
+        $isChanged = false;
 
-        switch($exifData['exif:Orientation']) {
-            case 3:
-                $res->rotateImage(new ImagickPixel('none'), 180);
-                $rotated = true;
+        //new ImagickPixel('none');
+
+        switch ($exifData['exif:Orientation']) {
+            case \imagick::ORIENTATION_TOPLEFT:
                 break;
-
-            case 6:
-                $res->rotateImage(new ImagickPixel('none'), 90);
-                $width = $this->width; $this->width = $this->height; $this->height = $width;
-                $rotated = true;
+            case \imagick::ORIENTATION_TOPRIGHT:
+                $res->flopImage();
+                $isChanged = true;
                 break;
-
-            case 8:
-                $res->rotateImage(new ImagickPixel('none'), -90);
+            case \imagick::ORIENTATION_BOTTOMRIGHT:
+                $res->rotateImage("#000", 180);
+                $isChanged = true;
+                break;
+            case \imagick::ORIENTATION_BOTTOMLEFT:
+                $res->flopImage();
+                $res->rotateImage("#000", 180);
+                $isChanged = true;
+                break;
+            case \imagick::ORIENTATION_LEFTTOP:
+                $res->flopImage();
+                $res->rotateImage("#000", -90);
+                $isChanged = true;
+                break;
+            case \imagick::ORIENTATION_RIGHTTOP:
+                $res->rotateImage("#000", 90);
+                $isChanged = true;
                 $width = $this->width; $this->width = $this->height; $this->height = $width;
-                $rotated = true;
+                break;
+            case \imagick::ORIENTATION_RIGHTBOTTOM:
+                $res->flopImage();
+                $res->rotateImage("#000", 90);
+                $isChanged = true;
+                $width = $this->width; $this->width = $this->height; $this->height = $width;
+                break;
+            case \imagick::ORIENTATION_LEFTBOTTOM:
+                $res->rotateImage("#000", -90);
+                $isChanged = true;
+                $width = $this->width; $this->width = $this->height; $this->height = $width;
+                break;
+            default: // Invalid orientation
                 break;
         }
 
-        if ($rotated) {
+        if ($isChanged) {
+            $res->setImageOrientation(\imagick::ORIENTATION_TOPLEFT);
             $res->writeImage($this->_fullPath);
         }
     }

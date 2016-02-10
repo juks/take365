@@ -37,7 +37,7 @@ class Media extends MediaCore {
                                                         MediaCore::resizeBlur            => 0.86,
                                                         MediaCore::thumbQuality          => 96,
                                                         MediaCore::saveExif              => true,
-                                                        //MediaCore::autoOrient            => true
+                                                        MediaCore::autoOrient            => true
                                                 ],
 
                                     Media::typeStoryImage => [
@@ -62,7 +62,7 @@ class Media extends MediaCore {
                                                         MediaCore::resizeBlur            => 0.86,
                                                         MediaCore::thumbQuality          => 96,
                                                         MediaCore::saveExif              => true,
-                                                        //MediaCore::autoOrient            => true,
+                                                        MediaCore::autoOrient            => true,
                                                         MediaCore::resizeScaleUpDimension=> 400
                                                     ]
                                 ];
