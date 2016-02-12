@@ -111,24 +111,25 @@ class StoryController extends ApiController {
 
         // Fetch my Stories
         if ($username == 'me' || ($username && $user->identity->username == $username)) {
-            $conditions = ['created_by' => $user->identity->id];
+            $targetUser = ApiUser::getActiveUser($user->identity->id);
+
+            $stories = $targetUser->getStories()->offset(($page - 1) * $maxItems)->limit($maxItems)->all();;
         // Fetch Someone's else stories
         } elseif ($username) {
-            $targetUser = ApiUSer::find()->where(['username' => $username])->andWhere(ApiUSer::getActiveCondition())->one();
+            $targetUser = ApiUser::getActiveUser($username);
 
             if (!$targetUser) {
                 $this->addErrorMessage('User ' . $username . ' is not available');
                 
                 return;
-            } else {
-                $conditions = ['status' => 0, 'created_by' =>  $targetUser->id];
             }
+
+            $stories = $targetUser->getStories()->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
         // Fetch all stories
         } else {
             $conditions = ['status' => 0];
+            $stories = ApiStory::find()->where($conditions)->orderBy('time_published')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
         }
-
-        $stories = ApiStory::find()->where($conditions)->orderBy('time_published')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
 
         foreach ($stories as $story) {
             $story->setScenario('listView');

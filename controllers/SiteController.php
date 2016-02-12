@@ -130,6 +130,7 @@ class SiteController extends MyController
     public function actionCaptcha() {
         $captcha = new Captcha(6, 0, 5);
         
+        @session_start();
         $_SESSION['CAPTCHAString'] = $captcha->getCaptchaString();
         $captcha->makeCaptcha();    
     }

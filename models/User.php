@@ -78,10 +78,10 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * Returns user entity only if it is active
      */
     public static function getActiveUser($identity) {
-        $condition = [];
+        $conditions = [];
 
         if (is_int($identity)) {
-            $condition['id'] = $identity;
+            $conditions['id'] = $identity;
         } elseif (Helpers::checkEmail($identity)) {
             $conditions['email'] = $identity;
         } else {
