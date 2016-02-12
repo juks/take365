@@ -53,6 +53,24 @@ class Story extends StoryBase implements IPermissions, IGetType {
         ];
     }
 
+        /**
+    *   Sets the lists of fields that are available for public exposure
+    **/
+    public function fields() {
+        $f =  [
+            'id'        => 'id',
+            'status'    => 'status',
+            'title'     => 'title',
+            'url'       => function() { return $this->url; },
+            'authors'   => function() { return $this->authors; },
+            'progress'  => function() { return $this->progress; },
+        ];
+
+        if ($this->scenario == 'default') $f['images'] = function() { return $this->images; };
+
+        return $f;
+    }
+
     public static function getActiveCondition() {
         return ['status' => self::statusPublic];
     }
