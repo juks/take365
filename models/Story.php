@@ -195,6 +195,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $this->progressData = [
                     'percentsComplete'      => $percentsComplete,
                     'isComplete'            => $percentsComplete == 100,
+                    'isOutdated'            => $passedDays > 365,
                     'passedDays'            => $passedDays,
                     'totalImages'           => $imagesCount,
                     'totalImagesTitle'      => Helpers::countCase($imagesCount, 'изображений', 'изображения', 'изображание'),
