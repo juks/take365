@@ -201,7 +201,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                     'totalDays'             => $totalDays,
                     'delayDays'             => $delayDays,
                     'delayDaysTitle'        => Helpers::countCase($delayDays, 'дней', 'дня', 'день'),
-                    'delayDaysMakeSense'    => $delayDays > 3 && $delayDays <= 365,
+                    'delayDaysMakeSense'    => $delayDays > 3 && $passedDays <= 365,
                 ];
 
         if ($delayDays <= 365 && !$percentsComplete != 100) $this->progressData['delayDays'] = $delayDays;
