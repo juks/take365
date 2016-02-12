@@ -32,7 +32,7 @@ $this->registerJs("initStory();");
   <?php else: ?>
   <h1 class="story-title1"><?= $story->titleFilled ?></h1>
   <p class="story-desc"><?= $story->description_jvx ?></p>
-  <p>Автор истории —  <a href="<?= $user->urlProfile ?>"><?= $user->fullnameFilled ?></a></p>
+  <p>Автор истории —  <a href="<?= $user->url ?>"><?= $user->fullnameFilled ?></a></p>
   <?php endif ?>
   <div id="socialBlock" class="element">
   <?= $this->render('/blocks/socialBlock', ['fbAppId' => Helpers::getParam('facebook/appId'), 'pageUrl' => (\yii\helpers\Url::base(true) . \Yii::$app->request->url)]) ?>
