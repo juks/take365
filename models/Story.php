@@ -41,7 +41,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public $monthTitle = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     public $monthTitleGen = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
-    protected static $_monthQuota = 50;
+    protected static $_monthQuota = 2;
     protected $_authorCache = false;
 
     /**
