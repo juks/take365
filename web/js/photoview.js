@@ -143,7 +143,7 @@ var Photoview = (function(){
 					'class': 'photoview-data',
 					css: { opacity: 0 },
 					html: '<h1 class="photoview-title" style="display:inline">'+(item.title || '')+'</h1><br>'
-						+'<p class="photoview-img-container"><img src="'+item.thumbLarge.url+'" width="'+(item.thumbLarge.width/2)+'" height="'+(item.thumbLarge.height/2)+'"></p>'
+						+'<p class="photoview-img-container"><img src="'+item.thumb.url+'" srcset="'+item.thumbLarge.url+' 2x" width="'+(item.thumb.width)+'" height="'+(item.thumb.height)+'"></p>'
 						+'<p style="display:inline">'+(item.description || '')+'</p>'
 				}).appendTo(itemContainer);
 
