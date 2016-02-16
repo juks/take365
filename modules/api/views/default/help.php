@@ -99,6 +99,7 @@ $api = [
                         'params'                => [
                                                         ['n' => 'id',           't' => 'User Id'],
                                                         ['n' => 'username',     't' => 'Preferred Username',            'o' => true],
+                                                        ['n' => 'fullname',     't' => 'Preferred Fullname',            'o' => true],
                                                         ['n' => 'password',     't' => 'User Password',                 'o' => true],
                                                         ['n' => 'email',        't' => 'User Email',                    'o' => true],
                                                         ['n' => 'description',  't' => 'User Profile Description',      'o' => true],

@@ -48,10 +48,12 @@ class AuthUserBase extends \yii\db\ActiveRecord
      */
     public function rules() {
         return [
-            [['user_type', 'time_created', 'time_updated', 'time_registered', 'ip_created', 'time_login', 'ip_login', 'is_active', 'banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued'], 'integer'],
-            [['username', 'email', 'password', 'time_created', 'ip_created'], 'required'],
+            [['user_type', 'ext_type', 'time_created', 'time_updated', 'time_registered', 'ip_created', 'time_login', 'ip_login', 'is_active', 'banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued'], 'integer'],
+            [['email', 'time_created', 'ip_created'], 'required'],
+            [['password'], 'required', 'when' => function($m) { return !$m->ext_type; }],
             [['username'], 'string', 'min' => 1, 'max' => 20],
             [['password', 'fullname'], 'string', 'max' => 64],
+            [['ext_id'], 'string', 'min' => 1, 'max' => 32],
             ['username', 'checkUsernameReserved'],
             ['username', 'checkUsernameValid'],
             ['username', 'checkUsernameExists'],

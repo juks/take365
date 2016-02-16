@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use app\models\User;
 use app\models\Story;
 use app\models\Mosaic;
 use app\models\RegisterForm;
@@ -27,7 +28,7 @@ class SiteController extends MyController
                     ],
 
                     [
-                        'actions'   => ['index', 'login', 'captcha', 'help', 'howto', 'error', 'cave'],
+                        'actions'   => ['index', 'auth', 'captcha', 'help', 'howto', 'error', 'cave'],
                         'allow'     => true,
                         'roles'     => ['?', '@']
                     ],
@@ -42,7 +43,7 @@ class SiteController extends MyController
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'], 'login' => ['post']
+                    'logout' => ['post']
                 ],
             ],
         ];
@@ -53,16 +54,17 @@ class SiteController extends MyController
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ]
+            ],
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'oAuthSuccess'],
+            ],
         ];
     }
 
-    public function actionCave() {
-        $list = Story::find()->all();
-
-        foreach ($list as $item) {
-            echo '<a href="' . $item->url . '">' . $item->url . '</a><br>';
-        }
+    public function oAuthSuccess($client) {
+        User::extLogin($client);
+        //if (User::extLogin($client)) $this->redirect('/');
     }
 
     public function actionIndex() {

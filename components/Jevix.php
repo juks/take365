@@ -840,7 +840,7 @@ class Jevix{
                 foreach($params as $param=>$value){
                         $param = strtolower($param);
                         $value = trim($value);
-                        if(empty($value)) continue;
+                        if(empty($value) && $value != 0) continue;
 
                         // Атрибут тега разрешён? Какие возможны значения? Получаем список правил
                         $paramAllowedValues = isset($tagRules[self::TR_PARAM_ALLOWED][$param]) ? $tagRules[self::TR_PARAM_ALLOWED][$param] : false;
@@ -890,7 +890,7 @@ class Jevix{
                                                         continue(2);
                                                 }
                                                 // HTTP в начале если нет
-                                                if(!preg_match('/^http:\/\//ui', $value) && !preg_match('/^\//ui', $value)) $value = 'http://'.$value;
+                                                if(!preg_match('/^https?:\/\//ui', $value) && !preg_match('/^\//ui', $value)) $value = 'http://'.$value;
                                                 break;
 
                                         default:

@@ -37,12 +37,19 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
 
     const typeId = 1;
 
+    const extAuthFacebook = 'facebook';
+
+    protected static $_extAuthServiceId = [
+                                                self::extAuthFacebook => 1
+                                          ];
+
     /**
     *   Sets the User model scenarios
     **/    
     public function scenarios() {
         return [
-            'import' => ['id_old', 'username', 'password', 'email', 'description', 'description_jvx', 'is_active', 'ip_created', 'time_created', 'time_registered', 'sex', 'fullname', 'description']
+            'import' => ['id_old', 'username', 'password', 'email', 'description', 'description_jvx', 'is_active', 'ip_created', 'time_created', 'time_registered', 'sex', 'fullname', 'description'],
+            'default' => ['username', 'fullname', 'email', 'password', 'description', 'is_active', 'ext_type', 'ext_id']
         ];
     }
 
@@ -82,6 +89,9 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
 
         if (is_int($identity)) {
             $conditions['id'] = $identity;
+        } elseif (substr($identity, 0, 1) == '@') {
+            $userId = intval(substr($identity, 1, strlen($identity) - 1));
+            $conditions['id'] = $userId;            
         } elseif (Helpers::checkEmail($identity)) {
             $conditions['email'] = $identity;
         } else {
@@ -227,7 +237,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * Generates new password reset token
      */
     public function generatePasswordResetToken() {
-        if (time() - $this->recovery_code_time_issued < 60) throw new \app\components\ControllerException(Ml::t('Too many recovery attempts. Try again in few moments'));
+        if ($this->recovery_code_time_issued && time() - $this->recovery_code_time_issued < 60) throw new \app\components\ControllerException(Ml::t('Too many recovery attempts. Try again in few moments'));
 
         $this->recovery_code = Helpers::randomString(16);
         $this->recovery_code_time_issued = time();
@@ -248,7 +258,6 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         if ($this->isNewRecord) {
             $this->time_created = time();
             if (!$this->ip_created) $this->ip_created = ip2long(Yii::$app->request->userIP);
-            $this->generatePasswordResetToken();
         } else {
             $this->time_updated = time();
         }
@@ -256,6 +265,43 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         if (!$this->_oldAttributes['description'] !== $this->description) $this->description_jvx = HelpersTxt::simpleText($this->description);
 
         return parent::beforeValidate();
+    }
+
+    public static function extLogin($client) {
+        $extServiceId = self::getExtServiceId($client->name);
+        if (!$extServiceId) throw new Exception(Ml::t("Unknown external service"));
+        $userAttributes = $client->getUserAttributes();
+        
+        $user = self::find()->where(['ext_type' => $extServiceId, 'ext_id' => $userAttributes['id']])->one();
+        
+        // Should register a new one
+        if (!$user) {
+            $user = new User();
+            $user->setAttributes([
+                                        'ext_type'  => $extServiceId,
+                                        'ext_id'    => $userAttributes['id'],
+                                        'email'     => $userAttributes['email'],
+                                        'is_active' => true
+                                ]);
+
+            if (!$user->validate(['email'])) throw new \yii\web\ConflictHttpException(Ml::t('This email address is already taken'));
+            
+            $user->save();
+            if ($user->hasErrors()) {
+                print_r($user->errors); die();
+                throw new \yii\web\ServerErrorException(Ml::t('Failed to create new user'));
+            }
+        }
+
+        return Yii::$app->user->login($user);  
+    }
+
+    public static function getExtServiceId($serviceName) {
+        if (!empty(self::$_extAuthServiceId[$serviceName])) {
+            return self::$_extAuthServiceId[$serviceName];
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -344,7 +390,13 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     }
 
     public function getFullnameFilled() {
-        return $this->fullname ? $this->fullname : $this->username;
+        if ($this->fullname) {
+            return $this->fullname;
+        } elseif ($this->username) {
+            return $this->username;
+        } else {
+            return 'Пользователь';
+        }
     }
 
     /**
@@ -355,24 +407,31 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     }
 
     /**
+    * Return users identifier. If no username - let it be '@id'
+    **/
+    public function getUsername() {
+        return $this->username ? $this->username : '@' . $this->id;
+    }
+
+    /**
     * Forms user home URL
     */
     public function getUrl() {
-        return \yii\helpers\Url::base(true) . '/' . $this->username;
+        return \yii\helpers\Url::base(true) . '/' . $this->getUsername();
     }
 
     /**
     * Forms user profile URL
     */
     public function getUrlProfile() {
-        return \yii\helpers\Url::base(true) . '/' . $this->username . '/profile';
+        return \yii\helpers\Url::base(true) . '/' . $this->getUsername() . '/profile';
     }
 
     /**
     * Forms user profile update URL
     */
     public function getUrlEdit() {
-        return \yii\helpers\Url::base(true) . '/' . $this->username . '/profile/edit/';
+        return \yii\helpers\Url::base(true) . '/' . $this->getUsername() . '/profile/edit/';
     }
 
     /**

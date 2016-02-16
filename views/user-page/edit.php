@@ -19,10 +19,12 @@ ProfileAsset::register($this);
 	<form action="#" name="mainForm" id="mainForm" onsubmit="updateProfile('mainForm'); return false;" class="form">
 		<input type="hidden" name="id" value="<?= $user->id ?>">
 		<div id="mainFormDefaultMessage" class="small error">&nbsp;</div>
-		<div class="fTitle">Меня зовут<span class="lo small" id="emailMessage">&nbsp;</span></div>
-		<div class="fElem"><input type="text" name="fullName" id="fullName" value="<?= $user->fullname ?>" class="halfWide" maxlength="255" /></div>
+		<div class="fTitle"><label for="email" id="emailLabel">Меня зовут</label></div>
+		<div class="fElem"><input type="text" name="fullname" id="fullname" value="<?= $user->fullname ?>" class="halfWide" maxlength="255" /></div>
 		<div class="fTitle"><label for="email" id="emailLabel">Email</label></div>
 		<div class="fElem"><input type="text" name="email" id="email" value="<?= $user->email ?>" class="halfWide" maxlength="255" /></div>
+		<div class="fTitle"><label for="username" id="usernameLabel">Пользователь</label></div>
+		<div class="fElem"><input type="text" name="username" id="username" value="<?= $user->username ?>" class="halfWide" maxlength="255" /></div>
 		<div class="fTitle">Описание</div>
 		<div class="fElem"><textarea name="description" class="halfWide" style="height: 15em"><?= $user->description ?></textarea></div>
 		<div class="fTitle">Адрес моего сайта или просто сайта про меня</div><div class="fElem"><input type="text" name="url" value="<?= $user->homepage ?>" class="halfWide" maxlength=255 /></div>

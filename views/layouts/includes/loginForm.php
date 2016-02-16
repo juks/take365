@@ -21,4 +21,7 @@
       </form>
       <span class="close" title="Закрыть" onclick="Auth.close(event)"></span>
     </div>
+    <?= yii\authclient\widgets\AuthChoice::widget([
+     'baseAuthUrl' => ['site/auth']
+    ]) ?>
 </div>

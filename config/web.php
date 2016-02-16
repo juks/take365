@@ -79,7 +79,16 @@ $config = [
         ],
         'assetManager' => [
             'bundles' => YII_ENV == 'dev' ? [] : require(dirname(__FILE__) . '/' . 'assets_min.php')
-        ]
+        ],
+        'authClientCollection' => [
+            'clients' => [
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'authUrl' => 'https://www.facebook.com/dialog/oauth?display=popup',
+                ],
+            ],
+        ],
+
     ],
 
     'params' => $params,

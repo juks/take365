@@ -11,7 +11,7 @@ class ApiUser extends User {
     **/    
     public function scenarios() {
         return [
-            'default' => ['username', 'password', 'email', 'description']
+            'default' => ['username', 'fullname', 'password', 'email', 'description']
         ];
     }
 
