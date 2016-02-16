@@ -38,9 +38,11 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     const typeId = 1;
 
     const extAuthFacebook = 'facebook';
+    const extAuthTwitter = 'twitter';
 
     protected static $_extAuthServiceId = [
-                                                self::extAuthFacebook => 1
+                                                self::extAuthFacebook => 1,
+                                                self::extAuthTwitter => 2
                                           ];
 
     /**
@@ -269,26 +271,27 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
 
     public static function extLogin($client) {
         $extServiceId = self::getExtServiceId($client->name);
-        if (!$extServiceId) throw new Exception(Ml::t("Unknown external service"));
-        $userAttributes = $client->getUserAttributes();
-        
+        if (!$extServiceId) throw new \Exception(Ml::t("Unknown external service"));
+        $userAttributes = $client->getUserAttributes();    
         $user = self::find()->where(['ext_type' => $extServiceId, 'ext_id' => $userAttributes['id']])->one();
-        
+
         // Should register a new one
         if (!$user) {
             $user = new User();
+
+            $email = !empty($userAttributes['email']) ? $userAttributes['email'] : null;
+
             $user->setAttributes([
                                         'ext_type'  => $extServiceId,
                                         'ext_id'    => $userAttributes['id'],
-                                        'email'     => $userAttributes['email'],
+                                        'email'     => $email,
                                         'is_active' => true
                                 ]);
 
-            if (!$user->validate(['email'])) throw new \yii\web\ConflictHttpException(Ml::t('This email address is already taken'));
+            if ($email && !$user->validate(['email'])) throw new \yii\web\ConflictHttpException(Ml::t('This email address is already taken'));
             
             $user->save();
             if ($user->hasErrors()) {
-                print_r($user->errors); die();
                 throw new \yii\web\ServerErrorException(Ml::t('Failed to create new user'));
             }
         }

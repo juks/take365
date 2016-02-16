@@ -10,6 +10,9 @@ class m160216_081148_ext_auth extends Migration
         $this->execute('alter table auth_user add ext_id varchar(32) after id_old');
         $this->execute('alter table auth_user add ext_type int unsigned not null after id_old');
         $this->execute('alter table auth_user add index ext_id(ext_type, ext_id)');
+        $this->execute('alter table auth_user drop index email');
+        $this->execute('alter table auth_user add index email(email)');
+        $this->execute('alter table auth_user change email email varchar(255) default \'\'');
     }
 
     public function down()

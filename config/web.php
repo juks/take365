@@ -86,6 +86,10 @@ $config = [
                     'class' => 'yii\authclient\clients\Facebook',
                     'authUrl' => 'https://www.facebook.com/dialog/oauth?display=popup',
                 ],
+                'twitter' => [
+                    'class' => 'yii\authclient\clients\Twitter',
+                    //'authUrl' => 'https://www.facebook.com/dialog/oauth?display=popup',
+                ],
             ],
         ],
 
