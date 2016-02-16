@@ -38,6 +38,7 @@ class ApiLoginForm extends Model {
     **/
     public function fields() {
         return [
+            'id'          => function($model) { return $this->_user->id; },
             'username'    => 'username',
             'token'       => function($model) { return $model->token; },
             'tokenExpires'=> function($model) { return $model->tokenExpires; }
