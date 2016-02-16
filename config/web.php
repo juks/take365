@@ -10,7 +10,7 @@ $config = [
     'sourceLanguage'    => 'en',
     'timezone'           => 'Europe/Moscow',
     'modules'   => [
-        'api'   => ['class' => 'app\modules\api\ApiModule'] 
+        'api'   => ['class' => 'app\modules\api\ApiModule']
     ],
     'components' => [
         'request' => [
@@ -56,7 +56,7 @@ $config = [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
-            'defaultRoles' => ['user'], 
+            'defaultRoles' => ['user'],
         ],
         'response' => [
                         //'format' => api\components\web\Response::FORMAT_JSON,
@@ -78,7 +78,18 @@ $config = [
             ],
         ],
         'assetManager' => [
-            'bundles' => YII_ENV == 'dev' ? [] : require(dirname(__FILE__) . '/' . 'assets_min.php')
+            'bundles' => YII_ENV == 'dev' ?
+                [
+                    'yii\web\JqueryAsset' => [
+                        'sourcePath' => null,
+                        'basePath' => '@webroot',
+                        'baseUrl' => '@web',
+                        'js' => [
+                            'js/jquery.js',
+                        ]
+                    ]
+                ]
+                : require(dirname(__FILE__) . '/' . 'assets_min.php')
         ],
         'authClientCollection' => [
             'clients' => [

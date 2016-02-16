@@ -24,12 +24,12 @@ class AppAsset extends AssetBundle
         'css/font-awesome.min.css'
     ];
     public $js = [
-        'js/jquery.js',
         'js/common.js',
         'js/jquery.onepage-scroll.js',
         'js/jquery.slick.min.js',
     ];
     public $depends = [
+      'yii\web\JqueryAsset'
     ];
     public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
 }

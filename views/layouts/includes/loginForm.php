@@ -1,8 +1,9 @@
 <?php
-use yii\authclient\widgets\AuthChoice;
+use app\ext\AuthChoice;
 ?>
 <?php $authAuthChoice = AuthChoice::begin([
-    'baseAuthUrl' => ['site/auth']
+    'baseAuthUrl' => ['site/auth'],
+    'popupMode' => true,
 ]); ?>
 <div class="auth-popup popup-wrap" style="display:none" onclick="event.target===this&&Auth.close(event)">
     <div class="popup">
@@ -31,3 +32,5 @@ use yii\authclient\widgets\AuthChoice;
       <span class="close" title="Закрыть" onclick="Auth.close(event)"></span>
     </div>
 </div>
+
+<?php AuthChoice::end(); ?>
