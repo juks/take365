@@ -1,3 +1,9 @@
+<?php
+use yii\authclient\widgets\AuthChoice;
+?>
+<?php $authAuthChoice = AuthChoice::begin([
+    'baseAuthUrl' => ['site/auth']
+]); ?>
 <div class="auth-popup popup-wrap" style="display:none" onclick="event.target===this&&Auth.close(event)">
     <div class="popup">
       <h2>Точка входа</h2>
@@ -14,6 +20,9 @@
         </fieldset>
         <fieldset>
           <input type="submit" value="Войти">
+          <?php foreach ($authAuthChoice->getClients() as $client): ?>
+            <li><?php $authAuthChoice->clientLink($client) ?></li>
+          <?php endforeach; ?>
         </fieldset>
         <fieldset class="hint">
           <p><a href="/register/recover/">Забыли пароль</a> или <a href="/#2" onclick="Auth.onClickRegister(event)">ещё не зарегистрировались</a>?</p>
@@ -21,7 +30,4 @@
       </form>
       <span class="close" title="Закрыть" onclick="Auth.close(event)"></span>
     </div>
-    <?= yii\authclient\widgets\AuthChoice::widget([
-     'baseAuthUrl' => ['site/auth']
-    ]) ?>
 </div>
