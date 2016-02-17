@@ -22,7 +22,7 @@ use app\ext\AuthChoice;
         <fieldset>
           <input type="submit" value="Войти">
           <?php foreach ($authAuthChoice->getClients() as $client): ?>
-            <li><?php $authAuthChoice->clientLink($client) ?></li>
+            <?php $authAuthChoice->clientLink($client) ?>
           <?php endforeach; ?>
         </fieldset>
         <fieldset class="hint">
