@@ -1,10 +1,6 @@
 <?php
 use app\ext\AuthChoice;
 ?>
-<?php $authAuthChoice = AuthChoice::begin([
-    'baseAuthUrl' => ['site/auth'],
-    'popupMode' => true,
-]); ?>
 <div class="auth-popup popup-wrap" style="display:none" onclick="event.target===this&&Auth.close(event)">
     <div class="popup">
       <h2>Точка входа</h2>
@@ -20,10 +16,15 @@ use app\ext\AuthChoice;
           <label for="remember">Запомнить</label>
         </fieldset>
         <fieldset>
-          <input type="submit" value="Войти">
-          <?php foreach ($authAuthChoice->getClients() as $client): ?>
-            <?php $authAuthChoice->clientLink($client) ?>
-          <?php endforeach; ?>
+          <?php $authAuthChoice = AuthChoice::begin([
+              'baseAuthUrl' => ['site/auth'],
+              'popupMode' => true,
+          ]); ?>
+            <input type="submit" value="Войти">
+            <?php foreach ($authAuthChoice->getClients() as $client): ?>
+              <?php $authAuthChoice->clientLink($client) ?>
+            <?php endforeach; ?>
+          <?php AuthChoice::end(); ?>
         </fieldset>
         <fieldset class="hint">
           <p><a href="/register/recover/">Забыли пароль</a> или <a href="/#2" onclick="Auth.onClickRegister(event)">ещё не зарегистрировались</a>?</p>
@@ -33,4 +34,3 @@ use app\ext\AuthChoice;
     </div>
 </div>
 
-<?php AuthChoice::end(); ?>
