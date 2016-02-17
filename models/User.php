@@ -288,6 +288,14 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
                                         'is_active' => true
                                 ]);
 
+            // Try fetching facebook user attributes
+            if ($client->name == self::extAuthFacebook) {
+                if (!empty($userAttributes['name'])) $user->fullname = $userAttributes['name'];
+            } elseif ($client->name == self::extAuthTwitter) {
+                if (!empty($userAttributes['name'])) $user->fullname = $userAttributes['name'];
+                if (!empty($userAttributes['screen_name']) && !self::getActiveUser($userAttributes['screen_name'])) $user->username = $userAttributes['screen_name'];
+            }
+
             if ($email && !$user->validate(['email'])) throw new \yii\web\ConflictHttpException(Ml::t('This email address is already taken'));
             
             $user->save();
