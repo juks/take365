@@ -99,8 +99,10 @@ $config = [
                 ],
                 'twitter' => [
                     'class' => 'yii\authclient\clients\Twitter',
-                    //'authUrl' => 'https://www.facebook.com/dialog/oauth?display=popup',
                 ],
+                'vkontakte' => [
+                    'class' => 'yii\authclient\clients\VKontakte',
+                ]
             ],
         ],
 

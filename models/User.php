@@ -39,10 +39,12 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
 
     const extAuthFacebook = 'facebook';
     const extAuthTwitter = 'twitter';
+    const extAuthVKontatke = 'vkontakte';
 
     protected static $_extAuthServiceId = [
                                                 self::extAuthFacebook => 1,
-                                                self::extAuthTwitter => 2
+                                                self::extAuthTwitter => 2,
+                                                self::extAuthVKontatke => 3,
                                           ];
 
     /**
@@ -289,11 +291,19 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
                                 ]);
 
             // Try fetching facebook user attributes
+            // Facebook
             if ($client->name == self::extAuthFacebook) {
                 if (!empty($userAttributes['name'])) $user->fullname = $userAttributes['name'];
+            // Twitter
             } elseif ($client->name == self::extAuthTwitter) {
                 if (!empty($userAttributes['name'])) $user->fullname = $userAttributes['name'];
                 if (!empty($userAttributes['screen_name']) && !self::getActiveUser($userAttributes['screen_name'])) $user->username = $userAttributes['screen_name'];
+            // VKontatke
+            } elseif ($client->name == self::extAuthVKontatke) {
+                $fullname = !empty($userAttributes['first_name']) ? $userAttributes['first_name'] : '';
+                if (!empty($userAttributes['last_name'])) $fullname .= ' ' . $userAttributes['last_name'];
+                $user->fullname = $fullname;
+                if (!empty($userAttributes['nickname']) && !self::getActiveUser($userAttributes['nickname'])) $user->username = $userAttributes['nickname'];
             }
 
             if ($email && !$user->validate(['email'])) throw new \yii\web\ConflictHttpException(Ml::t('This email address is already taken'));
