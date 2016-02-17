@@ -549,7 +549,7 @@ SELECT {
   display: inline-block;
   font-size: 16px;
   height: 40px;
-  line-height: 36px;
+  line-height: 40px;
   padding: 0 20px;
   vertical-align: top;
   }
@@ -560,7 +560,7 @@ SELECT {
   display: inline-block;
   font-size: 16px;
   height: 40px;
-  line-height: 36px;
+  line-height: 40px;
   margin-right: -20px;
   padding: 0 20px;
   vertical-align: top;
