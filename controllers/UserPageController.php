@@ -48,6 +48,10 @@ class UserPageController extends MyController {
         ];
     }
 
+    public function checkUrlUpgrade($user, $username) {
+        return substr($username, 0, 1) == '@' && $user->username;
+    }
+
     /*
     * Display user home page
     */
@@ -55,6 +59,10 @@ class UserPageController extends MyController {
         $owner = User::getActiveUser($username);
 
         if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        
+        // Redirect if user was requested by id but has username already
+        if ($this->checkUrlUpgrade($owner, $username)) $this->redirect($owner->url);
+
         $owner->format();
         $this->setTitle(Ml::t('{user} stories', null, ['user' => $owner->fullnameFilled]));
 
@@ -76,6 +84,10 @@ class UserPageController extends MyController {
         $owner = User::getActiveUser($username);
 
         if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+
+        // Redirect if user was requested by id but has username already
+        if ($this->checkUrlUpgrade($owner, $username)) $this->redirect($owner->urlProfile);
+
         $owner->format();
         $this->setTitle(Ml::t('{user} profile page', null, ['user' => $owner->fullnameFilled]));
 
@@ -92,6 +104,10 @@ class UserPageController extends MyController {
         $owner = User::getActiveUser($username);
 
         if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+
+        // Redirect if user was requested by id but has username already
+        if ($this->checkUrlUpgrade($owner, $username)) $this->redirect($owner->urlEdit);
+
         $owner->hasPermission(Yii::$app->user, IPermissions::permWrite);
         $owner->format();
 
@@ -115,6 +131,9 @@ class UserPageController extends MyController {
 
         $story = Story::getActiveStory($storyId);
         if (!$story || $story->created_by != $owner->id) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+
+        // Redirect if user was requested by id but has username already
+        if ($this->checkUrlUpgrade($owner, $username)) $this->redirect($story->url);
 
         $story->format();
         $this->setTitle($story->titleFilled);
