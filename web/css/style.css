@@ -553,19 +553,6 @@ SELECT {
   padding: 0 15px;
   vertical-align: top;
   }
-.auth-link.twitter {
-  background: #00aced;
-  border-radius: 20px;
-  color: #fff;
-  display: none;
-  /*display: inline-block;*/
-  font-size: 16px;
-  height: 40px;
-  line-height: 40px;
-  margin-right: -20px;
-  padding: 0 15px;
-  vertical-align: top;
-  }
 .auth-link.vkontakte {
   background: #4e729a;
   border-radius: 20px;
