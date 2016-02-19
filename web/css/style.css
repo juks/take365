@@ -501,18 +501,18 @@ SELECT {
       position: relative;
       z-index: 2;
       padding: 7px 15px;
-      background: #333;
+      background: #000;
       }
     .intro P A {
       position: relative;
       z-index: 2;
       padding: 5px 15px;
       border: none;
-      background: #CC3333;
+      background: #DE0202;
       color: #FFF;
       }
     .intro P A:hover {
-      background: #DE0202;
+      background: #BF0000;
       }
 
 /* Login & Register
@@ -648,6 +648,14 @@ SELECT {
   line-height: 1.4;
   -webkit-font-smoothing: antialiased;
   }
+  .footer .stores {
+    display: none;
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    margin-left: -67px;
+    }
+
   .footer UL {
     display: inline-block;
     padding: 3px 8px 6px 8px;
@@ -1222,8 +1230,11 @@ SELECT {
   width: 100%;
   padding-top: 0;
   }
+  .main .footer .stores {
+    display: block;
+    }
   .main .footer UL {
-    background: #333;
+    background: #000;
     color: #CCC;
     }
   .main .footer A {
@@ -1243,6 +1254,9 @@ SELECT {
   position: relative;
   top: 0;
   }
+  .viewing-page-2 .footer .stores {
+    display: none;
+    }
   .viewing-page-2 .footer UL {
     background: none;
     color: #666;
@@ -1255,4 +1269,3 @@ SELECT {
     border-color: #999;
     color: #000;
     }
-

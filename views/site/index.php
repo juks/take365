@@ -56,6 +56,11 @@ use yii\widgets\ActiveForm;
     </section>
   </div>
   <footer class="footer">
+    <div class="stores">
+      <div class="appstore">
+        <a href="https://itunes.apple.com/ru/app/take365/id1082676900"><img src="/i/app-store.svg" height="40" alt="Загрузите в App Store"></a>
+      </div>
+    </div>
     <ul>
       <li>&copy; 2011&mdash;<?= date("Y") ?> Take365</li>
       <li><a href="/help/">О&nbsp;проекте</a></li>
