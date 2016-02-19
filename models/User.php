@@ -392,7 +392,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
             $conditions = [];
             $order = 'time_published DESC, status';
         } else {
-            $conditions = ['status' => Story::statusPublic];
+            $conditions = ['status' => Story::statusPublic, 'is_deleted' => false];
             $order = 'time_published DESC';
         }
 

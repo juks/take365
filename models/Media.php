@@ -28,7 +28,7 @@ class Media extends MediaCore {
                                                         MediaCore::targetDimension       => 3000,
                                                         MediaCore::thumbsList            => [
                                                                                                 MediaCore::resizeMaxSide => [500, 200, 100, 50],
-                                                                                        ],
+                                                                                            ],
                                                         MediaCore::mainThumbDimension    => 500,
                                                         MediaCore::largeThumbDimension   => 500,
                                                         MediaCore::quality               => 95,
@@ -77,7 +77,7 @@ class Media extends MediaCore {
         ];
     }
 
-        /**
+    /**
     *   Sets the lists of fields that are available for public exposure
     **/
     public function fields() {
@@ -103,6 +103,9 @@ class Media extends MediaCore {
         return $fields;
     }
 
+    /**
+    *   Get connecting condition
+    **/
     public function getBrotherCondition($type = 'default') {
         if (empty($this->target_id) || empty($this->target_type)) return null;
 
@@ -118,11 +121,16 @@ class Media extends MediaCore {
         return $condition;
     }
 
-
+    /**
+    *   Active items condition
+    **/
     public static function getActiveCondition() {
         return ['is_deleted' => 0];
     }
 
+    /**
+    *   After the item was uploaded
+    **/
     public function afterUpload() {
         // Mark Predecessors as deleted
         if ($this->type == self::typeStoryImage) {
@@ -132,5 +140,12 @@ class Media extends MediaCore {
                 $pred->markDeleted();
             }
         }
+    }
+
+    /**
+     * Story relation
+     */
+    public function getStory() {
+        return $this->hasOne(Story::className(), ['created_by' => 'created_by']);
     }
 }

@@ -160,13 +160,13 @@ class MediaController extends ApiController {
     */
     public function actionSwapDays($storyId, $dateA, $dateB) {
         $story = $this->checkParentModelPermission($storyId, IPermissions::permWrite, ['parentModelClass' => ApiStory::className()]);
-        if (!$story->isValidDate($dateA) || !$story->isValidDate($dateB)) throw new Exception('Invalid date');
+        if (!$story->isValidDate($dateA) || !$story->isValidDate($dateB)) throw new \Exception('Invalid date');
 
         $itemA = ApiMedia::find()->where(['target_id' => $storyId, 'date' => $dateA])->one();
         $itemB = ApiMedia::find()->where(['target_id' => $storyId, 'date' => $dateB])->one();
 
-        if ($itemA && !$itemA->hasPermission(Yii::$app->user, IPermissions::permWrite)) throw new ForbiddenHttpException();
-        if ($itemB && !$itemB->hasPermission(Yii::$app->user, IPermissions::permWrite)) throw new ForbiddenHttpException();
+        if ($itemA && !$itemA->hasPermission(Yii::$app->user, IPermissions::permWrite)) throw new \yii\web\ForbiddenHttpException();
+        if ($itemB && !$itemB->hasPermission(Yii::$app->user, IPermissions::permWrite)) throw new \yii\web\ForbiddenHttpException();
 
         if ($itemA) {
             $itemA->date = $dateB;

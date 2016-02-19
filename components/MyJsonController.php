@@ -21,6 +21,7 @@ use yii\helpers\ArrayHelper;
 
 class MyJsonController extends Controller {
 	protected $_jsonResponse;
+	protected $_responseCode = 0;
 
 	public $disableSend = false;
 
@@ -55,7 +56,7 @@ class MyJsonController extends Controller {
 	 * @param mixed $result
 	 */
 	public function afterAction($action, $result) {
-		if ($this->_jsonResponse->hasErrors) Yii::$app->response->statusCode = 406;
+		if ($this->_jsonResponse->hasErrors) Yii::$app->response->statusCode = $this->_responseCode ? : 406;
 
 		if (!$this->disableSend) {
 			return $this->_jsonResponse->send(['return' => true]);
@@ -88,6 +89,16 @@ class MyJsonController extends Controller {
 
 			return $this->afterAction($id, null);
 		} catch (\app\components\ControllerException $e) {
+			$this->addErrorMessage($e->getMessage());
+
+			return $this->afterAction($id, null);
+		} catch (\yii\web\BadRequestHttpException $e) {
+			$this->_responseCode = $e->statusCode;
+			$this->addErrorMessage($e->getMessage());
+
+			return $this->afterAction($id, null);
+		} catch (\yii\web\NotFoundHttpException $e) {
+			$this->_responseCode = $e->statusCode;
 			$this->addErrorMessage($e->getMessage());
 
 			return $this->afterAction($id, null);
