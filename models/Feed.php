@@ -70,9 +70,21 @@ class Feed extends FeedBase {
 
         $ids = Helpers::fetchFields(self::sqlSelect('user_id', ['reader_id' => $user->id]), 'user_id', ['isSingle' => true]); 
 
-        $media = Media::find()->where(['id' => $ids])->with('story')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
-        
-        return $media;
+        $mediaList = Media::find()->where([
+        									'created_by'    => $ids,
+        									'target_type' 	=> Story::typeId,
+        									'type' 			=> Media::typeStoryImage,
+        									'is_deleted' 	=> false,
+        									'is_hidden' => false
+        							   ])->with('story')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
+
+
+        foreach ($mediaList as $mediaItem) {
+            $mediaItem->setScenario('feed');
+            if ($mediaItem->story) $mediaItem->story->setScenario('feed');
+        }
+
+        return $mediaList;
     }
 
     /**

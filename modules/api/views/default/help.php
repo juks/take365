@@ -209,6 +209,36 @@ $api = [
                                                 ]
                     ],
                 ]
+             ],
+
+[
+                'title'                     => 'Feed',
+                'methods'                   => [
+                    '/feed/feed'     => [
+                        'title' => 'Retrieves current user\'s feed',
+                        'method' => 'GET',
+                        'params'                => [
+                                                ]
+                    ],
+
+                    '/feed/follow'     => [
+                        'auth'  => true,
+                        'title' => 'Follow user',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'username',      't' => 'Username or user id',              'h'=>''],
+                                               ]
+                    ],
+
+                    '/feed/unfollow'     => [
+                        'auth'  => true,
+                        'title' => 'Unfollow user',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'username',      't' => 'Username or user id',              'h'=>''],
+                                               ]
+                    ],
+                ]
              ]
         ];
 

@@ -98,6 +98,10 @@ class Media extends MediaCore {
             $fields['thumbLarge']    = function() { return $this->getThumbData(MediaCore::resizeMaxSide, $this->getOption('largeThumbDimension')); };
         }
 
+        if ($this->scenario == 'feed') {
+            $fields['story']         = function() { return $this->story; };
+        }
+
         if ($this->target_type == Story::typeId) $fields['date'] = 'date';
 
         return $fields;
