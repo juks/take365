@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "media".
  *
  * @property integer $id
- * @property integer $id_old
  * @property string $target_id
  * @property integer $target_type
  * @property integer $type
@@ -69,7 +68,6 @@ class MediaBase extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_old' => 'Old ID',
             'target_id' => 'Target ID',
             'target_type' => 'Target Type',
             'type' => 'Type',

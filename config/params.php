@@ -15,6 +15,7 @@ return [
     'mQueue'     => [
                         'pendingTime'      => 3600,
                         'sendLimit'        => 5,
-                        'storeTime'        => 86400 * 7
+                        'storeTime'        => 86400 * 7,
+                        'expire'           => 3600
                     ]
 ];

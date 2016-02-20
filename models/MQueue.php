@@ -56,7 +56,7 @@ class MQueue extends MQueueBase {
     public static function processQueue() {
         $limit = Helpers::getParam('mQueue/sendLimit', 5);
 
-        $messages = MQueue::find()->where(['send_me' => 1, 'is_pending' => 0])->orderBy('time_created')->all();
+        $messages = MQueue::find()->where(['send_me' => 1, 'is_pending' => 0])->orderBy('time_created')->limit($limit)->all();
 
         foreach($messages as $message) {
             $message->deliver();
@@ -181,6 +181,14 @@ class MQueue extends MQueueBase {
         $this->lock();
 
         $senderEmail = Helpers::getParam('projectRobotEmail');
+        $expire = Helpers::getParam('mQueue/expire', 86400);
+
+        // Is message expired
+        if (time() - $this->time_created > $expire) {
+            $this->reject();
+            return;
+        }
+
         $this->setHeader('From', Helpers::getParam('projectName') . ' mailer <' . $senderEmail . '>');
         $stringHeaders = $this->getHeadersString();
 
@@ -236,6 +244,19 @@ class MQueue extends MQueueBase {
         $this->setAttributes([
                                     'is_pending'    => 0,
                                     'pending_since' => 0
+                                ]);
+
+        $this->save();        
+    }
+
+    /**
+    * Mark message as not pending delivery
+    */
+    public function reject() {
+        $this->setAttributes([
+                                    'is_rejected'   => 1,
+                                    'is_pending'    => 0,
+                                    'send_me'       => 0
                                 ]);
 
         $this->save();        

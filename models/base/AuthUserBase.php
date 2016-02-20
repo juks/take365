@@ -9,7 +9,6 @@ use app\components\Ml;
  * This is the model class for table "auth_user".
  *
  * @property integer $id
- * @property integer $id_old
  * @property integer $user_type
  * @property string $username
  * @property string $password

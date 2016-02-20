@@ -12,6 +12,7 @@ use Yii;
  * @property integer $time_sent
  * @property integer $send_me
  * @property integer $is_pending
+ * @property integer $is_rejected
  * @property integer $pending_since
  * @property string $to
  * @property string $headers
@@ -35,7 +36,7 @@ class MQueueBase extends \yii\db\ActiveRecord
     {
         return [
             [['time_created'], 'required'],
-            [['time_created', 'time_sent', 'send_me', 'is_pending', 'pending_since'], 'integer'],
+            [['time_created', 'time_sent', 'send_me', 'is_pending', 'is_rejected', 'pending_since'], 'integer'],
             [['headers', 'body'], 'string'],
             [['to', 'subject'], 'string', 'max' => 255]
         ];
@@ -52,6 +53,7 @@ class MQueueBase extends \yii\db\ActiveRecord
             'time_sent' => 'Time Sent',
             'send_me' => 'Send Me',
             'is_pending' => 'Is Pending',
+            'is_rejected' => 'Is Rejected',
             'pending_since' => 'Pending Since',
             'to' => 'To',
             'headers' => 'Headers',
