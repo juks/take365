@@ -70,7 +70,6 @@ class AuthUserBase extends \yii\db\ActiveRecord
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'id_old' => 'Old ID',
             'user_type' => 'User Type',
             'username' => 'Username',
             'password' => 'Password',

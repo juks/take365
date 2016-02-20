@@ -147,6 +147,7 @@ class UserController extends ApiController {
         
         if ($form->load(Helpers::getRequestParams('post')) && $form->validate()) {
             $user = ApiUser::getActiveUser($email);
+
             if ($user) {
                 $user->recover();
                 $this->addContent($user);
