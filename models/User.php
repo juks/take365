@@ -370,7 +370,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * @param  array $insert
      */
     public function beforeSave($insert) {
-        if(isset($this->password)) $this->setPassword($this->password);
+        if(isset($this->password) && $this->_oldAttributes['password'] != $this->password) $this->setPassword($this->password);
 
         return parent::beforeSave($insert);
     }
