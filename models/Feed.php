@@ -72,11 +72,10 @@ class Feed extends FeedBase {
 
         $mediaList = Media::find()->where([
         									'created_by'    => $ids,
-        									'target_type' 	=> Story::typeId,
         									'type' 			=> Media::typeStoryImage,
         									'is_deleted' 	=> false,
         									'is_hidden' => false
-        							   ])->with('story')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
+        							   ])->with('story')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
 
 
         foreach ($mediaList as $mediaItem) {
