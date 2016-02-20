@@ -931,4 +931,4 @@ var Validate = {
       this.name = 'ValidationError';
     }
 
-}
+};
