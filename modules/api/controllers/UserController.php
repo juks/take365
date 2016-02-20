@@ -6,6 +6,7 @@ use Yii;
 use app\components\MyJsonController;
 use app\components\Helpers;
 use app\components\interfaces\IPermissions;
+use app\components\Ml;
 use app\models\MQueue;
 use app\modules\api\components\ApiController;
 use app\modules\api\models\ApiUser;
@@ -42,7 +43,7 @@ class UserController extends ApiController {
             'class' => VerbFilter::className(),
             'actions' => [
                 'update-profile' => ['post'],
-                //'register'		 => ['post']
+                 'register'		 => ['post']
             ],
         ];
 
@@ -149,7 +150,9 @@ class UserController extends ApiController {
             if ($user) {
                 $user->recover();
                 $this->addContent($user);
-            };
+            } else {
+                $this->addErrorMEssage(Ml::t('User not found'), ['field' => 'email']);
+            }
         } else {
             $this->addContent($form);
         }
