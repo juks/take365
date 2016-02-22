@@ -183,6 +183,7 @@ SELECT {
   transform: rotate(-45deg);
   }
 .form INPUT[type='submit'] {
+  vertical-align: middle;
   padding: 0 20px;
   height: 40px;
   border: 1px solid #0055CC;
@@ -542,28 +543,36 @@ SELECT {
 .form-register .captcha .error-message:before {
   left: 45px;
   }
-.auth-link.facebook {
-  background: #3b5998;
-  border-radius: 20px;
-  color: #fff;
+
+/* Auth links */
+.auth-links {
   display: inline-block;
-  font-size: 16px;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 15px;
-  vertical-align: top;
+  vertical-align: middle;
+  }
+  .auth-links P {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 5px;
+    text-transform: lowercase;
+    font-size: 11px;
+    font-style: italic;
+    color: #666;
+    }
+.auth-link {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1px;
+  width: 28px;
+  height: 28px;
+  }
+.auth-link.facebook {
+  background: url('/i/i-facebook.svg') no-repeat;
   }
 .auth-link.vkontakte {
-  background: #4e729a;
-  border-radius: 20px;
-  color: #fff;
-  display: inline-block;
-  font-size: 16px;
-  height: 40px;
-  line-height: 40px;
-  margin-right: -20px;
-  padding: 0 15px;
-  vertical-align: top;
+  background: url('/i/i-vkontakte.svg') no-repeat;
+  }
+.auth-title {
+  display: none;
   }
 
 /* Popup
