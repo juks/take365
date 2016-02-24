@@ -262,6 +262,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         if ($this->isNewRecord) {
             $this->time_created = time();
             if (!$this->ip_created) $this->ip_created = ip2long(Yii::$app->request->userIP);
+            if (!$this->recovery_code) $this->generatePasswordResetToken(); 
         } else {
             $this->time_updated = time();
         }
