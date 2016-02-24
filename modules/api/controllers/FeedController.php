@@ -20,7 +20,7 @@ class FeedController extends ApiController {
                         'class' => AccessControl::className(),
                         'rules' => [
                             [
-                                'actions' => ['follow', 'unfollow', 'feed'],
+                                'actions' => ['follow', 'unfollow', 'is-following', 'feed'],
                                 'allow' => true,
                                 'roles' => ['@'],
                             ],
@@ -66,6 +66,19 @@ class FeedController extends ApiController {
         if (!$user) throw new \yii\web\NotFoundHttpException(Ml::t('User not found'));
 
         $this->addContent(Feed::unfollow($user, Yii::$app->user));
+    }
+
+    /**
+     * Unfollow user
+     *
+     * @param string $username
+     */
+    public function actionIsFollowing($username) {
+        $user = User::getActiveUser($username);
+
+        if (!$user) throw new \yii\web\NotFoundHttpException(Ml::t('User not found'));
+
+        $this->addContent(Feed::isFollowing($user, Yii::$app->user));
     }
 
     /**

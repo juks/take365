@@ -238,6 +238,16 @@ $api = [
                                                         ['n' => 'username',      't' => 'Username or user id',              'h'=>''],
                                                ]
                     ],
+
+
+                    '/feed/is-following'     => [
+                        'auth'  => true,
+                        'title' => 'Checks if current users follows other user',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'username',      't' => 'Username or user id',              'h'=>''],
+                                               ]
+                    ],
                 ]
              ]
         ];
