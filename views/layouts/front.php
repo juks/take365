@@ -16,7 +16,7 @@ FrontAsset::register($this);
 <head>
   <title><?= Html::encode($this->title) ?></title>
   <meta charset="utf-8">
-  <meta name="keywords" content="365 фотографий, 365 дней, проект 365 дней, год фотографий, фото-год, по одной фотографии на каждый день, идеи фотографий на каждый день, tak365">
+  <meta name="keywords" content="365 фотографий, 365 дней, проект 365 дней, год фотографий, фото-год, по одной фотографии на каждый день, идеи фотографий на каждый день, take365">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <?php $this->head() ?>
   <script>
