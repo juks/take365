@@ -19,11 +19,19 @@ class RegisterController extends MyController
         ];
     }
 
-    public function actionConfirm($id, $code) {
+    public function actionConfirm($id, $email, $code) {
         $this->setTitle(Ml::t('Password recovery'));
         $confirmError = false;
 
         $user = User::findOne($id);
+
+        if (!$user) {
+            $confirmError = 'Пользователь не найден';
+        } elseif ($user->email != $email) {
+            $confirmError = 'Адрес электронной почты изменился. Пожалуйста, воспользовайтесь обновлённой ссылкой из письма-уведомления.';
+        } elseif (!$user->confirmEmail()) {
+            $confirmError = 'Не удалось подтвердить адрес электронной почты';
+        }
 
         return $this->render('confirm', ['confirmError' => $confirmError]);
     }

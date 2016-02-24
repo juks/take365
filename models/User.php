@@ -327,6 +327,14 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     }
 
     /**
+    * Confirm user's email
+    */
+    public function confirmEmail() {
+        $this->email_confirmed = true;
+        return $this->save();
+    }
+
+    /**
      * Register new user
      */
     public function register() {
@@ -460,7 +468,9 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     * Forms user register confirm url
     */
     public function getUrlConfirm() {
-        return \yii\helpers\Url::base(true) . '/register/confirm?id=' . $this->id . '&code=' . $this->recovery_code;
+        if (!$this->recovery_code || !$this->email) throw new \Exception('Some user data is missing');
+
+        return \yii\helpers\Url::base(true) . '/register/confirm?id=' . $this->id . '&email=' . $this->email . '&code=' . $this->recovery_code;
     }
 
     /**
