@@ -82,11 +82,11 @@ class FeedController extends ApiController {
     }
 
     /**
-     * Unfollow user
+     * Get user's feed
      *
      * @param string $username
      */
-    public function actionFeed() {
-        $this->addContent(Feed::feed(Yii::$app->user));
+    public function actionFeed($page = 1, $maxItems = 20) {
+        $this->addContent(Feed::feed(Yii::$app->user, $page, $maxItems));
     }
 }

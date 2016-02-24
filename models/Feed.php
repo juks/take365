@@ -15,6 +15,7 @@ class Feed extends FeedBase {
 	use TModelExtra;
 
 	public static $maxItems = 20;
+    public static $maxItemsLimit = 100;
 
     /**
      * Prepare for validation
@@ -67,6 +68,7 @@ class Feed extends FeedBase {
      */
     public static function feed($user, $page = 1, $maxItems = 0) {
     	if (!$maxItems) $maxItems = self::$maxItems;
+        if (!$maxItems > self::$maxItemsLimit) $maxItems = self::$maxItemsLimit;
 
         $ids = Helpers::fetchFields(self::sqlSelect('user_id', ['reader_id' => $user->id]), 'user_id', ['isSingle' => true]); 
 
