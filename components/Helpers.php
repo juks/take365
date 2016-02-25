@@ -347,6 +347,28 @@ class Helpers {
     }
 
     /**
+    * Get available timezones
+    **/
+    public static function listTimezones() {
+        $timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY);
+        $now = new \DateTime('now');
+
+        foreach ($timezones as &$timezone) {
+            $offset = timezone_offset_get(timezone_open($timezone), new \DateTime()) / 3600;
+            $offsetSign = $offset >= 0 ? '+' : '';
+            $offsetHours = abs(intval($offset));
+            $offsetMinutes = sprintf('%02d', $offset - $offsetHours ? 60 * ((abs($offset) - $offsetHours) * 100 / 100) : '00');
+            $offsetTitle = $timezone . ' (GMT' . $offsetSign . $offsetHours . ':' . $offsetMinutes . ')';
+
+            $timezone = ['id' => $timezone, 'title' => $offsetTitle, 'offset' => $offset];
+        }
+
+        array_unshift($timezones, ['id' => 'none', 'title' => 'Не указан', 'offset' => '']);
+
+        return $timezones;
+    }
+
+    /**
      * Replaces or removes value within given query string
      * @static
      * @param $query

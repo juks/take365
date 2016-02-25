@@ -25,6 +25,7 @@ use app\components\Ml;
  * @property string $homepage
  * @property string $fullname
  * @property integer $sex
+ * @property string $timezone
  * @property string $description
  * @property string $description_jvx
  * @property string $recovery_code
@@ -53,6 +54,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
             [['email'], 'required', 'when' => function($m) { return !$m->ext_type; }],
             [['username'], 'string', 'min' => 1, 'max' => 20],
             [['password', 'fullname'], 'string', 'max' => 64],
+            [['timezone'], 'string', 'max' => 32],
             ['username', 'checkUsernameReserved'],
             ['username', 'checkUsernameValid'],
             ['username', 'checkUsernameExists'],

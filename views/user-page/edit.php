@@ -36,6 +36,12 @@ ProfileAsset::register($this);
 				<option value="2"<?php if($user->sexTitle == 'female'): ?> selected<?php endif ?>>Женский</option>
 			</select>
 		</div>
+		<div class="fTitle">Часовой пояс</div>
+		<div class="fElem">
+			<select name='timezone' id='timezoneSelect'>
+				<?php foreach($timezones as $timezone): ?><option value="<?= $timezone['id'] ?>"<?php if($timezone['isSelected']): ?> selected<?php endif ?>><?= $timezone['title'] ?></option><?php endforeach ?>
+			</select>
+		</div>
 		<div class="fElem">
 			<input type="submit" class="fSubmit" name="submitButton" value="Сохранить" />
 		</div>

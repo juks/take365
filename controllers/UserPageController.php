@@ -9,6 +9,7 @@ use app\models\User;
 use app\models\Story;
 use app\models\Media;
 use app\components\MyController;
+use app\components\Helpers;
 use app\components\interfaces\IPermissions;
 use app\components\Ml;
 
@@ -112,13 +113,20 @@ class UserPageController extends MyController {
         $owner->format();
 
         $this->setTitle(Ml::t('Profile update'));
+
+        $timezones = Helpers::listTimezones();
+
+        foreach ($timezones as &$timezone) {
+            $timezone['isSelected'] = $owner->timezone == $timezone['id'] || !$owner->timezone && $timezone['id'] == 'none';
+        }
         
         return $this->render('edit', [
                                         'user'         => $owner,
                                         'pageType'     => 'profile',
                                         'targetId'     => $owner->id,
                                         'targetType'   => User::typeId,
-                                        'mediaType'    => Media::aliasUserpic
+                                        'mediaType'    => Media::aliasUserpic,
+                                        'timezones'    => $timezones
                                     ]);
     }
 

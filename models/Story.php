@@ -37,6 +37,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public $images = null;
     public $imagesCount = null;
     public $progressData = null;
+    public $creatorCache = null;
 
     public $monthTitle = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     public $monthTitleGen = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
@@ -87,6 +88,14 @@ class Story extends StoryBase implements IPermissions, IGetType {
      */
     public function getCreatorIdField() {
         return 'created_by';
+    }
+
+    public function getCreator() {
+        if (!$this->creatorCache) {
+            $this->creatorCache = $this->hasOne(User::className(), ['id' => 'created_by'])->one();      
+        }
+
+        return $this->creatorCache;
     }
 
     /**
@@ -266,6 +275,12 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * Formats story data for user page display
     */
     public function format($extra = []) {
+        $creator = $this->creator;
+
+        $timezone = new \DateTimeZone($creator->defaultTimezone);
+        $now = new \DateTime('now', $timezone);
+        $nowTimestamp = $now->getTimestamp() + $now->getOffset();
+
         $this->calendar = [];
         $this->fetchImages($extra);
         $this->fetchImagesCount($extra);
@@ -280,7 +295,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $timeTo = mktime(0, 0, 0, date('n', $this->time_start), date('j', $this->time_start), date('Y', $this->time_start));
         $dateTarget = date('Y-m-d', $this->time_start);
 
-        $daysDiff = floor((time() - $timeTo) / 86400);
+        $daysDiff = floor(($nowTimestamp - $timeTo) / 86400);
         if ($daysDiff > 365) $daysDiff = 365;
         $timeFrom = $timeTo + $daysDiff * 86400;
 

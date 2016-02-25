@@ -41,6 +41,8 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     const extAuthTwitter = 'twitter';
     const extAuthVKontatke = 'vkontakte';
 
+    const defaultTimezone = 'Europe/Moscow';
+
     protected static $_extAuthServiceId = [
                                                 self::extAuthFacebook => 1,
                                                 self::extAuthTwitter => 2,
@@ -53,7 +55,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     public function scenarios() {
         return [
             'import' => ['id_old', 'username', 'password', 'email', 'description', 'description_jvx', 'is_active', 'ip_created', 'time_created', 'time_registered', 'sex', 'fullname', 'description'],
-            'default' => ['username', 'fullname', 'email', 'password', 'description', 'is_active', 'ext_type', 'ext_id']
+            'default' => ['username', 'fullname', 'email', 'password', 'description', 'is_active', 'sex', 'timezone', 'ext_type', 'ext_id']
         ];
     }
 
@@ -83,6 +85,10 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      */
     public static function getActiveCondition() {
         return ['is_active' => 1];
+    }
+
+    public function getDefaultTimezone() {
+        return $this->timezone ? $this->timezone : self::defaultTimezone;
     }
 
     /**
