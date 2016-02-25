@@ -350,7 +350,7 @@ class Helpers {
     * Get available timezones
     **/
     public static function listTimezones() {
-        $timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY);
+        $timezones = \DateTimeZone::listIdentifiers();
         $now = new \DateTime('now');
 
         foreach ($timezones as &$timezone) {
