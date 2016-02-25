@@ -359,11 +359,18 @@ class Helpers {
             $offsetHours = abs(intval($offset));
             $offsetMinutes = sprintf('%02d', $offset - $offsetHours ? 60 * ((abs($offset) - $offsetHours) * 100 / 100) : '00');
             $offsetTitle = $timezone . ' (GMT' . $offsetSign . $offsetHours . ':' . $offsetMinutes . ')';
+            $weight = 0;
+            if (substr($timezone, 0, 6) == 'Europe') $weight ++;
+            if ($timezone == 'Europe/Moscow') $weight += 2;
+            if ($timezone == 'Europe/Minsk') $weight ++;
+            if ($timezone == 'Europe/Kiev') $weight ++;
 
-            $timezone = ['id' => $timezone, 'title' => $offsetTitle, 'offset' => $offset];
+            $timezone = ['id' => $timezone, 'title' => $offsetTitle, 'offset' => $offset, 'weight' => $weight];
         }
 
-        array_unshift($timezones, ['id' => 'none', 'title' => 'Не указан', 'offset' => '']);
+        array_unshift($timezones, ['id' => 'none', 'title' => 'Не указан', 'offset' => '', 'weight' => 10]);
+
+        usort($timezones, function($a, $b) { if ($a['weight'] == $b['weight']) return 0; return ($a['weight'] > $b['weight']) ? -1 : 1; });
 
         return $timezones;
     }
