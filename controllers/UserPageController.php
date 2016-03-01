@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use app\models\User;
 use app\models\Story;
 use app\models\Media;
+use app\models\StoryCollaborator;
 use app\components\MyController;
 use app\components\Helpers;
 use app\components\interfaces\IPermissions;
@@ -146,7 +147,7 @@ class UserPageController extends MyController {
         $story->format();
         $this->setTitle($story->titleFilled);
 
-        $canManage = $story->hasPermission(Yii::$app->user, IPermissions::permWrite);
+        $canManage = $story->hasPermission(Yii::$app->user, IPermissions::permAdmin);
         $canUpload = $canManage ? true : StoryCollaborator::hasPermission($story);
 
         $this->addJsVars([  
