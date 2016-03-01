@@ -304,7 +304,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $this->calculateProgress();
 
         $lastMonth = null;
-        $canManage = $this->hasPermission(Yii::$app->user, IPermissions::permWrite);
+        $canUpload = $this->hasPermission(Yii::$app->user, IPermissions::permWrite);
         $dateDict = [];
 
         foreach ($this->images as $image) $dateDict[$image['date']] = $image;
@@ -336,7 +336,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                         ];
 
                 if ($dateDict[$date]->is_deleted) {
-                    if ($canManage) {
+                    if ($canUpload) {
                         $drop['isDeletedVislble'] = true;
                     } else {
                         $drop['isDeleted'] = true;
@@ -356,7 +356,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
             $drop['blankSpace'] = $blankSpace;
 
             $lastMonth          = $month;
-            if (!$blankSpace || $canManage) $this->calendar[] = $drop;
+            if (!$blankSpace || $canUpload) $this->calendar[] = $drop;
 
             if ($date == $dateTarget) break;
             $timeFrom -= 86400;
