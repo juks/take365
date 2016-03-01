@@ -113,7 +113,7 @@ class MediaController extends ApiController {
                     $form->targetId = $model->id;
                 }
 
-                $parent = $this->checkParentModelPermission($form->targetId, 'write', ['parentModelClass' => ApiStory::className()]);
+                $parent = $this->checkParentModelPermission($form->targetId, IPermissions::permWrite, ['parentModelClass' => ApiStory::className()]);
                 if (!$parent->isValidDate($form->date)) throw new \Exception(Ml::t('Invalid story date', 'media'));
 
                 $model = $parent->addMedia($form->file, $form->mediaType, new ApiMedia(), ['fields' => ['date' => $form->date]]);

@@ -49,6 +49,20 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
                                                 self::extAuthVKontatke => 3,
                                           ];
 
+
+    /**
+    *   Sets the lists of fields that are available for public exposure
+    **/
+    public function fields() {
+        return [
+            'id'            => 'id',
+            'username'      => 'username',
+            'url'           => 'url',
+            'userpic'       => function() { $up = $this->userpic; return $up ? $up->getThumbData(Media::resizeMaxSide, 100) : null; },
+            'userpicLarge'  => function() { $up = $this->userpic; return $up ? $up->getThumbData(Media::resizeMaxSide, 200) : null; }
+        ];
+    }
+
     /**
     *   Sets the User model scenarios
     **/    

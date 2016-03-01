@@ -47,7 +47,7 @@ $this->registerJs("initStory();");
         <?php if (empty($day['invisible'])): ?>
         <div class="user-photo-content">
           <a<?php /* href="<?= $day['url'] ?>"*/ ?>><img src="<?= $day['image']['url'] ?>" width="<?= $day['image']['width'] ?>" height="<?= $day['image']['height'] ?>" class="user-photo-image"></a>
-          <?php if ($canManage): ?><div class="user-photo-manage">Редактировать</div><?php endif ?>
+          <?php if ($canUpload): ?><div class="user-photo-manage">Редактировать</div><?php endif ?>
           <?php if (!empty($day['isDeleted'])): ?><div class="user-photo-restore"><a class="ctrl-restore" onclick="Story.recoverMedia('<?= $day['date'] ?>')">Восстановить</a> или <a class="ctrl-replace i-upload" onclick="Story.openUpload('<?= $day['date'] ?>')">заменить</a>.</div><?php endif ?>
         </div>
         <?php endif ?>

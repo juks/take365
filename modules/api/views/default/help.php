@@ -211,7 +211,7 @@ $api = [
                 ]
              ],
 
-[
+            [
                 'title'                     => 'Feed',
                 'methods'                   => [
                     '/feed/feed'     => [
@@ -245,6 +245,54 @@ $api = [
                     '/feed/is-following'     => [
                         'auth'  => true,
                         'title' => 'Checks if current users follows other user',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'username',      't' => 'Username or user id',              'h'=>''],
+                                               ]
+                    ],
+                ]
+             ],
+
+            [
+                'title'                     => 'Collaboration',
+                'methods'                   => [
+                    '/collaborator/collaborators'     => [
+                        'title' => 'Retrieves story collaborators list',
+                        'method' => 'GET',
+                        'params'                => [
+                                                        ['n' => 'storyId',  't' => 'Story id'],
+                                                ]
+                    ],
+
+                    '/collaborator/stories'     => [
+                        'auth'  => true,
+                        'title' => 'List stories that the given user listed as collaborator for',
+                        'method' => 'GET',
+                        'params'                => [
+                                               ]
+                    ],
+
+                    '/collaborator/add'     => [
+                        'auth'  => true,
+                        'title' => 'Add story collaborator',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'username',      't' => 'Username or user id',              'h'=>''],
+                                               ]
+                    ],
+
+                    '/collaborator/confirm'     => [
+                        'auth'  => true,
+                        'title' => 'Confirm pending collaboration',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'username',      't' => 'Username or user id',              'h'=>''],
+                                               ]
+                    ],
+
+                    '/collaborator/remove'     => [
+                        'auth'  => true,
+                        'title' => 'Remove story collaborator',
                         'method' => 'POST',
                         'params'                => [
                                                         ['n' => 'username',      't' => 'Username or user id',              'h'=>''],

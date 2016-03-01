@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use app\components\JsonResponse;
+use app\components\Ml;
 
 // To detect types
 use yii\base\Arrayable;
@@ -169,9 +170,9 @@ class MyJsonController extends Controller {
 		$model = call_user_func($this->getModelClass() . '::find')->where($cond)->one();
 
 		if (!$model) {
-			throw new NotFoundHttpException();
+			throw new NotFoundHttpException(Ml::t('Object not found'));
 		} elseif (!$model->hasPermission($extra['user'], $permission)) {
-			throw new ForbiddenHttpException();
+			throw new ForbiddenHttpException(Ml::t('Forbidden'));
 		}
 
 		return $model;

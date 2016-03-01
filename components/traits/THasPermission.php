@@ -14,6 +14,8 @@ trait THasPermission {
      * @param int $fieldvalue
      */
     public function hasPermission($user, $permission = IPermissions::permRead) {
+        if (method_exists($this, 'checkPermission')) return $this->checkPermission($user, $permission);
+
         $roles = \Yii::$app->authManager->getRolesByUser($user->id);
         
         if (!method_exists($this, 'getCreatorIdField')) throw new \Exception("No getCreatorIdField() method defined for class " . get_class($this));
@@ -23,7 +25,6 @@ trait THasPermission {
 
         if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
         if ($this->$creatorIdField == $user->id) return true;
-        //if ($this->$creatorIdField == $user->id || !empty($roles['admin'])) return true;
 
         return false;
     }

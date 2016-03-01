@@ -16,19 +16,6 @@ class ApiUser extends User {
     }
 
     /**
-    *   Sets the lists of fields that are available for public exposure
-    **/
-    public function fields() {
-        return [
-            'id'            => 'id',
-            'username'      => 'username',
-            'url'           => 'url',
-            'userpic'       => function() { $up = $this->userpic; return $up ? $up->getThumbData(Media::resizeMaxSide, 100) : null; },
-            'userpicLarge'  => function() { $up = $this->userpic; return $up ? $up->getThumbData(Media::resizeMaxSide, 200) : null; }
-        ];
-    }
-
-    /**
     *   Returns the form name where this model fields are set.
     *   In in case of api the entire objet root is okay
     **/

@@ -9,6 +9,7 @@ use app\components\HelpersTxt;
 use app\components\traits\TCheckField;
 use app\components\traits\THasPermission;
 use app\components\traits\TModelExtra;
+use app\models\StoryCollaborator;
 use app\models\Media;
 use app\models\mediaExtra\MediaCore;
 use app\models\mediaExtra\TMediaUploadExtra;
@@ -107,6 +108,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
     /**
     * Returns story with given ID only if it is available for current user
+    *
+    * @param int $storyId
     **/
     public static function getActiveStory($storyId) {
         $story = self::findOne($storyId);
@@ -115,12 +118,26 @@ class Story extends StoryBase implements IPermissions, IGetType {
         if ($story) {
             if ($story->status == self::statusPublic && !$story->is_deleted) {
                 return $story;
-            } elseif ($story->created_by == $user->id) {
+            } elseif ($story->hasPermission($user, IPermissions::permWrite)) {
                 return $story;
             }
         }
 
         return null;
+    }
+
+    /**
+    * Checks the model permission
+    *
+    * @param object $user
+    * @param int $permission
+    **/
+    public function checkPermission($user, $permission = IPermissions::permWrite) {
+        if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
+        if ($this->created_by == $user->id) return true;
+        if ($permission == IPermissions::permWrite && StoryCollaborator::hasPermission($this, $user)) return true;
+
+        return false;
     }
 
     /**

@@ -8,6 +8,7 @@ namespace app\components\interfaces;
 interface IPermissions{
 	const permRead = 1;
     const permWrite = 2;
+    const permAdmin = 3;
 
 	function getIsPublic();
     function getCreatorIdField();
