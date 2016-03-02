@@ -18,7 +18,7 @@ use app\components\Ml;
  * @property integer $time_login
  * @property integer $ip_login
  * @property integer $is_active
- * @property integer $banned
+ * @property integer $is_banned
  * @property integer $failure_counter
  * @property string $email
  * @property integer $email_confirmed
@@ -48,7 +48,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
      */
     public function rules() {
         return [
-            [['user_type', 'ext_type', 'time_created', 'time_updated', 'time_registered', 'ip_created', 'time_login', 'ip_login', 'is_active', 'banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued'], 'integer'],
+            [['user_type', 'ext_type', 'time_created', 'time_updated', 'time_registered', 'ip_created', 'time_login', 'ip_login', 'is_active', 'is_banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued'], 'integer'],
             [['time_created', 'ip_created'], 'required'],
             [['password'], 'required', 'when' => function($m) { return !$m->ext_type; }],
             [['email'], 'required', 'when' => function($m) { return !$m->ext_type; }],
@@ -81,7 +81,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
             'time_login' => 'Time Login',
             'ip_login' => 'Ip Login',
             'is_active' => 'Active',
-            'banned' => 'Banned',
+            'is_banned' => 'is_banned',
             'failure_counter' => 'Failure Counter',
             'email' => 'Email',
             'email_confirmed' => 'Email Confirmed',
@@ -108,7 +108,11 @@ class AuthUserBase extends \yii\db\ActiveRecord
     *   Check if username contains only valid symbols
     */
     public function checkUsernameValid($attribute, $params) {
-        if ($this->scenario != 'import' && !preg_match('/^[a-z][a-z0-9-]{1,}$/i', $this->$attribute)) $this->addError($attribute, Ml::t('Invalid username'));
+        if ($this->scenario != 'import' && self::isValidUsername($this->$attribute)) $this->addError($attribute, Ml::t('Invalid username'));
+    }
+
+    public static function isValidUsername($username) {
+        return preg_match('/^[a-z][a-z0-9-]{1,}$/i', $username);
     }
 
     public function checkUsernameExists($attribute, $params) {

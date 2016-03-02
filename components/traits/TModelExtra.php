@@ -247,7 +247,7 @@ trait TModelExtra {
                         $cond = '= ' . self::quote($value);
                     }
                 }
-                $result.= '`' . $key . '`' . $cond;
+                $result.= '`' . $key . '` ' . $cond;
             }
         } elseif(is_string($condition)) {
             $result = $condition;

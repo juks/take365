@@ -98,7 +98,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * Returns the active user's criteria
      */
     public static function getActiveCondition() {
-        return ['is_active' => 1];
+        return ['is_active' => 1, 'is_banned' => 0];
     }
 
     public function getDefaultTimezone() {
@@ -124,6 +124,22 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
 
         return self::find()->where(array_merge($conditions, self::getActiveCondition()))->one();
     }
+
+    /**
+     * List users sugges by given part of their username
+     *
+     * @param  string $username
+     * @return int $maxItems
+     */
+    public static function suggest($criteria, $maxItems = 10) {
+        if (strlen($criteria['username']) < 2) return [];
+        if (!self::isValidUsername($criteria['username'])) return [];
+
+        $conditions = self::getActiveCondition();
+        $conditions['username'] = ['LIKE', $criteria['username'] . '%'];
+
+        return self::find()->where(self::makeCondition($conditions))->limit($maxItems)->all();
+    } 
 
     /**
      * @inheritdoc

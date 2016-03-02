@@ -27,7 +27,7 @@ class UserController extends ApiController {
                 ],
 
                 [
-                    'actions' => ['check-username', 'check-email', 'register', 'recover', 'recover-update'],
+                    'actions' => ['check-username', 'check-email', 'suggest', 'register', 'recover', 'recover-update'],
                     'allow' => true,
                     'roles' => ['?', '@'],
                 ],
@@ -100,6 +100,15 @@ class UserController extends ApiController {
 		$user->checkField('email', $email);
 		if ($user->hasErrors()) $this->addContent($user);
 	}
+
+    /**
+     * Suggest users by username
+     *
+     * @param string $username
+     */
+    public function actionSuggest($username) {
+        $this->addContent(ApiUser::suggest(['username' => $username], 10));
+    }
 
 	/**
 	 * Register new user

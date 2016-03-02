@@ -57,6 +57,13 @@ $api = [
                                                 ]
                     ],
 
+                    '/user/suggest'   => [
+                        'title' => 'Gives users suggest for given username part',
+                        'params'                => [
+                                                        ['n' => 'username',     't' => 'Username'],
+                                                ]
+                    ],
+
                     '/user/check-email'   => [
                         'title' => 'Checks if given email is available',
                         'params'                => [
