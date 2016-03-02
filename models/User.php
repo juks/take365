@@ -138,7 +138,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         $conditions = self::getActiveCondition();
         $conditions['username'] = ['LIKE', $criteria['username'] . '%'];
 
-        return self::find()->where(self::makeCondition($conditions))->limit($maxItems)->all();
+        return self::find()->where(self::makeCondition($conditions))->orderBy('username')->limit($maxItems)->all();
     } 
 
     /**

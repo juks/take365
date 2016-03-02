@@ -12,6 +12,6 @@ class m160301_125537_collaborator extends Migration
 
     public function safeDown() {
         $this->execute('DROP TABLE story_collaborator');
-        $this->execute('ALTER TABLE auth_user CHANGE banned banned tinyint unsigned not null;');
+        $this->execute('ALTER TABLE auth_user CHANGE is_banned banned tinyint unsigned not null;');
     }
 }
