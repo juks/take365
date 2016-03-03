@@ -171,34 +171,34 @@ function initStory() {
 		}
 	});
 
-	if (!pp.canManage) {
-		return;
+	if (pp.canManage) {
+		inlineEdit('#storyEditForm');
 	}
 
-	inlineEdit('#storyEditForm');
+	if (pp.canUpload) {
+		var uploader = initStoryUploder();
+		Story.uploader = uploader;
 
-	var uploader = initStoryUploder();
-	Story.uploader = uploader;
+		StoryDragAndDrop.init({
+			onDragstart: function() {
+				uploader.pause();
+			},
+			onDragend: function() {
+				uploader.play();
+			}
+		});
 
-	StoryDragAndDrop.init({
-		onDragstart: function() {
-			uploader.pause();
-		},
-		onDragend: function() {
-			uploader.play();
-		}
-	});
+		$('.user-photo.available').click(function() {
+			var elem = $(this);
+			if (elem.hasClass('i-upload')) {
+				Story.openUpload(elem);
+			}
+		});
 
-	$('.user-photo.available').click(function() {
-		var elem = $(this);
-		if (elem.hasClass('i-upload')) {
-			Story.openUpload(elem);
-		}
-	});
-
-	$('#userPhotos').on('click', '.user-photo-manage', function(e) {
-		Story.winOpen($(e.target).closest('.user-photo'));
-	});
+		$('#userPhotos').on('click', '.user-photo-manage', function(e) {
+			Story.winOpen($(e.target).closest('.user-photo'));
+		});
+	}
 }
 
 function initStoryUploder() {
@@ -329,7 +329,6 @@ function initStoryUploder() {
 		}
 
 		response = JSON.parse(response.response);
-		console.log(response.result);
 		if (response.result) {
 			$('#' + file.storyNodeId + ' .user-photo-content').remove();
 			var content = $('<div/>', {
