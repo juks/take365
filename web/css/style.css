@@ -790,7 +790,7 @@ SELECT {
 .story-matrix-item:nth-child(90):hover {
   color: #999;
   }
-.story .story-status-upload {
+.story .story-summary {
   margin: 10px 0 0 0;
   font-size: 14px;
   font-weight: 600;
@@ -799,11 +799,11 @@ SELECT {
 .story-status {
   position: relative;
   }
-.story-status-lag {
+.story-summary-info {
   position: relative;
   font-weight: 300;
   }
-.story-status-lag:before {
+.story-summary-info:before {
   margin: 0 5px;
   content: '·';
   }
