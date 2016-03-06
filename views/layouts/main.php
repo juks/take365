@@ -58,6 +58,7 @@ $user = Yii::$app->user;
         </script>
       </li>
       <li><a href="mailto:bang@take365.org">bang@take365.org</a></li>
+      <li><a href="https://itunes.apple.com/ru/app/take365/id1082676900"><span class="fa fa-apple"></span> iOS</a></li>
     </ul>
   </footer>
   <?php include('includes/loginForm.php'); ?>
