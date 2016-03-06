@@ -807,6 +807,9 @@ SELECT {
   margin: 0 5px;
   content: '·';
   }
+  .story-summary-info .fa {
+    color: #666;
+    }
 .story .story-status,
 .story-settings .story-status {
   margin: 0;
