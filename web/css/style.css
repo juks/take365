@@ -657,14 +657,6 @@ SELECT {
   line-height: 1.4;
   -webkit-font-smoothing: antialiased;
   }
-  .footer .stores {
-    display: none;
-    position: absolute;
-    top: -50px;
-    left: 50%;
-    margin-left: -67px;
-    }
-
   .footer UL {
     display: inline-block;
     padding: 3px 8px 6px 8px;
