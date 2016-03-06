@@ -55,6 +55,7 @@ FrontAsset::register($this);
 <body class="main">
 <?php $this->beginBody() ?>
   <?= $content ?>
+  <?php include('includes/footer.php'); ?>
   <?php include('includes/loginForm.php'); ?>
   <?php include('includes/ga.php'); ?>
 <?php $this->endBody() ?>
