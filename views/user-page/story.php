@@ -59,3 +59,159 @@ $this->registerJs("initStory();");
   <?php endforeach ?>
   <?php endif ?>
 </div>
+<div class="comments">
+  <h2 class="comments-title">Комментарии (269)</h2>
+  <div class="comment">
+    <div class="comment-header">
+      <div class="comment-user fa fa-user">
+        <a href="#" class="comment-user-img" style="background-image: url(http://dev.take365.org/media/p1/userpic/8e/611/me.jpg);"></a>
+      </div>
+      <div class="comment-username"><a href="#">Бей лбом</a></div>
+      <time class="comment-date">6 марта 2016, 15:33</time>
+      <div class="comment-url"><a href="#">#</a></div>
+    </div>
+    <div class="comment-text">
+      И оно уже чувствуется по Prayers/Triangles... Не знаю, уловил ли ты, но лично я жадно вытянул из новой песни ароматы SNW. Пересечения есть, определенно. Хотя, опять же, в последнем интервью Чино сказал что этот трэк не характеризует весь альбом. Будем слушать... P.s. В DE и KNY действительно ногу сломишь, но я думаю первый больше Карпентеровский, а второй чистый сплав 50 на 50.
+    </div>
+  </div>
+  <div class="comments-reply">
+    <div class="comment">
+      <div class="comment-header">
+        <div class="comment-user fa fa-user">
+          <a href="#" class="comment-user-img"></a>
+        </div>
+        <div class="comment-username"><a href="#">Lusever</a></div>
+        <time class="comment-date">6 марта 2016, 16:13</time>
+        <div class="comment-url"><a href="#">#</a></div>
+      </div>
+      <div class="comment-text">
+        А мне Diamond Eyes дико зашёл после концерта, в живую треки из него прям вписались в общее представление о группе.
+      </div>
+    </div>
+    <div class="comments-reply">
+      <div class="comment">
+        <div class="comment-header">
+          <div class="comment-user fa fa-user">
+            <a href="#" class="comment-user-img" style="background-image: url(http://dev.take365.org/media/p1/userpic/8e/611/me.jpg);"></a>
+          </div>
+          <div class="comment-username"><a href="#">Бей лбом</a></div>
+          <time class="comment-date">6 марта 2016, 17:11</time>
+          <div class="comment-url"><a href="#">#</a></div>
+        </div>
+        <div class="comment-text">
+          Doomed User уже на концертах играют, походу будет следующим синглом.
+        </div>
+      </div>
+      <div class="comments-reply">
+        <div class="comment">
+          <div class="comment-header">
+            <div class="comment-user fa fa-user">
+              <a href="#" class="comment-user-img"></a>
+            </div>
+            <div class="comment-username"><a href="#">Lusever</a></div>
+            <time class="comment-date">6 марта 2016, 17:47</time>
+            <div class="comment-url"><a href="#">#</a></div>
+          </div>
+          <div class="comment-text">
+            Что то очень интересное по моему... Такое неоднозначное, но притягательное...))
+          </div>
+        </div>
+        <div class="comments-reply">
+          <div class="comment">
+            <div class="comment-header">
+              <div class="comment-user fa fa-user">
+                <a href="#" class="comment-user-img"></a>
+              </div>
+              <div class="comment-username"><a href="#">Oracle</a></div>
+              <time class="comment-date">6 марта 2016, 17:51</time>
+              <div class="comment-url"><a href="#">#</a></div>
+            </div>
+            <div class="comment-text">
+              А у них всегда так, помню когда роузмери лайв только появился как все умилялись, а потом альбомная версия уже не торт.
+            </div>
+          </div>
+          <div class="comments-reply">
+            <div class="comment">
+              <div class="comment-header">
+                <div class="comment-user fa fa-user">
+                  <a href="#" class="comment-user-img"></a>
+                </div>
+                <div class="comment-username"><a href="#">Juks</a></div>
+                <time class="comment-date">6 марта 2016, 18:24</time>
+                <div class="comment-url"><a href="#">#</a></div>
+              </div>
+              <div class="comment-text">
+                Слушай, а ведь реально так!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="comment">
+      <div class="comment-header">
+        <div class="comment-user fa fa-user">
+          <a href="#" class="comment-user-img"></a>
+        </div>
+        <div class="comment-username"><a href="#">Juks</a></div>
+        <time class="comment-date">6 марта 2016, 16:52</time>
+        <div class="comment-url"><a href="#">#</a></div>
+      </div>
+      <div class="comment-text">
+        Ха, самым слабым считаю Diamond Eyes, ни одна песня не понравилась, второй плохиш Saturday Night Wrist. Самый крутой 1997 года, второй WP, третий Deftones. KNY - уже звучит как другая группа но понравился.
+      </div>
+    </div>
+    <div class="comment">
+      <div class="comment-header">
+        <div class="comment-user fa fa-user">
+          <a href="#" class="comment-user-img" style="background-image: url(http://dev.take365.org/media/p1/userpic/8e/611/me.jpg);"></a>
+        </div>
+        <div class="comment-username"><a href="#">Бей лбом</a></div>
+        <time class="comment-date">6 марта 2016, 16:52</time>
+        <div class="comment-url"><a href="#">#</a></div>
+      </div>
+      <div class="comment-text">
+        Вкатил круче первого сингла, даже с таким звуком)
+      </div>
+    </div>
+  </div>
+  <div class="comment">
+    <div class="comment-header">
+      <div class="comment-user fa fa-user">
+        <a href="#" class="comment-user-img" style="background-image: url(http://dev.take365.org/media/p1/userpic/8e/611/me.jpg);"></a>
+      </div>
+      <div class="comment-username"><a href="#">Бей лбом</a></div>
+      <time class="comment-date">6 марта 2016, 18:02</time>
+      <div class="comment-url"><a href="#">#</a></div>
+    </div>
+    <div class="comment-text">
+      Говнозвук конечно, наверное любимый трек Стефа с нового, дали оторваться.
+    </div>
+  </div>
+  <div class="comment">
+    <div class="comment-header">
+      <div class="comment-user fa fa-user">
+        <a href="#" class="comment-user-img"></a>
+      </div>
+      <div class="comment-username"><a href="#">Lusever</a></div>
+      <time class="comment-date">7 марта 2016, 02:17</time>
+      <div class="comment-url"><a href="#">#</a></div>
+    </div>
+    <div class="comment-text">
+      Они во время вайт пони и одноимённика вообще чуть не поубивали друг друга.
+    </div>
+  </div>
+  <div class="comment">
+    <div class="comment-header">
+      <div class="comment-user fa fa-user">
+        <a href="#" class="comment-user-img"></a>
+      </div>
+      <div class="comment-username"><a href="#">Oracle</a></div>
+      <time class="comment-date">7 марта 2016, 03:41</time>
+      <div class="comment-url"><a href="#">#</a></div>
+    </div>
+    <div class="comment-text">
+      А мне новая песнь больше всего ликнутый Чино Smile по настроению напомнила.
+    </div>
+  </div>
+</div>
