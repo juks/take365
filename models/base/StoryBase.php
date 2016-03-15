@@ -17,6 +17,7 @@ use Yii;
  * @property integer $time_updated
  * @property integer $time_start
  * @property integer $time_published
+ * @property integer $comments_count
  * @property integer $media_count
  * @property string $title
  * @property string $description
@@ -45,7 +46,7 @@ class StoryBase extends \yii\db\ActiveRecord
     {
         return [
             [['created_by', 'time_created'], 'required'],
-            [['created_by', 'status', 'is_deleted', 'time_deleted', 'is_active', 'time_created', 'time_updated', 'time_start', 'time_published', 'media_count', 'is_featured'], 'integer'],
+            [['created_by', 'status', 'is_deleted', 'time_deleted', 'is_active', 'time_created', 'time_updated', 'comments_count', 'time_start', 'time_published', 'media_count', 'is_featured'], 'integer'],
             [['description', 'description_jvx'], 'string'],
             [['title'], 'string', 'max' => 255],
             [['time_start', 'title', 'description'], 'safe'],
@@ -70,6 +71,7 @@ class StoryBase extends \yii\db\ActiveRecord
             'time_updated' => 'Time Updated',
             'time_start' => 'Time Start',
             'time_published' => 'Time Published',
+            'comments_count' => 'Comments Count',
             'media_count' => 'Media Count',
             'title' => 'Title',
             'description' => 'Description',

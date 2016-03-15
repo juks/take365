@@ -186,7 +186,7 @@ class MediaController extends ApiController {
     * @param boolean $doRecover
     */
     public function actionDeleteRecover($idString, $doRecover = false) {
-        $ids = preg_split('/,/', $idString);
+        $ids = explode(',', $idString);
 
         if (count($ids) > 100) throw new \yii\web\BadRequestHttpException('Too Much');
         $items = [];

@@ -159,6 +159,33 @@ $api = [
              ],
 
             [
+                'title'                     => 'Comments',
+
+                'methods'                   => [
+                    '/comment/write'   => [
+                        'title' => 'Creates or updates comment',
+                        'method' => 'POST',
+                        'auth'  => true,
+                        'params'                => [
+                                                        ['n' => 'targetType',   't' => 'Commentable Target Type',      'o' => true],
+                                                        ['n' => 'targetId' ,    't' => 'Commentable Id',               'o' => true],
+                                                        ['n' => 'id' ,          't' => 'Comment Id To Update',         'o' => true],
+                                                        ['n' => 'body' ,        't' => 'Comment Text',                 'h' => '2 for story'],
+                                                ]
+                    ],
+
+                    '/comment/delete-recover'     => [
+                        'auth'  => true,
+                        'title' => 'Deletes or recovers comments',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'id',           't' => 'Comment Id']
+                                                ]
+                    ],
+                ]
+             ],
+
+            [
                 'title'                     => 'Media',
                 'methods'                   => [
                     '/media/player-data'     => [

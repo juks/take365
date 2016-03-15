@@ -66,24 +66,13 @@ $this->registerJs("initStory();");
   <?php endif ?>
 </div>
 <div class="comments">
-  <h2 class="comments-title">Комментарии (269)</h2>
-  <div class="comment comment-my">
-    <div class="comment-header">
-      <div class="comment-user fa fa-user">
-        <a href="#" class="comment-user-img" style="background-image: url(http://dev.take365.org/media/p1/userpic/8e/611/me.jpg);"></a>
-      </div>
-      <div class="comment-username"><a href="#">Бей лбом</a></div>
-      <time class="comment-date">6 марта 2016, 15:33</time>
-      <div class="comment-url"><a href="#" title="Ссылка на комментарий">#</a></div>
-      <div class="comment-trash"><a href="#" title="Удалить комментарий" class="fa fa-trash-o"></a></div>
-    </div>
-    <div class="comment-text">
-      И оно уже чувствуется по Prayers/Triangles... Не знаю, уловил ли ты, но лично я жадно вытянул из новой песни ароматы SNW. Пересечения есть, определенно. Хотя, опять же, в последнем интервью Чино сказал что этот трэк не характеризует весь альбом. Будем слушать... P.s. В DE и KNY действительно ногу сломишь, но я думаю первый больше Карпентеровский, а второй чистый сплав 50 на 50.
-    </div>
-    <div class="comment-options">
-      <a href="#" class="comment-options-item">Ответить</a>
-    </div>
-  </div>
+  <h2 class="comments-title">Комментарии (<?= $story->comments_count ?>)</h2>
+  <?php if (count($story->comments)): ?>
+  <?php foreach ($story->comments as $comment): ?>
+  <?php require(__DIR__ . '/../blocks/comment.php'); ?>
+  <?php endforeach ?>
+  <?php endif ?>
+  <div>А дальше — Серёжа нахардкодил. Паша, выпили это, пожалуйста</div>
   <div class="comments-reply">
     <div class="comment">
       <div class="comment-header">

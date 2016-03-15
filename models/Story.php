@@ -9,6 +9,7 @@ use app\components\HelpersTxt;
 use app\components\traits\TCheckField;
 use app\components\traits\THasPermission;
 use app\components\traits\TModelExtra;
+use app\components\traits\TComment;
 use app\models\StoryCollaborator;
 use app\models\Media;
 use app\models\mediaExtra\MediaCore;
@@ -24,6 +25,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     use THasPermission;
     use TModelExtra;
     use TMediaUploadExtra;
+    use TComment;
 
     const typeId = 2;
 
@@ -35,6 +37,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public $yearEnd;
     public $isDeleted;
     public $isHidden;
+    public $commentsCache = null;
     public $images = null;
     public $imagesCount = null;
     public $progressData = null;
@@ -55,7 +58,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         ];
     }
 
-        /**
+    /**
     *   Sets the lists of fields that are available for public exposure
     **/
     public function fields() {
@@ -215,9 +218,27 @@ class Story extends StoryBase implements IPermissions, IGetType {
         return $a;
     }
 
+    /**
+    * Fetch progress data
+    */
     public function getProgress() {
         if ($this->progressData === null) $this->calculateProgress();
         return $this->progressData;
+    }
+
+    /**
+    * Comments relation
+    */
+    public function getComments() {
+        if ($this->commentsCache == null && $this->comments_count) {
+            $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(['target_type' => self::typeId])->with('author')->orderBy('lk')->all();        
+
+            foreach ($this->commentsCache as $comment) {
+                $comment->urlTarget = $this->url;
+            }
+        }
+
+        return $this->commentsCache;
     }
 
     /**

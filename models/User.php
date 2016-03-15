@@ -32,7 +32,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     public $accessToken;
     public $accessTokenExpires;
 
-    public $userpic;
+    public $userpicCache;
     public $sexTitle;
 
     const typeId = 1;
@@ -452,7 +452,9 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     }
 
     public function getImages($extra = []) {
-        $this->userpic = $this->getUserpic();
+        if ($this->userpicCache === null) $this->userpicCache = $this->getUserpic();
+
+        return $this->userpicCache;
     }
 
     public function getFullnameFilled() {

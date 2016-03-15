@@ -16,5 +16,7 @@ return [
     'About the project'										=> 'О проекте',
     'Howto'													=> 'Полезные советы',
 
-    'Collaborator limit reached'                            => 'Достигнуто ограничение количества соавторов'
+    'Collaborator limit reached'                            => 'Достигнуто ограничение количества соавторов',
+
+    'Comment not found'                                     => 'Комментарий не найден'
 ];

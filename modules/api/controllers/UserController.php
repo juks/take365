@@ -153,7 +153,7 @@ class UserController extends ApiController {
      */
     public function actionRecover($email) {
         $form = new \app\modules\api\models\ApiRecoverForm();
-        
+    
         if ($form->load(Helpers::getRequestParams('post')) && $form->validate()) {
             $user = ApiUser::getActiveUser($email);
 
@@ -161,7 +161,7 @@ class UserController extends ApiController {
                 $user->recover();
                 $this->addContent($user);
             } else {
-                $this->addErrorMEssage(Ml::t('User not found'), ['field' => 'email']);
+                $this->addErrorMessage(Ml::t('User not found'), ['field' => 'email']);
             }
         } else {
             $this->addContent($form);

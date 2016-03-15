@@ -108,7 +108,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
     *   Check if username contains only valid symbols
     */
     public function checkUsernameValid($attribute, $params) {
-        if ($this->scenario != 'import' && self::isValidUsername($this->$attribute)) $this->addError($attribute, Ml::t('Invalid username'));
+        if ($this->scenario != 'import' && !self::isValidUsername($this->$attribute)) $this->addError($attribute, Ml::t('Invalid username'));
     }
 
     public static function isValidUsername($username) {

@@ -406,13 +406,19 @@ class Helpers {
      * @return array|bool|float|int|mixed|null|string
      */
     public static function getRequestParams($type) {
+        $result = [];
+
         if (defined('YII_ENV') && YII_ENV == 'dev') {
-            return $_REQUEST;
+            $result = $_REQUEST;
         } elseif ($type == 'post') {
-            return Yii::$app->request->post();
+            $result = Yii::$app->request->post();
         } else {
-            return Yii::$app->request->get();
+            $result = Yii::$app->request->get();
         }
+
+        if (!$result) $result['isEmptyParameterSet'] = true;
+
+        return $result;
     }
 
     public static function isConsole() {
