@@ -4,7 +4,7 @@
       <a href="<?= $comment->author->url ?>" class="comment-user-img"<?php if ($comment->author->userpic->url): ?> style="background-image: url(<?= $comment->author->userpic->url ?>);"<?php endif ?>></a>
     </div>
     <div class="comment-username"><a href="<?= $comment->author->url ?>"><?= $comment->author->fullNameFilled ?></a></div>
-    <time class="comment-date">6 марта 2016, 15:33</time>
+    <time class="comment-date"><?= $comment->time_created ?></time>
     <div class="comment-url"><a href="<?= $comment->url ?>" title="Ссылка на комментарий">#</a></div>
     <div class="comment-trash"><a href="#" title="Удалить комментарий" class="fa fa-trash-o"></a></div>
   </div>
