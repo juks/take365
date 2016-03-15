@@ -200,6 +200,13 @@ class Story extends StoryBase implements IPermissions, IGetType {
     }
 
     /**
+    * Forms story comments section
+    */
+    public function getUrlComments() {
+        return $this->url . '#comments';
+    }
+
+    /**
     * Forms day URL
     */
     public function getUrlDay($date) {

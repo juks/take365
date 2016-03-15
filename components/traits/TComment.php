@@ -4,6 +4,7 @@ namespace app\components\traits;
 
 use Yii;
 use app\models\Comment;
+use app\components\Ml;
 use app\components\interfaces\IPermissions;
 use app\components\traits\THasPermission;
 
@@ -89,5 +90,12 @@ trait TComment {
         $transaction->commit();
  
         return $item;
+    }
+
+    /**
+    * Returns string that reflects actual comments count
+    **/
+    public function getCommentsCountTitle() {
+        return Ml::t('{n,plural,=0{No comments} =1{One Comment} other{# Comments}}', null, ['n' => $this->comments_count]);
     }
 }
