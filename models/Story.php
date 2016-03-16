@@ -236,9 +236,13 @@ class Story extends StoryBase implements IPermissions, IGetType {
     /**
     * Comments relation
     */
-    public function getComments() {
+    public function getComments($lastTimestamp = null) {
         if ($this->commentsCache == null && $this->comments_count) {
-            $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(['target_type' => self::typeId])->with('author')->orderBy('lk')->all();        
+            $condition = ['target_type' => self::typeId];
+            
+            if ($lastTimestamp) $condition['time_created'] = ['>', $lastTimestamp];
+
+            $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy('lk')->all();
 
             foreach ($this->commentsCache as $comment) {
                 $comment->urlTarget = $this->url;

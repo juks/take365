@@ -162,6 +162,16 @@ $api = [
                 'title'                     => 'Comments',
 
                 'methods'                   => [
+                    '/comment/list'   => [
+                        'title' => 'Retrieve target comments',
+                        'method' => 'GET',
+                        'params'                => [
+                                                        ['n' => 'targetType',   't' => 'Commentable Target Type'],
+                                                        ['n' => 'targetId' ,    't' => 'Commentable Id'],
+                                                        ['n' => 'lastTimestamp','t' => 'Show only comments that were created since given timestamp', 'o' => true],
+                                                ]
+                    ],
+
                     '/comment/write'   => [
                         'title' => 'Creates or updates comment',
                         'method' => 'POST',

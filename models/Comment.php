@@ -38,6 +38,7 @@ class Comment extends CommentBase {
     public function fields() {
         $f =  [
             'id'        => 'id',
+            'timestamp' => 'time_created',
             'body'    	=> 'body_jvx',
             'author'	=> 'author'
         ];

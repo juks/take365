@@ -233,7 +233,7 @@ trait TModelExtra {
                             # >, <, >=, <=, IS NULL, etc
                             $cond = $value[0];
                             if(isset($value[1])) {
-                                $cond .= self::quote($value[1]);
+                                $cond .= ' ' . self::quote($value[1]);
                             }
                     }
                 } else {

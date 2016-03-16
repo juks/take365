@@ -21,7 +21,7 @@ class CommentController extends ApiController {
                         'class' => AccessControl::className(),
                         'rules' => [
                             [
-                                'actions' => ['write', 'delete-recover', 'list'],
+                                'actions' => ['write', 'delete-recover', 'list-comments'],
                                 'allow' => true,
                                 'roles' => ['@'],
                             ],
@@ -40,6 +40,23 @@ class CommentController extends ApiController {
 
     protected function getModelClass() {
         throw new Exception("Method getModelClass() is not supported by this controller");
+    }
+
+    /**
+     * List comments
+     *
+     * @param string $username
+     */
+    public function actionListComments($targetType, $targetId, $lastTimestamp = null) {
+        if ($targetType == ApiStory::typeId) {
+            $target = ApiStory::getActiveStory($targetId);
+        } else {
+            throw new \app\components\ControllerException('Invalid target type');
+        }
+
+        if (!$target) throw new \app\components\ControllerException(Ml::t('Object not found'));
+
+        $this->addContent($target->getComments($lastTimestamp));
     }
 
     /**
@@ -80,14 +97,5 @@ class CommentController extends ApiController {
      */
     public function actionDeleteRecover($id) {
         $this->addContent(ApiComment::deleteRecover($id));
-    }
-
-    /**
-     * List comments
-     *
-     * @param string $username
-     */
-    public function actionList($targetType, $targetId) {
-
     }
 }
