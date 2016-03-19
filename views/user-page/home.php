@@ -20,7 +20,7 @@ $this->registerJs("initStoriesIndex();");
   <div class="story-content">
     <h2><a href="<?= $story->url ?>"><?= $story->titleFilled ?></a></h2>
     <?php include('mediaBlock.php') ?>
-    <?php if ($story->progress): ?><div class="story-summary">Загружено <?= $story->progress['totalImages'] ?> <?= $story->progress['totalImagesTitle'] ?> из <?= $story->progress['totalDays'] ?> (<?= $story->progress['percentsComplete'] ?>%) <?php if ($story->progress['delayDaysMakeSense']): ?> <span class="story-summary-info"><?= $story->progress['delayDays'] ?> <?= $story->progress['delayDaysTitle'] ?> отставания</span><?php endif ?> <span class="story-summary-info"><a href="<?= $story->urlComments ?>"><span class="fa fa-comment-o"></span> <?= $story->commentsCountTitle ?></a></span></div>
+    <?php if ($story->progress): ?><div class="story-summary">Загружено <?= $story->progress['totalImages'] ?> <?= $story->progress['totalImagesTitle'] ?> из <?= $story->progress['totalDays'] ?> (<?= $story->progress['percentsComplete'] ?>%) <?php if ($story->progress['delayDaysMakeSense']): ?> <span class="story-summary-info"><?= $story->progress['delayDays'] ?> <?= $story->progress['delayDaysTitle'] ?> отставания</span><?php endif ?></div>
     <div class="story-status">
        <!--<span class="fa fa-circle-o-notch fa-spin"></span>-->
         <span class="story-status-value"><?php if ($story->progress['isComplete']): ?>Полностью завершена<?php elseif ($story->isDeleted): ?>Удалена<?php elseif ($story->isHidden): ?>Скрыта<?php endif ?></span>
