@@ -6,7 +6,7 @@ use yii\db\Migration;
 class m160303_165401_comment extends Migration {
     public function safeUp() {
         $this->execute("CREATE TABLE `comment` (`id` int(11) NOT NULL AUTO_INCREMENT,
-                          `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
+                          `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT 0,
                           `parent_id` int(11) NOT NULL DEFAULT '0',
                           `lk` int(11) NOT NULL DEFAULT '0',
                           `rk` int(11) NOT NULL DEFAULT '0',
@@ -17,8 +17,8 @@ class m160303_165401_comment extends Migration {
                           `target_id` int(11) NOT NULL DEFAULT '0' COMMENT 'linked object id',
                           `body` text,
                           `body_jvx` text,
-                          `time_created` int(10) unsigned NOT NULL,
-                          `time_updated` int(10) unsigned NOT NULL,
+                          `time_created` int(10) unsigned NOT NULL DEFAULT 0,
+                          `time_updated` int(10) unsigned NOT NULL DEFAULT 0,
                           PRIMARY KEY (`id`),
                           KEY `target_id_target_type_lk` (`target_type`,`target_id`,`lk`),
                           KEY `search` (`time_updated`)
