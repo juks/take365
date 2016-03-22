@@ -180,7 +180,8 @@ $api = [
                                                         ['n' => 'targetType',   't' => 'Commentable Target Type',      'o' => true],
                                                         ['n' => 'targetId' ,    't' => 'Commentable Id',               'o' => true],
                                                         ['n' => 'id' ,          't' => 'Comment Id To Update',         'o' => true],
-                                                        ['n' => 'body' ,        't' => 'Comment Text',                 'h' => '2 for story'],
+                                                        ['n' => 'body' ,        't' => 'Comment Text',                 'o' => true, 'h' => '2 for story'],
+                                                        ['n' => 'parentId' ,    't' => 'Parent Comment Id',            'h' => '2 for story'],
                                                 ]
                     ],
 
