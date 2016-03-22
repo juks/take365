@@ -162,7 +162,7 @@ $api = [
                 'title'                     => 'Comments',
 
                 'methods'                   => [
-                    '/comment/list'   => [
+                    '/comment/list-comments'   => [
                         'title' => 'Retrieve target comments',
                         'method' => 'GET',
                         'params'                => [
