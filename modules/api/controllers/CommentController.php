@@ -21,9 +21,15 @@ class CommentController extends ApiController {
                         'class' => AccessControl::className(),
                         'rules' => [
                             [
-                                'actions' => ['write', 'delete-recover', 'list-comments'],
+                                'actions' => ['write', 'delete-recover'],
                                 'allow' => true,
                                 'roles' => ['@'],
+                            ],
+
+                            [
+                                'actions' => ['list-comments'],
+                                'allow' => true,
+                                'roles' => ['?', '@'],
                             ],
                         ],
             ];

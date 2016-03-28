@@ -38,6 +38,7 @@ class Comment extends CommentBase {
     public function fields() {
         $f =  [
             'id'        => 'id',
+            'isDeleted' => function() { return $this->is_deleted ? true : false; },
             'timestamp' => 'time_created',
             'body'    	=> 'body_jvx',
             'author'	=> 'author'

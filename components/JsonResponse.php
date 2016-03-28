@@ -91,21 +91,6 @@ class JsonResponse {
 		$this->addContent('redirect', $value);
 	}
 
-
-	function pimp($matches) {
-		$value=hexdec($matches[1]);
-
-		if ($value < 0x0080) {
-			$character = chr($value);
-		} elseif ($value < 0x0800) {
-			$character = chr((($value & 0x07c0) >> 6) | 0xc0) . chr(($value & 0x3f) | 0x80);
-		}  else {
-			$character = chr((($value & 0xf000) >> 12) | 0xe0) . chr((($value & 0x0fc0) >> 6) | 0x80) . chr(($value & 0x3f) | 0x80);
-		}
-
-		return $character;
-	}
-
 	# Отправка данных
 	function send($renderOptions = null) {
         header('Content-type: application/json; charset=utf-8');
