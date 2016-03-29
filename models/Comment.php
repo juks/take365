@@ -38,7 +38,9 @@ class Comment extends CommentBase {
     public function fields() {
         $f =  [
             'id'        => 'id',
-            'isDeleted' => function() { return $this->is_deleted ? true : false; },
+            'isDeleted' => 'is_deleted',
+            'level'     => 'level',
+            'thread'    => 'thread',
             'timestamp' => 'time_created',
             'body'    	=> 'body_jvx',
             'author'	=> 'author'
@@ -52,6 +54,8 @@ class Comment extends CommentBase {
      */
     public function beforeValidate() {
         if ($this->isNewRecord) {
+            if (!$this->level) $this->level = 0;
+            if (!$this->is_deleted) $this->is_deleted = false;
             if (!$this->time_created) $this->time_created   = time();
             if (!$this->created_by) $this->created_by = Yii::$app->user->id;
         } else {
