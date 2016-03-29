@@ -21,7 +21,7 @@ class UserController extends ApiController {
             'class' => AccessControl::className(),
             'rules' => [
                 [
-                    'actions' => ['get', 'list', 'update-profile', 'foo'],
+                    'actions' => ['get', 'list', 'update-profile', 'get-option', 'set-options'],
                     'allow' => true,
                     'roles' => ['@'],
                 ],
@@ -204,4 +204,21 @@ class UserController extends ApiController {
 
 		$this->addContent($model);
 	}
+
+    /**
+     * Set user options
+     *
+     * @param array $username
+     */
+    public function actionSetOptions(array $options) {
+        $user = Yii::$app->user;
+
+        $user->identity->setOptionMulti($options);
+    }
+
+    public function actionGetOption($name) {
+        $user = Yii::$app->user;
+
+        $this->addContent($user->identity->getOptionValue($name));
+    }
 }

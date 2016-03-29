@@ -2,6 +2,9 @@
 
 namespace app\components\traits;
 
+use app\models\Option;
+use app\models\OptionValue;
+
 /**
  * Trait implementing options value storage for class using it
  */
@@ -14,12 +17,12 @@ trait TOptionValue {
      */
     function getOption($name, $option = null) {
         if (!$option) {
-            $option = Option::model()->findByAttributes(['name' => $name]);
+            $option = Option::find()->where(['name' => $name])->one();
         }
 
-        if (!$option) throw new Exception('Invalid option name');
+        if (!$option) throw new \app\components\ModelException('Invalid option name');
 
-        $value = OptionValue::model()->findByAttributes(['target_id' => $this->id, 'target_type' => $this->getType(), 'option_id' => $option->id]);
+        $value = OptionValue::find()->where(['target_id' => $this->id, 'target_type' => $this->getType(), 'option_id' => $option->id])->all();
 
         if (!$value) {
             if ($option->default) {
@@ -59,7 +62,7 @@ trait TOptionValue {
         foreach ($groupIds as $groupId) {
             $result[$groupId] = [];
 
-            $optionsList = Option::model()->findAllByAttributes(['group_id' => $groupId]);
+            $optionsList = Option::find()->where(['group_id' => $groupId])->all();
 
             foreach ($optionsList as $option) {
                 $result[$groupId][$option->name] = $this->getOptionValue($option->name, $option);
@@ -76,7 +79,7 @@ trait TOptionValue {
      * @throws Exception
      */
     function setOption($name, $value) {
-        $option = Option::model()->findByAttributes(['name' => $name]);
+        $option = Option::find()->where(['name' => $name]);
 
         $currentValue = $this->getOption($name);
 
@@ -97,7 +100,13 @@ trait TOptionValue {
         if (!$option) throw new Exception('Invalid option name');
     }
 
+    /**
+     * Set multiple options values
+     * @param array $options
+     */
     function setOptionMulti($options) {
+        if (!is_array($options)) throw new \app\components\ModelException('Options should be array');
+
         foreach ($options as $name => $value) {
             $this->setOption($name, $value);
         }
@@ -107,7 +116,7 @@ trait TOptionValue {
      * Leaves options storage clean after object deletion
      */
     function dropMyOptions() {
-        OptionValue::model()->deleteAllByAttributes(['target_id' => $this->id, 'target_type' => $this->getType()]);
+        OptionValue::model()->deleteAll(['target_id' => $this->id, 'target_type' => $this->getType()]);
     }
 }
 

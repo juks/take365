@@ -14,7 +14,7 @@ $api = [
                     ],
 
                     '/auth/logout'               => [
-                        'title' => 'Forgets the web interface user',
+                        'title' => 'Forgets the Web Interface User',
                         'method' => 'POST',
                         'params'                => []
                     ],
@@ -41,7 +41,7 @@ $api = [
                     ],
 
                     '/user/list'   => [
-                        'title' => 'Fetches the list of users',
+                        'title' => 'Fetches the List of Users',
                         'method' => 'POST',
                         'auth'  => true,
                         'params'                => [
@@ -51,28 +51,28 @@ $api = [
                     ],
 
                     '/user/check-username'   => [
-                        'title' => 'Checks if given username is available',
+                        'title' => 'Checks If Given Username is Available',
                         'params'                => [
                                                         ['n' => 'username',     't' => 'Username'],
                                                 ]
                     ],
 
                     '/user/suggest'   => [
-                        'title' => 'Gives users suggest for given username part',
+                        'title' => 'Gives Users Suggest for Given Username Part',
                         'params'                => [
                                                         ['n' => 'username',     't' => 'Username'],
                                                 ]
                     ],
 
                     '/user/check-email'   => [
-                        'title' => 'Checks if given email is available',
+                        'title' => 'Checks if Given Email is Available',
                         'params'                => [
                                                         ['n' => 'email',        't' => 'Preferred Email'],
                                                 ]
                     ],
 
                     '/user/register'   => [
-                        'title' => 'Registers new user',
+                        'title' => 'Registers New User',
                         'method' => 'POST',
                         'params'                => [
                                                         ['n' => 'username',     't' => 'Preferred Username'],
@@ -82,7 +82,7 @@ $api = [
                     ],
 
                     '/user/recover'   => [
-                        'title' => 'Request password recovery',
+                        'title' => 'Request Password Recovery',
                         'method' => 'POST',
                         'params'                => [
                                                         ['n' => 'email',        't' => 'User Email'],
@@ -90,7 +90,7 @@ $api = [
                     ],
 
                     '/user/recover-update'   => [
-                        'title' => 'Update user password using recovery code',
+                        'title' => 'Update User Password Using Recovery Code',
                         'method' => 'POST',
                         'params'                => [
                                                         ['n' => 'id',           't' => 'User Id'],
@@ -100,7 +100,7 @@ $api = [
                     ],
 
                     '/user/update-profile'   => [
-                        'title' => 'Updates user profile',
+                        'title' => 'Updates User Profile',
                         'method' => 'POST',
                         'auth'  => true,
                         'params'                => [
@@ -110,6 +110,22 @@ $api = [
                                                         ['n' => 'password',     't' => 'User Password',                 'o' => true],
                                                         ['n' => 'email',        't' => 'User Email',                    'o' => true],
                                                         ['n' => 'description',  't' => 'User Profile Description',      'o' => true],
+                                                ]
+                    ],
+
+                    '/user/set-options'   => [
+                        'title' => 'Set User Options',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'options',      't' => 'Options name-value array'],
+                                                ]
+                    ],
+
+                    '/user/get-option'   => [
+                        'title' => 'Get User Option Value',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'name',         't' => 'Options name'],
                                                 ]
                     ],
                 ]

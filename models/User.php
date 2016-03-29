@@ -13,6 +13,7 @@ use app\components\Ml;
 use app\components\traits\TCheckField;
 use app\components\traits\THasPermission;
 use app\components\traits\TModelExtra;
+use app\components\traits\TOptionValue;
 use app\components\interfaces\IPermissions;
 use app\components\interfaces\IGetType;
 use app\models\AuthToken;
@@ -28,6 +29,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     use THasPermission;
     use TMediaUploadExtra;
     use TModelExtra;
+    use TOptionValue;
 
     public $accessToken;
     public $accessTokenExpires;
