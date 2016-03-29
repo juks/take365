@@ -7,9 +7,13 @@ use app\components\Helpers;
 StoryAsset::register($this);
 $lastMonth = null;
 
-$this->registerJs("initStory();");
+$reactComments =  \yii\helpers\Json::encode($story->comments);
+$reactUser =  \yii\helpers\Json::encode($user);
+
+$this->registerJs("initStory();appRender(document.getElementById('comments'),{comments:$reactComments,id:$story->id,user:$reactUser})");
 
 ?>
+
 <div id="userPhotos" class="user-photos">
   <?php if ($story): ?>
   <?php if ($canManage): ?>
@@ -28,6 +32,7 @@ $this->registerJs("initStory();");
     </tr>
     </table>
     <div class="story-info">
+      <a href="#comments" class="num-comments"><span class="fa fa-comment-o"></span> комментариев <?= $story->comments_count ?></a>
       <a href="#" id="delete-recover" onclick="Story.deleteRecover(<?= $story->id ?>); return false;"><?php if ($story->is_deleted): ?><span class="recover">Восстановить историю</span><?php else: ?><span class="delete">Удалить историю</span><?php endif ?></a>
     </div>
   </form>
@@ -36,6 +41,7 @@ $this->registerJs("initStory();");
   <p class="story-desc"><?= $story->description_jvx ?></p>
   <div class="story-info">
     <p>Автор истории —  <a href="<?= $user->url ?>"><?= $user->fullnameFilled ?></a></p>
+    <p><a href="#comments" class="num-comments"><span class="fa fa-comment-o"></span> комментариев <?= $story->comments_count ?></a></p>
   </div>
   <?php endif ?>
   <div id="socialBlock" class="element">
@@ -63,3 +69,5 @@ $this->registerJs("initStory();");
   <?php endforeach ?>
   <?php endif ?>
 </div>
+
+<div class="comments" id="comments"></div>
