@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\User;
 use app\components\Helpers;
 use app\models\base\MQueueBase;
 use app\components\traits\TModelExtra;
@@ -12,6 +13,8 @@ use app\components\traits\TModelExtra;
  */
 class MQueue extends MQueueBase {
     use TModelExtra;
+
+    protected $_doSkip = false;
 
     protected $_headersArray = [
                                     'MIME-Version'              => '1.0',
@@ -96,6 +99,22 @@ class MQueue extends MQueueBase {
     }
 
     /**
+     * Sets message recipient
+     * @param string $recipient
+     */
+    public function toUser($id) {
+        $user = User::getActiveUser($id);
+
+        if (!$user || !$user->email || !$user->email_confirmed || !$user->getOptionValue('notify')) {
+            $this->_doSkip = true;
+        } else {
+            $this->to = $user->email;
+        }
+
+        return $this;
+    }    
+
+    /**
      * Sets message subject
      * @param string $subject
      */
@@ -153,6 +172,8 @@ class MQueue extends MQueueBase {
     * Puts the message into message queue
     */
     public function send() {
+        if ($this->_doSkip) return false;
+
         $this->send_me = 1;
 
         if (!$this->save()) throw new \Exception("Failed to queue message!");

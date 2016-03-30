@@ -16,7 +16,11 @@ trait TComment {
     **/
     public function writeComment($data) {
         $user = Yii::$app->user;
-        if (!$this->hasPermission($user, IPermissions::permComment)) throw new app\components\ModelException(Ml::t('Forbidden'));
+
+        $isNewComment = false;
+        $parentComment = null;
+
+        if (!$this->hasPermission($user, IPermissions::permComment)) throw new \app\components\ModelException(Ml::t('Forbidden'));
 
         $connection = Yii::$app->db;
         $transaction = $connection->beginTransaction();
@@ -26,7 +30,7 @@ trait TComment {
                 $item = Comment::findOne($data->id);
 
                 if (!$item) throw new \app\components\ModelException(Ml::t('Comment not found'));
-                if (!$item->hasPermission($user, IPermissions::permWrite)) throw new app\components\ModelException(Ml::t('Comment not found'));
+                if (!$item->hasPermission($user, IPermissions::permWrite)) throw new \app\components\ModelException(Ml::t('Comment not found'));
 
                 $item->body = $data->body;
                 $item->save();
@@ -80,7 +84,9 @@ trait TComment {
                 }
 
                 $this->comments_count ++;
-                $this->save();                
+                $this->save();
+
+                $isNewComment = true;
             }
         } catch (\Exception $e) {
             $transaction->rollback();
@@ -88,6 +94,13 @@ trait TComment {
         }
 
         $transaction->commit();
+
+        if (method_exists($this, 'afterComment')) $this->afterComment([
+                                                                        'target'        => $this,
+                                                                        'comment'       => $item,
+                                                                        'parentComment' => $parentComment,
+                                                                        'isNewComment'  => $isNewComment
+                                                                     ]);
  
         return $item;
     }

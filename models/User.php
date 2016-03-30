@@ -37,6 +37,8 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     public $userpicCache;
     public $sexTitle;
 
+    const sexMale = 1;
+    const sexFemale =2;
     const typeId = 1;
 
     const extAuthFacebook = 'facebook';

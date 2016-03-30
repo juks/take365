@@ -137,6 +137,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     **/
     public function checkPermission($user, $permission = IPermissions::permWrite) {
         if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
+        if ($permission == IPermissions::permComment && $this->getIsPublic()) return true;
         if ($this->created_by == $user->id) return true;
         if ($permission == IPermissions::permWrite && StoryCollaborator::hasPermission($this, $user)) return true;
 
@@ -425,6 +426,41 @@ class Story extends StoryBase implements IPermissions, IGetType {
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+    * Handle the story comment stuff
+    */
+    public function afterComment($data) {
+        if (!empty($data['isNewComment'])) {
+            // Notify story owner
+            if ($data['target']->created_by != $data['comment']->created_by) {
+                MQueue::compose()
+                                ->toUser($data['target']->created_by)
+                                ->subject('Новый комментайри к вашей истории')
+                                ->bodyTemplate('comment.php', [
+                                                                        'target'                => $data['target'],
+                                                                        'comment'               => $data['comment'],
+                                                                        'commentAuthor'         => $data['comment']->author,
+                                                                    ])
+                                ->send();
+            }
+
+            // Notify parent comment owner
+            if (!empty($data['parentComment']) && ($data['comment']->created_by != $data['target']->created_by && $data['comment']->created_by != $data['parentComment']->created_by)) {
+                MQueue::compose()
+                                ->toUser($data['parentComment']->created_by)
+                                ->subject('Ответ на ваш комментарий')
+                                ->bodyTemplate('commentReply.php', [
+                                                                        'target'                => $data['target'],
+                                                                        'comment'               => $data['comment'],
+                                                                        'commentAuthor'         => $data['comment']->author,
+                                                                        'parentComment'         => $data['parentComment'],
+                                                                        'parentCommentAuthor'   => $data['parentComment']->author,
+                                                                    ])
+                                ->send();
+            }
         }
     }
 }

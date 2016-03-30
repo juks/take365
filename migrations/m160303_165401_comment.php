@@ -25,6 +25,7 @@ class m160303_165401_comment extends Migration {
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
         $this->execute("ALTER TABLE story ADD comments_count int unsigned not null AFTER time_published");
+        $this->execute("UPDATE auth_user SET email_confirmed = 1 WHERE is_active = 1");
     }
 
     public function safeDown() {
