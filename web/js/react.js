@@ -11070,6 +11070,10 @@ var ReactEmptyComponentInjection = {
   }
 };
 
+function registerNullComponentID() {
+  ReactEmptyComponentRegistry.registerNullComponentID(this._rootNodeID);
+}
+
 var ReactEmptyComponent = function (instantiate) {
   this._currentElement = null;
   this._rootNodeID = null;
@@ -11078,7 +11082,7 @@ var ReactEmptyComponent = function (instantiate) {
 assign(ReactEmptyComponent.prototype, {
   construct: function (element) {},
   mountComponent: function (rootID, transaction, context) {
-    ReactEmptyComponentRegistry.registerNullComponentID(rootID);
+    transaction.getReactMountReady().enqueue(registerNullComponentID, this);
     this._rootNodeID = rootID;
     return ReactReconciler.mountComponent(this._renderedComponent, rootID, transaction, context);
   },
@@ -15358,7 +15362,7 @@ module.exports = ReactUpdates;
 
 'use strict';
 
-module.exports = '0.14.7';
+module.exports = '0.14.8';
 },{}],101:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -20361,11 +20365,20 @@ var CommentForm = function (_React$Component) {
   }
 
   _createClass(CommentForm, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.parentId) {
+        this.refs.body.focus();
+      }
+    }
+  }, {
     key: 'submit',
     value: function submit(e) {
       var _this2 = this;
 
-      e.preventDefault();
+      if (e) {
+        e.preventDefault();
+      }
       var xhr = new XMLHttpRequest();
       var method = 'POST'; //isCreate ? 'POST' : 'PUT';
       var formData = new FormData(this.refs.form);
@@ -20391,6 +20404,14 @@ var CommentForm = function (_React$Component) {
       this.setState({ value: e.target.value });
     }
   }, {
+    key: 'onKeyDown',
+    value: function onKeyDown(e) {
+      if ((e.keyCode === 10 || e.keyCode === 13) && e.ctrlKey) {
+        e.currentTarget.blur();
+        this.submit();
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -20408,7 +20429,7 @@ var CommentForm = function (_React$Component) {
         _react2.default.createElement(
           'fieldset',
           { className: this.state.error ? 'error' : '' },
-          _react2.default.createElement('textarea', { onChange: this.onChange.bind(this), rows: '10', cols: '30', name: 'body' }),
+          _react2.default.createElement('textarea', { ref: 'body', onKeyDown: this.onKeyDown.bind(this), onChange: this.onChange.bind(this), rows: '10', cols: '30', name: 'body' }),
           _react2.default.createElement('span', { className: 'error-message' })
         ),
         _react2.default.createElement(
@@ -20439,10 +20460,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _commentForm = require('../comment-form/comment-form.jsx');
-
-var _commentForm2 = _interopRequireDefault(_commentForm);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20458,15 +20475,10 @@ function padLeft(num) {
 var CommentItem = function (_React$Component) {
   _inherits(CommentItem, _React$Component);
 
-  function CommentItem(props) {
+  function CommentItem() {
     _classCallCheck(this, CommentItem);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentItem).call(this, props));
-
-    _this.state = {
-      isReplyOpen: false
-    };
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(CommentItem).apply(this, arguments));
   }
 
   _createClass(CommentItem, [{
@@ -20475,11 +20487,6 @@ var CommentItem = function (_React$Component) {
       var d = new Date(timestamp * 1000);
 
       return padLeft(d.getDate()) + '.' + padLeft(d.getMonth()) + '.' + d.getFullYear() + ' ' + padLeft(d.getHours()) + ':' + padLeft(d.getMinutes());
-    }
-  }, {
-    key: 'replyToggle',
-    value: function replyToggle(isOpen) {
-      this.setState({ isReplyOpen: isOpen });
     }
   }, {
     key: 'remove',
@@ -20500,13 +20507,11 @@ var CommentItem = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
-
       var comment = this.props.data;
       var author = comment.author;
-      var userpicStyle = {
+      var userpicStyle = author.userpic.url ? {
         backgroundImage: 'url(' + author.userpic.url + ')'
-      };
+      } : {};
 
       var isAuthor = this.props.user.id === author.id;
 
@@ -20551,28 +20556,7 @@ var CommentItem = function (_React$Component) {
           ) : null
         ),
         _react2.default.createElement('div', { className: 'comment-text', dangerouslySetInnerHTML: { __html: comment.body } }),
-        !this.state.isReplyOpen ? _react2.default.createElement(
-          'div',
-          { className: 'comment-options' },
-          _react2.default.createElement(
-            'a',
-            { className: 'comment-options-item', href: 'javascript:', onClick: this.replyToggle.bind(this, true) },
-            'Ответить'
-          )
-        ) : _react2.default.createElement(
-          _commentForm2.default,
-          { parentId: comment.id, contentId: this.props.contentId, onNew: function onNew() {
-              var _props;
-
-              (_props = _this3.props).onNew.apply(_props, arguments);
-              _this3.replyToggle(false);
-            } },
-          _react2.default.createElement(
-            'a',
-            { className: 'cancel', href: 'javascript:', onClick: this.replyToggle.bind(this, false) },
-            'Отмена'
-          )
-        )
+        this.props.children
       );
     }
   }]);
@@ -20582,7 +20566,7 @@ var CommentItem = function (_React$Component) {
 
 exports.default = CommentItem;
 
-},{"../comment-form/comment-form.jsx":173,"react":172}],175:[function(require,module,exports){
+},{"react":172}],175:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -20715,7 +20699,34 @@ var CommentList = function (_React$Component) {
                     { key: config.key, style: config.style, ref: function ref(el) {
                         return _this2.nodes[config.key] = el;
                       } },
-                    _react2.default.createElement(_commentItem2.default, { data: config.data, user: _this2.props.user, contentId: _this2.props.id, onNew: _this2.onNew.bind(_this2), onRemoved: _this2.onRemoved.bind(_this2) })
+                    _react2.default.createElement(
+                      _commentItem2.default,
+                      { data: config.data, user: _this2.props.user, onRemoved: _this2.onRemoved.bind(_this2) },
+                      _this2.state.replyOpen !== config.data.id ? _react2.default.createElement(
+                        'div',
+                        { className: 'comment-options' },
+                        _react2.default.createElement(
+                          'a',
+                          { className: 'comment-options-item', href: 'javascript:', onClick: function onClick() {
+                              return _this2.setState({ replyOpen: config.data.id });
+                            } },
+                          'Ответить'
+                        )
+                      ) : _react2.default.createElement(
+                        _commentForm2.default,
+                        { parentId: config.data.id, contentId: _this2.props.id, onNew: function onNew() {
+                            _this2.onNew.apply(_this2, arguments);
+                            _this2.setState({ replyOpen: null });
+                          } },
+                        _react2.default.createElement(
+                          'a',
+                          { className: 'cancel', href: 'javascript:', onClick: function onClick() {
+                              return _this2.setState({ replyOpen: null });
+                            } },
+                          'Отмена'
+                        )
+                      )
+                    )
                   );
                 })
               )
