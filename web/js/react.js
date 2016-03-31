@@ -20414,6 +20414,28 @@ var CommentForm = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      if (!this.props.user.id) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'comments-info' },
+          _react2.default.createElement('span', { className: 'fa fa-exclamation-triangle' }),
+          'Только зарегистрированные пользователи могут участвовать в обсуждениях.',
+          _react2.default.createElement('br', null),
+          'Если вы хотите оставить комментарий, пожалуйста, ',
+          _react2.default.createElement(
+            'a',
+            { href: '#', onClick: Auth.open },
+            'представьтесь'
+          ),
+          ' или ',
+          _react2.default.createElement(
+            'a',
+            { href: '/#2' },
+            'зарегистрируйтесь'
+          ),
+          '.'
+        );
+      }
       return _react2.default.createElement(
         'form',
         { className: 'form form-comment', ref: 'form', onSubmit: this.submit.bind(this) },
@@ -20677,13 +20699,13 @@ var CommentList = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        this.state.comments ? _react2.default.createElement(
+        this.state.comments.length ? _react2.default.createElement(
           'h2',
           { className: 'comments-title' },
           'Комментарии (',
           this.state.comments.length,
           ')'
-        ) : null,
+        ) : 'Нет комментариев',
         this.state.comments ? _react2.default.createElement(
           _reactMotion.TransitionMotion,
           { willLeave: this.willLeave.bind(this), willEnter: this.willEnter, styles: this.getStyles() },
@@ -20702,30 +20724,38 @@ var CommentList = function (_React$Component) {
                     _react2.default.createElement(
                       _commentItem2.default,
                       { data: config.data, user: _this2.props.user, onRemoved: _this2.onRemoved.bind(_this2) },
-                      _this2.state.replyOpen !== config.data.id ? _react2.default.createElement(
-                        'div',
-                        { className: 'comment-options' },
-                        _react2.default.createElement(
-                          'a',
-                          { className: 'comment-options-item', href: 'javascript:', onClick: function onClick() {
-                              return _this2.setState({ replyOpen: config.data.id });
-                            } },
-                          'Ответить'
-                        )
-                      ) : _react2.default.createElement(
-                        _commentForm2.default,
-                        { parentId: config.data.id, contentId: _this2.props.id, onNew: function onNew() {
-                            _this2.onNew.apply(_this2, arguments);
-                            _this2.setState({ replyOpen: null });
-                          } },
-                        _react2.default.createElement(
-                          'a',
-                          { className: 'cancel', href: 'javascript:', onClick: function onClick() {
-                              return _this2.setState({ replyOpen: null });
-                            } },
-                          'Отмена'
-                        )
-                      )
+                      function () {
+                        if (!_this2.props.user.id) {
+                          return null;
+                        } else if (_this2.state.replyOpen !== config.data.id) {
+                          return _react2.default.createElement(
+                            'div',
+                            { className: 'comment-options' },
+                            _react2.default.createElement(
+                              'a',
+                              { className: 'comment-options-item', href: 'javascript:', onClick: function onClick() {
+                                  return _this2.setState({ replyOpen: config.data.id });
+                                } },
+                              'Ответить'
+                            )
+                          );
+                        } else {
+                          return _react2.default.createElement(
+                            _commentForm2.default,
+                            { user: _this2.props.user, parentId: config.data.id, contentId: _this2.props.id, onNew: function onNew() {
+                                _this2.onNew.apply(_this2, arguments);
+                                _this2.setState({ replyOpen: null });
+                              } },
+                            _react2.default.createElement(
+                              'a',
+                              { className: 'cancel', href: 'javascript:', onClick: function onClick() {
+                                  return _this2.setState({ replyOpen: null });
+                                } },
+                              'Отмена'
+                            )
+                          );
+                        }
+                      }()
                     )
                   );
                 })
@@ -20736,7 +20766,7 @@ var CommentList = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'comments-footer' },
-          _react2.default.createElement(_commentForm2.default, { contentId: this.props.id, onNew: this.onNew.bind(this) })
+          _react2.default.createElement(_commentForm2.default, { user: this.props.user, contentId: this.props.id, onNew: this.onNew.bind(this) })
         )
       );
     }

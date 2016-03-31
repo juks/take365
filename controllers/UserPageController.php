@@ -61,7 +61,7 @@ class UserPageController extends MyController {
         $owner = User::getActiveUser($username);
 
         if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
-        
+
         // Redirect if user was requested by id but has username already
         if ($this->checkUrlUpgrade($owner, $username)) $this->redirect($owner->url);
 
@@ -120,7 +120,7 @@ class UserPageController extends MyController {
         foreach ($timezones as &$timezone) {
             $timezone['isSelected'] = $owner->timezone == $timezone['id'] || !$owner->timezone && $timezone['id'] == 'none';
         }
-        
+
         return $this->render('edit', [
                                         'owner'        => $owner,
                                         'pageType'     => 'profile',
@@ -150,7 +150,7 @@ class UserPageController extends MyController {
         $canManage = $story->hasPermission(Yii::$app->user, IPermissions::permAdmin);
         $canUpload = $canManage ? true : StoryCollaborator::hasPermission($story);
 
-        $this->addJsVars([  
+        $this->addJsVars([
                             'storyId'       => $storyId,
                             'targetType'    => Story::typeId,
                             'mediaType'     => Media::aliasStoryImage,
@@ -159,12 +159,12 @@ class UserPageController extends MyController {
                             'storyDeleted'  => $story->isDeleted
                         ]);
 
-
         return $this->render('story', [
                                         'owner'     => $owner,
                                         'story'     => $story,
                                         'canManage' => $canManage,
                                         'canUpload' => $canUpload,
+                                        'user'      => array('id'=> Yii::$app->user->getId()),
                                         'pageType'  => 'story'
                                     ]);
     }
