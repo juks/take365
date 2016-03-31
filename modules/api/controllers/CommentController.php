@@ -89,8 +89,6 @@ class CommentController extends ApiController {
             $comment = $target->writeComment($form);
 
             $this->addContent($comment);
-
-            if (Yii::$app->request->isAjax) $this->addContent(['html'=>$this->renderPartial('//blocks/comment.php', ['comment' => $comment])]);
         } else {
             $this->addContent($form);
         }
