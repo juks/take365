@@ -17,23 +17,23 @@ ProfileAsset::register($this);
 </ul>
 <div id="mainHolder">
 	<form action="#" name="mainForm" id="mainForm" onsubmit="updateProfile('mainForm'); return false;" class="form">
-		<input type="hidden" name="id" value="<?= $user->id ?>">
+		<input type="hidden" name="id" value="<?= $owner->id ?>">
 		<div id="mainFormDefaultMessage" class="small error">&nbsp;</div>
 		<div class="fTitle"><label for="email" id="emailLabel">Меня зовут</label></div>
-		<div class="fElem"><input type="text" name="fullname" id="fullname" value="<?= $user->fullname ?>" class="halfWide" maxlength="255" /></div>
+		<div class="fElem"><input type="text" name="fullname" id="fullname" value="<?= $owner->fullname ?>" class="halfWide" maxlength="255" /></div>
 		<div class="fTitle"><label for="email" id="emailLabel">Email</label></div>
-		<div class="fElem"><input type="text" name="email" id="email" value="<?= $user->email ?>" class="halfWide" maxlength="255" /></div>
+		<div class="fElem"><input type="text" name="email" id="email" value="<?= $owner->email ?>" class="halfWide" maxlength="255" /></div>
 		<div class="fTitle"><label for="username" id="usernameLabel">Пользователь</label></div>
-		<div class="fElem"><input type="text" name="username" id="username" value="<?= $user->username ?>" class="halfWide" maxlength="255" /></div>
+		<div class="fElem"><input type="text" name="username" id="username" value="<?= $owner->username ?>" class="halfWide" maxlength="255" /></div>
 		<div class="fTitle">Описание</div>
-		<div class="fElem"><textarea name="description" class="halfWide" style="height: 15em"><?= $user->description ?></textarea></div>
-		<div class="fTitle">Адрес моего сайта или просто сайта про меня</div><div class="fElem"><input type="text" name="url" value="<?= $user->homepage ?>" class="halfWide" maxlength=255 /></div>
+		<div class="fElem"><textarea name="description" class="halfWide" style="height: 15em"><?= $owner->description ?></textarea></div>
+		<div class="fTitle">Адрес моего сайта или просто сайта про меня</div><div class="fElem"><input type="text" name="url" value="<?= $owner->homepage ?>" class="halfWide" maxlength=255 /></div>
 		<div class="fTitle">Пол</div>
 		<div class="fElem">
 			<select name='sex' id='genderSelect'>
-				<option value="0"<?php if($user->sexTitle == 'undefined'): ?> selected<?php endif ?>>Сомнительный</option>
-				<option value="1"<?php if($user->sexTitle == 'male'): ?> selected<?php endif ?>>Мужской</option>
-				<option value="2"<?php if($user->sexTitle == 'female'): ?> selected<?php endif ?>>Женский</option>
+				<option value="0"<?php if($owner->sexTitle == 'undefined'): ?> selected<?php endif ?>>Сомнительный</option>
+				<option value="1"<?php if($owner->sexTitle == 'male'): ?> selected<?php endif ?>>Мужской</option>
+				<option value="2"<?php if($owner->sexTitle == 'female'): ?> selected<?php endif ?>>Женский</option>
 			</select>
 		</div>
 		<div class="fTitle">Часовой пояс</div>
@@ -53,9 +53,9 @@ ProfileAsset::register($this);
 	<h2 class="mediumTitle">Фотография</h2>
 	<div class="element">
 		<div>
-		<?php if ($user->userpic): ?>
-			<img id="userPhoto" src="<?= $user->userpic['t']['maxSide']['500']['url'] ?>" width="<?= $user->userpic['t']['maxSide']['500']['width'] ?>" height="<?= $user->userpic['t']['maxSide']['500']['height'] ?>" />
-			<div id="userPhotoDelete"><a href="javascript:;" onclick="deleteMedia(<?= $user->userpic->id ?>,'userPhoto')">удалить</a></div>
+		<?php if ($owner->userpic): ?>
+			<img id="userPhoto" src="<?= $owner->userpic['t']['maxSide']['500']['url'] ?>" width="<?= $owner->userpic['t']['maxSide']['500']['width'] ?>" height="<?= $owner->userpic['t']['maxSide']['500']['height'] ?>" />
+			<div id="userPhotoDelete"><a href="javascript:;" onclick="deleteMedia(<?= $owner->userpic->id ?>,'userPhoto')">удалить</a></div>
 		<?php else: ?>
 			<div id="userPhoto"></div>
 			<div id="userPhotoDelete" class="hidden"><a href="javascript:;">удалить</a></div>

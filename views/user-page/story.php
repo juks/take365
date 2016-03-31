@@ -8,7 +8,7 @@ StoryAsset::register($this);
 $lastMonth = null;
 
 $reactComments =  \yii\helpers\Json::encode($story->comments);
-$reactUser =  \yii\helpers\Json::encode($user);
+$reactUser =  \yii\helpers\Json::encode($owner);
 
 $this->registerJs("initStory();appRender(document.getElementById('comments'),{comments:$reactComments,id:$story->id,user:$reactUser})");
 
@@ -40,7 +40,7 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
   <h1 class="story-title1"><?= $story->titleFilled ?></h1>
   <p class="story-desc"><?= $story->description_jvx ?></p>
   <div class="story-info">
-    <p>Автор истории —  <a href="<?= $user->url ?>"><?= $user->fullnameFilled ?></a></p>
+    <p>Автор истории —  <a href="<?= $owner->url ?>"><?= $owner->fullnameFilled ?></a></p>
     <p><a href="#comments" class="num-comments"><span class="fa fa-comment-o"></span> комментариев <?= $story->comments_count ?></a></p>
   </div>
   <?php endif ?>

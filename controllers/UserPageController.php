@@ -122,7 +122,7 @@ class UserPageController extends MyController {
         }
         
         return $this->render('edit', [
-                                        'user'         => $owner,
+                                        'owner'        => $owner,
                                         'pageType'     => 'profile',
                                         'targetId'     => $owner->id,
                                         'targetType'   => User::typeId,
@@ -161,7 +161,7 @@ class UserPageController extends MyController {
 
 
         return $this->render('story', [
-                                        'user'      => $owner,
+                                        'owner'     => $owner,
                                         'story'     => $story,
                                         'canManage' => $canManage,
                                         'canUpload' => $canUpload,
