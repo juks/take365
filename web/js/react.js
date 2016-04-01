@@ -20439,7 +20439,7 @@ var CommentForm = function (_React$Component) {
       return _react2.default.createElement(
         'form',
         { className: 'form form-comment', ref: 'form', onSubmit: this.submit.bind(this) },
-        _react2.default.createElement(
+        this.props.parentId ? _react2.default.createElement(
           'fieldset',
           null,
           _react2.default.createElement(
@@ -20447,7 +20447,7 @@ var CommentForm = function (_React$Component) {
             null,
             'Ваш комментарий'
           )
-        ),
+        ) : null,
         _react2.default.createElement(
           'fieldset',
           { className: this.state.error ? 'error' : '' },
@@ -20534,15 +20534,19 @@ var CommentItem = function (_React$Component) {
       var userpicStyle = author.userpic.url ? {
         backgroundImage: 'url(' + author.userpic.url + ')'
       } : {};
+      var maxLevel = Math.min(comment.level, 5);
+      var marginStyle = {
+        marginLeft: maxLevel * 20
+      };
 
       var isAuthor = this.props.user.id === author.id;
 
       return _react2.default.createElement(
         'div',
-        { style: { marginLeft: comment.level * 20 }, className: 'comment' + (isAuthor ? ' comment-my' : ''), id: comment.id },
+        { style: marginStyle, className: 'comment' + (isAuthor ? ' comment-my' : ''), id: comment.id, 'data-debug': comment.thread + '-' + comment.level },
         _react2.default.createElement(
           'div',
-          { className: 'comment-header', 'data-debug': comment.thread + '-' + comment.level },
+          { className: 'comment-header' },
           _react2.default.createElement(
             'div',
             { className: 'comment-user fa fa-user' },
