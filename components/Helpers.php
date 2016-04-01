@@ -64,6 +64,17 @@ class Helpers {
     }
 
     /**
+     * Check if the given url belongs to current server
+     * @static
+     * @param string $url
+     * @return boolean
+     */
+    public static function isLocalUrl($url) {
+        $base = \yii\helpers\Url::base(true);
+        return preg_match('!^' . $base . '!i', $url);
+    }
+
+    /**
      * Check if email is in valid format
      * @static
      * @param $email

@@ -64,7 +64,17 @@ class AuthController extends ApiController {
        
         $this->addContent($model);
 
-        if (!$model->hasErrors() && Yii::$app->request->isAjax) $this->addContent($model->user->url, 'redirect');
+        if (!$model->hasErrors() && Yii::$app->request->isAjax) {
+            $referrer = Yii::$app->request->getReferrer();
+
+            if (Helpers::isLocalUrl($referrer)) {
+                $redirectUrl = $referrer;
+            } else {
+                $redirectUrl = $model->user->url;
+            }
+
+            $this->addContent($redirectUrl, 'redirect');
+        }
     }
 
     public function actionCheckToken($accessToken) {
