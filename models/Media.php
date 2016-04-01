@@ -99,7 +99,7 @@ class Media extends MediaCore {
         }
 
         if ($this->scenario == 'feed') {
-            $fields['story']         = function() { return $this->story; };
+            $fields['story']         = function() { return $this->target; };
         }
 
         if ($this->target_type == Story::typeId) $fields['date'] = 'date';
@@ -138,6 +138,13 @@ class Media extends MediaCore {
     public function afterUpload() {
         // Mark Predecessors as deleted
         if ($this->type == self::typeStoryImage) {
+            $target = $this->target;
+
+            if ($target) {
+                $target->media_count ++;
+                $target->save();
+            }
+
             $oldies = $this->find()->where(self::makeCondition(['target_id' => $this->target_id, 'target_type' => $this->target_type, 'is_deleted' => 0, 'date' => $this->date, 'id' => ['!=', $this->id]]))->all();
 
             foreach ($oldies as $pred) {
@@ -147,9 +154,24 @@ class Media extends MediaCore {
     }
 
     /**
-     * Story relation
+    *   After the media item was deleted
+    **/
+    public function afterDelete() {
+        if ($this->type == self::typeStoryImage) {
+            $target = $this->target;
+            if ($target) $target->media_count --;
+            $target->save();
+        }
+    }
+
+    /**
+     * Target relation
      */
-    public function getStory() {
-        return $this->hasOne(Story::className(), ['created_by' => 'created_by']);
+    public function getTarget() {
+        if ($this->type == self::typeStoryImage) {
+            return $this->hasOne(Story::className(), ['created_by' => 'created_by']);
+        } else {
+            throw new \Exception('Unknown target');
+        }
     }
 }

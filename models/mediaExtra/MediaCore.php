@@ -411,7 +411,10 @@ class MediaCore extends MediaBase {
      */
     public function markDeleted() {
         $this->is_deleted = 1;
-        $this->save();
+        
+        if ($this->save()) {
+            if (method_exists($this, 'afterDelete')) $this->afterDelete();
+        }
     }
 
     /**
