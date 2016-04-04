@@ -36,6 +36,10 @@ ProfileAsset::register($this);
 				<option value="2"<?php if($owner->sexTitle == 'female'): ?> selected<?php endif ?>>Женский</option>
 			</select>
 		</div>
+		<div class="fElem">
+		<input id="optNotify" type="checkbox" value="1" name="optNotify"<?= $optNotify ? ' checked' : '' ?>>
+		<label for="optNotify">Получать уведомления по электронной почте</label>
+		</div>
 		<div class="fTitle">Часовой пояс</div>
 		<div class="fElem">
 			<select name='timezone' id='timezoneSelect'>

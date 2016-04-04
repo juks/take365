@@ -199,8 +199,12 @@ class UserController extends ApiController {
 	 */
 	public function actionUpdateProfile($id) {
 		$model = $this->checkModelPermission(intval($id), IPermissions::permWrite);
-		$model->load(Helpers::getRequestParams('post'));;
+        $data = Helpers::getRequestParams('post');
+
+		$model->load($data);
 		$model->save();
+
+        $model->setOptionValue('notify', !empty($data['optNotify']) ? true : false);
 
 		$this->addContent($model);
 	}

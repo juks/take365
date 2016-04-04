@@ -22,13 +22,14 @@ trait TOptionValue {
 
         if (!$option) throw new \app\components\ModelException('Invalid option name');
 
-        $value = OptionValue::find()->where(['target_id' => $this->id, 'target_type' => $this->getType(), 'option_id' => $option->id])->all();
+        $value = OptionValue::find()->where(['target_id' => $this->id, 'target_type' => $this->getType(), 'option_id' => $option->id])->one();
 
         if (!$value) {
             if ($option->default) {
                 $value = new OptionValue();
                 $value->setAttributes(['target_id' => $this->id, 'target_type' => $this->getType(), 'option_id' => $option->id]);
                 $value->value = $option->default;
+                $value->isDefault = true;
 
                 return $value;
             } else {
@@ -78,19 +79,19 @@ trait TOptionValue {
      * @param $value
      * @throws Exception
      */
-    function setOption($name, $value) {
+    function setOptionValue($name, $value) {
         $option = Option::find()->where(['name' => $name]);
 
         $currentValue = $this->getOption($name);
 
         if ($currentValue && $value != $currentValue->value) {
-            if ($value !== false) {
+            if ($value !== null) {
                 $currentValue->value = $value;
                 $currentValue->save();
             } else {
                 $currentValue->delete();
             }
-        } elseif($value !== false && !$currentValue) {
+        } elseif($value !== null && !$currentValue) {
             $ov = new OptionValue();
             $ov->setAttributes(['target_id' => $this->id, 'target_type' => $this->getType(), 'option_id' => $option->id]);
             $ov->value = $value;
@@ -108,7 +109,7 @@ trait TOptionValue {
         if (!is_array($options)) throw new \app\components\ModelException('Options should be array');
 
         foreach ($options as $name => $value) {
-            $this->setOption($name, $value);
+            $this->setOptionValue($name, $value);
         }
     }
 

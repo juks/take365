@@ -94,7 +94,7 @@ class UserPageController extends MyController {
         $this->setTitle(Ml::t('{user} profile page', null, ['user' => $owner->fullnameFilled]));
 
         return $this->render('profile', [
-                                        'user'         => $owner,
+                                        'owner'         => $owner,
                                         'pageType'     => 'profile'
                                     ]);
     }
@@ -127,7 +127,8 @@ class UserPageController extends MyController {
                                         'targetId'     => $owner->id,
                                         'targetType'   => User::typeId,
                                         'mediaType'    => Media::aliasUserpic,
-                                        'timezones'    => $timezones
+                                        'timezones'    => $timezones,
+                                        'optNotify'    => $owner->getOptionValue('notify')
                                     ]);
     }
 
