@@ -152,6 +152,7 @@ SELECT {
   left: -100px;
   }
 .form INPUT[type='checkbox'] + LABEL {
+  padding-left: 23px;
   cursor: pointer;
   }
 .form INPUT[type='checkbox'] + LABEL:before {
@@ -260,7 +261,6 @@ SELECT {
   line-height: 1.2;
   }
 .form .remember LABEL {
-  padding-left: 23px;
   color: #666;
   font-weight: 400;
   font-size: 16px;
