@@ -14,6 +14,7 @@ use app\components\traits\TModelExtra;
 class MQueue extends MQueueBase {
     use TModelExtra;
 
+    protected $_user;
     protected $_doSkip = false;
 
     protected $_headersArray = [
@@ -109,6 +110,7 @@ class MQueue extends MQueueBase {
             $this->_doSkip = true;
         } else {
             $this->to = $user->email;
+            $this->_user = $user;
         }
 
         return $this;
@@ -141,6 +143,8 @@ class MQueue extends MQueueBase {
     public function bodyTemplate($templateName, $parameters = []) {
         $parameters['projectName'] = Helpers::getParam('projectName');
         $parameters['projectUrl'] = Helpers::getParam('projectUrl');
+
+        if ($this->_user) $parameters['urlUnsubscribe'] = $this->_user->urlEdit;
 
         $this->body = Yii::$app->view->renderFile('@app/views/email/' . $templateName, $parameters);
 
