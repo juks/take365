@@ -72,7 +72,7 @@ class UserPageController extends MyController {
         foreach ($stories as $story) $story->formatShort(['imageLimit' => 90]);
 
         return $this->render('home', [
-                                        'owner'          => $owner,
+                                        'owner'         => $owner,
                                         'stories'       => $stories,
                                         'canCreate'     => $owner->thisIsMe && Story::checkQuota(),
                                         'pageType'      => 'home'
@@ -93,9 +93,13 @@ class UserPageController extends MyController {
         $owner->format();
         $this->setTitle(Ml::t('{user} profile page', null, ['user' => $owner->fullnameFilled]));
 
+        $homepageUrl = $owner->homepage;
+        if(!preg_match('!^https?://!i', $homepageUrl)) $homepageUrl = 'http://' . $homepageUrl;
+
         return $this->render('profile', [
                                         'owner'         => $owner,
-                                        'pageType'     => 'profile'
+                                        'pageType'     => 'profile',
+                                        'homepageUrl'   => $homepageUrl
                                     ]);
     }
 

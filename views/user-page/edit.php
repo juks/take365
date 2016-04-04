@@ -27,7 +27,7 @@ ProfileAsset::register($this);
 		<div class="fElem"><input type="text" name="username" id="username" value="<?= $owner->username ?>" class="halfWide" maxlength="255" /></div>
 		<div class="fTitle">Описание</div>
 		<div class="fElem"><textarea name="description" class="halfWide" style="height: 15em"><?= $owner->description ?></textarea></div>
-		<div class="fTitle">Адрес моего сайта или просто сайта про меня</div><div class="fElem"><input type="text" name="url" value="<?= $owner->homepage ?>" class="halfWide" maxlength=255 /></div>
+		<div class="fTitle">Адрес моего сайта или просто сайта про меня</div><div class="fElem"><input type="text" name="homepage" value="<?= $owner->homepage ?>" class="halfWide" maxlength=255 /></div>
 		<div class="fTitle">Пол</div>
 		<div class="fElem">
 			<select name='sex' id='genderSelect'>

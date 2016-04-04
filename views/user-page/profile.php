@@ -14,7 +14,7 @@
     <?php if ($owner->homepage): ?>
     <div class="profile-field">
       <h3>Контактная информация</h3>
-      <p><a href="<?= $owner->homepage ?>"><?= $owner->homepage ?></a></p>
+      <p><a href="<?= $homepageUrl ?>"><?= $owner->homepage ?></a></p>
     </div>
     <?php endif ?>
     <div class="profile-field">
