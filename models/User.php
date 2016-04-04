@@ -60,7 +60,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     public function fields() {
         return [
             'id'            => 'id',
-            'username'      => 'username',
+            'username'      => 'fullnameFilled',
             'url'           => 'url',
             'userpic'       => function() { $up = $this->userpic; return $up ? $up->getThumbData(Media::resizeMaxSide, 100) : null; },
             'userpicLarge'  => function() { $up = $this->userpic; return $up ? $up->getThumbData(Media::resizeMaxSide, 200) : null; }
@@ -464,8 +464,8 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     public function getFullnameFilled() {
         if ($this->fullname) {
             return $this->fullname;
-        } elseif ($this->username) {
-            return $this->username;
+        } elseif ($this->usernameFilled) {
+            return $this->usernameFilled;
         } else {
             return 'Пользователь';
         }
@@ -481,7 +481,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     /**
     * Return users identifier. If no username - let it be '@id'
     **/
-    public function getUsername() {
+    public function getUsernameFilled() {
         return $this->username ? $this->username : '@' . $this->id;
     }
 
@@ -489,21 +489,21 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     * Forms user home URL
     */
     public function getUrl() {
-        return \yii\helpers\Url::base(true) . '/' . $this->getUsername();
+        return \yii\helpers\Url::base(true) . '/' . $this->getUsernameFilled();
     }
 
     /**
     * Forms user profile URL
     */
     public function getUrlProfile() {
-        return \yii\helpers\Url::base(true) . '/' . $this->getUsername() . '/profile';
+        return \yii\helpers\Url::base(true) . '/' . $this->getUsernameFilled() . '/profile';
     }
 
     /**
     * Forms user profile update URL
     */
     public function getUrlEdit() {
-        return \yii\helpers\Url::base(true) . '/' . $this->getUsername() . '/profile/edit/';
+        return \yii\helpers\Url::base(true) . '/' . $this->getUsernameFilled() . '/profile/edit/';
     }
 
     /**
