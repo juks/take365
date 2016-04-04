@@ -20531,7 +20531,7 @@ var CommentItem = function (_React$Component) {
     value: function render() {
       var comment = this.props.data;
       var author = comment.author;
-      var userpicStyle = author.userpic.url ? {
+      var userpicStyle = author.userpic && author.userpic.url ? {
         backgroundImage: 'url(' + author.userpic.url + ')'
       } : {};
       var maxLevel = Math.min(comment.level, 5);
