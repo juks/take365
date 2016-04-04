@@ -106,7 +106,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     }
 
     public function getDefaultTimezone() {
-        return $this->timezone ? $this->timezone : self::defaultTimezone;
+        return $this->timezone && $this->timezone != 'none' ? $this->timezone : self::defaultTimezone;
     }
 
     /**
