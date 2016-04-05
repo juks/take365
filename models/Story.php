@@ -32,6 +32,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
     const statusPublic = 0;
     const statusHidden = 1;
 
+    const dummyDaysCount = 3;
+
     public $calendar;
     public $yearStart;
     public $yearEnd;
@@ -336,9 +338,9 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $this->fetchImages($extra);
         $this->fetchImagesCount($extra);
         $this->calculateProgress();
+        $canUpload = $this->hasPermission(Yii::$app->user, IPermissions::permWrite);
 
         $lastMonth = null;
-        $canUpload = $this->hasPermission(Yii::$app->user, IPermissions::permWrite);
         $dateDict = [];
 
         foreach ($this->images as $image) $dateDict[$image['date']] = $image;
@@ -348,16 +350,24 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         $daysDiff = floor(($nowTimestamp - $timeTo) / 86400);
         if ($daysDiff > 365) $daysDiff = 365;
-        $timeFrom = $timeTo + $daysDiff * 86400;
+
+        // Add sample dummy days
+        if ($daysDiff < self::dummyDaysCount) {
+            $timestamp = $timeTo + (self::dummyDaysCount - $daysDiff) * 86400;
+            $timeUploadFrom = $timeTo + $daysDiff * 86400;
+        } else {
+            $timestamp = $timeTo + $daysDiff * 86400;
+            $timeUploadFrom = $timestamp;
+        }
 
         $blankSpace = true;
 
         while (true) {
-            $date       = date('Y-m-d', $timeFrom);
+            $date       = date('Y-m-d', $timestamp);
 
-            $year       = date('Y', $timeFrom);
-            $month      = date('m', $timeFrom);
-            $monthDay   = date('j', $timeFrom);
+            $year       = date('Y', $timestamp);
+            $month      = date('m', $timestamp);
+            $monthDay   = date('j', $timestamp);
 
             if (!empty($dateDict[$date])) {
                 $drop = [
@@ -366,7 +376,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
                             'image'         => ['url' => $dateDict[$date]['t']['squareCrop']['200']['url'], 'width' => 200, 'height' => 200],
                             'imageLarge'    => ['url' => $dateDict[$date]['t']['squareCrop']['400']['url'], 'width' => 400, 'height' => 400],
                             'monthDay'      => $monthDay,
-                            'url'           => $this->getUrlDay($dateDict[$date]->date)
+                            'url'           => $this->getUrlDay($dateDict[$date]->date),
+                            'isUploadable'  => $timestamp <= $timeUploadFrom,
                         ];
 
                 if ($dateDict[$date]->is_deleted) {
@@ -382,6 +393,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                 $drop = [
                             'date'          => $date,
                             'monthDay'      => $monthDay,
+                            'isUploadable'  => $timestamp <= $timeUploadFrom,
                             'isEmpty'       => true
                         ];
             }
@@ -393,7 +405,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
             if (!$blankSpace || $canUpload) $this->calendar[] = $drop;
 
             if ($date == $dateTarget) break;
-            $timeFrom -= 86400;
+            $timestamp -= 86400;
         }
 
         $this->yearStart        = $year;

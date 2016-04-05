@@ -98,6 +98,13 @@
 		border: none;
 		}
 
+.dummy {
+	background: #fff;
+	border: 2px solid #eee;
+	width: 196px;
+	height: 196px;
+}
+
 .user-photo-day {
 	position: absolute;
 	left: 0;

@@ -52,7 +52,7 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
   <div class="yearTitle"><?= $story->yearStart ?>—<?= $story->yearEnd ?></div>
   <?php foreach ($story->calendar as $day): ?>
   <?php if ($lastMonth != $day['monthTitle']): ?><p class="hugeTitle tbo story-mounth cl"><?= $day['monthTitle'] ?></p><?php endif ?>
-    <div <?php if (!empty($day['id'])): ?> data-id="<?= $day['id'] ?>" <?php endif ?>id="day-<?= $day['date'] ?>" class="user-photo available<?php if (!empty($day['isEmpty'])): ?> empty i-upload<?php endif ?>">
+    <div <?php if (!empty($day['id'])): ?> data-id="<?= $day['id'] ?>" <?php endif ?>id="day-<?= $day['date'] ?>" class="user-photo <?= !empty($day['isUploadable']) ? 'available' : 'dummy' ?><?php if (!empty($day['isEmpty'])): ?> empty i-upload<?php endif ?>">
       <div class="user-photo-day"><?= $day['monthDay'] ?></div>
       <?php if (empty($day['isEmpty'])): ?>
         <?php if (empty($day['invisible'])): ?>
