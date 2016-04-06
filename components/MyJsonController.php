@@ -59,6 +59,8 @@ class MyJsonController extends Controller {
 	public function afterAction($action, $result) {
 		if ($this->_jsonResponse->hasErrors) Yii::$app->response->statusCode = $this->_responseCode ? : 406;
 
+		if (!$this->_jsonResponse->hasContent()) $this->addContent('OK');
+
 		if (!$this->disableSend) {
 			return $this->_jsonResponse->send(['return' => true]);
 		} else {

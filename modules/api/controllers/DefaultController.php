@@ -15,7 +15,7 @@ class DefaultController extends ApiController
 
         $this->layout = false;
         $this->disableSend = true;
-        return $this->render('help');
+        return $this->render('swagger');
     }
 
     public function actionError() {

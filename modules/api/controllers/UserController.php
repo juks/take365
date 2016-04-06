@@ -159,7 +159,6 @@ class UserController extends ApiController {
 
             if ($user) {
                 $user->recover();
-                $this->addContent($user);
             } else {
                 $this->addErrorMessage(Ml::t('User not found'), ['field' => 'email']);
             }
@@ -182,8 +181,6 @@ class UserController extends ApiController {
             $user = ApiUser::findByPasswordResetToken($code, $id);
             if ($user) {
                 $user->recoverUpdate($password);
-
-                $this->addContent($user);
             };
         } else {
             $this->addContent($form);

@@ -55,8 +55,16 @@ class JsonResponse {
 		}
 	}
 
-    public function hasContent($name) {
-        return !empty($this->data[$name]);
+    public function hasContent($name = null) {
+        if ($name) {
+        	return !empty($this->data[$name]);
+        } else {
+        	return !empty($this->data);
+        }
+    }
+
+    public function hasErrors($name) {
+        return $this->hasErrors;
     }
 
     public function addMessage($message) {
