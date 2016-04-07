@@ -159,8 +159,8 @@ class Media extends MediaCore {
     public function afterDelete() {
         if ($this->type == self::typeStoryImage) {
             $target = $this->targetStory;
-            if ($target) $targetStory->media_count --;
-            $targetStory->save();
+            if ($target) $target->media_count --;
+            $target->save();
         }
     }
 
