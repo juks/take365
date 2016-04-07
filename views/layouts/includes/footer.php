@@ -2,6 +2,7 @@
     <ul>
         <li>&copy; 2011&mdash;<?= date("Y") ?> <?= Yii::$app->params['projectName'] ?></li>
         <li><a href="/help/">О&nbsp;проекте</a></li>
+        <li><a href="/api/">Разработчикам</a></li>
         <li>
             <a href="http://take365.reformal.ru" onclick="Reformal.widgetOpen();return false;" onmouseover="Reformal.widgetPreload();">Отзывы и&nbsp;предложения</a>
             <script>
