@@ -1,5 +1,6 @@
 <?php
 $host = \yii\helpers\Url::base(true);
+$host = preg_replace('!https?://!', '', $host);
 
 $api = [
             [
