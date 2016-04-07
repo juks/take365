@@ -49,7 +49,7 @@ $api = [
 
                     '/user/list'   => [
                         'title' => 'Fetches the List of Users',
-                        'method' => 'POST',
+                        'method' => 'GET',
                         'auth'  => true,
                         'params'                => [
                                                         ['n' => 'page',         't' => 'Page Number',                   'o' => true, 'f' => 'integer'],
@@ -143,7 +143,7 @@ $api = [
 
                     '/user/get-option'   => [
                         'title' => 'Get User Option Value',
-                        'method' => 'POST',
+                        'method' => 'GET',
                         'params'                => [
                                                         ['n' => 'name',         't' => 'Option name', 'f' => 'string'],
                                                 ],
@@ -428,7 +428,7 @@ basePath: /api
 produces:
   - application/json
 securityDefinitions:
-  api_key:
+  accessToken:
       type: apiKey
       name: accessToken
       in: header
