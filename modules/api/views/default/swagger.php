@@ -319,8 +319,8 @@ $api = [
                         'title' => 'Retrieves current user\'s feed',
                         'method' => 'GET',
                         'params'                => [
-                                                        ['n' => 'page',     't' => 'Page Number',               'h'=>'Eg. 1', 'f' => 'integer'],
-                                                        ['n' => 'maxItems', 't' => 'Max Items Per Page',        'h'=>'Eg. 10 (max 100)', 'f' => 'integer'],
+                                                        ['n' => 'page',     't' => 'Page Number',               'h'=>'Eg. 1', 'f' => 'integer', 'o' => true],
+                                                        ['n' => 'maxItems', 't' => 'Max Items Per Page',        'h'=>'Eg. 10 (max 100)', 'f' => 'integer', 'o' => true],
                                                 ],
                         'responses'             => ['200' => ['t' => 'array', 's' => 'Media']]
                     ],
