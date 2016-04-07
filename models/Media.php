@@ -138,7 +138,7 @@ class Media extends MediaCore {
     public function afterUpload() {
         // Mark Predecessors as deleted
         if ($this->type == self::typeStoryImage) {
-            $target = $this->target;
+            $target = $this->targetStory;
 
             if ($target) {
                 $target->media_count ++;
