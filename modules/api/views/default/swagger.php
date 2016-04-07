@@ -268,7 +268,7 @@ $api = [
                                                         ['n' => 'targetType',   't' => 'Target Object Type',            'h'=>'1 for user, 2 for story', 'f' => 'integer'],
                                                         ['n' => 'mediaType',    't' => 'Type of Uploaded Media',        'h'=>'Eg. "userpic", "storyImage"', 'f' => 'string'],
                                                         ['n' => 'date',         't' => 'Calendar data',                 'h'=>'Only for story images, eg. "2015-11-25"', 'f' => 'string'],
-                                                        ['n' => 'file',         't' => 'Media Resource',                'h'=>'Eg. "userpic", "storyImage"', 'f' => 'string'],
+                                                        ['n' => 'file',         't' => 'Media Resource',                'h'=>'Eg. "userpic", "storyImage"', 'f' => 'file'],
                                                 ],
                         'responses'             => ['200' => ['s' => 'Media']]
                     ],
@@ -456,8 +456,6 @@ paths:
                 echo '      parameters:' . "\n";
 
                 //if (!empty($data['auth']))
-                //    if (!isset($data['params'])) $data['params'] = [];
-                //    if (!empty($data['auth'])) $data['params'][] = ['n' => 'access-token',      't' => 'Access Token', 'f' => 'string'];
 
                 foreach ($data['params'] as $param) {
                     echo '        - name: ' . $param['n'] . "\n";
@@ -466,7 +464,7 @@ paths:
                     echo "\n";
                     echo '          description: ' . $param['t'] . "\n";
                     echo '          required: ' . (empty($param['o']) ? 'true' : 'false') . "\n";
-                    echo '          type: ' . ($param['f'] == 'integer' ? 'integer' : 'string') . "\n";
+                    echo '          type: ' . ($param['f'] == 'integer' || $param['f'] == 'file' ? $param['f'] : 'string') . "\n";
                     if ($param['f'] == 'integer') echo '          format: int32' . "\n";
                 }
             }
@@ -489,8 +487,8 @@ paths:
                     }
                 }
             }
-        } 
-    }
+        }
+    } 
 ?>
 tags:
   - name: Auth
