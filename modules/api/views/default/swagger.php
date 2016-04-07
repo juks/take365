@@ -430,7 +430,7 @@ produces:
 securityDefinitions:
   api_key:
       type: apiKey
-      name: access-token
+      name: accessToken
       in: header
 paths:
 <?php
