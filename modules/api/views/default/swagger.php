@@ -432,10 +432,6 @@ securityDefinitions:
       type: apiKey
       name: access-token
       in: header
-  take365_auth:
-    type: apiKey
-    authorizationUrl: <?= $schema . $host ?>/api/auth/login
-    flow: implicit
 paths:
 <?php
     foreach ($api as $group) {
