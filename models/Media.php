@@ -99,7 +99,7 @@ class Media extends MediaCore {
         }
 
         if ($this->scenario == 'feed') {
-            $fields['story']         = function() { return $this->target; };
+            $fields['story']         = function() { return $this->targetStory; };
         }
 
         if ($this->target_type == Story::typeId) $fields['date'] = 'date';
@@ -158,20 +158,16 @@ class Media extends MediaCore {
     **/
     public function afterDelete() {
         if ($this->type == self::typeStoryImage) {
-            $target = $this->target;
-            if ($target) $target->media_count --;
-            $target->save();
+            $target = $this->targetStory;
+            if ($target) $targetStory->media_count --;
+            $targetStory->save();
         }
     }
 
     /**
      * Target relation
      */
-    public function getTarget() {
-        if ($this->type == self::typeStoryImage) {
-            return $this->hasOne(Story::className(), ['created_by' => 'created_by']);
-        } else {
-            throw new \Exception('Unknown target');
-        }
+    public function getTargetStory() {
+        return $this->hasOne(Story::className(), ['created_by' => 'created_by']);
     }
 }

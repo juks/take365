@@ -77,12 +77,11 @@ class Feed extends FeedBase {
         									'type' 			=> Media::typeStoryImage,
         									'is_deleted' 	=> false,
         									'is_hidden' => false
-        							   ])->with('target')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
-
+        							   ])->with('targetStory')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
 
         foreach ($mediaList as $mediaItem) {
             $mediaItem->setScenario('feed');
-            if ($mediaItem->target) $mediaItem->target->setScenario('feed');
+            if ($mediaItem->targetStory) $mediaItem->targetStory->setScenario('feed');
         }
 
         return $mediaList;
