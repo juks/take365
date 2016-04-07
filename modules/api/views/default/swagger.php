@@ -245,7 +245,7 @@ $api = [
 
             [
                 'title'                     => 'Media',
-                'description'               => 'Image upload and control methods.',
+                'description'               => 'Image upload and control methods. Valid target types: "1" for user, "2" for story. Valid media types are: "userpic", "storyImage"',
                 'methods'                   => [
                     '/media/player-data'     => [
                         'title' => 'Retrieves images for player',
