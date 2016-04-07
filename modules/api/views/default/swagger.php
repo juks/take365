@@ -428,7 +428,7 @@ basePath: /api
 produces:
   - application/json
 securityDefinitions:
-  accessToken:
+  internalApiKey:
     type: apiKey
     name: accessToken
     in: header
