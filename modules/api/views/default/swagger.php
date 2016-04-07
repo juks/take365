@@ -245,7 +245,7 @@ $api = [
 
             [
                 'title'                     => 'Media',
-                'description'               => 'Image upload and control methods. Valid target types: "1" for user, "2" for story. Valid media types are: "userpic", "storyImage"',
+                'description'               => 'Image upload and control methods',
                 'methods'                   => [
                     '/media/player-data'     => [
                         'title' => 'Retrieves images for player',
@@ -261,7 +261,7 @@ $api = [
                     '/media/upload'     => [
                         'auth'  => true,
                         'isMultipart' => true,
-                        'title' => 'Uploads new media resource',
+                        'title' => 'Uploads new media resource. Valid target types: "1" for user, "2" for story. Valid media types are: "userpic", "storyImage"',
                         'method' => 'POST',
                         'params'                => [
                                                         ['n' => 'targetId',     't' => 'Target Object Id',              'h'=>'', 'f' => 'integer'],
