@@ -454,9 +454,9 @@ paths:
             if (!empty($data['params'])) {
                 echo '      parameters:' . "\n";
 
-                if (!empty($data['auth']))
-                    if (!isset($data['params'])) $data['params'] = [];
-                    if (!empty($data['auth'])) $data['params'][] = ['n' => 'access-token',      't' => 'Access Token', 'f' => 'string'];
+                //if (!empty($data['auth']))
+                //    if (!isset($data['params'])) $data['params'] = [];
+                //    if (!empty($data['auth'])) $data['params'][] = ['n' => 'access-token',      't' => 'Access Token', 'f' => 'string'];
 
                 foreach ($data['params'] as $param) {
                     echo '        - name: ' . $param['n'] . "\n";
