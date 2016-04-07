@@ -416,7 +416,8 @@ $api = [
 swagger: '2.0'
 info:
   title: Take365 API
-  description: Please see the <?= $host ?> public API description below.
+  description: |
+    Have a look at <?= $host ?> public API description below. To obtain the auth token use the auth/login method then copy the value into the form above.
   version: "1.0"
 # the domain of the service
 host: <?= $host ?> 
