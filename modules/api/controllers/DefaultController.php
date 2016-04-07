@@ -11,11 +11,18 @@ class DefaultController extends ApiController
 {
     public function actionIndex() {
         Yii::$app->response->format = Response::FORMAT_HTML;
-        //Yii::$app->response->getHeaders()->add('Content-type', 'text/plain');
 
         $this->layout = false;
         $this->disableSend = true;
-        return $this->render('swagger');
+        return $this->render('index');
+    }
+
+    public function actionDoc() {
+        Yii::$app->response->format = Response::FORMAT_HTML;
+
+        $this->layout = false;
+        $this->disableSend = true;
+        return $this->render('swagger');        
     }
 
     public function actionError() {

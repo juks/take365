@@ -29,6 +29,7 @@ phpunit.phar
 /config/config_local.php
 /config/assets_min.php
 /web/index.php
+/web/api
 /web/media*
 /web/min/js/*
 /web/min/css/*

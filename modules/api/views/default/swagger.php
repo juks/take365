@@ -1,4 +1,6 @@
 <?php
+$host = \yii\helpers\Url::base(true);
+
 $api = [
             [
                 'title'                         => 'Auth',
@@ -35,11 +37,11 @@ $api = [
                 'title'                         => 'Users',
                 'description'                   => 'Entire user profile related stuff.',
                 'methods'                       => [
-                    '/user/profile/id'   => [
+                    '/user/profile/{id}'   => [
                         'title' => 'Retrieves User Profile Information',
                         'method' => 'GET',
                         'auth'  => true,
-                        'params'                => [['n' => 'id',           't' => 'Username or User Id',   'h' => 'Eg. "bob" for Bob or "1" for user with ID 1', 'f' => 'integer']],
+                        'params'                => [['n' => 'id',           't' => 'Username or User Id',   'h' => 'Eg. "bob" for Bob or "1" for user with ID 1', 'f' => 'integer', 'in' => 'path']],
                         'responses'             => ['200' => ['s' => 'User']]
                     ],
 
@@ -152,10 +154,11 @@ $api = [
                 'title'                     => 'Stories',
                 'description'               => 'Provides read and write access to stories data.',
                 'methods'                   => [
-                    '/story/id'         => [
+                    '/story/{id}'         => [
                         'title' => 'Fetches Story information',
+                        'method' => 'GET',
                         'auth'  => true,
-                        'method' => 'POST',
+                        'params'                =>      [['n' => 'id',           't' => 'Story Id', 'f' => 'integer', 'in' => 'path']],
                         'responses'             => ['200' => ['s' => 'Story']]
                     ],
 
@@ -411,10 +414,10 @@ $api = [
 swagger: '2.0'
 info:
   title: Take365 API
-  description: Please see the take365.org public API description below.
+  description: Please see the <?= $host ?> public API description below.
   version: "1.0"
 # the domain of the service
-host: take365.org
+host: <?= $host ?> 
 # array of all schemes that your API supports
 schemes:
   - http
@@ -422,6 +425,15 @@ schemes:
 basePath: /api
 produces:
   - application/json
+securityDefinitions:
+  api_key:
+      type: apiKey
+      name: access-token
+      in: header
+  take365_auth:
+    type: apiKey
+    authorizationUrl: <?= $host ?>/api/auth/login
+    flow: implicit
 paths:
 <?php
     foreach ($api as $group) {
@@ -450,7 +462,9 @@ paths:
 
                 foreach ($data['params'] as $param) {
                     echo '        - name: ' . $param['n'] . "\n";
-                    echo '          in: ' . (strtolower($data['method']) == 'get' ? 'query' : 'formData') . "\n";
+                    echo '          in: ';
+                    if (!empty($param['in'])) echo $param['in']; else echo (strtolower($data['method']) == 'get' ? 'query' : 'formData');
+                    echo "\n";
                     echo '          description: ' . $param['t'] . "\n";
                     echo '          required: ' . (empty($param['o']) ? 'true' : 'false') . "\n";
                     echo '          type: ' . ($param['f'] == 'integer' ? 'integer' : 'string') . "\n";
