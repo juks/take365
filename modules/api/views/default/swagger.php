@@ -429,9 +429,9 @@ produces:
   - application/json
 securityDefinitions:
   accessToken:
-      type: apiKey
-      name: accessToken
-      in: header
+    type: apiKey
+    name: accessToken
+    in: header
 paths:
 <?php
     foreach ($api as $group) {
