@@ -1,5 +1,6 @@
 <?php
 $host = \yii\helpers\Url::base(true);
+$schema = substr($host, 0, 7) == 'http://' ? 'http://' : 'https://';
 $host = preg_replace('!https?://!', '', $host);
 
 $api = [
@@ -433,7 +434,7 @@ securityDefinitions:
       in: header
   take365_auth:
     type: apiKey
-    authorizationUrl: <?= $host ?>/api/auth/login
+    authorizationUrl: <?= $schema . $host ?>/api/auth/login
     flow: implicit
 paths:
 <?php
