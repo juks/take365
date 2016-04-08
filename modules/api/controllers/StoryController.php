@@ -48,6 +48,81 @@ class StoryController extends ApiController {
         return $b;
     }
 
+    /**
+    * Returns the array with the data needed for Swagger UI
+    */
+    public static function getSwaggerData() {
+        $user = Yii::$app->user;
+
+        $defaultUserId = null;
+        $defaultUsername = null;
+        $defaultEmail = null;
+        $defaultStoryId = null;
+
+        if (!$user->isGuest) {
+            $defaultUserId = $user->id;
+            $defaultUsername = !empty($user->identity->username) ? $user->identity->username : null;
+            $defaultEmail = isset($user->identity->email) ? $user->identity->email : null;
+
+            if (!$user->isGuest) {
+                $stories = $user->identity->stories;
+                if ($stories) {
+                    $defaultStoryId = $stories[0]->id;
+                }
+            }
+        }
+
+        return [
+            'title'                     => 'Stories',
+            'description'               => 'Provides read and write access to stories data.',
+            'methods'                   => [
+                '/story/{id}'         => [
+                    'title' => 'Fetches Story information',
+                    'method' => 'GET',
+                    'auth'  => true,
+                    'params'                => [['n' => 'id', 't' => 'Story Id', 'f' => 'integer', 'in' => 'path', 'd' => $defaultStoryId]],
+                    'responses'             => ['200' => ['s' => 'Story']]
+                ],
+
+                '/story/list'   => [
+                    'title' => 'Fetches the list of public or given user stories',
+                    'method' => 'GET',
+                    'auth'  => true,
+                    'params'                => [
+                                                    ['n' => 'page',      't' => 'Page Number',                      'o' => true, 'f' => 'integer', 'd' => 1],
+                                                    ['n' => 'maxItems' , 't' => 'Maximal Items Count',              'o' => true, 'f' => 'integer', 'd' => 10],
+                                                    ['n' => 'username' , 't' => 'Name of User to Fetch Stories of', 'o' => true, 'h' => 'Eg. "bob" for Bob or "me" for current user', 'f' => 'string', 'd' => $defaultUsername]
+                                            ],
+                    'responses'             => ['200' => ['t' => 'array', 's' => 'Story']]
+                ],
+
+                '/story/write'      => [
+                    'title' => 'Creates or updates story',
+                    'method' => 'POST',
+                    'auth'  => true,
+                    'params'                => [
+                                                    ['n' => 'id',           't' => 'Story Id', 'h'=>'If not given, a new story will be created', 'f' => 'integer', 'd' => $defaultStoryId],
+                                                    ['n' => 'status',       't' => 'Story Status', 'h'=>'0 — public, 1 — private', 'f' => 'integer', 'e' => [0, 1]],
+                                                    ['n' => 'title',        't' => 'Story Title', 'f' => 'string'],
+                                                    ['n' => 'description',  't' => 'Story Description', 'f' => 'string'],
+                                            ],
+                    'responses'             => ['200' => ['s' => 'Story']]
+                ],
+
+                '/story/delete-recover'      => [
+                    'title' => 'Deletes or recovers story',
+                    'method' => 'POST',
+                    'auth'  => true,
+                    'params'                => [
+                                                    ['n' => 'id',           't' => 'Story Id',             'h'=>'If not given, a new story will be created', 'f' => 'integer', 'd' => $defaultStoryId],
+                                                    ['n' => 'doRecover',    't' => 'Recover Deleted Items','h'=>'If set, the deleted items will be recovered', 'f' => 'boolean'],
+                                            ],
+                    'responses'             => ['200' => ['s' => 'Response']]
+                ],
+            ]
+        ];
+    }
+
     protected function getModelClass() {
         return ApiStory::className();
     }

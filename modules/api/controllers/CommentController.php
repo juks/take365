@@ -44,6 +44,72 @@ class CommentController extends ApiController {
         return $b;
     }
 
+    /**
+    * Returns the array with the data needed for Swagger UI
+    */
+    public static function getSwaggerData() {
+        $user = Yii::$app->user;
+
+        $defaultUserId = null;
+        $defaultUsername = null;
+        $defaultEmail = null;
+        $defaultStoryId = null;
+
+        if (!$user->isGuest) {
+            $defaultUserId = $user->id;
+            $defaultUsername = !empty($user->identity->username) ? $user->identity->username : null;
+            $defaultEmail = isset($user->identity->email) ? $user->identity->email : null;
+
+            if (!$user->isGuest) {
+                $stories = $user->identity->stories;
+                if ($stories) {
+                    $defaultStoryId = $stories[0]->id;
+                }
+            }
+        }
+
+        return [
+            'title'                     => 'Comments',
+            'description'               => 'Comments are easy thing to do.',
+            'methods'                   => [
+                '/comment/list-comments'   => [
+                    'title' => 'Retrieve target comments',
+                    'method' => 'GET',
+                    'params'                => [
+                                                    ['n' => 'targetType',   't' => 'Commentable Target Type', 'f' => 'integer', 'e' => [2]],
+                                                    ['n' => 'targetId' ,    't' => 'Commentable Id', 'f' => 'integer', 'd' => $defaultStoryId],
+                                                    ['n' => 'lastTimestamp','t' => 'Show only comments that were created since given timestamp', 'o' => true, 'f' => 'integer'],
+                                            ],
+                    'responses'             => ['200' => ['t' => 'array', 's' => 'Comment']]
+                ],
+
+                '/comment/write'   => [
+                    'title' => 'Creates or updates comment',
+                    'method' => 'POST',
+                    'auth'  => true,
+                    'params'                => [
+                                                    ['n' => 'targetType',   't' => 'Commentable Target Type',      'o' => true, 'f' => 'integer', 'h' => '2 for story', 'e' => [2]],
+                                                    ['n' => 'targetId' ,    't' => 'Commentable Id',               'o' => true, 'f' => 'integer', 'd' => $defaultStoryId],
+                                                    ['n' => 'id' ,          't' => 'Comment Id To Update',         'o' => true, 'f' => 'integer'],
+                                                    ['n' => 'body' ,        't' => 'Comment Text',                 'f' => 'string'],
+                                                    ['n' => 'parentId' ,    't' => 'Parent Comment Id',            'o' => true, 'f' => 'integer'],
+                                            ],
+                    'responses'             => ['200' => ['s' => 'Comment']]
+                ],
+
+                '/comment/delete-recover'     => [
+                    'auth'  => true,
+                    'title' => 'Deletes or recovers comments',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'id', 't' => 'Comment Id', 'f' => 'integer']
+                                            ],
+                    'responses'             => ['200' => ['s' => 'Response']]
+                ],
+            ]
+        ];
+    }
+
     protected function getModelClass() {
         throw new Exception("Method getModelClass() is not supported by this controller");
     }

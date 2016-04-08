@@ -48,6 +48,44 @@ class AuthController extends ApiController {
         return $b;
     }
 
+    /**
+    * Returns the array with the data needed for Swagger UI
+    */
+    public static function getSwaggerData() {
+        return [
+            'title'                         => 'Auth',
+            'description'                   => 'Users authentication is done using this method',
+            'methods'                       => [
+                '/auth/login'               => [
+                    'title' => 'Authenticates Users',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'username',     't' => 'Username', 'f' => 'string'],
+                                                    ['n' => 'password',     't' => 'User Password', 'f' => 'string']
+                                            ],
+                    'responses'             => ['200' => ['s' => 'Token']]
+                ],
+
+                '/auth/logout'               => [
+                    'title' => 'Forgets the Web Interface User',
+                    'method' => 'POST',
+                    'params'                => [],
+                    'responses'             => ['200' => ['s' => 'Response']]
+                ],
+
+                '/auth/check-token'         => [
+                    'title' => 'Checks Token Status',
+                    'method' => 'GET',
+                    'auth' => true,
+                    'params'                => [],
+                    'responses'             => ['200' => ['s' => 'User']]
+                ],
+            ]
+        ];
+
+
+    }
+
     protected function getModelClass() {
         throw new Exception("Method getModelClass() is not supported by this controller");
     }

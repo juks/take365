@@ -38,6 +38,77 @@ class FeedController extends ApiController {
         return $b;
     }
 
+    /**
+    * Returns the array with the data needed for Swagger UI
+    */
+    public static function getSwaggerData() {
+        $user = Yii::$app->user;
+
+        $defaultUserId = null;
+        $defaultUsername = null;
+
+        if (!$user->isGuest) {
+            $defaultUserId = $user->id;
+            $defaultUsername = !empty($user->identity->username) ? $user->identity->username : null;
+            $defaultEmail = isset($user->identity->email) ? $user->identity->email : null;
+
+            if (!$user->isGuest) {
+                $stories = $user->identity->stories;
+                if ($stories) {
+                    $defaultStoryId = $stories[0]->id;
+                }
+            }
+        }
+
+        return [
+            'title'                     => 'Feed',
+            'description'               => 'The feed of images, uploaded by those current user is subscribed for.',
+            'methods'                   => [
+                '/feed/feed'     => [
+                    'auth'  => true,
+                    'title' => 'Retrieves current user\'s feed',
+                    'method' => 'GET',
+                    'params'                => [
+                                                    ['n' => 'page',     't' => 'Page Number',        'h'=>'Eg. 1', 'f' => 'integer', 'o' => true, 'd' => 1],
+                                                    ['n' => 'maxItems', 't' => 'Max Items Per Page', 'h'=>'Eg. 10 (max 100)', 'f' => 'integer', 'o' => true, 'd' => 10],
+                                            ],
+                    'responses'             => ['200' => ['t' => 'array', 's' => 'Media']]
+                ],
+
+                '/feed/follow'     => [
+                    'auth'  => true,
+                    'title' => 'Follow user',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'username', 't' => 'Username or user id', 'h'=>'', 'f' => 'string', 'd' => $defaultUsername],
+                                           ],
+                    'responses'             => ['200' => ['s' => 'Response']]
+                ],
+
+                '/feed/unfollow'     => [
+                    'auth'  => true,
+                    'title' => 'Unfollow user',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'username',      't' => 'Username or user id', 'h'=>'', 'f' => 'string', 'd' => $defaultUsername],
+                                           ],
+                    'responses'             => ['200' => ['s' => 'Response']]
+                ],
+
+
+                '/feed/is-following'     => [
+                    'auth'  => true,
+                    'title' => 'Checks if current users follows other user',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'username',      't' => 'Username or user id', 'h'=>'', 'f' => 'string', 'd' => $defaultUsername],
+                                           ],
+                    'responses'             => ['200' => ['s' => 'Response']]
+                ],
+            ]
+            ];
+    }
+
     protected function getModelClass() {
         throw new Exception("Method getModelClass() is not supported by this controller");
     }

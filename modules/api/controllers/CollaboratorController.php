@@ -39,6 +39,85 @@ class CollaboratorController extends ApiController {
         return $b;
     }
 
+    /**
+    * Returns the array with the data needed for Swagger UI
+    */
+    public static function getSwaggerData() {
+        $user = Yii::$app->user;
+
+        $defaultUserId = null;
+        $defaultUsername = null;
+        $defaultEmail = null;
+        $defaultStoryId = null;
+
+        if (!$user->isGuest) {
+            $defaultUserId = $user->id;
+            $defaultUsername = !empty($user->identity->username) ? $user->identity->username : null;
+            $defaultEmail = isset($user->identity->email) ? $user->identity->email : null;
+
+            if (!$user->isGuest) {
+                $stories = $user->identity->stories;
+                if ($stories) {
+                    $defaultStoryId = $stories[0]->id;
+                }
+            }
+        }
+
+        return [
+            'title'                     => 'Collaboration',
+            'description'               => 'Collaboration lets multiple users to work on one story',
+            'methods'                   => [
+                '/collaborator/collaborators'     => [
+                    'auth'  => true,
+                    'title' => 'Retrieves story collaborators list',
+                    'method' => 'GET',
+                    'params'                => [
+                                                    ['n' => 'storyId',      't' => 'Story id', 'f' => 'integer', 'd' => $defaultStoryId],
+                                            ],
+                    'responses'             => ['200' => ['t' => 'array', 's' => 'User']]
+                ],
+
+                '/collaborator/stories'     => [
+                    'auth'  => true,
+                    'title' => 'List stories that the given user listed as collaborator for',
+                    'method' => 'GET',
+                    'params'                => [],
+                    'responses'             => ['200' => ['t' => 'array', 's' => 'Story']]
+                ],
+
+                '/collaborator/add'     => [
+                    'auth'  => true,
+                    'title' => 'Add story collaborator',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'username',     't' => 'Username or user id',  'h'=>'', 'f' => 'string', 'd' => $defaultUsername],
+                                           ],
+                    'responses'             => ['200' => ['s' => 'Response']]
+                ],
+
+                '/collaborator/confirm'     => [
+                    'auth'  => true,
+                    'title' => 'Confirm pending collaboration',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'username',      't' => 'Username or user id', 'h'=>'', 'f' => 'string', 'd' => $defaultUsername],
+                                           ],
+                    'responses'             => ['200' => ['s' => 'Response']]
+                ],
+
+                '/collaborator/remove'     => [
+                    'auth'  => true,
+                    'title' => 'Remove story collaborator',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'username',      't' => 'Username or user id', 'h'=>'', 'f' => 'string', 'd' => $defaultUsername],
+                                           ],
+                    'responses'             => ['200' => ['s' => 'Response']]
+                ],
+            ]
+        ];
+    }
+
     protected function getModelClass() {
         throw new Exception("Method getModelClass() is not supported by this controller");
     }

@@ -50,6 +50,132 @@ class UserController extends ApiController {
         return $b;
     }
 
+    /**
+    * Returns the array with the data needed for Swagger UI
+    */
+    public static function getSwaggerData() {
+        $user = Yii::$app->user;
+        $defaultUserId = !$user->isGuest ? $user->id : null;
+        $defaultEmail = isset($user->identity->email) ? $user->identity->email : null;
+
+        return [
+                'title'                         => 'Users',
+                'description'                   => 'Entire user profile related stuff.',
+                'methods'                       => [
+                    '/user/profile/{id}'   => [
+                        'title' => 'Retrieves User Profile Information',
+                        'method' => 'GET',
+                        'auth'  => true,
+                        'params'                => [['n' => 'id', 't' => 'Username or User Id', 'h' => 'Eg. "bob" for Bob or "1" for user with ID 1', 'f' => 'integer', 'in' => 'path', 'd' => $defaultUserId]],
+                        'responses'             => ['200' => ['s' => 'User']]
+                    ],
+
+                    '/user/list'   => [
+                        'title' => 'Fetches the List of Users',
+                        'method' => 'GET',
+                        'auth'  => true,
+                        'params'                => [
+                                                        ['n' => 'page',         't' => 'Page Number',                   'o' => true, 'f' => 'integer'],
+                                                        ['n' => 'maxItems' ,    't' => 'Maximal Items Count',           'o' => true, 'f' => 'integer']
+                                                ],
+                        'responses'             => ['200' => ['t' => 'array', 's' => 'User']]
+                    ],
+
+                    '/user/suggest'   => [
+                        'title' => 'Gives Users Suggest for Given Username Part',
+                        'method' => 'GET',
+                        'params'                => [
+                                                        ['n' => 'username', 't' => 'Username', 'f' => 'string'],
+                                                ],
+                        'responses'             => ['200' => ['t' => 'array', 's' => 'User']]
+                    ],
+
+                    '/user/check-username'   => [
+                        'title' => 'Checks If Given Username is Available',
+                        'method' => 'GET',
+                        'params'                => [
+                                                        ['n' => 'username', 't' => 'Username', 'f' => 'string'],
+                                                ],
+                        'responses'             => ['200' => ['s' => 'Response']]
+                    ],
+
+                    '/user/check-email'   => [
+                        'title' => 'Checks if Given Email is Available',
+                        'method' => 'GET',
+                        'params'                => [
+                                                        ['n' => 'email', 't' => 'Preferred Email', 'f' => 'string', 'd' => $defaultEmail],
+                                                ],
+                        'responses'             => ['200' => ['s' => 'Response']]
+                    ],
+
+
+                    '/user/register'   => [
+                        'title' => 'Registers New User',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'username', 't' => 'Preferred Username', 'f' => 'string'],
+                                                        ['n' => 'email', 't' => 'User Email', 'f' => 'string'],
+                                                        ['n' => 'password', 't' => 'User Password', 'f' => 'string'],
+                                                ],
+                        'responses'             => ['200' => ['s' => 'User']]
+                    ],
+
+                    '/user/recover'   => [
+                        'title' => 'Request Password Recovery',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'email', 't' => 'User Email', 'f' => 'string', 'd' => $defaultEmail],
+                                                ],
+                        'responses'             => ['200' => ['s' => 'Response']]
+                    ],
+
+                    '/user/recover-update'   => [
+                        'title' => 'Update User Password Using Recovery Code',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'id',           't' => 'User Id', 'f' => 'integer'],
+                                                        ['n' => 'code',         't' => 'Security Code', 'f' => 'string'],
+                                                        ['n' => 'password',     't' => 'New Password', 'f' => 'string'],
+                                                ],
+                        'responses'             => ['200' => ['s' => 'Response']]
+                    ],
+
+                    '/user/update-profile'   => [
+                        'title' => 'Updates User Profile',
+                        'method' => 'POST',
+                        'auth'  => true,
+                        'params'                => [
+                                                        ['n' => 'id',           't' => 'User Id', 'f' => 'integer', 'd' => $defaultUserId],
+                                                        ['n' => 'username',     't' => 'Preferred Username',            'o' => true, 'f' => 'string'],
+                                                        ['n' => 'fullname',     't' => 'Preferred Fullname',            'o' => true, 'f' => 'string'],
+                                                        ['n' => 'password',     't' => 'User Password',                 'o' => true, 'f' => 'string'],
+                                                        ['n' => 'email',        't' => 'User Email',                    'o' => true, 'f' => 'string'],
+                                                        ['n' => 'description',  't' => 'User Profile Description',      'o' => true, 'f' => 'string'],
+                                                ],
+                        'responses'             => ['200' => ['s' => 'User']]
+                    ],
+
+                    '/user/set-options'   => [
+                        'title' => 'Set User Options',
+                        'method' => 'POST',
+                        'params'                => [
+                                                        ['n' => 'options',      't' => 'Options name-value array', 'f' => 'array'],
+                                                ],
+                        'responses'             => ['200' => ['s' => 'Response']]
+                    ],
+
+                    '/user/get-option'   => [
+                        'title' => 'Get User Option Value',
+                        'method' => 'GET',
+                        'params'                => [
+                                                        ['n' => 'name',         't' => 'Option name', 'f' => 'string'],
+                                                ],
+                        'responses'             => ['200' => ['s' => 'Response']]
+                    ],
+                ]
+             ];
+    }
+
     protected function getModelClass() {
         return ApiUser::className();
     }

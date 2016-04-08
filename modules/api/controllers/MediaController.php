@@ -54,6 +54,97 @@ class MediaController extends ApiController {
         return $b;
     }
 
+    /**
+    * Returns the array with the data needed for Swagger UI
+    */
+    public static function getSwaggerData() {
+        $user = Yii::$app->user;
+
+        $defaultUserId = null;
+        $defaultStoryId = null;
+        $defaultDate = date('Y-m-d', time());
+
+        if (!$user->isGuest) {
+            $defaultUserId = $user->id;
+            $defaultUsername = !empty($user->identity->username) ? $user->identity->username : null;
+            $defaultEmail = isset($user->identity->email) ? $user->identity->email : null;
+
+            if (!$user->isGuest) {
+                $stories = $user->identity->stories;
+                if ($stories) {
+                    $defaultStoryId = $stories[0]->id;
+                }
+            }
+        }
+
+        return [
+            'title'                     => 'Media',
+            'description'               => 'Image upload and control methods',
+            'methods'                   => [
+                '/media/player-data'     => [
+                    'title' => 'Retrieves images for player',
+                    'method' => 'GET',
+                    'params'                => [
+                                                    ['n' => 'storyId',      't' => 'Story Id',    'h'=>'1 for user, 2 for story', 'f' => 'integer', 'd' => $defaultStoryId],
+                                                    ['n' => 'date',         't' => 'Target Date', 'h'=>'', 'f' => 'string', 'd' => $defaultDate],
+                                                    ['n' => 'span',         't' => 'Select Span', 'h'=>'Eg. "-10 (left)", "10" (right)', 'f' => 'integer', 'd' => 10],
+                                            ],
+                    'responses'             => ['200' => ['t' => 'array', 's' => 'Media']]
+                ],
+
+                '/media/upload'     => [
+                    'auth'  => true,
+                    'isMultipart' => true,
+                    'title' => '\'Uploads new media resource. Valid target types: "1" for user, "2" for story. Valid media types are: "userpic", "storyImage"\'',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'targetId',     't' => 'Target Object Id',              'h'=>'', 'f' => 'integer', 'd' => $defaultStoryId],
+                                                    ['n' => 'targetType',   't' => 'Target Object Type',            'h'=>'1 for user, 2 for story', 'f' => 'integer', 'e' => [1, 2]],
+                                                    ['n' => 'mediaType',    't' => 'Type of Uploaded Media',        'h'=>'Eg. "userpic", "storyImage"', 'f' => 'string', 'e' => ['storyImage', 'userpic']],
+                                                    ['n' => 'date',         't' => 'Calendar data',                 'h'=>'Only for story images, eg. "' . $defaultDate . '"', 'f' => 'string', 'd' => $defaultDate],
+                                                    ['n' => 'file',         't' => 'Media Resource',                'h'=>'Eg. "userpic", "storyImage"', 'f' => 'file'],
+                                            ],
+                    'responses'             => ['200' => ['s' => 'Media']]
+                ],
+
+                '/media/write'     => [
+                    'auth'  => true,
+                    'title' => 'Updates media item\'s attributes',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'id',           't' => 'Media Item Id',                'h'=>'', 'f' => 'integer'],
+                                                    ['n' => 'title',        't' => 'New Title',                    'h'=>'', 'f' => 'string'],
+                                                    ['n' => 'description',  't' => 'New Description',              'h'=>'', 'f' => 'string'],
+                                            ],
+                    'responses'             => ['200' => ['s' => 'Media']]
+                ],
+
+                '/media/swap-days'     => [
+                    'auth'  => true,
+                    'title' => 'Swaps the date of two story images',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'storyId',        't' => 'The story id', 'f' => 'integer'],
+                                                    ['n' => 'dateA',          't' => 'The first item date',             'h'=>'Eg. "2015-05-20"', 'f' => 'string'],
+                                                    ['n' => 'dateB',          't' => 'The second item date',            'h'=>'Eg. "2015-05-15"', 'f' => 'string'],
+                                            ],
+                    'responses'             => ['200' => ['s' => 'Response']]
+                ],
+
+                '/media/delete-recover'     => [
+                    'auth'  => true,
+                    'title' => 'Deletes or recovers media items',
+                    'method' => 'POST',
+                    'params'                => [
+                                                    ['n' => 'idString',     't' => 'Media Items Identifiers',      'h'=>'Eg. "1,2,3"', 'f' => 'string'],
+                                                    ['n' => 'doRecover',    't' => 'Recover Deleted Items',        'h'=>'If set, the deleted items will be recovered', 'f' => 'boolean'],
+                                            ],
+                    'responses'             => ['200' => ['s' => 'Response']]
+                ],
+            ]
+        ];
+    }
+
     protected function getModelClass() {
         return ApiMedia::className();
     }
