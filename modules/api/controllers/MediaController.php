@@ -99,7 +99,7 @@ class MediaController extends ApiController {
                     'method' => 'POST',
                     'params'                => [
                                                     ['n' => 'targetId',     't' => 'Target Object Id',              'h'=>'', 'f' => 'integer', 'd' => $defaultStoryId],
-                                                    ['n' => 'targetType',   't' => 'Target Object Type',            'h'=>'1 for user, 2 for story', 'f' => 'integer', 'e' => [1, 2]],
+                                                    ['n' => 'targetType',   't' => 'Target Object Type',            'h'=>'1 for user, 2 for story', 'f' => 'integer', 'e' => [2, 1]],
                                                     ['n' => 'mediaType',    't' => 'Type of Uploaded Media',        'h'=>'Eg. "userpic", "storyImage"', 'f' => 'string', 'e' => ['storyImage', 'userpic']],
                                                     ['n' => 'date',         't' => 'Calendar data',                 'h'=>'Only for story images, eg. "' . $defaultDate . '"', 'f' => 'string', 'd' => $defaultDate],
                                                     ['n' => 'file',         't' => 'Media Resource',                'h'=>'Eg. "userpic", "storyImage"', 'f' => 'file'],
