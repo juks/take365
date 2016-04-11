@@ -97,14 +97,6 @@
 	.user-photo A {
 		border: none;
 		}
-
-.dummy {
-	background: #fff;
-	border: 2px solid #eee;
-	width: 196px;
-	height: 196px;
-}
-
 .user-photo-day {
 	position: absolute;
 	left: 0;
@@ -117,6 +109,7 @@
 	color: #fff;
 	z-index: 2;
 	text-shadow: 0 1px 0 #000;
+	font-size: 16px;
 }
 
 .user-photo-proggress {
@@ -176,9 +169,8 @@
 	        box-shadow: inset 0 0 4px 4px #888 !important;
 }
 .user-photo:hover {
-	-webkit-box-shadow: inset 0 0 1px 1px #888;
-	     -o-box-shadow: inset 0 0 1px 1px #888;
-	        box-shadow: inset 0 0 1px 1px #888;
+	box-shadow: inset 0 0 1px 1px #888;
+	cursor: pointer;
 }
 
 .user-photo-image {
@@ -199,6 +191,25 @@
 	        border-radius: 0 10px 0 0;
 	color: #fff;
 }
+
+.dummy {
+	background: #FFF;
+	border: 2px solid #EEE;
+	width: 196px;
+	height: 196px;
+	}
+	.dummy.fa-clock-o:before {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin: -50px 0 0 -42px;
+		font-size: 100px;
+		color: #F5F5F5;
+		}
+.dummy:hover {
+	box-shadow: none;
+	cursor: default;
+	}
 
 /* svg container */
 .user-photo-filebodyover {
