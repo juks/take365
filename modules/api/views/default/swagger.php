@@ -24,7 +24,7 @@ swagger: '2.0'
 info:
   title: Take365 API
   description: |
-    Have a look at <?= $host ?> public API description below. To obtain the auth token use the auth/login method then copy the value into the form above.
+    Have a look at <a href="<?= $host ?>"><?= $host ?></a> public API description below. To obtain the auth token use the auth/login method then copy the value into the form above.
   version: "1.0"
 # the domain of the service
 host: <?= $host ?> 
