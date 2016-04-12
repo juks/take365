@@ -366,7 +366,7 @@ class Helpers {
 
         foreach ($timezones as &$timezone) {
             $offset = timezone_offset_get(timezone_open($timezone), new \DateTime()) / 3600;
-            $offsetSign = $offset >= 0 ? '+' : '';
+            $offsetSign = $offset >= 0 ? '+' : '-';
             $offsetHours = abs(intval($offset));
             $offsetMinutes = sprintf('%02d', $offset - $offsetHours ? 60 * ((abs($offset) - $offsetHours) * 100 / 100) : '00');
             $offsetTitle = $timezone . ' (GMT' . $offsetSign . $offsetHours . ':' . $offsetMinutes . ')';

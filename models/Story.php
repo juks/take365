@@ -152,11 +152,19 @@ class Story extends StoryBase implements IPermissions, IGetType {
      */
     public function beforeValidate() {
         if ($this->isNewRecord) {
+            $user = Yii::$app->user->identity;
+
             if (!$this->title)                                      $this->title          = 'Без названия';
             if (!$this->time_created)                               $this->time_created   = time();
             if (!$this->time_start)                                 $this->time_start     = time();
             if ($this->status == self::statusPublic)                $this->time_published = time();
-            if ($this->scenario != 'import' && !$this->created_by)  $this->created_by = Yii::$app->user->id;
+            if ($this->scenario != 'import' && !$this->created_by)  $this->created_by = $user->id;
+            if (!$this->time_start) {
+                $timezone = new \DateTimeZone($user->identity->defaultTimezone);
+                $now = new \DateTime('now', $timezone);
+                $now->setTime(0,0,0);
+                $this->time_start = $now->getTimestamp();
+            }
         } else {
             $this->time_updated = time();
             if ($this->status == self::statusPublic && !$this->time_published) $this->time_published = time();
@@ -353,7 +361,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         // Add sample dummy days
         if ($daysDiff < self::dummyDaysCount) {
-            $timestamp = $timeTo + (self::dummyDaysCount - $daysDiff) * 86400;
+            $timestamp = $timeTo + (self::dummyDaysCount - 1) * 86400;
             $timeUploadFrom = $timeTo + $daysDiff * 86400;
         } else {
             $timestamp = $timeTo + $daysDiff * 86400;
