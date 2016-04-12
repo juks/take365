@@ -190,11 +190,11 @@ class MediaController extends ApiController {
                     }
 
                     $model = new ApiStory();
-                    // TODO: fix js
-                    // $dateParts = explode('-', $form->date);
+                    $dateParts = explode('-', $form->date);
 
                     $model->load([
                                     'title'         => 'Без названия',
+                                    'time_start'    => mktime(0, 0, 0, $dateParts[1], $dateParts[2], $dateParts[0])
                                 ]);
 
                     if (!$model->save()) throw new \app\components\ControllerException("Не удалось создать историю!");
