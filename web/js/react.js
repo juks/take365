@@ -20508,7 +20508,7 @@ var CommentItem = function (_React$Component) {
     value: function formatDate(timestamp) {
       var d = new Date(timestamp * 1000);
 
-      return padLeft(d.getDate()) + '.' + padLeft(d.getMonth()) + '.' + d.getFullYear() + ' ' + padLeft(d.getHours()) + ':' + padLeft(d.getMinutes());
+      return padLeft(d.getDate()) + '.' + padLeft(d.getMonth() + 1) + '.' + d.getFullYear() + ' ' + padLeft(d.getHours()) + ':' + padLeft(d.getMinutes());
     }
   }, {
     key: 'remove',
@@ -20530,14 +20530,28 @@ var CommentItem = function (_React$Component) {
     key: 'render',
     value: function render() {
       var comment = this.props.data;
-      var author = comment.author;
-      var userpicStyle = author.userpic && author.userpic.url ? {
-        backgroundImage: 'url(' + author.userpic.url + ')'
-      } : {};
+
       var maxLevel = Math.min(comment.level, 5);
       var marginStyle = {
         marginLeft: maxLevel * 20
       };
+
+      if (comment.isDeleted) {
+        return _react2.default.createElement(
+          'div',
+          { style: marginStyle, className: 'comment' + (isAuthor ? ' comment-my' : ''), id: comment.id, 'data-debug': comment.thread + '-' + comment.level },
+          _react2.default.createElement(
+            'i',
+            null,
+            'комментарий удален'
+          )
+        );
+      }
+
+      var author = comment.author;
+      var userpicStyle = author.userpic && author.userpic.url ? {
+        backgroundImage: 'url(' + author.userpic.url + ')'
+      } : {};
 
       var isAuthor = this.props.user.id === author.id;
 
@@ -20634,15 +20648,28 @@ var CommentList = function (_React$Component) {
     var comments = props.comments || [];
 
     _this.state = {
-      comments: comments.filter(function (c) {
-        return !c.isDeleted;
-      })
+      comments: _this.filterDeleted(comments)
     };
     _this.nodes = [];
     return _this;
   }
 
   _createClass(CommentList, [{
+    key: 'filterDeleted',
+    value: function filterDeleted(comments) {
+      var filtered = [];
+      var prev = void 0;
+      for (var i = comments.length - 1; i >= 0; i--) {
+        var c = comments[i];
+        var hasChilds = prev && c.level === prev.level - 1;
+        if (!c.isDeleted || hasChilds) {
+          prev = c;
+          filtered.unshift(c);
+        }
+      }
+      return filtered;
+    }
+  }, {
     key: 'onNew',
     value: function onNew(newComment, parentId) {
       var parentIndex = this.state.comments.findIndex(function (c) {
