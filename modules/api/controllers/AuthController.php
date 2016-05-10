@@ -12,6 +12,8 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 class AuthController extends ApiController {
+    const ERR_BAD_TOKEN = 'AUTH_BAD_TOKEN';
+    
     public function behaviors() {
         $b = parent::behaviors();
 

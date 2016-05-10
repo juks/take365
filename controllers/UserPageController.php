@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 use app\models\User;
 use app\models\Story;
 use app\models\Media;
@@ -60,7 +61,7 @@ class UserPageController extends MyController {
     public function actionHome($username) {
         $owner = User::getActiveUser($username);
 
-        if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
 
         // Redirect if user was requested by id but has username already
         if ($this->checkUrlUpgrade($owner, $username)) $this->redirect($owner->url);
@@ -85,7 +86,7 @@ class UserPageController extends MyController {
     public function actionProfile($username) {
         $owner = User::getActiveUser($username);
 
-        if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
 
         // Redirect if user was requested by id but has username already
         if ($this->checkUrlUpgrade($owner, $username)) $this->redirect($owner->urlProfile);
@@ -109,7 +110,7 @@ class UserPageController extends MyController {
     public function actionEdit($username) {
         $owner = User::getActiveUser($username);
 
-        if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
 
         // Redirect if user was requested by id but has username already
         if ($this->checkUrlUpgrade($owner, $username)) $this->redirect($owner->urlEdit);
@@ -141,10 +142,10 @@ class UserPageController extends MyController {
     */
     public function actionStory($username, $storyId) {
         $owner = User::getActiveUser($username);
-        if (!$owner) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
 
         $story = Story::getActiveStory($storyId);
-        if (!$story || $story->created_by != $owner->id) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+        if (!$story || $story->created_by != $owner->id) throw new NotFoundHttpException('Здесь ничего нет');
 
         // Redirect if user was requested by id but has username already
         if ($this->checkUrlUpgrade($owner, $username)) $this->redirect($story->url);

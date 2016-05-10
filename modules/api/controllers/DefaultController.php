@@ -3,9 +3,9 @@
 namespace app\modules\api\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\web\Response;
 use app\modules\api\components\ApiController;
+use app\modules\api\controllers\AuthController;
 
 class DefaultController extends ApiController
 {
@@ -27,11 +27,16 @@ class DefaultController extends ApiController
 
     public function actionError() {
     	$e = Yii::$app->errorHandler->exception;
+
+        $params = [];
+
+        // Somehow need to bind to set token error code
+        if (get_class($e) == 'yii\web\UnauthorizedHttpException') $params['attributes'] = ['code' => AuthController::ERR_BAD_TOKEN];
     	
-    	$this->addErrorMessage($e->getMessage());
+    	$this->addErrorMessage($e->getMessage(), $params);
 
         if (YII_DEBUG) {
-            $detailedMessage .= ' [' . $e->getFile() . ':' . $e->getLine() . ']';
+            $detailedMessage = ' [' . $e->getFile() . ':' . $e->getLine() . ']';
             $this->addContent($detailedMessage, 'detailed');
             $traceData = '';
 
