@@ -30,7 +30,7 @@ info:
 host: <?= $host ?> 
 # array of all schemes that your API supports
 schemes:
-  - http
+  - https
 # will be prefixed to all paths
 basePath: /api
 produces:
