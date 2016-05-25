@@ -99,7 +99,7 @@ class FeedController extends ApiController {
                 '/feed/is-following'     => [
                     'auth'  => true,
                     'title' => 'Checks if current users follows other user',
-                    'method' => 'POST',
+                    'method' => 'GET',
                     'params'                => [
                                                     ['n' => 'username',      't' => 'Username or user id', 'h'=>'', 'f' => 'string', 'd' => $defaultUsername],
                                            ],
