@@ -83,6 +83,11 @@
 .article .story-submit {
 	margin: 10px 0 30px 0;
 	}
+/* fix empty square in bottom */
+.plupload.html5 {
+	top: 0;
+	left: -100px;
+	}
 .user-photo {
 	position: relative;
 	width: 200px;
