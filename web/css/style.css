@@ -121,6 +121,23 @@ SELECT {
   content: '';
   }
 
+/* Buttons */
+.btn {
+  display: inline-block;
+  vertical-align: top;
+  background: #00BBE4;
+  background: linear-gradient(to top, #0096C7 0%, #00BBE4 100%);
+  padding: 3px 8px 4px 8px;
+  border-radius: 10px;
+  font: 400 12px/1 'Open Sans', sans-serif;
+  color: #FFF;
+  }
+.btn:hover {
+  background: #0087B3;
+  background: linear-gradient(to top, #0087B3 0%, #00BBE4 100%);
+  color: #FFF;
+  }
+
 /* Forms
 ----------------------------------------------- */
 .form FIELDSET {
@@ -497,6 +514,18 @@ SELECT {
   position: relative;
   margin-bottom: 40px;
   }
+  .article-header .article-title {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 0;
+    }
+    .article-header .article-title .btn {
+      position: absolute;
+      top: -5px;
+      left: 100%;
+      margin-left: 5px;
+      }
   .article-header .fa-pencil-square-o,
   .article-header .fa-plus-square-o {
     position: absolute;
