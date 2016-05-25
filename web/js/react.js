@@ -21353,13 +21353,11 @@ var CommentList = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        this.state.comments.length ? _react2.default.createElement(
+        _react2.default.createElement(
           'h2',
           { className: 'comments-title' },
-          'Комментарии (',
-          this.state.comments.length,
-          ')'
-        ) : 'Нет комментариев',
+          this.state.comments.length ? 'Комментарии (' + this.state.comments.length + ')' : 'Нет комментариев'
+        ),
         _react2.default.createElement(
           'div',
           { className: 'comments-footer' },
