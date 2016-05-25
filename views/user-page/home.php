@@ -10,7 +10,7 @@ $this->registerJs("initStoriesIndex();");
 ?>
 
 <header class="article-header">
-  <h1 class="article-title"><?php if ($owner->thisIsMe): ?>Привет, <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a>!<?php else: ?>Истории <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a> <a href="#" class="btn">Подписаться</a><?php endif ?></h1>
+  <h1 class="article-title"><?php if ($owner->thisIsMe): ?>Привет, <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a>!<?php else: ?>Истории <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a> <a href="#" class="btn btn-green">Подписаться</a><!-- <a href="#" class="btn btn-red">Отписаться</a> --><?php endif ?></h1>
   <?php if ($canCreate): ?>
     <!--<span class="fa fa-plus-square-o start-new-story" id="startNewStory1" title="Создать новую историю"></span>-->
   <?php endif ?>

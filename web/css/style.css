@@ -125,16 +125,18 @@ SELECT {
 .btn {
   display: inline-block;
   vertical-align: top;
-  background: #00BBE4;
-  background: linear-gradient(to top, #0096C7 0%, #00BBE4 100%);
   padding: 3px 8px 4px 8px;
   border-radius: 10px;
   font: 400 12px/1 'Open Sans', sans-serif;
   color: #FFF;
   }
+.btn-green {
+  background: #00B209;
+  }
+.btn-red {
+  background: #E02929;
+  }
 .btn:hover {
-  background: #0087B3;
-  background: linear-gradient(to top, #0087B3 0%, #00BBE4 100%);
   color: #FFF;
   }
 
