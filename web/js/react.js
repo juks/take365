@@ -21252,6 +21252,10 @@ var _commentForm2 = _interopRequireDefault(_commentForm);
 
 var _reactMotion = require('react-motion');
 
+var _follow = require('../follow/follow.jsx');
+
+var _follow2 = _interopRequireDefault(_follow);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21431,4 +21435,80 @@ window.appRender = function (node, props) {
   _reactDom2.default.render(_react2.default.createElement(CommentList, props), node);
 };
 
-},{"../comment-form/comment-form.jsx":182,"../comment-item/comment-item.jsx":183,"react":181,"react-dom":2,"react-motion":9}]},{},[184]);
+},{"../comment-form/comment-form.jsx":182,"../comment-item/comment-item.jsx":183,"../follow/follow.jsx":185,"react":181,"react-dom":2,"react-motion":9}],185:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CommentList = function (_React$Component) {
+  _inherits(CommentList, _React$Component);
+
+  function CommentList(props) {
+    _classCallCheck(this, CommentList);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentList).call(this, props));
+
+    _this.state = {
+      isLoading: false,
+      isFollowing: props.isFollowing
+    };
+    _this.onToggle = _this.onToggle.bind(_this);
+    return _this;
+  }
+
+  _createClass(CommentList, [{
+    key: 'onToggle',
+    value: function onToggle(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      var xhr = new XMLHttpRequest();
+      var method = 'POST'; //isCreate ? 'POST' : 'PUT';
+      var follow = !this.state.isFollowing;
+      var url = follow ? '/api/feed/follow' : '/api/feed/unfollow';
+      xhr.open(method, url);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.send('username=' + this.props.storyUserId);
+      this.setState({ isLoading: true });
+      xhr.onload = function () {
+        _this2.setState({
+          isLoading: false,
+          isFollowing: follow
+        });
+      };
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'a',
+        { href: '#', className: 'btn btn-' + (this.state.isFollowing ? 'red' : 'green'), onClick: this.onToggle },
+        this.state.isFollowing ? 'Отписаться' : 'Подписаться'
+      );
+    }
+  }]);
+
+  return CommentList;
+}(_react2.default.Component);
+
+window.followRender = function (node, props) {
+  _reactDom2.default.render(_react2.default.createElement(CommentList, props), node);
+};
+
+},{"react":181,"react-dom":2}]},{},[184]);
