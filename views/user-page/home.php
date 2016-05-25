@@ -9,7 +9,7 @@ StoryAsset::register($this);
 $this->registerJs("initStoriesIndex();");
 
 if (!$owner->thisIsMe) {
-  $this->registerJs("followRender(document.getElementById('follow'),{storyUserId:$owner->id,isFollowing:'TODO JUKS'});");
+  $this->registerJs("followRender(document.getElementById('follow'),{storyUserId:$owner->id,isFollowing:" . json_encode($isFollowing) ."});");
 }
 
 ?>

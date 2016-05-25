@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use app\models\User;
 use app\models\Story;
 use app\models\Media;
+use app\models\Feed;
 use app\models\StoryCollaborator;
 use app\components\MyController;
 use app\components\Helpers;
@@ -76,6 +77,7 @@ class UserPageController extends MyController {
                                         'owner'         => $owner,
                                         'stories'       => $stories,
                                         'canCreate'     => $owner->thisIsMe && Story::checkQuota(),
+                                        'isFollowing'   => Feed::isFollowing($owner, Yii::$app->user),
                                         'pageType'      => 'home'
                                     ]);
     }
