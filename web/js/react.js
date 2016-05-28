@@ -21484,7 +21484,7 @@ var CommentList = function (_React$Component) {
       var url = follow ? '/api/feed/follow' : '/api/feed/unfollow';
       xhr.open(method, url);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xhr.send('username=' + this.props.storyUserId);
+      xhr.send('username=@' + this.props.storyUserId);
       this.setState({ isLoading: true });
       xhr.onload = function () {
         _this2.setState({
