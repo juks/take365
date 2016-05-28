@@ -23,9 +23,15 @@ class UserPageController extends MyController {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions'   => ['home', 'profile', 'edit', 'story'],
+                        'actions'   => ['home', 'profile', 'story'],
                         'allow'     => true,
                         'roles'     => ['?', '@']
+                    ],
+
+                    [
+                        'actions'   => ['edit', 'feed'],
+                        'allow'     => true,
+                        'roles'     => ['@']
                     ],
 
                     [
@@ -175,5 +181,23 @@ class UserPageController extends MyController {
                                         'user'      => array('id'=> Yii::$app->user->getId()),
                                         'pageType'  => 'story'
                                     ]);
+    }
+
+    /**
+     * Display user feed
+     */
+    public function actionFeed($page = 1, $maxItems = 10, $lastTime = 0) {
+        $feedData = Feed::feed(Yii::$app->user, [
+                                                    'page'      => $page,
+                                                    'maxItems'  => $maxItems,
+                                                    'stats'     => true,
+                                                    'lastTime'  => $lastTime
+                                                ]);
+
+        return $this->render('feed', [
+                                            'feed'          => $feedData['list'],
+                                            'page'          => $page,
+                                            'totalPages'    => $feedData['totalPages']
+                                        ]);
     }
 }

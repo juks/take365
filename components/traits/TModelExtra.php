@@ -224,7 +224,7 @@ trait TModelExtra {
                         case 'NOT IN':
                         case 'IN':
                             if(is_array($value[1])) {
-                                self::uoteArray($value[1]);
+                                self::quoteArray($value[1]);
                                 $value[1] = implode(', ', $value[1]);
                             }
                             $cond = $value[0] . ' (' . $value[1] . ')';

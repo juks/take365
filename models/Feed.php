@@ -66,25 +66,39 @@ class Feed extends FeedBase {
      *
      * @param object $user
      */
-    public static function feed($user, $page = 1, $maxItems = 0) {
-    	if (!$maxItems) $maxItems = self::$maxItems;
+    public static function feed($user, $extra = null) {
+        $page = empty($extra['page']) ? 1 : $extra['page'];
+        $maxItems = empty($extra['maxItems']) ? self::$maxItems : $extra['maxItems'];
+        $lastTime = empty($extra['lastTime']) ? 0 : $extra['lastTime'];
+
         if (!$maxItems > self::$maxItemsLimit) $maxItems = self::$maxItemsLimit;
 
-        $ids = Helpers::fetchFields(self::sqlSelect('user_id', ['reader_id' => $user->id]), 'user_id', ['isSingle' => true]); 
+        $totalItems = null;
+        $totalPages = null;
 
-        $mediaList = Media::find()->where([
-        									'created_by'    => $ids,
-        									'type' 			=> Media::typeStoryImage,
-        									'is_deleted' 	=> false,
-        									'is_hidden' => false
-        							   ])->with('targetStory')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
+        $ids = Helpers::fetchFields(self::sqlSelect('user_id', ['reader_id' => $user->id]), 'user_id', ['isSingle' => true]);
+        $cond = [
+            'created_by'    => ['IN', $ids],
+            'type' 			=> Media::typeStoryImage,
+            'is_deleted' 	=> false,
+            'is_hidden'     => false
+        ];
+
+        if ($lastTime) $cond['time_created'] = ['>', $lastTime];
+
+        $mediaList = Media::find()->where(self::makeCondition($cond))->with('targetStory')->with('creator')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
+
+        if (!empty($extra['stats'])) {
+            $totalItems = Media::find()->where(self::makeCondition($cond))->count();
+            $totalPages = ceil($totalItems / $maxItems);
+        }
 
         foreach ($mediaList as $mediaItem) {
             $mediaItem->setScenario('feed');
             if ($mediaItem->targetStory) $mediaItem->targetStory->setScenario('feed');
         }
 
-        return $mediaList;
+        return ['list' => $mediaList, 'totalItems' => $totalItems, 'totalPages' => $totalPages];
     }
 
     /**

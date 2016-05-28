@@ -158,6 +158,6 @@ class FeedController extends ApiController {
      * @param string $username
      */
     public function actionFeed($page = 1, $maxItems = 20) {
-        $this->addContent(Feed::feed(Yii::$app->user, $page, $maxItems));
+        $this->addContent(Feed::feed(Yii::$app->user, ['page' => $page, 'maxItems' => $maxItems])['list']);
     }
 }

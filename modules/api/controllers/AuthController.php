@@ -106,8 +106,9 @@ class AuthController extends ApiController {
 
         if (!$model->hasErrors() && Yii::$app->request->isAjax) {
             $referrer = Yii::$app->request->getReferrer();
+            $parsed = parse_url($referrer);
 
-            if (Helpers::isLocalUrl($referrer)) {
+            if (Helpers::isLocalUrl($referrer) && (empty($parsed['path']) || $parsed['path'] != '/site/login')) {
                 $redirectUrl = $referrer;
             } else {
                 $redirectUrl = $model->user->url;

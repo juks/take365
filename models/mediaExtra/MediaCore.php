@@ -15,6 +15,7 @@ use app\components\Ml;
 use app\components\traits\TAttachTo;
 use app\components\traits\TModelExtra;
 use app\components\traits\THasPermission;
+use app\components\traits\TCreator;
 
 /**
  * Story class
@@ -28,6 +29,7 @@ class MediaCore extends MediaBase {
     use TMediaThumbExtra;
     use TMediaImageExtra;
     use TMediaUrlExtra;
+    use TCreator;
 
     const uploadTypeForm            = 'uploadTypeForm';
     const uploadTypeUrl             = 'uploadTypeUrl';

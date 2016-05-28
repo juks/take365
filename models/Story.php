@@ -10,6 +10,7 @@ use app\components\traits\TCheckField;
 use app\components\traits\THasPermission;
 use app\components\traits\TModelExtra;
 use app\components\traits\TComment;
+use app\components\traits\TCreator;
 use app\models\StoryCollaborator;
 use app\models\Media;
 use app\models\mediaExtra\MediaCore;
@@ -26,6 +27,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     use TModelExtra;
     use TMediaUploadExtra;
     use TComment;
+    use TCreator;
 
     const typeId = 2;
 
@@ -43,13 +45,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public $images = null;
     public $imagesCount = null;
     public $progressData = null;
-    public $creatorCache = null;
 
     public $monthTitle = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     public $monthTitleGen = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
     protected static $_monthQuota = 2;
-    protected $_authorCache = false;
 
     /**
     *   Sets the Story model scenarios
@@ -95,14 +95,6 @@ class Story extends StoryBase implements IPermissions, IGetType {
      */
     public function getCreatorIdField() {
         return 'created_by';
-    }
-
-    public function getCreator() {
-        if (!$this->creatorCache) {
-            $this->creatorCache = $this->hasOne(User::className(), ['id' => 'created_by'])->one();      
-        }
-
-        return $this->creatorCache;
     }
 
     /**
@@ -198,10 +190,10 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * Forms story URL
     */
     public function getUrl() {
-        if ($this->_authorCache === false)
-            $this->_authorCache = User::find()->where(User::getActiveCondition())->andWhere(['id' => $this->created_by])->one();
+//        if ($this->_authorCache === false)
+//            $this->_authorCache = User::find()->where(User::getActiveCondition())->andWhere(['id' => $this->created_by])->one();
 
-        return $this->_authorCache ? $this->_authorCache->url . '/story/' . $this->id : null;
+        return $this->creator->url . '/story/' . $this->id;
     }
 
     /**
