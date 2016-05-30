@@ -70,6 +70,7 @@ class Feed extends FeedBase {
         $page = empty($extra['page']) ? 1 : $extra['page'];
         $maxItems = empty($extra['maxItems']) ? self::$maxItems : $extra['maxItems'];
         $lastTime = empty($extra['lastTime']) ? 0 : $extra['lastTime'];
+        $firstTime = empty($extra['firstTime']) ? 0 : $extra['firstTime'];
 
         if (!$maxItems > self::$maxItemsLimit) $maxItems = self::$maxItemsLimit;
 
@@ -85,6 +86,7 @@ class Feed extends FeedBase {
         ];
 
         if ($lastTime) $cond['time_created'] = ['>', $lastTime];
+        elseif ($firstTime) $cond['time_created'] = ['<', $firstTime];
 
         $mediaList = Media::find()->where(self::makeCondition($cond))->with('targetStory')->with('creator')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
 

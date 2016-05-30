@@ -186,7 +186,10 @@ class UserPageController extends MyController {
     /**
      * Display user feed
      */
-    public function actionFeed($page = 1, $maxItems = 10, $lastTime = 0) {
+    public function actionFeed($username, $page = 1, $maxItems = 10, $lastTime = 0) {
+        $owner = User::getActiveUser($username);
+        if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
+        
         $feedData = Feed::feed(Yii::$app->user, [
                                                     'page'      => $page,
                                                     'maxItems'  => $maxItems,

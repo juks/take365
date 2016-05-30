@@ -71,6 +71,8 @@ class FeedController extends ApiController {
                     'params'                => [
                                                     ['n' => 'page',     't' => 'Page Number',        'h'=>'Eg. 1', 'f' => 'integer', 'o' => true, 'd' => 1],
                                                     ['n' => 'maxItems', 't' => 'Max Items Per Page', 'h'=>'Eg. 10 (max 100)', 'f' => 'integer', 'o' => true, 'd' => 10],
+                                                    ['n' => 'lastTime', 't' => 'Only show elements created after given timestamp', 'f' => 'integer', 'o' => true],
+                                                    ['n' => 'firstTime', 't' => 'Only show elements created before given timestamp', 'f' => 'integer', 'o' => true],
                                             ],
                     'responses'             => ['200' => ['t' => 'array', 's' => 'Media']]
                 ],
@@ -157,7 +159,12 @@ class FeedController extends ApiController {
      *
      * @param string $username
      */
-    public function actionFeed($page = 1, $maxItems = 20) {
-        $this->addContent(Feed::feed(Yii::$app->user, ['page' => $page, 'maxItems' => $maxItems])['list']);
+    public function actionFeed($page = 1, $maxItems = 20, $lastTime = null, $firstTime = null) {
+        $this->addContent(Feed::feed(Yii::$app->user, [
+                                                        'page'      => $page,
+                                                        'maxItems'  => $maxItems,
+                                                        'lastTime'  => $lastTime,
+                                                        'firstTime' => $firstTime
+                                                      ])['list']);
     }
 }

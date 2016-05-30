@@ -102,7 +102,10 @@ class Media extends MediaCore {
             $fields['story']         = function() { return $this->targetStory; };
         }
 
-        if ($this->target_type == Story::typeId) $fields['date'] = 'date';
+        if ($this->target_type == Story::typeId) {
+            $fields['date'] = 'date';
+            $fields['timestamp'] = 'time_created';
+        }
 
         return $fields;
     }
