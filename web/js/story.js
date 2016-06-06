@@ -770,6 +770,17 @@ Story = {
 	}
 };
 
+$(function() {
+  if (!window.location.hash) {
+    return;
+  }
+  Photoview.show(window.location.hash.replace('#', ''), this.src, {
+    close: function() {
+      Story.mode = "index";
+    }
+  });
+  Story.mode = "slideshow";
+});
 
 /*
 jQuery plugins

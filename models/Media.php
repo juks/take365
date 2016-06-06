@@ -70,7 +70,7 @@ class Media extends MediaCore {
 
     /**
     *   Sets the Media model scenarios
-    **/    
+    **/
     public function scenarios() {
         return [
             'import' => ['id', 'target_id', 'filename', 'ext', 'target_type', 'type', 'id_old', 'date', 'is_deleted', 'time_created', 'title', 'description', 'description_jvx', 'created_by']
@@ -171,6 +171,6 @@ class Media extends MediaCore {
      * Target relation
      */
     public function getTargetStory() {
-        return $this->hasOne(Story::className(), ['created_by' => 'created_by']);
+        return $this->hasOne(Story::className(), ['id' => 'target_id']);
     }
 }

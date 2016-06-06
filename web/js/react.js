@@ -21256,6 +21256,10 @@ var _follow = require('../follow/follow.jsx');
 
 var _follow2 = _interopRequireDefault(_follow);
 
+var _feed = require('../feed/feed.jsx');
+
+var _feed2 = _interopRequireDefault(_feed);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21435,7 +21439,205 @@ window.appRender = function (node, props) {
   _reactDom2.default.render(_react2.default.createElement(CommentList, props), node);
 };
 
-},{"../comment-form/comment-form.jsx":182,"../comment-item/comment-item.jsx":183,"../follow/follow.jsx":185,"react":181,"react-dom":2,"react-motion":9}],185:[function(require,module,exports){
+},{"../comment-form/comment-form.jsx":182,"../comment-item/comment-item.jsx":183,"../feed/feed.jsx":186,"../follow/follow.jsx":187,"react":181,"react-dom":2,"react-motion":9}],185:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FeedItem = function (_React$Component) {
+  _inherits(FeedItem, _React$Component);
+
+  function FeedItem() {
+    _classCallCheck(this, FeedItem);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(FeedItem).apply(this, arguments));
+  }
+
+  _createClass(FeedItem, [{
+    key: 'render',
+    value: function render() {
+      var data = this.props.data;
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          null,
+          data.story.authors.map(function (author) {
+            return _react2.default.createElement(
+              'a',
+              { href: author.url, key: author.username },
+              author.username
+            );
+          }),
+          ' → ',
+          _react2.default.createElement(
+            'a',
+            { href: data.story.url },
+            data.story.title
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'a',
+            { href: data.story.url + '#' + data.date },
+            _react2.default.createElement('img', { src: data.thumb.url, width: data.thumb.width, height: data.thumb.height, srcSet: data.thumbLarge.url + ' 2x' })
+          )
+        ),
+        data.title ? _react2.default.createElement(
+          'p',
+          null,
+          data.title
+        ) : null,
+        data.description ? _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: data.description } }) : null
+      );
+    }
+  }]);
+
+  return FeedItem;
+}(_react2.default.Component);
+
+exports.default = FeedItem;
+
+},{"react":181,"react-dom":2}],186:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _feedItem = require('../feed-item/feed-item.jsx');
+
+var _feedItem2 = _interopRequireDefault(_feedItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Feed = function (_React$Component) {
+  _inherits(Feed, _React$Component);
+
+  function Feed(props) {
+    _classCallCheck(this, Feed);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Feed).call(this, props));
+
+    _this.state = {
+      isLoading: true,
+      data: []
+    };
+
+    _this.load = _this.load.bind(_this);
+    return _this;
+  }
+
+  _createClass(Feed, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.load();
+    }
+  }, {
+    key: 'load',
+    value: function load() {
+      var _this2 = this;
+
+      this.setState({
+        isLoading: true
+      });
+      var xhr = new XMLHttpRequest();
+      var params = '';
+      var data = this.state.data;
+      if (data.length) {
+        params = 'firstTime=' + data[data.length - 1].timestamp;
+      }
+      xhr.open('GET', '/api/feed/feed?' + params);
+      xhr.onload = function () {
+        var data = JSON.parse(xhr.responseText);
+        _this2.setState({
+          data: _this2.state.data.concat(data.result),
+          isLoading: false
+        });
+      };
+      xhr.send();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        function () {
+          return _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'div',
+              null,
+              _this3.state.data.map(function (item) {
+                return _react2.default.createElement(_feedItem2.default, { data: item, key: item.id });
+              })
+            ),
+            _this3.state.isLoading ? _react2.default.createElement(
+              'div',
+              null,
+              'Загружается'
+            ) : _react2.default.createElement(
+              'p',
+              null,
+              _react2.default.createElement(
+                'button',
+                { onClick: _this3.load },
+                'Загрузить еще'
+              )
+            )
+          );
+        }()
+      );
+    }
+  }]);
+
+  return Feed;
+}(_react2.default.Component);
+
+window.feedRender = function (node, props) {
+  _reactDom2.default.render(_react2.default.createElement(Feed, props), node);
+};
+
+},{"../feed-item/feed-item.jsx":185,"react":181,"react-dom":2}],187:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();

@@ -48,14 +48,14 @@ class AuthToken extends AuthTokenBase {
     static function issueToken($user) {
         $t = new AuthToken([
                                 'user_id'     => $user->id,
-                                'ip_created'  => ip2long(Yii::$app->request->userIP),
+                                'ip_created'  => ip2long(Yii::$app->request->userIP) ? ip2long(Yii::$app->request->userIP) : 0,
                                 'time_expire' => time() + self::lifetime
                             ]);
 
         if (!$t->save()) {
             throw new \Exception("Failed to save token");
         }
-        
+
         return $t;
     }
 
