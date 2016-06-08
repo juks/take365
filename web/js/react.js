@@ -21555,8 +21555,9 @@ var Feed = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Feed).call(this, props));
 
     _this.state = {
-      isLoading: true,
-      data: []
+      data: [],
+      isEmpty: false,
+      isLoading: true
     };
 
     _this.load = _this.load.bind(_this);
@@ -21586,7 +21587,8 @@ var Feed = function (_React$Component) {
       xhr.onload = function () {
         var data = JSON.parse(xhr.responseText);
         _this2.setState({
-          data: _this2.state.data.concat(data.result),
+          data: _this2.state.data.concat(data.result.list),
+          isEmpty: data.result.isEmpty,
           isLoading: false
         });
       };
@@ -21611,19 +21613,31 @@ var Feed = function (_React$Component) {
                 return _react2.default.createElement(_feedItem2.default, { data: item, key: item.id });
               })
             ),
-            _this3.state.isLoading ? _react2.default.createElement(
-              'div',
-              null,
-              'Загружается'
-            ) : _react2.default.createElement(
-              'p',
-              null,
-              _react2.default.createElement(
-                'button',
-                { onClick: _this3.load },
-                'Загрузить еще'
-              )
-            )
+            function () {
+              if (_this3.state.isLoading) {
+                return _react2.default.createElement(
+                  'div',
+                  null,
+                  'Загружается'
+                );
+              } else if (_this3.state.isEmpty) {
+                return _react2.default.createElement(
+                  'div',
+                  null,
+                  'Пока фотографий нет'
+                );
+              } else {
+                return _react2.default.createElement(
+                  'p',
+                  null,
+                  _react2.default.createElement(
+                    'button',
+                    { onClick: _this3.load },
+                    'Загрузить еще'
+                  )
+                );
+              }
+            }()
           );
         }()
       );
