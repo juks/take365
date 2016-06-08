@@ -16,6 +16,7 @@ return [
                         'pendingTime'      => 3600,
                         'sendLimit'        => 5,
                         'storeTime'        => 86400 * 7,
-                        'expire'           => 3600
+                        'expire'           => 3600,
+                        'devEnvFilter'     => ['juks@juks.ru', 'ufokorpas@mail.ru', 'sergey.oracle@gmail.com']
                     ]
 ];

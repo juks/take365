@@ -101,10 +101,14 @@ class MQueue extends MQueueBase {
 
     /**
      * Sets message recipient
-     * @param string $recipient
+     * @param id|object $recipient
      */
     public function toUser($id) {
-        $user = User::getActiveUser($id);
+        if (is_object($id)) {
+            $user = $id;
+        } else {
+            $user = User::getActiveUser($id);
+        }
 
         if (!$user || !$user->email || !$user->email_confirmed || !$user->getOptionValue('notify')) {
             $this->_doSkip = true;
@@ -241,6 +245,18 @@ class MQueue extends MQueueBase {
 
         //$mailSubject = $doEncode ? "=?UTF-8?B?" . base64_encode($this->subject) . "?=" : $this->subject;
         $mailSubject = $this->subject;
+
+        // Non production environmant safety
+        if (defined('YII_DEBUG') && YII_DEBUG) {
+            $filterList = Helpers::getParam('mQueue/devEnvFilter');
+            if (!$filterList) throw new \Exception('No email filter in non production environment!');
+
+            // Mark email as sent without sending in non production environment
+            if (array_search(strtolower($this->to), $filterList) === false) {
+                $this->reject();
+                return;
+            }
+        }
 
         if (!mail($this->to, $mailSubject, $mailBody, $stringHeaders)) {
             $this->unlock();

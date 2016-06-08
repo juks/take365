@@ -10,6 +10,7 @@ use Yii;
  * @property integer $reader_id
  * @property integer $user_id
  * @property integer $time_created
+ * @property integer $is_active
  */
 class FeedBase extends \yii\db\ActiveRecord
 {
@@ -28,7 +29,7 @@ class FeedBase extends \yii\db\ActiveRecord
     {
         return [
             [['reader_id', 'user_id', 'time_created'], 'required'],
-            [['reader_id', 'user_id', 'time_created'], 'integer'],
+            [['reader_id', 'user_id', 'time_created', 'is_active'], 'integer'],
             [['reader_id', 'user_id'], 'unique', 'targetAttribute' => ['reader_id', 'user_id'], 'message' => 'The combination of Feed ID and User ID has already been taken.']
         ];
     }

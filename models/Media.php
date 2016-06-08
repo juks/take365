@@ -88,8 +88,11 @@ class Media extends MediaCore {
                     ];
 
         if ($this->scenario == 'player') {
-            $fields['thumb']         = function() { return $this->getThumbData(MediaCore::resizeMaxSide, 700); };
-            $fields['thumbLarge']    = function() { return $this->getThumbData(MediaCore::resizeMaxSide, 1400); };
+            $fields['thumb'] =         function () { return $this->getThumbData(MediaCore::resizeMaxSide, 700); };
+            $fields['thumbLarge'] =    function () { return $this->getThumbData(MediaCore::resizeMaxSide, 1400); };
+        } elseif ($this->scenario == 'feed') {
+            $fields['thumb'] =         function () { return $this->getThumbData(MediaCore::resizeMaxSide, 700); };
+            $fields['thumbLarge'] =    function () { return $this->getThumbData(MediaCore::resizeMaxSide, 1400); };
         } elseif ($this->type == self::typeStoryImage) {
             $fields['thumb']         = function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('mainThumbDimension')); };
             $fields['thumbLarge']    = function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('largeThumbDimension')); };

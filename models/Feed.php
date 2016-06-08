@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\models\base\FeedBase;
 use app\models\Media;
+use app\models\MQueue;
 use Yii;
 use app\components\Helpers;
 use app\components\traits\TModelExtra;
@@ -22,7 +23,7 @@ class Feed extends FeedBase {
      */
     public function beforeValidate() {
         if ($this->isNewRecord) {
-            if (!$this->time_created) $this->time_created   = time();
+            if (!$this->time_created) $this->time_created = time();
         }
 
         return parent::beforeValidate();
@@ -36,14 +37,46 @@ class Feed extends FeedBase {
      */
     public static function follow($user, $reader) {
     	$data = ['reader_id' => $reader->id, 'user_id' => $user->id];
-    	if (self::getCount($data)) return false;
 
-    	$item = new Feed($data);
+        $item = self::find()->where($data)->one();
+        $isFirstTime = false;
+
+        // If no record
+        if (!$item) {
+            $item = new Feed($data);
+            $item->is_active = 1;
+            $isFirstTime = true;
+        // Of the record is not active
+        } elseif (!$item->is_active) {
+            $item->is_active = 1;
+        // Or leave as is
+        } else {
+            return true;
+        }
+    	
     	if ($item->save()) {
+            if ($isFirstTime) self::onFirstTimeFollow($user, $reader);
+
     		return true;
     	} else {
     		return false;
     	}
+    }
+
+    /**
+     * When some user follows another for the first time
+     * 
+     * @param $user
+     * @param $reader
+     */
+    public static function onFirstTimeFollow($user, $reader) {
+        MQueue::compose()
+            ->toUser($user)
+            ->subject('Новый комментайри к вашей истории')
+            ->bodyTemplate('follower.php', [
+                'reader'         => $reader,
+            ])
+            ->send();
     }
 
     /**
@@ -54,11 +87,15 @@ class Feed extends FeedBase {
      */
     public static function unfollow($user, $reader) {
     	$data = ['reader_id' => $reader->id, 'user_id' => $user->id];
-    	if (!self::getCount($data)) return false;
 
-    	self::sqlDelete($data);
+        $item = self::find()->where($data)->one();
 
-    	return true;
+        if (!$item || !$item->is_active) {
+            return true;
+        } else {
+            $item->is_active = 0;
+            return $item->save();
+        }
     }
 
     /**
@@ -76,31 +113,49 @@ class Feed extends FeedBase {
 
         $totalItems = null;
         $totalPages = null;
+        $isEmpty = true;
 
-        $ids = Helpers::fetchFields(self::sqlSelect('user_id', ['reader_id' => $user->id]), 'user_id', ['isSingle' => true]);
-        $cond = [
-            'created_by'    => ['IN', $ids],
-            'type' 			=> Media::typeStoryImage,
-            'is_deleted' 	=> false,
-            'is_hidden'     => false
-        ];
+        $ids = Helpers::fetchFields(self::sqlSelect('user_id', ['reader_id' => $user->id, 'is_active' => 1]), 'user_id', ['isSingle' => true]);
 
-        if ($lastTime) $cond['time_created'] = ['>', $lastTime];
-        elseif ($firstTime) $cond['time_created'] = ['<', $firstTime];
+        if(!$ids) {
+            $mediaList = [];
 
-        $mediaList = Media::find()->where(self::makeCondition($cond))->with('targetStory')->with('creator')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
+            if (!empty($extra['stats'])) {
+                $totalItems = 0;
+                $totalPages = 0;
+            }
+        } else {
+            $cond = [
+                'created_by' => ['IN', $ids],
+                'type' => Media::typeStoryImage,
+                'is_deleted' => false,
+                'is_hidden' => false
+            ];
 
-        if (!empty($extra['stats'])) {
-            $totalItems = Media::find()->where(self::makeCondition($cond))->count();
-            $totalPages = ceil($totalItems / $maxItems);
+            if ($lastTime) $cond['time_created'] = ['>', $lastTime];
+            elseif ($firstTime) $cond['time_created'] = ['<', $firstTime];
+
+            $mediaList = Media::find()->where(self::makeCondition($cond))->with('targetStory')->with('creator')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
+
+            if (count($mediaList)) $isEmpty = false;
+
+            if (!empty($extra['stats'])) {
+                $totalItems = Media::find()->where(self::makeCondition($cond))->count();
+                $totalPages = ceil($totalItems / $maxItems);
+            }
+
+            foreach ($mediaList as $mediaItem) {
+                $mediaItem->setScenario('feed');
+                if ($mediaItem->targetStory) $mediaItem->targetStory->setScenario('feed');
+            }
         }
 
-        foreach ($mediaList as $mediaItem) {
-            $mediaItem->setScenario('feed');
-            if ($mediaItem->targetStory) $mediaItem->targetStory->setScenario('feed');
-        }
-
-        return ['list' => $mediaList, 'totalItems' => $totalItems, 'totalPages' => $totalPages];
+        return [
+                    'list'       => $mediaList,
+                    'totalItems' => $totalItems,
+                    'totalPages' => $totalPages,
+                    'isEmpty'    => $isEmpty
+               ];
     }
 
     /**
@@ -109,9 +164,18 @@ class Feed extends FeedBase {
      * @param  object $user
      */
     public static function isFollowing($user, $reader) {
-    	$data = ['reader_id' => $reader->id, 'user_id' => $user->id];
+    	$data = ['reader_id' => $reader->id, 'user_id' => $user->id, 'is_active' => 1];
 
     	return self::getCount($data) ? true : false;
+    }
+
+    /**
+     * Check if user has subscriptions
+     * @param $reader
+     * @return bool
+     */
+    public static function isSubscribed($reader) {
+        return self::getCount(['reader_id' => $reader->id]) ? true : false;
     }
 
     /**

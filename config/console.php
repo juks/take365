@@ -53,8 +53,9 @@ $localConfig = dirname(__FILE__) . '/' . 'config_local.php';
 if(file_exists($localConfig)) $config = array_merge_recursive(require($localConfig), $config);
 
 $extraFileNames = [];
-if (!empty($_SERVER['APP_STAGE']) && $_SERVER['APP_STAGE'] == 'devel' || defined('APP_STAGE') && APP_STAGE == 'devel') {
-   $extraFileNames[] = dirname(__FILE__) . '/' . 'config_devel.php';
+
+if (defined('YII_DEBUG') && YII_DEBUG || (!empty($_SERVER['APP_STAGE']) && $_SERVER['APP_STAGE'] == 'devel' || defined('APP_STAGE') && APP_STAGE == 'devel')) {
+    $extraFileNames[] = dirname(__FILE__) . '/' . 'config_devel.php';
 } else {
    $extraFileNames[] = dirname(__FILE__) . '/' . 'config_production.php';
 }
