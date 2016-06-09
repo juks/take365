@@ -80,14 +80,15 @@ $config = [
         'assetManager' => [
             'bundles' => YII_ENV == 'dev' ?
                 [
-                    'yii\web\JqueryAsset' => [
+                    'yii\web\JqueryAsset' => false
+                    /*'yii\web\JqueryAsset' => [
                         'sourcePath' => null,
                         'basePath' => '@webroot',
                         'baseUrl' => '@web',
                         'js' => [
                             'js/jquery.js',
                         ]
-                    ]
+                    ]*/
                 ]
                 : require(dirname(__FILE__) . '/' . 'assets_min.php')
         ],
