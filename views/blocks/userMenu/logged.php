@@ -1,19 +1,24 @@
 
-<?php if (!empty($this->params['pageType']) && $this->params['pageType'] == 'home'): ?>
-<li class="active">Истории</li>
+<?php
+  $items = [];
+  $items[] = ['title' => 'Истории', 'alias' => 'home', 'url' => $user->url];
+  $items[] = ['title' => 'Профиль', 'alias' => 'profile', 'url' => $user->urlProfile];
+
+  if ($isSubscribed) $items[] = ['title' => 'Лента', 'alias' => 'feed', 'url' => $user->urlFeed];
+
+?>
+
+<?php foreach ($items as $item): ?>
+<?php if (!empty($this->params['pageType']) && $this->params['pageType'] == $item['alias']): ?>
+  <li class="active"><?= $item['title'] ?></li>
 <?php else: ?>
-<li<?php if (!empty($this->params['pageType']) && $this->params['pageType'] == 'story'): ?> class="active"<?php endif ?>>
-  <a href="<?= $user->url ?>">Истории</a>
-</li>
+  <li>
+    <a href="<?= $item['url'] ?>"><?= $item['title'] ?></a>
+  </li>
 <?php endif ?>
-<?php if (!empty($this->params['pageType']) && $this->params['pageType'] == 'profile'): ?>
-<li class="active">Профиль</li>
-{{ ELSE }}
-<?php else: ?>
-<li>
-  <a href="<?= $user->urlProfile ?>">Профиль</a>
-</li>
-<?php endif ?>
+<?php endforeach ?>
+
+
 <li>
   <a href="#" onclick="logout();return false">Выйти</a>
 </li>

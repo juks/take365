@@ -3,12 +3,14 @@
 use yii\helpers\Html;
 use app\assets\AppAsset;
 use app\assets\FrontAsset;
+use app\models\Feed;
 
 //Yii::$app->getAssetManager()->getBundle('app')->register($this);
 AppAsset::register($this);
 //FrontAsset::register($this);
 
 $user = Yii::$app->user;
+$isSubscribed = !$user->isGuest && Feed::isSubscribed($user);
 
 ?>
 <?php $this->beginPage() ?>
@@ -29,7 +31,7 @@ $user = Yii::$app->user;
       <header class="header">
         <a href="<?= \yii\helpers\Url::base(true) ?>"><div class="header-logo">take365</div></a>
         <ul class="header-nav">
-          <?php if ($user->isGuest) echo $this->render('//blocks/userMenu/anonymous'); else echo $this->render('//blocks/userMenu/logged', ['user' => $user->identity]); ?>
+          <?php if ($user->isGuest) echo $this->render('//blocks/userMenu/anonymous'); else echo $this->render('//blocks/userMenu/logged', ['user' => $user->identity, 'isSubscribed' => $isSubscribed]); ?>
         </ul>
       </header>
       <div class="content">

@@ -192,7 +192,8 @@ class UserPageController extends MyController {
 
         return $this->render('feed', [
                                             'owner'             => $owner,
-                                            'isSubscribed'      => Feed::isSubscribed($owner)
+                                            'isSubscribed'      => Feed::isSubscribed($owner),
+                                            'pageType'          => 'feed'
                                         ]);
     }
 }

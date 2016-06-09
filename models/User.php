@@ -507,6 +507,13 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     }
 
     /**
+     * Forms user profile URL
+     */
+    public function getUrlFeed() {
+        return \yii\helpers\Url::base(true) . '/' . $this->getUsernameFilled() . '/feed';
+    }
+
+    /**
     * Forms user register confirm url
     */
     public function getUrlConfirm() {

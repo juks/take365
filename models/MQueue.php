@@ -246,7 +246,7 @@ class MQueue extends MQueueBase {
         //$mailSubject = $doEncode ? "=?UTF-8?B?" . base64_encode($this->subject) . "?=" : $this->subject;
         $mailSubject = $this->subject;
 
-        // Non production environmant safety
+        // Non production environmеnt safety
         if (defined('YII_DEBUG') && YII_DEBUG) {
             $filterList = Helpers::getParam('mQueue/devEnvFilter');
             if (!$filterList) throw new \Exception('No email filter in non production environment!');
