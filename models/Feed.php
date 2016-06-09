@@ -70,6 +70,8 @@ class Feed extends FeedBase {
      * @param $reader
      */
     public static function onFirstTimeFollow($user, $reader) {
+        if ($user->id == $reader->id) return;
+        
         MQueue::compose()
             ->toUser($user)
             ->subject('Новый комментайри к вашей истории')
