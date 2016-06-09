@@ -90,7 +90,7 @@ $config = [
                         ]
                     ]*/
                 ]
-                : require(dirname(__FILE__) . '/' . 'assets_min.php')
+                : array_merge(require(dirname(__FILE__) . '/' . 'assets_min.php'), ['yii\web\JqueryAsset' => false])
         ],
         'authClientCollection' => [
             'clients' => [

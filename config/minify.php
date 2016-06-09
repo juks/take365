@@ -71,7 +71,7 @@ return [
             'js' => 'js/jquery-{hash}.js',
             'css' => 'css/jquery-{hash}.css',
             'depends' => ['app\assets\JqueryAsset']
-        ],
+        ]
     ],
     // Asset manager configuration:
     'assetManager' => [
