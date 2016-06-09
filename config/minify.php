@@ -20,7 +20,7 @@ return [
         'app\assets\RecoverAsset',
         'app\assets\StoryAsset',
         // 'yii\web\YiiAsset',
-        // 'yii\web\JqueryAsset',
+        //'yii\web\JqueryAsset',
     ],
     // Asset bundle for compression output:
     'targets' => [
@@ -63,6 +63,14 @@ return [
             'js' => 'js/story-{hash}.js',
             'css' => 'css/app-{hash}.css',
             'depends' => ['app\assets\StoryAsset']
+        ],
+        'jquery' => [
+            'class' => 'yii\web\AssetBundle',
+            'basePath' => '@webroot/min',
+            'baseUrl' => '@web/min',
+            'js' => 'js/jquery-{hash}.js',
+            'css' => 'css/jquery-{hash}.css',
+            'depends' => ['app\assets\JqueryAsset']
         ],
     ],
     // Asset manager configuration:
