@@ -254,6 +254,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
     */
     public function calculateProgress() {
         $totalDays      = 365;
+
+        $yearStart = date('Y', $this->time_start);
+        $isLeap = (($yearStart % 4) == 0) && ((($yearStart % 100) != 0) || (($yearStart %400) == 0));
+        if (!$isLeap) $totalDays++;
+
         if ($this->imagesCount === null) $this->fetchImagesCount();
         if ($this->images === null) $this->fetchImages();
 
