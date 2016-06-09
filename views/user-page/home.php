@@ -7,8 +7,7 @@ use app\components\Ml;
 StoryAsset::register($this);
 
 $this->registerJs("initStoriesIndex();");
-
-if (!$owner->thisIsMe) {
+if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
   $this->registerJs("followRender(document.getElementById('follow'),{storyUserId:$owner->id,isFollowing:" . json_encode($isFollowing) ."});");
 }
 
