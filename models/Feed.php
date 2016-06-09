@@ -74,7 +74,7 @@ class Feed extends FeedBase {
         
         MQueue::compose()
             ->toUser($user)
-            ->subject('Новый комментайри к вашей истории')
+            ->subject('Новый читатель')
             ->bodyTemplate('follower.php', [
                 'reader'         => $reader,
             ])

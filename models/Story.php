@@ -444,7 +444,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
             if ($data['target']->created_by != $data['comment']->created_by) {
                 MQueue::compose()
                                 ->toUser($data['target']->created_by)
-                                ->subject('Новый комментайри к вашей истории')
+                                ->subject('Новый комментарий к вашей истории')
                                 ->bodyTemplate('comment.php', [
                                                                         'target'                => $data['target'],
                                                                         'comment'               => $data['comment'],
