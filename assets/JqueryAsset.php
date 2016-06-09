@@ -15,7 +15,7 @@ class JqueryAsset extends AssetBundle
     /*public $css = [
     ];*/
     public $js = [
-        'js/jquery.js',
+        //'js/jquery.js',
         'js/jquery.onepage-scroll.js',
         'js/jquery.slick.min.js'
     ];
