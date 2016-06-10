@@ -35,6 +35,6 @@ yii
 /web/index.php
 /web/api
 /web/media*
-/web/min/js/*
-/web/min/css/*
+/web/min
+/web/min-build
 /tmp
