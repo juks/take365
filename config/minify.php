@@ -26,7 +26,7 @@ return [
     'targets' => [
         'app' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/min',
+            'basePath' => '@webroot/min-build',
             'baseUrl' => '@web/min',
             'js' => 'js/app-{hash}.js',
             'css' => 'css/app-{hash}.css',
@@ -34,7 +34,7 @@ return [
         ],
         'front' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/min',
+            'basePath' => '@webroot/min-build',
             'baseUrl' => '@web/min',
             'js' => 'js/front-{hash}.js',
             'css' => 'css/front-{hash}.css',
@@ -42,7 +42,7 @@ return [
         ],
         'profile' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/min',
+            'basePath' => '@webroot/min-build',
             'baseUrl' => '@web/min',
             'js' => 'js/profile-{hash}.js',
             'css' => 'css/profile-{hash}.css',
@@ -50,7 +50,7 @@ return [
         ],
         'recover' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/min',
+            'basePath' => '@webroot/min-build',
             'baseUrl' => '@web/min',
             'js' => 'js/recover-{hash}.js',
             'css' => 'css/recover-{hash}.css',
@@ -58,7 +58,7 @@ return [
         ],
         'story' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/min',
+            'basePath' => '@webroot/min-build',
             'baseUrl' => '@web/min',
             'js' => 'js/story-{hash}.js',
             'css' => 'css/app-{hash}.css',
@@ -66,7 +66,7 @@ return [
         ],
         'jquery' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/min',
+            'basePath' => '@webroot/min-build',
             'baseUrl' => '@web/min',
             'js' => 'js/jquery-{hash}.js',
             'css' => 'css/jquery-{hash}.css',
