@@ -13,8 +13,21 @@ export default class FeedItem extends React.Component {
     this.onLikeToggle = this.onLikeToggle.bind(this);
   }
 
-  onLikeToggle() {
-
+  onLikeToggle(e) {
+    e.preventDefault();
+    const xhr = new XMLHttpRequest();
+    const like = !this.state.isLiked;
+    const url = `/api/${this.props.id}/${like ? '' : 'un'}like`;
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    this.setState({isLoading: true});
+    xhr.onload = () => {
+      this.setState({
+        isLoading: false,
+        isLiked: like,
+      });
+    };
+    xhr.send();
   }
 
   render() {
