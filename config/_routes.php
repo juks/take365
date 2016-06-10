@@ -1,7 +1,10 @@
 <?php
 
 return [
-    '/api/story/<id:\d+>'               						    => '/api/story/get',
+    '/api/story/<id:\d+>/?'               						    => '/api/story/get',
+    '/api/media/<id:\d+>/?'                						    => '/api/media/get',
+    '/api/media/<id:\d+>/like'            						    => '/api/media/like',
+    '/api/media/<id:\d+>/unlike'           						    => '/api/media/unlike',
     '/api/user/profile/<id:\d+>'               					    => '/api/user/get',
     '/api/user/profile/<username:[0-9a-zA-Z-]{1,20}>'   		    => '/api/user/get',
     '/api/'                                                         => '/api/default/index',

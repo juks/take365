@@ -6,7 +6,6 @@ use Yii;
 use app\models\Comment;
 use app\components\Ml;
 use app\components\interfaces\IPermissions;
-use app\components\traits\THasPermission;
 
 trait TComment {
     /**

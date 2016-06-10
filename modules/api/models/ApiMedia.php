@@ -4,8 +4,11 @@ namespace app\modules\api\models;
 
 use app\models\Media as BaseMedia;
 use app\models\Story;
+use app\components\traits\TLike;
 
 class ApiMedia extends BaseMedia {
+    use TLike;
+
     /**
     *   Sets the API scenarios
     **/    

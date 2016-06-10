@@ -10,6 +10,7 @@ interface IPermissions {
     const permWrite 	= 2;
     const permAdmin 	= 3;
     const permComment 	= 4;
+    const permLike      = 5;
 
 	function getIsPublic();
     function getCreatorIdField();

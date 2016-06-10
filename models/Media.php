@@ -16,6 +16,8 @@ class Media extends MediaCore {
     const typeStoryImage    = 2;
     const aliasStoryImage   = 'storyImage';
 
+    const typeId            = 3;
+
     protected static $_globalOptions = [
                                     Media::typeUserpic => [
                                                         MediaCore::typeId                => 1,
@@ -96,6 +98,7 @@ class Media extends MediaCore {
         } elseif ($this->type == self::typeStoryImage) {
             $fields['thumb']         = function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('mainThumbDimension')); };
             $fields['thumbLarge']    = function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('largeThumbDimension')); };
+            $fields['likesCount']    = function() { return $this->likes_count; };
         } else {
             $fields['thumb']         = function() { return $this->getThumbData(MediaCore::resizeMaxSide, $this->getOption('mainThumbDimension')); };
             $fields['thumbLarge']    = function() { return $this->getThumbData(MediaCore::resizeMaxSide, $this->getOption('largeThumbDimension')); };

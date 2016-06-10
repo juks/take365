@@ -23,7 +23,7 @@ trait THasPermission {
 
         $creatorIdField = $this->getCreatorIdField();
 
-        if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
+        if (($permission == IPermissions::permRead || $permission == IPermissions::permLike) && $this->getIsPublic()) return true;
         if ($this->$creatorIdField == $user->id) return true;
 
         return false;

@@ -26,7 +26,7 @@ class MediaController extends ApiController {
                         'class' => AccessControl::className(),
                         'rules' => [
                             [
-                                'actions' => ['get', 'upload', 'write', 'swap-days', 'delete-recover'],
+                                'actions' => ['get', 'upload', 'write', 'swap-days', 'delete-recover', 'like', 'unlike'],
                                 'allow' => true,
                                 'roles' => ['@'],
                             ],
@@ -81,6 +81,30 @@ class MediaController extends ApiController {
             'title'                     => 'Media',
             'description'               => 'Image upload and control methods',
             'methods'                   => [
+                '/media/{id}'         => [
+                    'title' => 'Fetches Media information',
+                    'method' => 'GET',
+                    'auth'  => false,
+                    'params'                => [['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
+                    'responses'             => ['200' => ['s' => 'Story']]
+                ],
+
+                '/media/{id}/like'         => [
+                    'title' => 'Adds like for the image',
+                    'method' => 'POST',
+                    'auth'  => true,
+                    'params'                => [['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
+                    'responses'             => ['200' => ['s' => 'Story']]
+                ],
+
+                '/media/{id}/unlike'         => [
+                    'title' => 'Removes like for the image',
+                    'method' => 'POST',
+                    'auth'  => true,
+                    'params'                => [['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
+                    'responses'             => ['200' => ['s' => 'Story']]
+                ],
+
                 '/media/player-data'     => [
                     'title' => 'Retrieves images for player',
                     'method' => 'GET',
@@ -217,14 +241,36 @@ class MediaController extends ApiController {
     }
 
     /**
-    * Get media for edit
+    * Get media info
     *
     * @param integer $id
     */
     public function actionGet($id) {
-        $item = $this->checkModelPermission(intval($id), IPermissions::permWrite);
+        $item = $this->checkModelPermission(intval($id), IPermissions::permRead);
 
         $this->addContent($item);
+    }
+
+    /**
+     * Likes media
+     *
+     * @param integer $id
+     */
+    public function actionLike($id) {
+        $item = $this->checkModelPermission(intval($id), IPermissions::permRead);
+
+        $this->addContent($item->like());
+    }
+
+    /**
+     * Unlikes media for edit
+     *
+     * @param integer $id
+     */
+    public function actionUnlike($id) {
+        $item = $this->checkModelPermission(intval($id), IPermissions::permRead);
+
+        $this->addContent($item->unlike());
     }
 
     /**
@@ -296,4 +342,5 @@ class MediaController extends ApiController {
             }
         }
     }
+
 }
