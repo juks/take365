@@ -430,7 +430,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     public function getUserpic() {
        $mo = Media::getMediaOptions('userpic');
 
-       return $this->hasOne(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[MediaCore::typeId], 'is_deleted' => 0])->one();
+       return $this->hasOne(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[MediaCore::mediaTypeId], 'is_deleted' => 0])->one();
     }
 
     /**

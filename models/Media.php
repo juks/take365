@@ -20,7 +20,7 @@ class Media extends MediaCore {
 
     protected static $_globalOptions = [
                                     Media::typeUserpic => [
-                                                        MediaCore::typeId                => 1,
+                                                        MediaCore::mediaTypeId           => 1,
                                                         MediaCore::targetType            => 1,
                                                         MediaCore::alias                 => Media::aliasUserpic,
                                                         MediaCore::cleanPrev             => true,
@@ -43,7 +43,7 @@ class Media extends MediaCore {
                                                 ],
 
                                     Media::typeStoryImage => [
-                                                        MediaCore::typeId                => 2,
+                                                        MediaCore::mediaTypeId           => 2,
                                                         MediaCore::targetType            => 2,
                                                         MediaCore::alias                 => Media::aliasStoryImage,
                                                         MediaCore::cleanPrev             => true,

@@ -299,13 +299,13 @@ class Story extends StoryBase implements IPermissions, IGetType {
         if ($this->images === null) {
             $mo = Media::getMediaOptions('storyImage');
             $limit = !empty($extra['imageLimit']) ? $extra['imageLimit'] : null;
-            $this->images = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::typeId], 'is_deleted' => 0])->orderBy('date DESC')->limit($limit)->all();
+            $this->images = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::mediaTypeId], 'is_deleted' => 0])->orderBy('date DESC')->limit($limit)->all();
         }
     }
 
     public function fetchImagesCount($extra = []) {
         $mo = Media::getMediaOptions('storyImage');
-        $this->imagesCount = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::typeId], 'is_deleted' => 0])->count();
+        $this->imagesCount = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::mediaTypeId], 'is_deleted' => 0])->count();
         // No null
         if (!$this->imagesCount) $this->imagesCount = 0;
     }

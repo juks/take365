@@ -35,7 +35,7 @@ class MediaCore extends MediaBase {
     const uploadTypeUrl             = 'uploadTypeUrl';
     const uploadTypeLocal           = 'uploadTypeLocal';
 
-    const typeId                    = 'typeId';
+    const mediaTypeId                    = 'typeId';
     const targetType                = 'targetType';
     const path                      = 'path';
     const alias                     = 'alias';
