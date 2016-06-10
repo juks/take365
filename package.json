@@ -2,7 +2,7 @@
   "name": "take365",
   "version": "0.0.0",
   "scripts": {
-    "git-build": "NODE_ENV=production gulp"
+    "git-build": "NODE_ENV=production gulp",
     "build": "NODE_ENV=production gulp"
   },
   "repository": {
