@@ -43,10 +43,10 @@ class Feed extends React.Component {
   }
 
   render() {
-    return <div>
+    return <div className="feed">
       { (() => {
-        return <div>
-          <div>
+        return <div className="feed-inner">
+          <div className="feed-list">
             { this.state.data.map(item => <FeedItem data={item} key={item.id}></FeedItem>) }
           </div>
           { (() => {
