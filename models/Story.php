@@ -43,7 +43,6 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public $isHidden;
     public $commentsCache = null;
     public $images = null;
-    public $imagesCount = null;
     public $progressData = null;
 
     public $monthTitle = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
@@ -265,10 +264,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         if ($yearStart > 2012 && ($isLeapStart && $monthStart <= 2 || ($isLeapEnd && $monthStart > 1))) $totalDays++;
 
-        if ($this->imagesCount === null) $this->fetchImagesCount();
+        //if ($this->imagesCount === null) $this->fetchImagesCount();
         if ($this->images === null) $this->fetchImages();
 
-        $imagesCount    = $this->imagesCount;
+        $imagesCount    = $this->media_count;
+        //$imagesCount =  $this->imagesCount;
 
         $lastTime       = $this->images ? strtotime($this->images[0]['date']) : $this->time_start;
         $delayDays      = intval((time() - $lastTime) / 86400);
@@ -303,11 +303,12 @@ class Story extends StoryBase implements IPermissions, IGetType {
         }
     }
 
+    // DEPRECATED
     public function fetchImagesCount($extra = []) {
-        $mo = Media::getMediaOptions('storyImage');
+        /*$mo = Media::getMediaOptions('storyImage');
         $this->imagesCount = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::mediaTypeId], 'is_deleted' => 0])->count();
         // No null
-        if (!$this->imagesCount) $this->imagesCount = 0;
+        if (!$this->imagesCount) $this->imagesCount = 0;*/
     }
 
     /**
@@ -322,7 +323,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     */
     public function formatShort($extra = []) {
         $this->fetchImages($extra);
-        $this->fetchImagesCount($extra);
+        //$this->fetchImagesCount($extra);
         $this->calculateProgress();
         $this->isDeleted = $this->is_deleted;
         $this->isHidden  = $this->status != self::statusPublic;
@@ -340,6 +341,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         $this->calendar = [];
         $this->fetchImages($extra);
+        // DEPRECATED. DUE TO REMOVAL
         $this->fetchImagesCount($extra);
         $this->calculateProgress();
         $canUpload = $this->hasPermission(Yii::$app->user, IPermissions::permWrite);
