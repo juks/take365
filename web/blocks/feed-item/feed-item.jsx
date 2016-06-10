@@ -13,6 +13,10 @@ export default class FeedItem extends React.Component {
     this.onLikeToggle = this.onLikeToggle.bind(this);
   }
 
+  onLikeToggle() {
+
+  }
+
   render() {
     const data = this.props.data;
     return <div className="feed-item">

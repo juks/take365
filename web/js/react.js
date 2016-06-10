@@ -21467,19 +21467,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var FeedItem = function (_React$Component) {
   _inherits(FeedItem, _React$Component);
 
-  function FeedItem() {
+  function FeedItem(props) {
     _classCallCheck(this, FeedItem);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(FeedItem).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FeedItem).call(this, props));
+
+    _this.state = {
+      isLiked: false
+    };
+    _this.onLikeToggle = _this.onLikeToggle.bind(_this);
+    return _this;
   }
 
   _createClass(FeedItem, [{
+    key: 'onLikeToggle',
+    value: function onLikeToggle() {}
+  }, {
     key: 'render',
     value: function render() {
       var data = this.props.data;
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'feed-item' },
         _react2.default.createElement(
           'div',
           null,
@@ -21500,6 +21509,11 @@ var FeedItem = function (_React$Component) {
         _react2.default.createElement(
           'div',
           null,
+          _react2.default.createElement(
+            'a',
+            { href: '' },
+            this.state.isLiked ? '♥' : '♡'
+          ),
           _react2.default.createElement(
             'a',
             { href: data.story.url + '#' + data.date },
