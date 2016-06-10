@@ -72,6 +72,15 @@ trait TLike {
 
         return [$targetId, $targetType];
     }
+
+    /**
+     * Check liked item relation
+     *
+     * @return mixed
+     */
+    public function getIsLiked() {
+        return $this->hasOne(Like::className(), ['target_id' => 'id'])->where(['target_type' => self::typeId, 'is_active' => 1]);
+    }
 }
 
 ?>

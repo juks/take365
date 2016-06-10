@@ -35,4 +35,13 @@ class Like extends LikeBase {
         return parent::beforeValidate();
     }
 
+    /**
+     * Returns boolean status for this like
+     *
+     * @return bool
+     */
+    public function getValue() {
+        return $this->is_active ? true : false;
+    }
+
 }

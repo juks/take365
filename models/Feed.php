@@ -137,7 +137,7 @@ class Feed extends FeedBase {
             if ($lastTime) $cond['time_created'] = ['>', $lastTime];
             elseif ($firstTime) $cond['time_created'] = ['<', $firstTime];
 
-            $mediaList = Media::find()->where(self::makeCondition($cond))->with('targetStory')->with('creator')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
+            $mediaList = Media::find()->where(self::makeCondition($cond))->with('targetStory')->with('creator')->with('isLiked')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
 
             if (count($mediaList)) $isEmpty = false;
 

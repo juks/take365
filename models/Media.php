@@ -6,11 +6,14 @@ use Yii;
 use app\models\mediaExtra\MediaCore;
 use app\models\User;
 use app\models\Story;
+use app\components\traits\TLike;
 
 /**
  * Story class
  */
 class Media extends MediaCore {
+    use TLike;
+
     const typeUserpic       = 1;
     const aliasUserpic      = 'userpic';
     const typeStoryImage    = 2;
@@ -108,9 +111,12 @@ class Media extends MediaCore {
         }
 
         if ($this->target_type == Story::typeId) {
-            $fields['date'] = 'date';
-            $fields['timestamp'] = 'time_created';
+            $fields['date']          = 'date';
+            $fields['timestamp']     = 'time_created';
             $fields['likesCount']    = function() { return $this->likes_count; };
+            if (!Yii::$app->user->isGuest) {
+                $fields['isLiked']   = function () { return $this->isLiked ? $this->isLiked->value : false; };
+            }
         }
 
         return $fields;
