@@ -8,7 +8,7 @@ export default class FeedItem extends React.Component {
     super(props);
 
     this.state = {
-      isLiked: false,
+      isLiked: this.props.data.isLiked,
     };
     this.onLikeToggle = this.onLikeToggle.bind(this);
   }
@@ -56,6 +56,7 @@ export default class FeedItem extends React.Component {
       </div>
       <div className="feed-item-footer">
         <a href="" onClick={this.onLikeToggle}>{this.state.isLiked ? '♥' : '♡'}</a>
+        {this.props.data.date}
       </div>
     </div>;
   }
