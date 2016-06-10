@@ -968,9 +968,13 @@ SELECT {
 .story-deleted H2 A:hover {
   color: #CC3333;
   }
+.story-hidden .story-status-value {
+  background: #D9AB2E;
+  }
+
 .story-deleted .story-status-value {
   background: #E02929;
-  }
+}
 
 /* Success story */
 .story-success {

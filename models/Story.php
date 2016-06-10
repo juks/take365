@@ -256,12 +256,14 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $totalDays      = 365;
 
         $yearStart = date('Y', $this->time_start);
+        $monthStart = date('n', $this->time_start);
         $yearEnd = $yearStart + 1;
 
+        // Important leap thing. Leap years supported since 2016
         $isLeapStart = date("L", mktime(1, 0, 0, 1, 1, $yearStart)) == 1;
         $isLeapEnd = date("L", mktime(1, 0, 0, 1, 1, $yearEnd)) == 1;
 
-        //if ($isLeapStart || $isLeapEnd) $totalDays++;
+        if ($yearStart > 2012 && ($isLeapStart && $monthStart <= 2 || ($isLeapEnd && $monthStart > 1))) $totalDays++;
 
         if ($this->imagesCount === null) $this->fetchImagesCount();
         if ($this->images === null) $this->fetchImages();

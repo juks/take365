@@ -21,7 +21,7 @@ if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
 </header>
 <?php if ($stories): ?>
 <?php foreach ($stories as $story): ?>
-<section class="story<?php if ($story->isDeleted): ?> story-deleted<?php elseif ($story->progress['isComplete']): ?> story-success<?php endif ?>">
+<section class="story<?php if ($story->isDeleted): ?> story-deleted<?php elseif ($story->isHidden): ?> story-hidden<?php elseif ($story->progress['isComplete']): ?> story-success<?php endif ?>">
   <div class="story-content">
     <h2><a href="<?= $story->url ?>"><?= $story->titleFilled ?></a></h2>
     <?php include('mediaBlock.php') ?>
