@@ -17,6 +17,7 @@ trait TLike {
      */
     public function setLike($state) {
         $user = Yii::$app->user;
+        $result = $this->hasAttribute('likes_count') ? $this->likes_count : null;
 
         if (!$this->hasPermission($user, IPermissions::permLike)) throw new \app\components\ModelException(Ml::t('Forbidden'));
 
@@ -25,7 +26,7 @@ trait TLike {
 
         $item = Like::find()->where($data)->one();
 
-        if ($item && $item->is_active == $state || !$item && !$state) return true;
+        if ($item && $item->is_active == $state || !$item && !$state) return $result;
 
         if (!$item) {
             if (method_exists($this, 'onFirstTimeLike')) $this->onFirstTimeLike($user);
@@ -34,13 +35,12 @@ trait TLike {
 
         $item->is_active = intval($state);
 
-        $result = $item->save();
-
-        if ($result && $this->hasAttribute('likes_count')) {
+        if ($item->save() && $this->hasAttribute('likes_count')) {
             if ($state) $this->likes_count ++;
             else $this->likes_count --;
 
             $this->save();
+            $result = $this->likes_count;
         }
 
         return $result;
