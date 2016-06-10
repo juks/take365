@@ -774,7 +774,11 @@ $(function() {
   if (!window.location.hash) {
     return;
   }
-  Photoview.show(window.location.hash.replace('#', ''), this.src, {
+  var hash = window.location.hash.replace('#', '');
+  if (!/[0-9]{4}-[0-9]{2}-[0-9]{2}/.test(hash)) {
+    return;
+  }
+  Photoview.show(hash, this.src, {
     close: function() {
       Story.mode = "index";
     }
