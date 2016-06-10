@@ -17,7 +17,7 @@ export default class FeedItem extends React.Component {
     e.preventDefault();
     const xhr = new XMLHttpRequest();
     const like = !this.state.isLiked;
-    const url = `/api/${this.props.id}/${like ? '' : 'un'}like`;
+    const url = `/api/media/${this.props.data.id}/${like ? '' : 'un'}like`;
     xhr.open('POST', url);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     this.setState({isLoading: true});
@@ -40,7 +40,7 @@ export default class FeedItem extends React.Component {
         &nbsp;→ <a href={data.story.url}>{data.story.title}</a>
       </div>
       <div className="feed-item-content">
-        <a href="">{this.state.isLiked ? '♥' : '♡'}</a>
+        <a href="" onClick={this.onLikeToggle}>{this.state.isLiked ? '♥' : '♡'}</a>
         <a href={`${data.story.url}#${data.date}`}>
           <img src={data.thumb.url} width={data.thumb.width} height={data.thumb.height} srcSet={`${data.thumbLarge.url} 2x`} />
         </a>
