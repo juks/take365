@@ -216,8 +216,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public function getAuthors() {
         $a = [];
 
-        $author = User::find()->where(User::getActiveCondition())->andWhere(['id' => $this->created_by])->one();
-        if ($author) $a[] = ['username' => $author->username, 'url' => $author->url];
+        $author = User::find()->where(User::getActiveCondition())->andWhere(['id' => $this->created_by])->with('userpic')->one();
+        if ($author) $a[] = $author; //['username' => $author->username, 'url' => $author->url];
 
         return $a;
     }
