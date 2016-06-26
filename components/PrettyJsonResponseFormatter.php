@@ -11,9 +11,9 @@ class PrettyJsonResponseFormatter extends \yii\web\JsonResponseFormatter {
         $response->getHeaders()->set('Content-Type', 'application/json; charset=UTF-8');
         if ($response->data !== null) {
         	if (YII_DEBUG) {
-            	$response->content = Json::encode($response->data, JSON_PRETTY_PRINT);
+            	$response->content = Json::encode($response->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             } else {
-            	$response->content = Json::encode($response->data);
+            	$response->content = Json::encode($response->data, JSON_UNESCAPED_UNICODE);
             }
         }
     }

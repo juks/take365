@@ -41,7 +41,6 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public $yearEnd;
     public $isDeleted;
     public $isHidden;
-    public $commentsCache = null;
     public $images = null;
     public $progressData = null;
 
@@ -108,7 +107,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     *
     * @param int $storyId
     **/
-    public static function getActiveStory($storyId) {
+    public static function getActiveItem($storyId) {
         $story = self::findOne($storyId);
         $user = Yii::$app->user;
 
@@ -227,25 +226,6 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public function getProgress() {
         if ($this->progressData === null) $this->calculateProgress();
         return $this->progressData;
-    }
-
-    /**
-    * Comments relation
-    */
-    public function getComments($lastTimestamp = null) {
-        if ($this->commentsCache == null && $this->comments_count) {
-            $condition = ['target_type' => self::typeId];
-            
-            if ($lastTimestamp) $condition['time_created'] = ['>', $lastTimestamp];
-
-            $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy('lk')->all();
-
-            foreach ($this->commentsCache as $comment) {
-                $comment->urlTarget = $this->url;
-            }
-        }
-
-        return $this->commentsCache;
     }
 
     /**

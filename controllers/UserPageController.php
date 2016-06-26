@@ -152,7 +152,7 @@ class UserPageController extends MyController {
         $owner = User::getActiveUser($username);
         if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
 
-        $story = Story::getActiveStory($storyId);
+        $story = Story::getActiveItem($storyId);
         if (!$story || $story->created_by != $owner->id) throw new NotFoundHttpException('Здесь ничего нет');
 
         // Redirect if user was requested by id but has username already

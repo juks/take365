@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use app\models\base\CommentBase;
 use app\models\Story;
+use app\models\Media;
 use app\components\Helpers;
 use app\components\HelpersTxt;
 use app\components\Ml;
@@ -110,8 +111,12 @@ class Comment extends CommentBase {
 
     public function getTarget() {
     	if ($this->target_type == Story::typeId) {
-    		return Story::getActiveStory($this->target_id);
-    	}
+    		return Story::getActiveItem($this->target_id);
+    	} elseif ($this->target_type == Media::typeId) {
+            return Media::getActiveItem($this->target_id);
+        }
+
+        return null;
     }
 
     /**

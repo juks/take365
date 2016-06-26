@@ -32,6 +32,7 @@ use Yii;
  * @property integer $time_updated
  * @property string $exif
  * @property integer likes_count
+ * @property integer comments_count
  */
 class MediaBase extends \yii\db\ActiveRecord
 {
@@ -50,7 +51,7 @@ class MediaBase extends \yii\db\ActiveRecord
     {
         return [
             [['target_id', 'target_type', 'type', 'created_by', 'time_created'], 'required'],
-            [['target_id', 'target_type', 'type', 'is_deleted', 'position', 'created_by', 'size', 'width', 'height', 'is_vertical', 'format', 'time_created', 'time_updated', 'likes_cont'], 'integer'],
+            [['target_id', 'target_type', 'type', 'is_deleted', 'position', 'created_by', 'size', 'width', 'height', 'is_vertical', 'format', 'time_created', 'time_updated', 'likes_cont', 'media_count'], 'integer'],
             [['exif'], 'string'],
             [['filename', 'title'], 'string', 'max' => 100],
             [['ext'], 'string', 'max' => 4],
@@ -91,7 +92,8 @@ class MediaBase extends \yii\db\ActiveRecord
             'time_created' => 'Time Created',
             'time_updated' => 'Time Updated',
             'exif' =>  'Exif',
-            'likes_count' => 'Likes count'
+            'likes_count' => 'Likes Count',
+            'comments_count' => 'Comments Count'
         ];
     }
 

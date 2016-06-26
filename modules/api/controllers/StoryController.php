@@ -119,6 +119,14 @@ class StoryController extends ApiController {
                                             ],
                     'responses'             => ['200' => ['s' => 'Response']]
                 ],
+
+                '/story/{id}/comments'         => [
+                    'title' => 'Fetches story comments',
+                    'method' => 'GET',
+                    'auth'  => true,
+                    'params'                => [['n' => 'id', 't' => 'Story Id', 'f' => 'integer', 'in' => 'path', 'd' => $defaultStoryId]],
+                    'responses'             => ['200' => ['s' => 'Comment']]
+                ],
             ]
         ];
     }

@@ -82,11 +82,23 @@ class MediaController extends ApiController {
             'description'               => 'Image upload and control methods',
             'methods'                   => [
                 '/media/{id}'         => [
-                    'title' => 'Fetches Media information',
+                    'title' => 'Fetches media information',
                     'method' => 'GET',
                     'auth'  => false,
                     'params'                => [['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
                     'responses'             => ['200' => ['s' => 'Story']]
+                ],
+
+                '/media/{id}/comments'         => [
+                    'title' => 'Fetches media comments',
+                    'method' => 'GET',
+                    'auth'  => false,
+                    'params'                => [
+                                                    ['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1],
+                                                    ['n' => 'lastTimestamp','t' => 'Show only comments that were created since given timestamp', 'o' => true, 'f' => 'integer'],
+                                                ],
+
+                    'responses'             => ['200' => ['s' => 'Comment']]
                 ],
 
                 '/media/{id}/like'         => [

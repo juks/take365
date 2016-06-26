@@ -141,7 +141,7 @@ class MediaCore extends MediaBase {
     * Returns the criteria whether or not this item is public
     */
     public function getIsPublic() {
-        return true;
+        return !$this->is_hidden;
     }
 
     /**

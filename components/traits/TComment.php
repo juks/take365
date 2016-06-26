@@ -8,6 +8,8 @@ use app\components\Ml;
 use app\components\interfaces\IPermissions;
 
 trait TComment {
+    public $commentsCache = null;
+    
     /**
     * Creates or updates comment
     *
@@ -109,5 +111,24 @@ trait TComment {
     **/
     public function getCommentsCountTitle() {
         return Ml::t('{n,plural,=0{No comments} =1{One Comment} other{# Comments}}', null, ['n' => $this->comments_count]);
+    }
+
+    /**
+     * Comments relation
+     */
+    public function getComments($lastTimestamp = null) {
+        if ($this->commentsCache == null && $this->comments_count) {
+            $condition = ['target_type' => self::typeId];
+
+            if ($lastTimestamp) $condition['time_created'] = ['>', $lastTimestamp];
+
+            $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy('lk')->all();
+
+            foreach ($this->commentsCache as $comment) {
+                $comment->urlTarget = $this->url;
+            }
+        }
+
+        return $this->commentsCache;
     }
 }

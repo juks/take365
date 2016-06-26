@@ -9,6 +9,7 @@ use app\components\Helpers;
 use app\components\Ml;
 use app\modules\api\models\ApiStory;
 use app\modules\api\models\ApiComment;
+use app\modules\api\models\ApiMedia;
 use app\modules\api\components\ApiController;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -121,7 +122,9 @@ class CommentController extends ApiController {
      */
     public function actionListComments($targetType, $targetId, $lastTimestamp = null) {
         if ($targetType == ApiStory::typeId) {
-            $target = ApiStory::getActiveStory($targetId);
+            $target = ApiStory::getActiveItem($targetId);
+        } else if ($targetType == ApiMedia::typeId) {
+            $target = ApiMedia::getActiveItem($targetId);
         } else {
             throw new \app\components\ControllerException('Invalid target type');
         }
@@ -142,7 +145,7 @@ class CommentController extends ApiController {
 
         if ($form->load(Helpers::getRequestParams('post')) && $form->validate()) {
             if ($form->targetType == ApiStory::typeId) {
-                $target = ApiStory::getActiveStory($form->targetId);
+                $target = ApiStory::getActiveItem($form->targetId);
             } elseif ($form->id) {
                 $comment = ApiComment::findOne($form->id);
                 if (!$comment) throw new \app\components\ControllerException(Ml::t('Object not found'));

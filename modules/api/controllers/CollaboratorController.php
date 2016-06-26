@@ -128,7 +128,7 @@ class CollaboratorController extends ApiController {
      * @param string $username
      */
     public function actionCollaborators($storyId) {
-        $story = Story::getActiveStory($storyId);
+        $story = Story::getActiveItem($storyId);
 
         if (!$story) throw new \yii\web\NotFoundHttpException(Ml::t('Story not found'));
 
@@ -151,7 +151,7 @@ class CollaboratorController extends ApiController {
      * @param string $username
      */
     public function actionAdd($storyId, $username) {
-        $story = Story::getActiveStory($storyId);
+        $story = Story::getActiveItem($storyId);
         $user = User::getActiveUser($username);
 
         if (!$story) throw new \yii\web\NotFoundHttpException(Ml::t('Story not found'));
@@ -181,7 +181,7 @@ class CollaboratorController extends ApiController {
      * @param string $username
      */
     public function actionRemove($storyId, $username) {
-        $story = Story::getActiveStory($storyId);
+        $story = Story::getActiveItem($storyId);
         $user = User::getActiveUser($username);
 
         if (!$story) throw new \yii\web\NotFoundHttpException(Ml::t('Story not found'));

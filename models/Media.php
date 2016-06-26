@@ -6,13 +6,17 @@ use Yii;
 use app\models\mediaExtra\MediaCore;
 use app\models\User;
 use app\models\Story;
+use app\components\traits\TComment;
 use app\components\traits\TLike;
+use app\components\traits\THasPermission;
 
 /**
  * Story class
  */
 class Media extends MediaCore {
     use TLike;
+    use THasPermission;
+    use TComment;
 
     const typeUserpic       = 1;
     const aliasUserpic      = 'userpic';
@@ -145,6 +149,40 @@ class Media extends MediaCore {
     **/
     public static function getActiveCondition() {
         return ['is_deleted' => 0];
+    }
+
+    /**
+     * Returns media with given ID only if it is available for current user
+     *
+     * @param int $storyId
+     **/
+    public static function getActiveItem($mediaId) {
+        $item = self::findOne($mediaId);
+        $user = Yii::$app->user;
+
+        if ($item) {
+            if (!$item->is_hidden) {
+                return $item;
+            } elseif ($item->hasPermission($user, IPermissions::permWrite)) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Checks the model permission
+     *
+     * @param object $user
+     * @param int $permission
+     **/
+    public function checkPermission($user, $permission = IPermissions::permWrite) {
+        if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
+        if ($permission == IPermissions::permComment && $this->getIsPublic()) return true;
+        if ($this->created_by == $user->id) return true;
+
+        return false;
     }
 
     /**
