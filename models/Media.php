@@ -6,6 +6,7 @@ use Yii;
 use app\models\mediaExtra\MediaCore;
 use app\models\User;
 use app\models\Story;
+use app\components\interfaces\IPermissions;
 use app\components\traits\TComment;
 use app\components\traits\TLike;
 use app\components\traits\THasPermission;
@@ -178,7 +179,7 @@ class Media extends MediaCore {
      * @param int $permission
      **/
     public function checkPermission($user, $permission = IPermissions::permWrite) {
-        if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
+        if (($permission == IPermissions::permRead || $permission == IPermissions::permLike) && $this->getIsPublic()) return true;
         if ($permission == IPermissions::permComment && $this->getIsPublic()) return true;
         if ($this->created_by == $user->id) return true;
 
