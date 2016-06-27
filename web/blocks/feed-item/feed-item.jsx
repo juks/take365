@@ -33,19 +33,30 @@ export default class FeedItem extends React.Component {
   render() {
     const data = this.props.data;
     return <div className="feed-item">
-      <div className="feed-item-header">
+      <div className="feed-header">
+        <time className="feed-date" pubdate={this.props.data.date}>{this.props.data.date}</time>
         { data.story.authors
-          .map(author => <a href={author.url} key={author.username}>{author.username}</a>)
+          .map(author => {
+            const userpicStyle = author.userpic && author.userpic.url ? {
+              backgroundImage: `url(${author.userpic.url})`,
+            } : {};
+            return <div className="feed-user">
+              <div className="feed-userpic fa fa-user">
+                <a href={author.url} className="feed-userpic-img" style={userpicStyle}></a>
+              </div>
+              <div className="feed-username">
+                <a href={author.url} key={author.username}>{author.username}</a>
+              </div>
+            </div>;
+          })
         }
-        &nbsp;→ <a href={data.story.url}>{data.story.title}</a>
+        <span className="fa fa-long-arrow-right sep"></span><a href={data.story.url}>{data.story.title}</a>
       </div>
-      <div className="feed-item-content">
-        <div className="feed-item-img">
-          <a href={`${data.story.url}#${data.date}`}>
-            <img src={data.thumb.url} width={data.thumb.width} height={data.thumb.height} srcSet={`${data.thumbLarge.url} 2x`} />
-          </a>
+      <div className="feed-content">
+        <div className="feed-img">
+          <img src={data.thumb.url} width={data.thumb.width} height={data.thumb.height} srcSet={`${data.thumbLarge.url} 2x`} />
         </div>
-        <div className="feed-item-desc">
+        <div className="feed-desc">
           { data.title ?
             <p>{data.title}</p>
           : null }
@@ -54,9 +65,11 @@ export default class FeedItem extends React.Component {
           : null }
         </div>
       </div>
-      <div className="feed-item-footer">
-        <a href="" onClick={this.onLikeToggle}>{this.state.isLiked ? '♥' : '♡'}</a>
-        {this.props.data.date}
+      <div className="feed-footer">
+        <span className="feed-likes">
+          <a href="#" className={`fa ${this.state.isLiked ? 'fa-heart' : 'fa-heart-o'} feed-like`} onClick={this.onLikeToggle}></a>
+          <sup className="feed-likes-total">{data.likesCount}</sup>
+        </span>
       </div>
     </div>;
   }
