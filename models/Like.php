@@ -5,6 +5,7 @@ namespace app\models;
 use app\models\base\LikeBase;
 
 use Yii;
+use app\models\User;
 use app\components\Helpers;
 use app\components\traits\TModelExtra;
 
@@ -13,6 +14,16 @@ use app\components\traits\TModelExtra;
  */
 class Like extends LikeBase {
 	use TModelExtra;
+
+    /**
+     *   Sets the lists of fields that are available for public exposure
+     **/
+    public function fields() {
+        return [
+                    'author'        => 'author',
+                    'timestamp'     => 'time_created'
+        ];
+    }
 
     /**
      *   Sets the Like model scenarios
@@ -44,4 +55,11 @@ class Like extends LikeBase {
         return $this->is_active ? true : false;
     }
 
+    /**
+     * Author relation
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuthor() {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
 }

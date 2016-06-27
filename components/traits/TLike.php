@@ -2,6 +2,7 @@
 
 namespace app\components\traits;
 
+use app\models\User;
 use Yii;
 use app\models\Like;
 use app\components\Ml;
@@ -80,6 +81,17 @@ trait TLike {
      */
     public function getIsLiked() {
         return $this->hasOne(Like::className(), ['target_id' => 'id'])->where(['target_type' => self::typeId, 'is_active' => 1]);
+    }
+
+    /**
+     * Returns the list of likes
+     *
+     * @return $this
+     * @throws \app\components\ModelException
+     */
+    public function listLikes() {
+        $ids = $this->getTargetIdTargetType();
+        return Like::find()->where(['target_id' => $ids[0], 'target_type' => $ids[1]])->with('author')->all();
     }
 }
 

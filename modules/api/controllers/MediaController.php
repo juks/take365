@@ -26,7 +26,7 @@ class MediaController extends ApiController {
                         'class' => AccessControl::className(),
                         'rules' => [
                             [
-                                'actions' => ['get', 'upload', 'write', 'swap-days', 'delete-recover', 'like', 'unlike'],
+                                'actions' => ['get', 'upload', 'write', 'swap-days', 'delete-recover', 'like', 'unlike', 'list-likes'],
                                 'allow' => true,
                                 'roles' => ['@'],
                             ],
@@ -47,7 +47,12 @@ class MediaController extends ApiController {
          $b['verbs'] = [
             'class' => VerbFilter::className(),
             'actions' => [
-                'upload' => ['post'],
+                'upload'            => ['post'],
+                'write'             => ['post'],
+                'swap-days'         => ['post'],
+                'delete-recover'    => ['post'],
+                'like'              => ['post'],
+                'unlike'            => ['post'],
             ],
         ];
 
@@ -180,7 +185,7 @@ class MediaController extends ApiController {
                     'method' => 'POST',
                     'auth'  => true,
                     'params'                => [['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
-                    'responses'             => ['200' => ['s' => 'Story']]
+                    'responses'             => ['200' => ['s' => 'Likes count']]
                 ],
 
                 '/media/{id}/unlike'         => [
@@ -188,7 +193,15 @@ class MediaController extends ApiController {
                     'method' => 'POST',
                     'auth'  => true,
                     'params'                => [['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
-                    'responses'             => ['200' => ['s' => 'Story']]
+                    'responses'             => ['200' => ['s' => 'Likes Count']]
+                ],
+
+                '/media/{id}/likes'         => [
+                    'title' => 'Returns likes list',
+                    'method' => 'GET',
+                    'auth'  => true,
+                    'params'                => [['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
+                    'responses'             => ['200' => ['s' => 'Like']]
                 ],
             ]
         ];
@@ -288,7 +301,7 @@ class MediaController extends ApiController {
     }
 
     /**
-     * Unlikes media for edit
+     * Unlikes media
      *
      * @param integer $id
      */
@@ -296,6 +309,17 @@ class MediaController extends ApiController {
         $item = $this->checkModelPermission(intval($id), IPermissions::permRead);
 
         $this->addContent($item->unlike());
+    }
+
+    /**
+     * Unlikes media for edit
+     *
+     * @param integer $id
+     */
+    public function actionListLikes($id) {
+        $item = $this->checkModelPermission(intval($id), IPermissions::permRead);
+
+        $this->addContent($item->listLikes());
     }
 
     /**
