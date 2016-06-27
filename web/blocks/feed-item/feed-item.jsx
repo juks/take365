@@ -9,6 +9,7 @@ export default class FeedItem extends React.Component {
 
     this.state = {
       isLiked: this.props.data.isLiked,
+      likes: this.props.data.likesCount,
     };
     this.onLikeToggle = this.onLikeToggle.bind(this);
   }
@@ -22,9 +23,11 @@ export default class FeedItem extends React.Component {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     this.setState({isLoading: true});
     xhr.onload = () => {
+      const result = JSON.parse(xhr.response).result;
       this.setState({
         isLoading: false,
         isLiked: like,
+        likes: result,
       });
     };
     xhr.send();
@@ -68,7 +71,7 @@ export default class FeedItem extends React.Component {
       <div className="feed-footer">
         <span className="feed-likes">
           <a href="#" className={`fa ${this.state.isLiked ? 'fa-heart' : 'fa-heart-o'} feed-like`} onClick={this.onLikeToggle}></a>
-          <sup className="feed-likes-total">{data.likesCount}</sup>
+          {this.state.likes ? <sup className="feed-likes-total">{this.state.likes}</sup> : null}
         </span>
       </div>
     </div>;
