@@ -127,6 +127,19 @@ class StoryController extends ApiController {
                     'params'                => [['n' => 'id', 't' => 'Story Id', 'f' => 'integer', 'in' => 'path', 'd' => $defaultStoryId]],
                     'responses'             => ['200' => ['s' => 'Comment']]
                 ],
+
+                '/story/{story-id}/write-comment'   => [
+                    'title' => 'Creates or updates comment',
+                    'method' => 'POST',
+                    'auth'  => true,
+                    'params'                => [
+                        ['n' => 'story-id',     't' => 'Story Id',             'f' => 'integer', 'in' => 'path', 'd' => $defaultStoryId],
+                        ['n' => 'id' ,          't' => 'Comment Id To Update', 'o' => true, 'f' => 'integer'],
+                        ['n' => 'body' ,        't' => 'Comment Text',         'f' => 'string'],
+                        ['n' => 'parentId' ,    't' => 'Parent Comment Id',    'o' => true, 'f' => 'integer'],
+                    ],
+                    'responses'             => ['200' => ['s' => 'Comment']]
+                ],
             ]
         ];
     }

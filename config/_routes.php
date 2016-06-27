@@ -3,8 +3,10 @@
 return [
     '/api/story/<id:\d+>/?'               						    => '/api/story/get',
     ['pattern' =>'/api/story/<targetId:\d+>/comments/?',            'route' => '/api/comment/list-comments', 'defaults' => ['targetType' => 2]],
+    ['pattern' =>'/api/story/<targetId:\d+>/write-comment/?',       'route' => '/api/comment/write', 'defaults' => ['targetType' => 2]],
     '/api/media/<id:\d+>/?'                						    => '/api/media/get',
     ['pattern' =>'/api/media/<targetId:\d+>/comments/?',            'route' => '/api/comment/list-comments', 'defaults' => ['targetType' => 3]],
+    ['pattern' =>'/api/media/<targetId:\d+>/write-comment/?',       'route' => '/api/comment/write', 'defaults' => ['targetType' => 3]],
     '/api/media/<id:\d+>/like'            						    => '/api/media/like',
     '/api/media/<id:\d+>/unlike'           						    => '/api/media/unlike',
     '/api/user/profile/<id:\d+>'               					    => '/api/user/get',

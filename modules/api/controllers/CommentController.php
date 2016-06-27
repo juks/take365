@@ -139,9 +139,13 @@ class CommentController extends ApiController {
      *
      * @param string $username
      */
-    public function actionWrite() {
+    public function actionWrite($targetId = null, $targetType = null) {
         $form = new \app\modules\api\models\ApiCommentForm();
         $target = null;
+
+        // If some of parameters were set internally
+        if ($targetId) $form->targetId = $targetId;
+        if ($targetType) $form->targetType = $targetType;
 
         if ($form->load(Helpers::getRequestParams('post')) && $form->validate()) {
             if ($form->targetType == ApiStory::typeId) {

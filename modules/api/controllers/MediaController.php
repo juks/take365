@@ -89,34 +89,6 @@ class MediaController extends ApiController {
                     'responses'             => ['200' => ['s' => 'Story']]
                 ],
 
-                '/media/{id}/comments'         => [
-                    'title' => 'Fetches media comments',
-                    'method' => 'GET',
-                    'auth'  => false,
-                    'params'                => [
-                                                    ['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1],
-                                                    ['n' => 'lastTimestamp','t' => 'Show only comments that were created since given timestamp', 'o' => true, 'f' => 'integer'],
-                                                ],
-
-                    'responses'             => ['200' => ['s' => 'Comment']]
-                ],
-
-                '/media/{id}/like'         => [
-                    'title' => 'Adds like for the image',
-                    'method' => 'POST',
-                    'auth'  => true,
-                    'params'                => [['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
-                    'responses'             => ['200' => ['s' => 'Story']]
-                ],
-
-                '/media/{id}/unlike'         => [
-                    'title' => 'Removes like for the image',
-                    'method' => 'POST',
-                    'auth'  => true,
-                    'params'                => [['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
-                    'responses'             => ['200' => ['s' => 'Story']]
-                ],
-
                 '/media/player-data'     => [
                     'title' => 'Retrieves images for player',
                     'method' => 'GET',
@@ -176,6 +148,47 @@ class MediaController extends ApiController {
                                                     ['n' => 'doRecover',    't' => 'Recover Deleted Items',        'h'=>'If set, the deleted items will be recovered', 'f' => 'boolean'],
                                             ],
                     'responses'             => ['200' => ['s' => 'Response']]
+                ],
+
+                '/media/{id}/comments'         => [
+                    'title' => 'Fetches media comments',
+                    'method' => 'GET',
+                    'auth'  => false,
+                    'params'                => [
+                        ['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1],
+                        ['n' => 'lastTimestamp','t' => 'Show only comments that were created since given timestamp', 'o' => true, 'f' => 'integer'],
+                    ],
+
+                    'responses'             => ['200' => ['s' => 'Comment']]
+                ],
+
+                '/media/{media-id}/write-comment'   => [
+                    'title' => 'Creates or updates comment',
+                    'method' => 'POST',
+                    'auth'  => true,
+                    'params'                => [
+                        ['n' => 'media-id',     't' => 'Media Id',             'f' => 'integer', 'in' => 'path', 'd' => $defaultStoryId],
+                        ['n' => 'id' ,          't' => 'Comment Id To Update', 'o' => true, 'f' => 'integer'],
+                        ['n' => 'body' ,        't' => 'Comment Text',         'f' => 'string'],
+                        ['n' => 'parentId' ,    't' => 'Parent Comment Id',    'o' => true, 'f' => 'integer'],
+                    ],
+                    'responses'             => ['200' => ['s' => 'Comment']]
+                ],
+
+                '/media/{id}/like'         => [
+                    'title' => 'Adds like for the image',
+                    'method' => 'POST',
+                    'auth'  => true,
+                    'params'                => [['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
+                    'responses'             => ['200' => ['s' => 'Story']]
+                ],
+
+                '/media/{id}/unlike'         => [
+                    'title' => 'Removes like for the image',
+                    'method' => 'POST',
+                    'auth'  => true,
+                    'params'                => [['n' => 'id', 't' => 'Media Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
+                    'responses'             => ['200' => ['s' => 'Story']]
                 ],
             ]
         ];
