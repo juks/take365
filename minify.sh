@@ -1,3 +1,5 @@
+#!/bin/bash
+set -e
 mkdir -p web/min/js
 mkdir -p web/min/css
 mkdir -p web/min-build/js
