@@ -447,7 +447,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
             }
 
             // Notify parent comment owner
-            if (!empty($data['parentComment']) && ($data['comment']->created_by != $data['target']->created_by && $data['comment']->created_by != $data['parentComment']->created_by)) {
+            if (!empty($data['parentComment']) && $data['comment']->created_by != $data['parentComment']->created_by) {
                 MQueue::compose()
                                 ->toUser($data['parentComment']->created_by)
                                 ->subject('Ответ на ваш комментарий')
