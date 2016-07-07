@@ -22,7 +22,7 @@ export default class Slideshow extends React.Component {
   }
 
   componentDidMount() {
-    this.load(this.state.date, 10);
+    this.load(this.state.date, 300);
   }
 
   load(date, span) {
@@ -50,6 +50,10 @@ export default class Slideshow extends React.Component {
             <div dangerouslySetInnerHTML={{__html: m.description}}></div>
           </div> : null,
           src: m.thumb.url,
+          srcset: [
+            `${m.thumb.url} ${m.thumb.width}w`,
+            `${m.thumbLarge.url} ${m.thumbLarge.width}w`,
+          ],
         };
       });
       if (result.leftEdgeReached) {
@@ -74,7 +78,7 @@ export default class Slideshow extends React.Component {
       }
 
       if (!result.leftEdgeReached && state.currentImage === 0) {
-        this.load(state.images[0].date, -10);
+        this.load(state.images[0].date, -300);
       }
       this.setState(state);
     };
