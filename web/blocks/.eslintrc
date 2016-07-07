@@ -9,13 +9,14 @@
     "node": false
   },
   "parserOptions": {
+    "sourceType": "module",
     "ecmaFeatures": {
-      "sourceType": "module",
       "jsx": true
     }
   },
   "rules": {
     "react/prop-types": 0,
+    "react/no-danger": 0,
     "semi": 2
   }
 }

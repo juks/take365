@@ -1,12 +1,15 @@
 'use strict';
 
+const autoprefixer = require('autoprefixer-stylus');
 const babelify = require('babelify');
 const browserify = require('browserify');
+const concat = require('gulp-concat');
 const es2015 = require('babel-preset-es2015');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 const react = require('babel-preset-react');
 const source = require('vinyl-source-stream');
+const stylus = require('gulp-stylus');
 
 gulp.task('default', ['jsx']);
 
@@ -18,7 +21,6 @@ function getBundler() {
   })
   .transform(babelify.configure({
     presets: [es2015, react],
-    sourceMapRelative: 'client',
   }));
 
   bundler.on('log', gutil.log);
@@ -27,6 +29,19 @@ function getBundler() {
 }
 
 gulp.task('jsx', bundle.bind(null, getBundler()));
+
+gulp.task('styl', () =>
+  gulp.src('web/blocks/**/*.styl')
+    .pipe(stylus({
+      compress: process.env.NODE_ENV === 'production',
+      'resolve url': true,
+      'include css': true,
+      use: autoprefixer(),
+    }))
+    .pipe(concat('react.css'))
+    //.pipe(process.env.NODE_ENV === 'production' ? csso(): gutil.noop())
+    .pipe(gulp.dest('web/css'))
+);
 
 function bundle(pkg) {
   gutil.log('Compiling JS...');
@@ -51,7 +66,7 @@ gulp.task('watch', function() {
 
   //watch('client/**/*.js', start('js'));
   //watch('client/**/*.html', start('html'));
-  //watch('client/**/*.styl', start('css'));
+  watch('web/blocks/**/*.styl', start('styl'));
   //watch('client/**/*.{ico,svg,png,jpg}', start('img'));
 
   const b = getBundler();
@@ -70,7 +85,7 @@ gulp.task('serve', ['watch'], () => {
       },
     }],
     open: false,
-    // informs browser-sync to use the following port for the proxied app
-    // notice that the default port is 3000, which would clash with our expressjs
+    proxy: 'http://localhost:' + (process.env.PORT || 8081),
+    port: 4000,
   });
 });

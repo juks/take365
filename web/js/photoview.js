@@ -213,3 +213,14 @@ var Photoview = (function(){
 
 	return t;
 })();
+
+Photoview.show = function(date, imgSrc, additionalOption) {
+  console.log(date, imgSrc, additionalOption);
+  var div = document.createElement('div');
+  document.body.appendChild(div);
+  slideshowRender(div, {
+    date: date,
+    imgSrc: imgSrc,
+    additionalOption: additionalOption
+  });
+};

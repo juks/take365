@@ -1,5 +1,6 @@
 /node_modules
 /web/js/react.js
+/web/css/react.css
 
 # phpstorm project files
 .idea
