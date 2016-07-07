@@ -11,7 +11,7 @@ const react = require('babel-preset-react');
 const source = require('vinyl-source-stream');
 const stylus = require('gulp-stylus');
 
-gulp.task('default', ['jsx']);
+gulp.task('default', ['jsx', 'styl']);
 
 function getBundler() {
   const bundler = browserify('./web/blocks/comment-list/comment-list.jsx', {
