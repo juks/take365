@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-/*import Lightbox from './lightbox.jsx';*/
-import Lightbox from 'react-images';
+import Lightbox from './Lightbox.jsx';
 
 export default class Slideshow extends React.Component {
   constructor(props) {
@@ -18,7 +17,6 @@ export default class Slideshow extends React.Component {
     this.gotoNext = this.gotoNext.bind(this);
     this.gotoPrevious = this.gotoPrevious.bind(this);
     this.handleClickImage = this.handleClickImage.bind(this);
-    //this.openLightbox = this.openLightbox.bind(this);
   }
 
   componentDidMount() {

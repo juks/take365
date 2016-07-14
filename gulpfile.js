@@ -1,6 +1,5 @@
 'use strict';
 
-const autoprefixer = require('autoprefixer-stylus');
 const babelify = require('babelify');
 const browserify = require('browserify');
 const concat = require('gulp-concat');
@@ -9,7 +8,7 @@ const gulp = require('gulp');
 const gutil = require('gulp-util');
 const react = require('babel-preset-react');
 const source = require('vinyl-source-stream');
-const stylus = require('gulp-stylus');
+const modulesify = require('css-modulesify')
 
 gulp.task('default', ['jsx', 'styl']);
 
@@ -18,6 +17,11 @@ function getBundler() {
     debug: process.env.NODE_ENV !== 'production', // add sourcemap
     cache: {},
     packageCache: {},
+  })
+  .plugin(modulesify, {
+    rootDir: __dirname,
+    output: './web/css/react.css',
+    generateScopedName: process.env.NODE_ENV === 'production' ? cssModulesify.generateShortName : undefined,
   })
   .transform(babelify.configure({
     presets: [es2015, react],
@@ -29,19 +33,6 @@ function getBundler() {
 }
 
 gulp.task('jsx', bundle.bind(null, getBundler()));
-
-gulp.task('styl', () =>
-  gulp.src('web/blocks/**/*.styl')
-    .pipe(stylus({
-      compress: process.env.NODE_ENV === 'production',
-      'resolve url': true,
-      'include css': true,
-      use: autoprefixer(),
-    }))
-    .pipe(concat('react.css'))
-    //.pipe(process.env.NODE_ENV === 'production' ? csso(): gutil.noop())
-    .pipe(gulp.dest('web/css'))
-);
 
 function bundle(pkg) {
   gutil.log('Compiling JS...');
