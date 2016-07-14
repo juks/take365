@@ -24,7 +24,6 @@
     "gulp-watch": "^4.3.8",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
-    "react-images": "^0.4.6",
     "react-intl": "^2.1.2",
     "react-motion": "^0.4.4",
     "react-swipeable": "^3.5.1",
