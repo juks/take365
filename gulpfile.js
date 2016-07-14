@@ -10,7 +10,7 @@ const react = require('babel-preset-react');
 const source = require('vinyl-source-stream');
 const modulesify = require('css-modulesify')
 
-gulp.task('default', ['jsx', 'styl']);
+gulp.task('default', ['jsx']);
 
 function getBundler() {
   const bundler = browserify('./web/blocks/comment-list/comment-list.jsx', {
@@ -21,7 +21,7 @@ function getBundler() {
   .plugin(modulesify, {
     rootDir: __dirname,
     output: './web/css/react.css',
-    generateScopedName: process.env.NODE_ENV === 'production' ? cssModulesify.generateShortName : undefined,
+    generateScopedName: process.env.NODE_ENV === 'production' ? modulesify.generateShortName : undefined,
   })
   .transform(babelify.configure({
     presets: [es2015, react],
