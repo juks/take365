@@ -86,7 +86,6 @@ html, body {
 }
 
 body {
-	width: 100%;
 	min-width: 1000px;
 	min-height: 100%;
 	padding: 0;
@@ -469,7 +468,7 @@ div.loginFormHolderHidden {
 		margin: 0;
 		}
 	.profile-nav LI A:hover {
-		text-decoration: none;			
+		text-decoration: none;
 		}
 	.profile-nav LI .simple {
 		margin: 0 -5px;
@@ -496,5 +495,5 @@ div.loginFormHolderHidden {
 	margin-top: 25px;
 	}
 #imagesHolder {
-	margin-top: 45px;	
+	margin-top: 45px;
 	}
