@@ -181,7 +181,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $dtStart = new \DateTime('@' . $this->time_start);
         $interval = date_diff($dtStart, $dtDate);
 
-        if (!$interval->invert && $interval->days >= 0 && $interval->days <= 365 || $interval->invert && $interval->h <= 24) return true; else return false;
+        if (!$interval->invert && $interval->days >= 0 && $interval->days <= 365 || $interval->invert && $interval->h <= 24 && $interval->days <= 1) return true; else return false;
     }
 
     /**

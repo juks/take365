@@ -148,12 +148,13 @@ class UserPageController extends MyController {
     /*
     * Display user story
     */
-    public function actionStory($username, $storyId) {
+    public function actionStory($username, $storyId, $date = null) {
         $owner = User::getActiveUser($username);
         if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
 
         $story = Story::getActiveItem($storyId);
         if (!$story || $story->created_by != $owner->id) throw new NotFoundHttpException('Здесь ничего нет');
+        if ($date && !$story->isValidDate($date)) throw new NotFoundHttpException('Здесь ничего нет');
 
         // Redirect if user was requested by id but has username already
         if ($this->checkUrlUpgrade($owner, $username)) $this->redirect($story->url);
@@ -170,7 +171,8 @@ class UserPageController extends MyController {
                             'mediaType'     => Media::aliasStoryImage,
                             'canManage'     => $canManage,
                             'canUpload'     => $canUpload,
-                            'storyDeleted'  => $story->isDeleted
+                            'storyDeleted'  => $story->isDeleted,
+                            'date'          => $date
                         ]);
 
         return $this->render('story', [
