@@ -162,12 +162,7 @@ function initStory() {
 		if (this.moved) {
 			this.moved = false;
 		} else {
-			Photoview.show($(this).closest(".user-photo")[0].id.replace("day-", ""), this.src, {
-				close: function() {
-					Story.mode = "index";
-				}
-			});
-			Story.mode = "slideshow";
+			Photoview.show(e.currentTarget.parentNode.href);
 		}
 	});
 
@@ -364,7 +359,7 @@ function initStoryUploder() {
 				}
 			};
 		window.addEventListener("dragover", function(e) {
-			if (!play || Story.mode === 'slideshow') {
+			if (!play) {
 				return;
 			}
 
@@ -778,12 +773,6 @@ $(function() {
   if (!/[0-9]{4}-[0-9]{2}-[0-9]{2}/.test(hash)) {
     return;
   }
-  Photoview.show(hash, this.src, {
-    close: function() {
-      Story.mode = "index";
-    }
-  });
-  Story.mode = "slideshow";
 });
 
 /*

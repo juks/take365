@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Lightbox from './Lightbox.jsx';
+import { Router, Route, browserHistory } from 'react-router';
 
 export default class Slideshow extends React.Component {
   constructor(props) {
@@ -10,7 +11,6 @@ export default class Slideshow extends React.Component {
       lightboxIsOpen: true,
       images: [],
       currentImage: 0,
-      date: props.date,
     };
 
     this.closeLightbox = this.closeLightbox.bind(this);
@@ -20,7 +20,16 @@ export default class Slideshow extends React.Component {
   }
 
   componentDidMount() {
-    this.load(this.state.date, 300);
+    this.load(this.props.routeParams.photoDate, 300);
+  }
+
+  getIndexByDate(date) {
+    //this.state.images.findIndex(m => m.date === date);
+    for (let i = 0; i < this.state.images.length; i++) {
+      if (this.state.images[i].date === date) {
+        return i;
+      }
+    }
   }
 
   load(date, span) {
@@ -38,10 +47,12 @@ export default class Slideshow extends React.Component {
       }
       const result = JSON.parse(xhr.response).result;
       const state = {
-        currentImage: this.state.currentImage,
       };
+      // hack, need url from json
+      const routeParams = this.props.routeParams;
       const media = result.media.map(m => {
         return {
+          url: `/${routeParams.username}/story/${routeParams.storyId}/${m.date}`,
           date: m.date,
           caption: m.title || m.description ? <div>
             {m.title ? <h1>{m.title}</h1> : null}
@@ -67,7 +78,6 @@ export default class Slideshow extends React.Component {
         //}
         media.pop();
         state.images = [].concat(media, this.state.images);
-        state.currentImage = this.state.currentImage + media.length;
       } else {
         //if (!isFirstReq) {
         //  result.media.shift(); // TODO хак, убирает из фоток саму себя, которая нужна при первом запросе
@@ -75,7 +85,7 @@ export default class Slideshow extends React.Component {
         state.images = this.state.images.concat(media);
       }
 
-      if (!result.leftEdgeReached && state.currentImage === 0) {
+      if (!result.leftEdgeReached) {
         this.load(state.images[0].date, -300);
       }
       this.setState(state);
@@ -89,25 +99,25 @@ export default class Slideshow extends React.Component {
   }
 
   closeLightbox () {
+    const routeParams = this.props.routeParams;
+    browserHistory.push(`/${routeParams.username}/story/${routeParams.storyId}`);
     this.setState({
       lightboxIsOpen: false,
     });
   }
 
   gotoPrevious () {
-    this.setState({
-      currentImage: this.state.currentImage - 1,
-    });
+    const newIndex = this.getIndexByDate(this.props.routeParams.photoDate) - 1;
+    browserHistory.push(this.state.images[newIndex].url);
   }
 
   gotoNext () {
-    this.setState({
-      currentImage: this.state.currentImage + 1,
-    });
+    const newIndex = this.getIndexByDate(this.props.routeParams.photoDate) + 1;
+    browserHistory.push(this.state.images[newIndex].url);
   }
 
   handleClickImage () {
-    if (this.state.currentImage === this.props.images.length - 1) return;
+    if (this.props.routeParams.photoDate === this.state.images[this.state.images.length - 1]) return;
 
     this.gotoNext();
   }
@@ -117,7 +127,7 @@ export default class Slideshow extends React.Component {
       <Lightbox
         images={this.state.images}
         isOpen={this.state.lightboxIsOpen}
-        currentImage={this.state.currentImage}
+        currentImage={this.getIndexByDate(this.props.routeParams.photoDate)}
         onClickPrev={this.gotoPrevious}
         onClickNext={this.gotoNext}
         onClose={this.closeLightbox}
@@ -128,6 +138,21 @@ export default class Slideshow extends React.Component {
   }
 }
 
+class Story extends React.Component {
+  render() {
+    return <div />;
+  }
+}
+
 window.slideshowRender = function(node, props) {
-  ReactDOM.render(React.createElement(Slideshow, props), node);
+  ReactDOM.render(
+    <Router history={browserHistory}>
+      <Route path="/:username/story/:storyId" component={Story} />
+      <Route path="/:username/story/:storyId/:photoDate" component={Slideshow}/>
+    </Router>
+  , node);
+};
+
+window.slideshowHistoryPush = function(url) {
+  browserHistory.push(url);
 };

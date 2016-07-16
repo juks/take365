@@ -3,7 +3,7 @@ import Swipeable from 'react-swipeable';
 import utils from './utils';
 import Fade from './Fade';
 import Icon from './Icon';
-import Portal from './Portal.jsx';
+import Portal from 'react-portal';
 
 import classes from './styles/default.css';
 
@@ -147,23 +147,21 @@ export default class Lightbox extends Component {
   renderDialog () {
     if (!this.props.isOpen) return null;
 
-    return (
-      <Fade id="react-images-container"
-        key="dialog"
-        duration={250}
-        className={classes.container}
-        onClick={this.close}
-        onTouchEnd={this.close}
-      >
-        <span className={classes.contentHeightShim} />
-        <div className={classes.content}>
-          {this.renderCloseButton()}
-          {this.renderImages()}
-        </div>
-        {this.renderArrowPrev()}
-        {this.renderArrowNext()}
-      </Fade>
-    );
+    return <Fade id="react-images-container"
+      key="dialog"
+      duration={250}
+      className={classes.container}
+      onClick={this.close}
+      onTouchEnd={this.close}
+    >
+      <span className={classes.contentHeightShim} />
+      <div className={classes.content}>
+        {this.renderCloseButton()}
+        {this.renderImages()}
+      </div>
+      {this.renderArrowPrev()}
+      {this.renderArrowNext()}
+    </Fade>;
   }
   renderFooter (caption) {
     const { currentImage, images, imageCountSeparator, showImageCount } = this.props;
@@ -226,7 +224,7 @@ export default class Lightbox extends Component {
     );
   }
   render () {
-    return <Portal>
+    return <Portal isOpened={true}>
       {this.renderDialog()}
     </Portal>;
   }

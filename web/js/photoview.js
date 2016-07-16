@@ -214,12 +214,12 @@ var Photoview = (function(){
 	return t;
 })();
 
-Photoview.show = function(date, imgSrc, additionalOption) {
+Photoview.show = function(href) {
+  slideshowHistoryPush(href)
+};
+
+jQuery(function() {
   var div = document.createElement('div');
   document.body.appendChild(div);
-  slideshowRender(div, {
-    date: date,
-    imgSrc: imgSrc,
-    additionalOption: additionalOption
-  });
-};
+  slideshowRender(div);
+});

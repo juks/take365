@@ -26,6 +26,8 @@
     "react-dom": "^15.2.1",
     "react-intl": "^2.1.2",
     "react-motion": "^0.4.4",
+    "react-portal": "^2.2.1",
+    "react-router": "^2.5.2",
     "react-swipeable": "^3.5.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
