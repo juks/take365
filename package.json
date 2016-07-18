@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "git-build": "NODE_ENV=production gulp",
     "build": "NODE_ENV=production gulp"
   },
   "repository": {
