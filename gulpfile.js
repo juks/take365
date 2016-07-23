@@ -3,12 +3,13 @@
 const babelify = require('babelify');
 const browserify = require('browserify');
 const concat = require('gulp-concat');
+const csso = require('gulp-csso');
 const es2015 = require('babel-preset-es2015');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
+const modulesify = require('css-modulesify')
 const react = require('babel-preset-react');
 const source = require('vinyl-source-stream');
-const modulesify = require('css-modulesify')
 
 gulp.task('default', ['jsx']);
 
@@ -22,6 +23,7 @@ function getBundler() {
     rootDir: __dirname,
     output: './web/css/react.css',
     generateScopedName: process.env.NODE_ENV === 'production' ? modulesify.generateShortName : undefined,
+    postcssAfter: require('postcss-calc'),
   })
   .transform(babelify.configure({
     presets: [es2015, react],
