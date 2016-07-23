@@ -3,7 +3,6 @@
 const babelify = require('babelify');
 const browserify = require('browserify');
 const concat = require('gulp-concat');
-const csso = require('gulp-csso');
 const es2015 = require('babel-preset-es2015');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
