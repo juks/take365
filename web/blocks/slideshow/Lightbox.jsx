@@ -22,6 +22,15 @@ export default class Lightbox extends Component {
 
     this.state = { windowHeight: 0 };
   }
+
+  componentWillMount () {
+    utils.bodyScroll.blockScroll();
+  }
+
+  componentWillUnmount () {
+    utils.bodyScroll.allowScroll();
+  }
+
   componentWillReceiveProps (nextProps) {
     if (!utils.canUseDom) return;
 
@@ -32,12 +41,6 @@ export default class Lightbox extends Component {
     } else {
       window.removeEventListener('keydown', this.handleKeyboardInput);
       window.removeEventListener('resize', this.handleResize);
-    }
-
-    if (nextProps.isOpen) {
-      utils.bodyScroll.blockScroll();
-    } else {
-      utils.bodyScroll.allowScroll();
     }
   }
 
