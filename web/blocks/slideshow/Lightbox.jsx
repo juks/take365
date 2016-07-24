@@ -25,23 +25,17 @@ export default class Lightbox extends Component {
 
   componentWillMount () {
     utils.bodyScroll.blockScroll();
+    if (this.props.enableKeyboardInput) {
+      window.addEventListener('keydown', this.handleKeyboardInput);
+      window.addEventListener('resize', this.handleResize);
+      this.handleResize();
+    }
   }
 
   componentWillUnmount () {
     utils.bodyScroll.allowScroll();
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (!utils.canUseDom) return;
-
-    if (nextProps.isOpen && nextProps.enableKeyboardInput) {
-      window.addEventListener('keydown', this.handleKeyboardInput);
-      window.addEventListener('resize', this.handleResize);
-      this.handleResize();
-    } else {
-      window.removeEventListener('keydown', this.handleKeyboardInput);
-      window.removeEventListener('resize', this.handleResize);
-    }
+    window.removeEventListener('keydown', this.handleKeyboardInput);
+    window.removeEventListener('resize', this.handleResize);
   }
 
   // ==============================
