@@ -415,7 +415,7 @@ class MediaCore extends MediaBase {
         $this->is_deleted = 1;
         
         if ($this->save()) {
-            if (method_exists($this, 'afterDelete')) $this->afterDelete($replace);
+            if (method_exists($this, 'afterMediaDelete')) $this->afterMediaDelete($replace);
         }
     }
 

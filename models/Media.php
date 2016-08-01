@@ -222,12 +222,14 @@ class Media extends MediaCore {
 
             throw $e;
         }
+
+        $transaction->commit();
     }
 
     /**
     *   After the media item was deleted
     **/
-    public function afterDelete($replace) {
+    public function afterMediaDelete($replace) {
         if (!$replace && $this->type == self::typeStoryImage) {
             $target = $this->targetStory;
             if ($target) $target->media_count --;
