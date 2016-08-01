@@ -120,8 +120,9 @@ class SiteController extends MyController
     }    
 
     public function actionHelp() {
-         $this->setTitle(Ml::t('About the project'));
-        return $this->render('help');
+        $this->setTitle(Ml::t('About the project'));
+        $sampleStories = Story::find()->where(['status' => Story::statusPublic, 'is_complete' => 1])->orderBy('rand()')->limit(3)->all();
+        return $this->render('help', ['sampleStories' => $sampleStories]);
     }
 
     public function actionHowto() {

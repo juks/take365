@@ -462,4 +462,15 @@ class Story extends StoryBase implements IPermissions, IGetType {
             }
         }
     }
+
+    /**
+     * After media count had changed
+     */
+    public function afterMediaCountChanged() {
+        $isComplete = $this->media_count >= 365 ? true : false;
+        if ($this->is_complete != $isComplete) {
+            $this->is_complete = $isComplete;
+            $this->save();
+        }
+    }
 }

@@ -411,11 +411,11 @@ class MediaCore extends MediaBase {
     /**
      * Marks item for deletion
      */
-    public function markDeleted() {
+    public function markDeleted($replace = false) {
         $this->is_deleted = 1;
         
         if ($this->save()) {
-            if (method_exists($this, 'afterDelete')) $this->afterDelete();
+            if (method_exists($this, 'afterDelete')) $this->afterDelete($replace);
         }
     }
 

@@ -23,6 +23,7 @@ use Yii;
  * @property string $description
  * @property string $description_jvx
  * @property integer $is_featured
+ * @property integer $is_complete
  */
 class StoryBase extends \yii\db\ActiveRecord
 {
@@ -46,7 +47,7 @@ class StoryBase extends \yii\db\ActiveRecord
     {
         return [
             [['created_by', 'time_created'], 'required'],
-            [['created_by', 'status', 'is_deleted', 'time_deleted', 'is_active', 'time_created', 'time_updated', 'comments_count', 'time_start', 'time_published', 'media_count', 'is_featured'], 'integer'],
+            [['created_by', 'status', 'is_deleted', 'time_deleted', 'is_active', 'time_created', 'time_updated', 'comments_count', 'time_start', 'time_published', 'media_count', 'is_featured', 'is_complete'], 'integer'],
             [['description', 'description_jvx'], 'string'],
             [['title'], 'string', 'max' => 255],
             [['time_start', 'title', 'description'], 'safe'],
@@ -76,6 +77,8 @@ class StoryBase extends \yii\db\ActiveRecord
             'title' => 'Title',
             'description' => 'Description',
             'description_jvx' => 'Description Jevix',
+            'is_featured' => 'is_featured',
+            'is_complete' => 'is_complete'
         ];
     }
 

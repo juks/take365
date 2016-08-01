@@ -191,27 +191,44 @@ class Media extends MediaCore {
     **/
     public function afterUpload() {
         // Mark Predecessors as deleted
-        if ($this->type == self::typeStoryImage) {
-            $target = $this->targetStory;
+        $connection = Yii::$app->db;
+        $transaction = $connection->beginTransaction();
 
-            if ($target) {
-                $target->media_count ++;
-                $target->save();
+        try {
+            if ($this->type == self::typeStoryImage) {
+                $target = $this->targetStory;
+
+                $oldies = $this->find()->where(self::makeCondition([
+                    'target_id' => $this->target_id,
+                    'target_type' => $this->target_type,
+                    'is_deleted' => 0,
+                    'date' => $this->date,
+                    'id' => ['!=', $this->id]
+                ]))->all();
+
+                foreach ($oldies as $pred) {
+                    $pred->markDeleted(true);
+                }
+
+                if ($target) {
+                    $target->media_count++;
+                    $target->save();
+                }
+
+                if (method_exists($target, 'afterMediaCountChanged')) $target->afterMediaCountChanged();
             }
+        } catch(\Exception $e) {
+            $transaction->rollback();
 
-            $oldies = $this->find()->where(self::makeCondition(['target_id' => $this->target_id, 'target_type' => $this->target_type, 'is_deleted' => 0, 'date' => $this->date, 'id' => ['!=', $this->id]]))->all();
-
-            foreach ($oldies as $pred) {
-                $pred->markDeleted();
-            }
+            throw $e;
         }
     }
 
     /**
     *   After the media item was deleted
     **/
-    public function afterDelete() {
-        if ($this->type == self::typeStoryImage) {
+    public function afterDelete($replace) {
+        if (!$replace && $this->type == self::typeStoryImage) {
             $target = $this->targetStory;
             if ($target) $target->media_count --;
             $target->save();
