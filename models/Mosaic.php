@@ -35,7 +35,7 @@ class Mosaic extends MosaicBase {
     * Mosaic image stripes generation
     */
     public function generate() {
-        $storyIds = Helpers::fetchFields(Story::sqlSelect('id', ['is_featured' => 1, 'status' => 0]), ['id'], ['isSingle' => true]);
+        $storyIds = Helpers::fetchFields(Story::sqlSelect('id', ['is_featured' => 1, 'status' => 0, 'is_deleted' => 0]), ['id'], ['isSingle' => true]);
 
         $storiesUrl = [];
 
