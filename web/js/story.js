@@ -327,13 +327,13 @@ function initStoryUploder() {
 		if (response.result) {
 			$('#' + file.storyNodeId + ' .user-photo-content').remove();
 			var content = $('<div/>', {
-				'data-id': response.result.id,
 				'class': 'user-photo-content',
 				html: '<a><img class="user-photo-image" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
 						+'<div class="user-photo-manage">Редактировать</div>'
 			});
 
 			$('#' + file.storyNodeId)
+			.attr('data-id', response.result.id)
 			.removeClass('empty')
 			.removeClass('i-upload')
 			.append(content);
