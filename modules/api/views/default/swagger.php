@@ -71,7 +71,7 @@ paths:
                     echo "\n";
                     echo '          description: ' . $param['t'] . "\n";
                     echo '          required: ' . (empty($param['o']) ? 'true' : 'false') . "\n";
-                    echo '          type: ' . ($param['f'] == 'integer' || $param['f'] == 'file' ? $param['f'] : 'string') . "\n";
+                    echo '          type: ' . ($param['f'] == 'integer' || $param['f'] == 'boolean' || $param['f'] == 'file' ? $param['f'] : 'string') . "\n";
                     // Format
                     if ($param['f'] == 'integer') echo '          format: int32' . "\n";
                     // Enum
