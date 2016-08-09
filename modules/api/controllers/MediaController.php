@@ -115,7 +115,7 @@ class MediaController extends ApiController {
                                                     ['n' => 'targetType',   't' => 'Target Object Type',            'h'=>'1 for user, 2 for story', 'f' => 'integer', 'e' => [2, 1]],
                                                     ['n' => 'mediaType',    't' => 'Type of Uploaded Media',        'h'=>'Eg. "userpic", "storyImage"', 'f' => 'string', 'e' => ['storyImage', 'userpic']],
                                                     ['n' => 'date',         't' => 'Calendar data',                 'h'=>'Only for story images, eg. "' . $defaultDate . '"', 'f' => 'string', 'd' => $defaultDate],
-                                                    ['n' => 'autoDate',     't' => 'Date autodetect',               'h'=>'Enable date detection for batch upload (based on exif data)', 'f'=>'boolean', 'd' => 'false', 'e' => [true, false]],
+                                                    ['n' => 'autoDate',     't' => 'Date autodetection',            'h'=>'Enable date detection for batch upload (based on exif data)', 'f'=>'boolean', 'd' => 'false', 'e' => [true, false]],
                                                     ['n' => 'file',         't' => 'Media Resource',                'h'=>'Eg. "userpic", "storyImage"', 'f' => 'file'],
                                             ],
                     'responses'             => ['200' => ['s' => 'Media']]
