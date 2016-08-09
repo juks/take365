@@ -185,6 +185,15 @@ class Story extends StoryBase implements IPermissions, IGetType {
     }
 
     /**
+     * Checks if given date is empty
+     * @param $date
+     * @return mixed
+     */
+    public function isEmptyDate($date) {
+        return Media::find()->where(['target_id' => $this->id, 'target_type' => self::typeId, 'date' => $date, 'is_deleted' => 0])->count() == 0;
+    }
+
+    /**
     * Forms story URL
     */
     public function getUrl() {
@@ -244,11 +253,9 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         if ($yearStart > 2012 && ($isLeapStart && $monthStart <= 2 || ($isLeapEnd && $monthStart > 1))) $totalDays++;
 
-        //if ($this->imagesCount === null) $this->fetchImagesCount();
         if ($this->images === null) $this->fetchImages();
 
         $imagesCount    = $this->media_count;
-        //$imagesCount =  $this->imagesCount;
 
         $lastTime       = $this->images ? strtotime($this->images[0]['date']) : $this->time_start;
         $delayDays      = intval((time() - $lastTime) / 86400);

@@ -13,6 +13,7 @@ class ApiMediaForm extends Model {
     public $targetType;
     public $mediaType;
     public $date;
+    public $autoDate;
     public $file;
 
     /**
@@ -23,6 +24,7 @@ class ApiMediaForm extends Model {
             [['targetId', 'targetType', 'mediaType'], 'required'],
             [['targetId', 'targetType'], 'integer'],
             ['date',        'date', 'format' => 'yyyy-M-d'],
+            ['autoDate',    'boolean'],
             [['file'],      'file', 'skipOnEmpty' => false]
         ];
     }

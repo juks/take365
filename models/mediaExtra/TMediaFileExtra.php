@@ -4,6 +4,7 @@ namespace app\models\mediaExtra;
 
 use Yii;
 use app\components\Ml;
+use yii\base\Exception;
 
 trait TMediaFileExtra {
     /**
@@ -341,5 +342,27 @@ trait TMediaFileExtra {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Tries to read image date
+     * @param $filename
+     */
+    public static function getImageDate($filename) {
+        $date = null;
+
+        if (!file_exists($filename)) throw new \Exception('Failed to read image date: file not found!');
+
+        try {
+            $exif = exif_read_data($filename);
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        if ($exif && !empty($exif['DateTimeOriginal'])) {
+            $date = date('Y-m-d', strtotime($exif['DateTimeOriginal']));
+        }
+
+        return $date;
     }
 }

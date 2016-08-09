@@ -115,6 +115,7 @@ class MediaController extends ApiController {
                                                     ['n' => 'targetType',   't' => 'Target Object Type',            'h'=>'1 for user, 2 for story', 'f' => 'integer', 'e' => [2, 1]],
                                                     ['n' => 'mediaType',    't' => 'Type of Uploaded Media',        'h'=>'Eg. "userpic", "storyImage"', 'f' => 'string', 'e' => ['storyImage', 'userpic']],
                                                     ['n' => 'date',         't' => 'Calendar data',                 'h'=>'Only for story images, eg. "' . $defaultDate . '"', 'f' => 'string', 'd' => $defaultDate],
+                                                    ['n' => 'autoDate',     't' => 'Date autodetect',               'h'=>'Enable date detection for batch upload (based on exif data)', 'f'=>'boolean', 'd' => 'false', 'e' => ['true', 'false']],
                                                     ['n' => 'file',         't' => 'Media Resource',                'h'=>'Eg. "userpic", "storyImage"', 'f' => 'file'],
                                             ],
                     'responses'             => ['200' => ['s' => 'Media']]
@@ -241,38 +242,52 @@ class MediaController extends ApiController {
             if ($form->targetType == ApiUser::typeId) {
                 $parent = $this->checkParentModelPermission($form->targetId, IPermissions::permWrite, ['parentModelClass' => ApiUser::className()]);
 
-                $model = $parent->addMedia($form->file, $form->mediaType, new ApiMedia());
+                $mediaItem = $parent->addMedia($form->file, $form->mediaType, new ApiMedia());
             // Story Image
             } elseif ($form->targetType == ApiStory::typeId) {
                 // Should we create a new story?
                 if ($form->targetId == 0) {
+                    if (!$form->date) throw new \app\components\ModelException('No story date', 'date');
+
                     if (!ApiStory::checkQuota()) {
                         $this->addErrorMessage('За последнее время мы создали слишком много историй');
                         return;
                     }
 
-                    $model = new ApiStory();
+                    $newStory = new ApiStory();
                     $dateParts = explode('-', $form->date);
 
-                    $model->load([
+                    $newStory->load([
                                     'title'         => 'Без названия',
                                     'time_start'    => mktime(0, 0, 0, $dateParts[1], $dateParts[2], $dateParts[0])
                                 ]);
 
-                    if (!$model->save()) throw new \app\components\ControllerException("Не удалось создать историю!");
+                    if (!$newStory->save()) throw new \app\components\ControllerException("Не удалось создать историю!");
 
-                    $this->addContent($model->url, 'redirect');
-                    $this->addContent($model->id, 'storyId');
-                    $form->targetId = $model->id;
+                    $this->addContent($newStory->url, 'redirect');
+                    $this->addContent($newStory->id, 'storyId');
+                    $form->targetId = $newStory->id;
                 }
 
                 $parent = $this->checkParentModelPermission($form->targetId, IPermissions::permWrite, ['parentModelClass' => ApiStory::className()]);
-                if (!$parent->isValidDate($form->date)) throw new \Exception(Ml::t('Invalid story date', 'media'));
 
-                $model = $parent->addMedia($form->file, $form->mediaType, new ApiMedia(), ['fields' => ['date' => $form->date]]);
+                // Auto date
+                if ($form->autoDate && !$form->date) {
+                    $autoDate = ApiMedia::getImageDate($form->file->tempName);
+                    if (!$autoDate) throw new \app\components\ControllerException(Ml::t('Failed to detect date', 'media'));
+
+                    // No automatic image override
+                    if (!$parent->isEmptyDate($autoDate)) return;
+
+                    $form->date = $autoDate;
+                }
+
+                if (!$parent->isValidDate($form->date)) throw new \app\components\ControllerException(Ml::t('Invalid story date', 'media'));
+
+                $mediaItem = $parent->addMedia($form->file, $form->mediaType, new ApiMedia(), ['fields' => ['date' => $form->date]]);
             }
 
-            $this->addContent($model);
+            $this->addContent($mediaItem);
         } else {
             $this->addContent($form);
         }
