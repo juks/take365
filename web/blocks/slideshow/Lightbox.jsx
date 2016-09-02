@@ -3,12 +3,13 @@ import Swipeable from 'react-swipeable';
 import utils from './utils';
 import Fade from './Fade';
 import Icon from './Icon';
+import Likes from '../Likes/Likes.jsx';
 import Portal from 'react-portal';
 
 import classes from './styles/default.css';
 
 export default class Lightbox extends Component {
-  constructor () {
+  constructor() {
     super();
 
     utils.bindFunctions.call(this, [
@@ -23,7 +24,7 @@ export default class Lightbox extends Component {
     this.state = { windowHeight: 0 };
   }
 
-  componentWillMount () {
+  componentWillMount() {
     utils.bodyScroll.blockScroll();
     if (this.props.enableKeyboardInput) {
       window.addEventListener('keydown', this.handleKeyboardInput);
@@ -32,7 +33,7 @@ export default class Lightbox extends Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     utils.bodyScroll.allowScroll();
     window.removeEventListener('keydown', this.handleKeyboardInput);
     window.removeEventListener('resize', this.handleResize);
@@ -68,7 +69,7 @@ export default class Lightbox extends Component {
     this.props.onClickPrev();
 
   }
-  handleImageClick () {
+  handleImageClick() {
     if (!this.props.onClickImage) return;
 
     this.props.onClickImage();
@@ -88,7 +89,7 @@ export default class Lightbox extends Component {
     return false;
 
   }
-  handleResize () {
+  handleResize() {
     this.setState({
       windowHeight: window.innerHeight || 0,
     });
@@ -99,7 +100,7 @@ export default class Lightbox extends Component {
   // RENDERERS
   // ==============================
 
-  renderArrowPrev () {
+  renderArrowPrev() {
     if (this.props.currentImage === 0) return null;
 
     return (
@@ -113,7 +114,7 @@ export default class Lightbox extends Component {
       </button>
     );
   }
-  renderArrowNext () {
+  renderArrowNext() {
     if (this.props.currentImage === (this.props.images.length - 1)) return null;
     return (
       <button title="Next (Right arrow key)"
@@ -126,7 +127,7 @@ export default class Lightbox extends Component {
       </button>
     );
   }
-  renderCloseButton () {
+  renderCloseButton() {
     if (!this.props.showCloseButton) return null;
 
     return (
@@ -141,7 +142,7 @@ export default class Lightbox extends Component {
       </div>
     );
   }
-  renderDialog () {
+  renderDialog() {
     if (!this.props.isOpen) return null;
 
     return <Fade id="react-images-container"
@@ -160,30 +161,17 @@ export default class Lightbox extends Component {
       {this.renderArrowNext()}
     </Fade>;
   }
-  renderFooter (caption) {
-    const { currentImage, images, imageCountSeparator, showImageCount } = this.props;
-
-    if (!caption && !showImageCount) return null;
-
-    const imageCount = showImageCount ? (
-      <div className={classes.footerCount}>
-        {currentImage + 1}
-        {imageCountSeparator}
-        {images.length}
-      </div>)
-      : null;
-    const figcaption = caption
-      ? <figcaption className={classes.footerCaption}>{caption}</figcaption>
+  renderFooter(image) {
+    const figcaption = image.caption
+      ? <figcaption className={classes.footerCaption}>{image.caption}</figcaption>
       : null;
 
-    return (
-      <div className={classes.footer}>
-        {imageCount}
-        {figcaption}
-      </div>
-    );
+    return <div className={classes.footer}>
+      {figcaption}
+      <Likes id={image.id} isLiked={image.isLiked} count={image.likesCount} />
+    </div>;
   }
-  renderImages () {
+  renderImages() {
     const { images, currentImage } = this.props;
     const { windowHeight } = this.state;
 
@@ -216,11 +204,11 @@ export default class Lightbox extends Component {
             }}
           />
         </Swipeable>
-        {this.renderFooter(images[currentImage].caption)}
+        {this.renderFooter(image)}
       </figure>
     );
   }
-  render () {
+  render() {
     return <Portal isOpened={true}>
       {this.renderDialog()}
     </Portal>;
@@ -233,7 +221,6 @@ Lightbox.propTypes = {
   backdropClosesModal: PropTypes.bool,
   currentImage: PropTypes.number,
   enableKeyboardInput: PropTypes.bool,
-  imageCountSeparator: PropTypes.string,
   images: PropTypes.arrayOf(
     PropTypes.shape({
       src: PropTypes.string.isRequired,
@@ -247,16 +234,13 @@ Lightbox.propTypes = {
   onClickPrev: PropTypes.func,
   onClose: PropTypes.func.isRequired,
   showCloseButton: PropTypes.bool,
-  showImageCount: PropTypes.bool,
   width: PropTypes.number,
 };
 
 Lightbox.defaultProps = {
   currentImage: 0,
   enableKeyboardInput: true,
-  imageCountSeparator: ' of ',
   onClickShowNextImage: true,
   showCloseButton: true,
-  showImageCount: true,
   width: 900,
 };
