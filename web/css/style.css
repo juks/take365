@@ -38,10 +38,10 @@ A:hover {
   }
 INPUT,
 TEXTAREA,
-SELECT {
+SELECT,
+BUTTON {
   outline: none;
   border: none;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-family: 'Open Sans', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -64,10 +64,6 @@ SELECT {
   background: #CCC;
   content: '';
   font-size: 0;
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
   transform: rotate(45deg);
   }
 .close:after {
@@ -79,10 +75,6 @@ SELECT {
   background: #CCC;
   content: '';
   font-size: 0;
-  -webkit-transform: rotate(-45deg);
-  -moz-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
   }
 .close:hover {
@@ -124,20 +116,16 @@ SELECT {
 /* Buttons */
 .btn {
   display: inline-block;
-  vertical-align: top;
-  padding: 3px 8px 4px 8px;
-  border-radius: 10px;
+  vertical-align: middle;
+  border: 1px solid #0055CC;
+  background: none;
+  color: #0055CC;
   font: 400 12px/1 'Open Sans', sans-serif;
-  color: #FFF;
-  }
-.btn-green {
-  background: #00B209;
-  }
-.btn-red {
-  background: #E02929;
+  cursor: pointer;
   }
 .btn:hover {
-  color: #FFF;
+  border-color: #E02929;
+  color: #E02929;
   }
 
 /* Forms
@@ -196,10 +184,6 @@ SELECT {
   border-bottom: 2px solid #333;
   border-left: 2px solid #333;
   content: '';
-  -webkit-transform: rotate(-45deg);
-  -moz-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
   }
 .form INPUT[type='submit'] {
@@ -421,9 +405,6 @@ SELECT {
   background: #FFF;
   font-size: 0;
   line-height: 0;
-  -webkit-transition: box-shadow 0.5s linear;
-  -moz-transition: box-shadow 0.5s linear;
-  -o-transition: box-shadow 0.5s linear;
   transition: box-shadow 0.5s linear;
   }
 .header-logo:after {
@@ -483,9 +464,6 @@ SELECT {
     position: relative;
     overflow: hidden;
     height: 100%;
-    -webkit-transform: translateZ(0);
-    -moz-transform: translateZ(0);
-    -o-transform: translateZ(0);
     transform: translateZ(0);
     }
 
@@ -954,9 +932,6 @@ SELECT {
 /* Deleted story */
 .story-deleted .story-content {
   opacity: 0.4;
-  -webkit-transition: opacity 400ms ease-out;
-  -moz-transition: opacity 400ms ease-out;
-  -o-transition: opacity 400ms ease-out;
   transition: opacity 400ms ease-out;
   }
 .story-deleted .story-content:hover {
@@ -1029,9 +1004,6 @@ SELECT {
   font-size: 12px;
   padding: 7px 0;
   background: rgba(0, 0, 0, 0.5);
-  -webkit-transition: bottom 200ms ease-out;
-  -moz-transition: bottom 200ms ease-out;
-  -o-transition: bottom 200ms ease-out;
   transition: bottom 200ms ease-out;
   }
 .story-item-empty {
@@ -1099,10 +1071,6 @@ SELECT {
   .story-settings .fa-question-circle:hover .tip {
     height: 90px;
     opacity: 1;
-    -webkit-transition: all 0.3s ease-out 0;
-    -moz-transition: all 0.3s ease-out 0;
-    -ms-transition: all 0.3s ease-out 0;
-    -o-transition: all 0.3s ease-out 0;
     transition: all 0.3s ease-out 0;
     }
 
@@ -1178,9 +1146,6 @@ SELECT {
   color: #FFF;
   text-align: center;
   padding: 20px 0;
-  -webkit-transition: bottom 200ms ease-out;
-  -moz-transition: bottom 200ms ease-out;
-  -o-transition: bottom 200ms ease-out;
   transition: bottom 200ms ease-out;
   }
 .profile-userpic:hover .fa-trash-o {
@@ -1575,12 +1540,9 @@ SELECT {
 .feed-img IMG {
   vertical-align: top;
   }
-.feed-desc {
-  margin-bottom: 20px;
+.feed-desc P {
+  margin: 10px 0 0 0;
   }
-  .feed-desc P {
-    margin: 10px 0 0 0;
-    }
 .feed-likes .feed-like {
   vertical-align: middle;
   font-size: 18px;
@@ -1589,10 +1551,9 @@ SELECT {
   color: #E02929;
   }
 .feed-likes-total {
-  position: relative;
-  top: -7px;
-  right: -3px;
-  font-size: 10px;
+  margin-left: 5px;
+  line-height: 1;
+  font-size: 12px;
   color: #666;
   }
 .feed-date {
@@ -1600,25 +1561,9 @@ SELECT {
   font-size: 12px;
   color: #666;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.feed-load .btn {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  }

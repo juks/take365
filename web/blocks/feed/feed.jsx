@@ -49,15 +49,17 @@ class Feed extends React.Component {
           <div className="feed-list">
             { this.state.data.map(item => <FeedItem data={item} key={item.id}></FeedItem>) }
           </div>
-          { (() => {
-            if (this.state.isLoading) {
-             return <div>Загружается</div>;
-            } else if (this.state.isEmpty) {
-              return <div>Пока фотографий нет</div>;
-            } else {
-              return <p><button onClick={this.load}>Загрузить еще</button></p>;
-            }
-          })()}
+          <div className="feed-load">
+            { (() => {
+              if (this.state.isLoading) {
+               return <p>Загружается</p>;
+              } else if (this.state.isEmpty) {
+                return <p>Пока фотографий нет</p>;
+              } else {
+                return <div className="feed-load-more"><button className="btn" onClick={this.load}>Загрузить ещё</button></div>;
+              }
+            })()}
+          </div>
         </div>;
       })()}
     </div>;
