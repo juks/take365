@@ -80,7 +80,8 @@ trait TLike {
      * @return mixed
      */
     public function getIsLiked() {
-        return $this->hasOne(Like::className(), ['target_id' => 'id'])->where(['target_type' => self::typeId, 'is_active' => 1]);
+        $user = Yii::$app->user;
+        return $this->hasOne(Like::className(), ['target_id' => 'id'])->where(['target_type' => self::typeId, 'created_by'=>$user->id, 'is_active' => 1]);
     }
 
     /**
