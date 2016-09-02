@@ -351,7 +351,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         // Checking likes statistics
         if (!$user->isGuest) {
-            $likes = Like::find()->where(Like::makeCondition(['target_id' => ['IN', $imageIds], 'target_type' => Media::typeId, 'created_by' => $user->id]))->all();
+            $likes = Like::find()->where(Like::makeCondition(['target_id' => ['IN', $imageIds], 'target_type' => Media::typeId, 'created_by' => $user->id, 'is_active' => 1]))->all();
             if ($likes) $likesHash = Helpers::makeDict($likes, 'target_id');
         }
 
