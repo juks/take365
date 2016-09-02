@@ -14,6 +14,7 @@ use app\components\traits\TCreator;
 use app\models\StoryCollaborator;
 use app\models\Media;
 use app\models\mediaExtra\MediaCore;
+use app\models\Like;
 use app\models\mediaExtra\TMediaUploadExtra;
 use app\components\interfaces\IPermissions;
 use app\components\interfaces\IGetType;
@@ -286,7 +287,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
         if ($this->images === null) {
             $mo = Media::getMediaOptions('storyImage');
             $limit = !empty($extra['imageLimit']) ? $extra['imageLimit'] : null;
-            $this->images = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::mediaTypeId], 'is_deleted' => 0])->orderBy('date DESC')->limit($limit)->all();
+            $this->images = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])
+                                 ->where(['type' => $mo[Media::mediaTypeId], 'is_deleted' => 0])
+                                 ->orderBy('date DESC')
+                                 ->limit($limit)
+                                 ->all();
         }
     }
 
@@ -320,6 +325,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * Formats story data for user page display
     */
     public function format($extra = []) {
+        $user = Yii::$app->user;
         $creator = $this->creator;
 
         $timezone = new \DateTimeZone($creator->defaultTimezone);
@@ -335,8 +341,19 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         $lastMonth = null;
         $dateDict = [];
+        $imageIds = [];
+        $likesHash = [];
 
-        foreach ($this->images as $image) $dateDict[$image['date']] = $image;
+        foreach ($this->images as $image) {
+            $dateDict[$image['date']] = $image;
+            $imageIds[] = $image['id'];
+        }
+
+        // Checking likes statistics
+        if (!$user->isGuest) {
+            $likes = Like::find()->where(Like::makeCondition(['target_id' => ['IN', $imageIds], 'target_type' => Media::typeId, 'created_by' => $user->id, 'is_active' => 1]))->all();
+            if ($likes) $likesHash = Helpers::makeDict($likes, 'target_id');
+        }
 
         $timeTo = mktime(0, 0, 0, date('n', $this->time_start), date('j', $this->time_start), date('Y', $this->time_start));
         $dateTarget = date('Y-m-d', $this->time_start);
@@ -371,6 +388,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                             'monthDay'      => $monthDay,
                             'url'           => $this->getUrlDay($dateDict[$date]->date),
                             'isUploadable'  => $timestamp <= $timeUploadFrom,
+                            'likesCount'    => $dateDict[$date]['likes_count'],
                         ];
 
                 if ($dateDict[$date]->is_deleted) {
@@ -380,6 +398,9 @@ class Story extends StoryBase implements IPermissions, IGetType {
                         $drop['isDeleted'] = true;
                     }
                 }
+
+                // Did user liked it?
+                if (!$user->isGuest) $drop['isLiked'] = !empty($likesHash[$dateDict[$date]['id']]);
 
                 $blankSpace = false;
             } else {

@@ -193,6 +193,26 @@ function initStory() {
 		$('#userPhotos').on('click', '.user-photo-manage', function(e) {
 			Story.winOpen($(e.target).closest('.user-photo'));
 		});
+
+		$('#userPhotos').on('click', '.user-photo-like', function(e) {
+			var node = $(e.currentTarget);
+			var container = node.closest('.user-photo');
+			var id = container.data('id');
+			e.preventDefault();
+			var xhr = new XMLHttpRequest();
+			var like = node.hasClass('fa-heart-o');
+			var url = '/api/media/'+id+'/'+(like ? '' : 'un')+'like';
+			xhr.open('POST', url);
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xhr.responseType = 'json';
+			xhr.onload = () => {
+				var result = xhr.response.result;
+				node.toggleClass('fa-heart', like);
+				node.toggleClass('fa-heart-o', !like);
+				container.find('.user-photo-like-total').text(result || '');
+			};
+			xhr.send();
+		});
 	}
 }
 
@@ -330,6 +350,10 @@ function initStoryUploder() {
 				'class': 'user-photo-content',
 				html: '<a><img class="user-photo-image" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
 						+'<div class="user-photo-manage">Редактировать</div>'
+						+'<div class="user-photo-likes">'
+							+'<a href="#" class="fa user-photo-like fa-heart-o"></a>'
+							+' <span class="user-photo-like-total"></span>'
+						+'</div>'
 			});
 
 			$('#' + file.storyNodeId)

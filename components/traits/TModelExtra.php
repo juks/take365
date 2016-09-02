@@ -230,10 +230,14 @@ trait TModelExtra {
                             $cond = $value[0] . ' (' . $value[1] . ')';
                             break;
                         default:
-                            # >, <, >=, <=, IS NULL, etc
-                            $cond = $value[0];
-                            if(isset($value[1])) {
-                                $cond .= ' ' . self::quote($value[1]);
+                            if (count($value) == 1) {
+                                $cond = ' = ' . self::quote($value[0]);
+                            } else {
+                                # >, <, >=, <=, IS NULL, etc
+                                $cond = $value[0];
+                                if(isset($value[1])) {
+                                    $cond .= ' ' . self::quote($value[1]);
+                                }
                             }
                     }
                 } else {

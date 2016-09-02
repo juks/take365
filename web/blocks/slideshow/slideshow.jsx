@@ -52,6 +52,9 @@ export default class Slideshow extends React.Component {
       const routeParams = this.props.routeParams;
       const media = result.media.map(m => {
         return {
+          id: m.id,
+          isLiked: m.isLiked,
+          likesCount: m.likesCount,
           url: `/${routeParams.username}/story/${routeParams.storyId}/${m.date}`,
           date: m.date,
           caption: m.title || m.description ? <div>
@@ -63,6 +66,7 @@ export default class Slideshow extends React.Component {
             `${m.thumb.url} ${m.thumb.width}w`,
             `${m.thumbLarge.url} ${m.thumbLarge.width}w`,
           ],
+
         };
       });
       if (result.leftEdgeReached) {
@@ -131,7 +135,6 @@ export default class Slideshow extends React.Component {
         onClickPrev={this.gotoPrevious}
         onClickNext={this.gotoNext}
         onClose={this.closeLightbox}
-        showImageCount={false}
         backdropClosesModal={true}
       />
     );
