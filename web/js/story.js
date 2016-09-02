@@ -193,6 +193,26 @@ function initStory() {
 		$('#userPhotos').on('click', '.user-photo-manage', function(e) {
 			Story.winOpen($(e.target).closest('.user-photo'));
 		});
+
+		$('#userPhotos').on('click', '.user-photo-like', function(e) {
+			var node = $(e.currentTarget);
+			var container = node.closest('.user-photo');
+			var id = container.data('id');
+			e.preventDefault();
+			var xhr = new XMLHttpRequest();
+			var like = node.hasClass('fa-heart-o');
+			var url = '/api/media/'+id+'/'+(like ? '' : 'un')+'like';
+			xhr.open('POST', url);
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xhr.responseType = 'json';
+			xhr.onload = () => {
+				var result = xhr.response.result;
+				node.toggleClass('fa-heart', like);
+				node.toggleClass('fa-heart-o', !like);
+				container.find('.user-photo-like-total').text(result);
+			};
+			xhr.send();
+		});
 	}
 }
 
