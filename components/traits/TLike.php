@@ -28,6 +28,7 @@ trait TLike {
         $item = Like::find()->where($data)->one();
 
         if ($item && $item->is_active == $state || !$item && !$state) return $result;
+        if ($item && $item->created_by != $user->id) throw new \app\components\ModelException(Ml::t('Forbidden'));
 
         if (!$item) {
             if (method_exists($this, 'onFirstTimeLike')) $this->onFirstTimeLike($user);
