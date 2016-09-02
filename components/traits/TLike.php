@@ -23,12 +23,11 @@ trait TLike {
         if (!$this->hasPermission($user, IPermissions::permLike)) throw new \app\components\ModelException(Ml::t('Forbidden'));
 
         $ids = $this->getTargetIdTargetType();
-        $data = ['target_id' => $ids[0], 'target_type' => $ids[1]];
+        $data = ['target_id' => $ids[0], 'target_type' => $ids[1], 'created_by' => $user->id];
 
         $item = Like::find()->where($data)->one();
 
         if ($item && $item->is_active == $state || !$item && !$state) return $result;
-        if ($item && $item->created_by != $user->id) throw new \app\components\ModelException(Ml::t('Forbidden'));
 
         if (!$item) {
             if (method_exists($this, 'onFirstTimeLike')) $this->onFirstTimeLike($user);
