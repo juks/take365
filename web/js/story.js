@@ -209,7 +209,7 @@ function initStory() {
 				var result = xhr.response.result;
 				node.toggleClass('fa-heart', like);
 				node.toggleClass('fa-heart-o', !like);
-				container.find('.user-photo-like-total').text(result);
+				container.find('.user-photo-like-total').text(result || '');
 			};
 			xhr.send();
 		});
@@ -350,6 +350,10 @@ function initStoryUploder() {
 				'class': 'user-photo-content',
 				html: '<a><img class="user-photo-image" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
 						+'<div class="user-photo-manage">Редактировать</div>'
+						+'<div class="user-photo-likes">'
+							+'<a href="#" class="fa user-photo-like fa-heart-o"></a>'
+							+' <span class="user-photo-like-total"></span>'
+						+'</div>'
 			});
 
 			$('#' + file.storyNodeId)

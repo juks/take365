@@ -61,8 +61,8 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
           <?php if ($canUpload): ?><div class="user-photo-manage">Редактировать</div><?php endif ?>
           <?php if (!empty($day['isDeleted'])): ?><div class="user-photo-restore"><a class="ctrl-restore" onclick="Story.recoverMedia('<?= $day['date'] ?>')">Восстановить</a> или <a class="ctrl-replace i-upload" onclick="Story.openUpload('<?= $day['date'] ?>')">заменить</a>.</div><?php endif ?>
           <div class="user-photo-likes">
-            <a href="#" class="fa fa-heart user-photo-like"></a>
-            <span class="user-photo-like-total"><?= $day['likesCount'] ?></span>
+            <a href="#" class="fa fa-heart<?= $day['isLiked'] ? '' : '-o' ?> user-photo-like"></a>
+            <span class="user-photo-like-total"><?= $day['likesCount'] || '' ?></span>
           </div>
         </div>
         <?php endif ?>
