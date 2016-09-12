@@ -1,4 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,300,400,600,700,800&subset=latin,cyrillic);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,300,400,600,700,800&subset=latin,cyrillic);
 
 @font-face {
   font-weight: normal;
@@ -126,6 +127,22 @@ BUTTON {
 .btn:hover {
   border-color: #E02929;
   color: #E02929;
+  }
+.btn-small {
+  padding: 3px 8px 4px 8px;
+  border-radius: 10px;
+  border: none;
+  }
+.btn-small:hover {
+  color: #FFF;
+  }
+.btn-green {
+  background: #00B209;
+  color: #FFF;
+  }
+.btn-red {
+  background: #E02929;
+  color: #FFF;
   }
 
 /* Forms

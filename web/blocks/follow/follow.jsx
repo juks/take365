@@ -33,7 +33,7 @@ class CommentList extends React.Component {
   }
 
   render() {
-    return <a href="#" className={`btn btn-${this.state.isFollowing ? 'red' : 'green'}`} onClick={this.onToggle}>{
+    return <a href="#" className={`btn btn-small btn-${this.state.isFollowing ? 'red' : 'green'}`} onClick={this.onToggle}>{
       this.state.isFollowing ? 'Отписаться' : 'Подписаться'
     }</a>;
   }
