@@ -9,7 +9,7 @@ StoryAsset::register($this);
 $lastMonth = null;
 
 $reactComments =  \yii\helpers\Json::encode($story->comments);
-$reactUser =  \yii\helpers\Json::encode($userd);
+$reactUser =  \yii\helpers\Json::encode($user);
 
 $this->registerJs("initStory();appRender(document.getElementById('comments'),{comments:$reactComments,id:$story->id,user:$reactUser})");
 
