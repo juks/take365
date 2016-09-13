@@ -36,8 +36,18 @@ export default class FeedItem extends React.Component {
 
   render() {
     return <span className="feed-likes">
-      <a href="#" className={`fa ${this.state.isLiked ? 'fa-heart' : 'fa-heart-o'} feed-like`} onClick={this.onLikeToggle}></a>
-      {this.state.likes ? <sup className="feed-likes-total">{this.state.likes}</sup> : null}
+      {pp.userId ?
+        <span>
+          <a href="#" className={`fa ${this.state.isLiked ? 'fa-heart' : 'fa-heart-o'} feed-like`} onClick={this.onLikeToggle}></a>
+          {this.state.likes ? <sup className="feed-likes-total">{this.state.likes}</sup> : null}
+        </span>
+      : this.state.likes ?
+        <span>
+          <span className="fa fa-heart-o feed-like"></span>
+          <sup className="feed-likes-total">{this.state.likes}</sup>
+        </span>
+      : null
+      }
     </span>;
   }
 }
