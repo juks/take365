@@ -25,7 +25,11 @@ class MyController extends Controller {
 	}
 
 	public function getJsVarsString() {
-		return 'var pp = ' . json_encode($this->_jsVars);
+		return 'var pp = ' . json_encode(array_merge($this->_jsVars, $this->getDetaulfJsVars()));
+	}
+
+	public function getDetaulfJsVars() {
+		return ['userId' => $user = Yii::$app->user->id];
 	}
 
 	public function setTitle($title) {

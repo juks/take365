@@ -173,8 +173,7 @@ class UserPageController extends MyController {
                             'canManage'     => $canManage,
                             'canUpload'     => $canUpload,
                             'storyDeleted'  => $story->isDeleted,
-                            'date'          => $date,
-                            'userId'        => !$user->isGuest ? $user->id : null
+                            'date'          => $date
                         ]);
 
         return $this->render('story', [
