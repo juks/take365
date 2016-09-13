@@ -9,7 +9,7 @@ StoryAsset::register($this);
 $lastMonth = null;
 
 $reactComments =  \yii\helpers\Json::encode($story->comments);
-$reactUser =  \yii\helpers\Json::encode($user);
+$reactUser =  \yii\helpers\Json::encode($user->id);
 
 $this->registerJs("initStory();appRender(document.getElementById('comments'),{comments:$reactComments,id:$story->id,user:$reactUser})");
 
@@ -60,10 +60,17 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
           <a href="<?= $day['url'] ?>"><img src="<?= $day['image']['url'] ?>" width="<?= $day['image']['width'] ?>" height="<?= $day['image']['height'] ?>" class="user-photo-image"></a>
           <?php if ($canUpload): ?><div class="user-photo-manage">Редактировать</div><?php endif ?>
           <?php if (!empty($day['isDeleted'])): ?><div class="user-photo-restore"><a class="ctrl-restore" onclick="Story.recoverMedia('<?= $day['date'] ?>')">Восстановить</a> или <a class="ctrl-replace i-upload" onclick="Story.openUpload('<?= $day['date'] ?>')">заменить</a>.</div><?php endif ?>
-          <div class="user-photo-likes">
-            <a href="#" class="fa fa-heart<?= $day['isLiked'] ? '' : '-o' ?> user-photo-like"></a>
-            <span class="user-photo-like-total"><?= $day['likesCount'] || '' ?></span>
-          </div>
+            <?php if (!$user->isGuest): ?>
+              <div class="user-photo-likes">
+              <a href="#" class="fa fa-heart<?= $day['isLiked'] ? '' : '-o' ?> user-photo-like"></a>
+              <span class="user-photo-like-total"><?= $day['likesCount'] || '' ?></span>
+              </div>
+            <?php elseif (!empty($day['likesCount'])): ?>
+              <div class="user-photo-likes">
+              <span class="fa fa-heart user-photo-like"></span>
+              <span class="user-photo-like-total"><?= $day['likesCount'] || '' ?></span>
+              </div>
+            <?php endif ?>
         </div>
         <?php endif ?>
       <?php endif ?>

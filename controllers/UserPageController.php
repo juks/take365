@@ -180,7 +180,7 @@ class UserPageController extends MyController {
                                         'story'     => $story,
                                         'canManage' => $canManage,
                                         'canUpload' => $canUpload,
-                                        'user'      => array('id'=> Yii::$app->user->getId()),
+                                        'user'      => Yii::$app->user,
                                         'pageType'  => 'story'
                                     ]);
     }
