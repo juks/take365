@@ -149,7 +149,7 @@ class UserPageController extends MyController {
     * Display user story
     */
     public function actionStory($username, $storyId, $date = null) {
-        $user = Yii::$app->user;
+        $user = Yii::$app->user->identity;
         $owner = User::getActiveUser($username);
         if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
 
