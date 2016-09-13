@@ -98,7 +98,7 @@ class CommentList extends React.Component {
                 return <div key={config.key} style={config.style} ref={el => this.nodes[config.key] = el}>
                   <Comment data={config.data} user={this.props.user} onRemoved={this.onRemoved.bind(this)}>{
                     (() => {
-                      if (!this.props.user.id) {
+                      if (!this.props.user) {
                         return null;
                       } else if (this.state.replyOpen !== config.data.id) {
                         return <div className="comment-options">

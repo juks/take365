@@ -44,7 +44,7 @@ export default class CommentItem extends React.Component {
     } : {};
 
 
-    const isAuthor = this.props.user.id === author.id;
+    const isAuthor = this.props.user && this.props.user.id === author.id;
 
     return <div style={marginStyle} className={'comment' + (isAuthor ? ' comment-my' : '')} id={comment.id} data-debug={comment.thread + '-' + comment.level}>
       <div className="comment-header">

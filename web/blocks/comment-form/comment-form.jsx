@@ -51,7 +51,7 @@ export default class CommentForm extends React.Component {
   }
 
   render() {
-    if (!this.props.user.id) {
+    if (!this.props.user) {
       return <div className="comments-info">
         <span className="fa fa-exclamation-triangle"></span>
         Только зарегистрированные пользователи могут участвовать в обсуждениях.<br />
