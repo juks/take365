@@ -63,12 +63,12 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
             <?php if (!$user->isGuest): ?>
               <div class="user-photo-likes">
               <a href="#" class="fa fa-heart<?= $day['isLiked'] ? '' : '-o' ?> user-photo-like"></a>
-              <span class="user-photo-like-total"><?= $day['likesCount'] || '' ?></span>
+              <span class="user-photo-like-total"><?= $day['likesCount'] ?: '' ?></span>
               </div>
             <?php elseif (!empty($day['likesCount'])): ?>
               <div class="user-photo-likes">
               <span class="fa fa-heart user-photo-like"></span>
-              <span class="user-photo-like-total"><?= $day['likesCount'] || '' ?></span>
+              <span class="user-photo-like-total"><?= $day['likesCount'] ?: '' ?></span>
               </div>
             <?php endif ?>
         </div>
