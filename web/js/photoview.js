@@ -98,7 +98,7 @@ var Photoview = (function(){
 
 		get: function(date, span, callback, isFirstReq) {
 			request = $.ajax('/api/media/player-data', {
-			data: {date: date, storyId: pp.storyId, span: -span},
+			data: {date: date, storyId: window.pp.storyId, span: -span},
 			dataType: 'json',
 			success: function(data) {
 				if (data.result.leftEdgeReached) {
