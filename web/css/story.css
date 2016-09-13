@@ -104,6 +104,9 @@
 	.user-photo A {
 		border: none;
 		}
+.user-photo.win-open {
+	overflow: visible;
+}
 
 .user-photo-day {
 	position: absolute;
