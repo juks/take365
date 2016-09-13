@@ -770,7 +770,7 @@ Story = {
 };
 
 $(function() {
-	$('#userPhotos').on('click', '.user-photo-like', function(e) {
+	$('#userPhotos').on('click', 'a.user-photo-like', function(e) {
 		var node = $(e.currentTarget);
 		var container = node.closest('.user-photo');
 		var id = container.data('id');
