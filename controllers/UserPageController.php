@@ -149,6 +149,7 @@ class UserPageController extends MyController {
     * Display user story
     */
     public function actionStory($username, $storyId, $date = null) {
+        $user = Yii::$app->user;
         $owner = User::getActiveUser($username);
         if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
 
@@ -172,7 +173,8 @@ class UserPageController extends MyController {
                             'canManage'     => $canManage,
                             'canUpload'     => $canUpload,
                             'storyDeleted'  => $story->isDeleted,
-                            'date'          => $date
+                            'date'          => $date,
+                            'userId'        => !$user->isGuest ? $user->id : null
                         ]);
 
         return $this->render('story', [
@@ -180,7 +182,7 @@ class UserPageController extends MyController {
                                         'story'     => $story,
                                         'canManage' => $canManage,
                                         'canUpload' => $canUpload,
-                                        'user'      => Yii::$app->user,
+                                        'user'      => $user,
                                         'pageType'  => 'story'
                                     ]);
     }
