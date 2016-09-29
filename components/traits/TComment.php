@@ -127,6 +127,7 @@ trait TComment {
             } else {
                 $order = 'lk DESC';
                 $maxItems= $extra['lastComments'];
+                $condition['is_deleted'] = 0;
             }
 
             $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all();
