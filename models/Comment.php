@@ -39,6 +39,7 @@ class Comment extends CommentBase {
     public function fields() {
         $f =  [
             'id'        => 'id',
+            'lk'        => 'lk',
             'isDeleted' => 'is_deleted',
             'level'     => 'level',
             'thread'    => 'thread',
