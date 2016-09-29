@@ -66,6 +66,7 @@ class UserPageController extends MyController {
     * Display user home page
     */
     public function actionHome($username) {
+        $user = Yii::$app->user->identity;
         $owner = User::getActiveUser($username);
 
         if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
@@ -84,7 +85,8 @@ class UserPageController extends MyController {
                                         'stories'       => $stories,
                                         'canCreate'     => $owner->thisIsMe && Story::checkQuota(),
                                         'isFollowing'   => Feed::isFollowing($owner, Yii::$app->user),
-                                        'pageType'      => 'home'
+                                        'pageType'      => 'home',
+                                        'isOwnPage'       => $owner->id == $user->id
                                     ]);
     }
 
@@ -92,6 +94,7 @@ class UserPageController extends MyController {
     * Display user profile
     */
     public function actionProfile($username) {
+        $user = Yii::$app->user->identity;
         $owner = User::getActiveUser($username);
 
         if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
@@ -108,7 +111,8 @@ class UserPageController extends MyController {
         return $this->render('profile', [
                                         'owner'         => $owner,
                                         'pageType'     => 'profile',
-                                        'homepageUrl'   => $homepageUrl
+                                        'homepageUrl'   => $homepageUrl,
+                                        'isOwnPage'       => $owner->id == $user->id,
                                     ]);
     }
 
@@ -116,6 +120,7 @@ class UserPageController extends MyController {
     * Edit user profile
     */
     public function actionEdit($username) {
+        $user = Yii::$app->user->identity;
         $owner = User::getActiveUser($username);
 
         if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
@@ -141,7 +146,8 @@ class UserPageController extends MyController {
                                         'targetType'   => User::typeId,
                                         'mediaType'    => Media::aliasUserpic,
                                         'timezones'    => $timezones,
-                                        'optNotify'    => $owner->getOptionValue('notify')
+                                        'optNotify'    => $owner->getOptionValue('notify'),
+                                        'isOwnPage'    => $owner->id == $user->id,
                                     ]);
     }
 
@@ -151,6 +157,7 @@ class UserPageController extends MyController {
     public function actionStory($username, $storyId, $date = null) {
         $user = Yii::$app->user->identity;
         $owner = User::getActiveUser($username);
+
         if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
 
         $story = Story::getActiveItem($storyId);
@@ -182,7 +189,8 @@ class UserPageController extends MyController {
                                         'canManage' => $canManage,
                                         'canUpload' => $canUpload,
                                         'user'      => $user,
-                                        'pageType'  => 'story'
+                                        'pageType'  => 'story',
+                                        'isOwnPage' => $owner->id == $user->id,
                                     ]);
     }
 
@@ -190,13 +198,15 @@ class UserPageController extends MyController {
      * Display user feed
      */
     public function actionFeed($username, $page = 1, $maxItems = 10, $lastTime = 0) {
+        $user = Yii::$app->user->identity;
         $owner = User::getActiveUser($username);
         if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
 
         return $this->render('feed', [
                                             'owner'             => $owner,
                                             'isSubscribed'      => Feed::isSubscribed($owner),
-                                            'pageType'          => 'feed'
+                                            'pageType'          => 'feed',
+                                            'isOwnPage'         => $owner->id == $user->id
                                         ]);
     }
 }

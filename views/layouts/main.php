@@ -31,7 +31,7 @@ $isSubscribed = !$user->isGuest && Feed::isSubscribed($user);
       <header class="header">
         <a href="<?= \yii\helpers\Url::base(true) ?>"><div class="header-logo">take365</div></a>
         <ul class="header-nav">
-          <?php if ($user->isGuest) echo $this->render('//blocks/userMenu/anonymous'); else echo $this->render('//blocks/userMenu/logged', ['user' => $user->identity, 'isSubscribed' => $isSubscribed]); ?>
+          <?php if ($user->isGuest) echo $this->render('//blocks/userMenu/anonymous'); else echo $this->render('//blocks/userMenu/logged', ['user' => $user->identity, 'owner' => isset($this->params['owner']) ? $this->params['owner'] : null, 'isSubscribed' => $isSubscribed]); ?>
         </ul>
       </header>
       <div class="content">

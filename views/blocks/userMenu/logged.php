@@ -9,7 +9,8 @@
 ?>
 
 <?php foreach ($items as $item): ?>
-<?php if (!empty($this->params['pageType']) && $this->params['pageType'] == $item['alias']): ?>
+
+<?php if (!empty($this->params['isOwnPage']) && !empty($this->params['pageType']) && $this->params['pageType'] == $item['alias']): ?>
   <li class="active"><?= $item['title'] ?></li>
 <?php else: ?>
   <li>
