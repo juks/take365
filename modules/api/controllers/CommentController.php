@@ -131,7 +131,7 @@ class CommentController extends ApiController {
 
         if (!$target) throw new \app\components\ControllerException(Ml::t('Object not found'));
 
-        $this->addContent($target->getComments($lastTimestamp));
+        $this->addContent($target->getComments(['lastTimeStamp' => $lastTimestamp]));
     }
 
     /**

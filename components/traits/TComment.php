@@ -116,19 +116,21 @@ trait TComment {
     /**
      * Comments relation
      */
-    public function getComments($lastTimestamp = null) {
+    public function getComments($extra = null) {
         if ($this->commentsCache == null && $this->comments_count) {
             $condition = ['target_type' => self::typeId];
+            $maxItems = null;
 
-            if ($lastTimestamp) $condition['time_created'] = ['>', $lastTimestamp];
+            if (!empty($extra['lastTimestamp'])) $condition['time_created'] = ['>', $extra['lastTimestamp']];
+            if (!empty($extra['maxItems'])) $maxItems = $extra['maxItems'];
 
-            $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy('lk')->all();
+            $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy('lk')->limit($maxItems)->all();
 
             foreach ($this->commentsCache as $comment) {
                 $comment->urlTarget = $this->url;
             }
         }
 
-        return $this->commentsCache;
+        return $this->commentsCache ?: [];
     }
 }

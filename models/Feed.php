@@ -106,10 +106,11 @@ class Feed extends FeedBase {
      * @param object $user
      */
     public static function feed($user, $extra = null) {
-        $page = empty($extra['page']) ? 1 : $extra['page'];
-        $maxItems = empty($extra['maxItems']) ? self::$maxItems : $extra['maxItems'];
-        $lastTime = empty($extra['lastTime']) ? 0 : $extra['lastTime'];
-        $firstTime = empty($extra['firstTime']) ? 0 : $extra['firstTime'];
+        $page          = empty($extra['page']) ? 1 : $extra['page'];
+        $maxItems      = empty($extra['maxItems']) ? self::$maxItems : $extra['maxItems'];
+        $lastTime      = empty($extra['lastTime']) ? 0 : $extra['lastTime'];
+        $firstTime     = empty($extra['firstTime']) ? 0 : $extra['firstTime'];
+        $maxComments   = empty($extra['maxComments']) ? null : $extra['maxComments'];
 
         if (!$maxItems > self::$maxItemsLimit) $maxItems = self::$maxItemsLimit;
 
@@ -149,6 +150,7 @@ class Feed extends FeedBase {
             foreach ($mediaList as $mediaItem) {
                 $mediaItem->setScenario('feed');
                 if ($mediaItem->targetStory) $mediaItem->targetStory->setScenario('feed');
+                if ($maxComments) $mediaItem->getComments(['maxItems' => $maxComments]);
             }
         }
 

@@ -54,9 +54,6 @@ class FeedController extends ApiController {
 
             if (!$user->isGuest) {
                 $stories = $user->identity->stories;
-                if ($stories) {
-                    $defaultStoryId = $stories[0]->id;
-                }
             }
         }
 
@@ -159,12 +156,13 @@ class FeedController extends ApiController {
      *
      * @param string $username
      */
-    public function actionFeed($page = 1, $maxItems = 20, $lastTime = null, $firstTime = null) {
+    public function actionFeed($page = 1, $maxItems = 20, $lastTime = null, $firstTime = null, $maxComments = null) {
         $this->addContent(Feed::feed(Yii::$app->user, [
-                                                        'page'      => $page,
-                                                        'maxItems'  => $maxItems,
-                                                        'lastTime'  => $lastTime,
-                                                        'firstTime' => $firstTime
+                                                        'page'        => $page,
+                                                        'maxItems'    => $maxItems,
+                                                        'lastTime'    => $lastTime,
+                                                        'firstTime'   => $firstTime,
+                                                        'maxComments' => $maxComments
                                                       ]));
     }
 }
