@@ -70,6 +70,7 @@ class FeedController extends ApiController {
                                                     ['n' => 'maxItems', 't' => 'Max Items Per Page', 'h'=>'Eg. 10 (max 100)', 'f' => 'integer', 'o' => true, 'd' => 10],
                                                     ['n' => 'lastTime', 't' => 'Only show elements created after given timestamp', 'f' => 'integer', 'o' => true],
                                                     ['n' => 'firstTime', 't' => 'Only show elements created before given timestamp', 'f' => 'integer', 'o' => true],
+                                                    ['n' => 'lastComments', 't' => 'Include last n comments', 'f' => 'integer', 'o' => true],
                                             ],
                     'responses'             => ['200' => ['t' => 'array', 's' => 'Media']]
                 ],
@@ -156,13 +157,13 @@ class FeedController extends ApiController {
      *
      * @param string $username
      */
-    public function actionFeed($page = 1, $maxItems = 20, $lastTime = null, $firstTime = null, $maxComments = null) {
+    public function actionFeed($page = 1, $maxItems = 20, $lastTime = null, $firstTime = null, $lastComments = null) {
         $this->addContent(Feed::feed(Yii::$app->user, [
-                                                        'page'        => $page,
-                                                        'maxItems'    => $maxItems,
-                                                        'lastTime'    => $lastTime,
-                                                        'firstTime'   => $firstTime,
-                                                        'maxComments' => $maxComments
+                                                        'page'         => $page,
+                                                        'maxItems'     => $maxItems,
+                                                        'lastTime'     => $lastTime,
+                                                        'firstTime'    => $firstTime,
+                                                        'lastComments' => $lastComments
                                                       ]));
     }
 }

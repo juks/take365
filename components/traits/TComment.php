@@ -122,12 +122,18 @@ trait TComment {
             $maxItems = null;
 
             if (!empty($extra['lastTimestamp'])) $condition['time_created'] = ['>', $extra['lastTimestamp']];
-            if (!empty($extra['maxItems'])) $maxItems = $extra['maxItems'];
+            if (empty($extra['lastComments'])) {
+                $order = 'lk';
+            } else {
+                $order = 'lk DESC';
+                $maxItems= $extra['lastComments'];
+            }
 
-            $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy('lk')->limit($maxItems)->all();
+            $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all();
 
             foreach ($this->commentsCache as $comment) {
                 $comment->urlTarget = $this->url;
+                if ($comment->is_deleted) $comment->body_jvx = '';
             }
         }
 
