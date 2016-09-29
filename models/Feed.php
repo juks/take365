@@ -116,7 +116,7 @@ class Feed extends FeedBase {
 
         $totalItems = null;
         $totalPages = null;
-        $isEmpty = true;
+        $isEmpty    = true;
 
         $ids = Helpers::fetchFields(self::sqlSelect('user_id', ['reader_id' => $user->id, 'is_active' => 1]), 'user_id', ['isSingle' => true]);
 
