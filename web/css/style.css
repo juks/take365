@@ -496,16 +496,19 @@ BUTTON {
     margin-bottom: 20px;
     }
   .article H1,
-  .article H2,
-  .article H3 {
+  .article H2 {
     margin: 50px 0 20px 0;
     color: #000;
     font: 30px/1 'RobotoLight', sans-serif;
     }
   .article H1:first-child,
-  .article H2:first-child,
-  .article H3:first-child {
+  .article H2:first-child {
     margin-top: 0;
+    }
+  .article H3 {
+    margin: 30px 0 20px 0;
+    color: #000;
+    font: 18px/1 'RobotoLight', sans-serif;
     }
 .article-header {
   position: relative;
@@ -1098,6 +1101,27 @@ BUTTON {
 .edit .story-item:hover .story-day {
   display: none;
   }
+
+/* Story random */
+.story-random {
+  margin: 0 -20px;
+  padding: 10px 20px 20px 20px;
+  background: #F7F7F7;
+  border-radius: 10px;
+  }
+  .story-random .story {
+    margin: 20px 0 0 0;
+    padding: 0;
+    }
+  .story-random .story:first-child {
+    margin-top: 0;
+    }
+  .story-random .story-header {
+    margin-bottom: 5px;
+    }
+    .story-random .story-header H4 {
+      font-weight: 600;
+      }
 
 /* Profile
 ----------------------------------------------- */
