@@ -315,8 +315,12 @@ class Story extends StoryBase implements IPermissions, IGetType {
     */
     public function formatShort($extra = []) {
         $this->fetchImages($extra);
-        //$this->fetchImagesCount($extra);
         $this->calculateProgress();
+
+        foreach($this->images as $image) {
+            $image->urlDay = $this->getUrlDay($image['date']);
+        }
+
         $this->isDeleted = $this->is_deleted;
         $this->isHidden  = $this->status != self::statusPublic;
     }

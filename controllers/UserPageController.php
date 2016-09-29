@@ -167,13 +167,13 @@ class UserPageController extends MyController {
         $canUpload = $canManage ? true : StoryCollaborator::hasPermission($story);
 
         $this->addJsVars([
-                            'storyId'       => $storyId,
-                            'targetType'    => Story::typeId,
-                            'mediaType'     => Media::aliasStoryImage,
-                            'canManage'     => $canManage,
-                            'canUpload'     => $canUpload,
-                            'storyDeleted'  => $story->isDeleted,
-                            'date'          => $date
+                            'storyId'         => $storyId,
+                            'targetType'      => Story::typeId,
+                            'mediaType'       => Media::aliasStoryImage,
+                            'canManage'       => $canManage,
+                            'canUpload'       => $canUpload,
+                            'storyDeleted'    => $story->isDeleted,
+                            'date'            => $date
                         ]);
 
         return $this->render('story', [

@@ -26,6 +26,8 @@ class Media extends MediaCore {
 
     const typeId            = 3;
 
+    public $urlDay;
+
     protected static $_globalOptions = [
                                     Media::typeUserpic => [
                                                         MediaCore::mediaTypeId           => 1,
@@ -62,7 +64,7 @@ class Media extends MediaCore {
                                                         MediaCore::thumbsList            => [
                                                                                                 MediaCore::resizeMaxSide    => [1400, 700, 200, 100],
                                                                                                 MediaCore::resizeSquareCrop => [400, 200, 100, 50],
-                                                                                        ],
+                                                                                            ],
 
                                                         MediaCore::mainThumbDimension    => 200,
                                                         MediaCore::largeThumbDimension   => 400,

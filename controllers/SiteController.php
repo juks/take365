@@ -122,6 +122,8 @@ class SiteController extends MyController
     public function actionHelp() {
         $this->setTitle(Ml::t('About the project'));
         $sampleStories = Story::find()->where(['status' => Story::statusPublic, 'is_complete' => 1])->orderBy('rand()')->limit(3)->all();
+
+        foreach ($sampleStories as $story) $story->formatShort(['imageLimit' => 10]);
         return $this->render('help', ['sampleStories' => $sampleStories]);
     }
 
