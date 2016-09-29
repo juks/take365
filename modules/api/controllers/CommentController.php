@@ -150,6 +150,8 @@ class CommentController extends ApiController {
         if ($form->load(Helpers::getRequestParams('post')) && $form->validate()) {
             if ($form->targetType == ApiStory::typeId) {
                 $target = ApiStory::getActiveItem($form->targetId);
+            } elseif ($form->targetType == ApiMedia::typeId) {
+                $target = ApiMedia::getActiveItem($form->targetId);
             } elseif ($form->id) {
                 $comment = ApiComment::findOne($form->id);
                 if (!$comment) throw new \app\components\ControllerException(Ml::t('Object not found'));

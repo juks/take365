@@ -19,7 +19,7 @@
         </div>
         <div class="story-matrix">
           <?php foreach($story['images'] as $day): ?>
-          <a href="<?= $day->urlDay ?>" class="story-matrix-item"><img src="<?= $day['url'] ?>" alt=""></a>
+          <a href="<?= $day->urlDay ?>" class="story-matrix-item"><img src="<?= $day['t']['squareCrop'][100]['url'] ?>" alt=""></a>
           <?php endforeach ?>
         </div>
       </div>
