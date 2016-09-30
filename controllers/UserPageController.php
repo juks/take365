@@ -86,7 +86,7 @@ class UserPageController extends MyController {
                                         'canCreate'     => $owner->thisIsMe && Story::checkQuota(),
                                         'isFollowing'   => Feed::isFollowing($owner, Yii::$app->user),
                                         'pageType'      => 'home',
-                                        'isOwnPage'       => $owner->id == $user->id
+                                        'isOwnPage'       => $user && ($owner->id == $user->id)
                                     ]);
     }
 
@@ -112,7 +112,7 @@ class UserPageController extends MyController {
                                         'owner'         => $owner,
                                         'pageType'     => 'profile',
                                         'homepageUrl'   => $homepageUrl,
-                                        'isOwnPage'       => $owner->id == $user->id,
+                                        'isOwnPage'       => $user && ($owner->id == $user->id),
                                     ]);
     }
 
@@ -147,7 +147,7 @@ class UserPageController extends MyController {
                                         'mediaType'    => Media::aliasUserpic,
                                         'timezones'    => $timezones,
                                         'optNotify'    => $owner->getOptionValue('notify'),
-                                        'isOwnPage'    => $owner->id == $user->id,
+                                        'isOwnPage'    => $user && ($owner->id == $user->id),
                                     ]);
     }
 
@@ -190,7 +190,7 @@ class UserPageController extends MyController {
                                         'canUpload' => $canUpload,
                                         'user'      => $user,
                                         'pageType'  => 'story',
-                                        'isOwnPage' => $owner->id == $user->id,
+                                        'isOwnPage' => $user && ($owner->id == $user->id),
                                     ]);
     }
 
@@ -206,7 +206,7 @@ class UserPageController extends MyController {
                                             'owner'             => $owner,
                                             'isSubscribed'      => Feed::isSubscribed($owner),
                                             'pageType'          => 'feed',
-                                            'isOwnPage'         => $owner->id == $user->id
+                                            'isOwnPage'         => $user && ($owner->id == $user->id)
                                         ]);
     }
 }
