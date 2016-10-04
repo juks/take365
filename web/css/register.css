@@ -1,15 +1,15 @@
 /* Enhanced error styling */
 #registerForm input.error
 {
-	background-color: pink; 
-	outline: none; 
+	background-color: pink;
+	outline: none;
 }
 #registerForm input.required
 {
-	background-color: #fff; 
+	background-color: #fff;
 }
 #registerForm input.valid
-{ 
+{
 	background-color: #fff;
 }
 
@@ -22,13 +22,7 @@
 .LV_valid {
     color: #0c0;
 }
-	
+
 .LV_invalid {
     color: #c00;
-}
-    
-.LV_valid_field {
-}
-    
-.LV_invalid_field {
 }

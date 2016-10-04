@@ -213,7 +213,7 @@ h1, h2, h3, h4 {
 /***** forms *****/
 .fTitle {
 	margin-bottom: 7px;
-	font: 20px/1 'RobotoLight', sans-serif;
+	font: 20px/1 Arial, sans-serif;
 }
 
 .fElem {
@@ -344,7 +344,7 @@ div.noticeContainer {
 
 .article .mediumTitle {
 	margin: 0 0 15px 0;
-	font: 24px/1 'RobotoLight', sans-serif;
+	font: 24px/1 Arial, sans-serif;
 }
 
 .title {

@@ -1,16 +1,3 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,300,400,600,700,800&subset=latin,cyrillic);
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,300,400,600,700,800&subset=latin,cyrillic);
-
-@font-face {
-  font-weight: normal;
-  font-style: normal;
-  font-family: 'RobotoLight';
-  src: url('/fonts/roboto/roboto-light.eot');
-  src: url('/fonts/roboto/roboto-light.eot?#iefix') format('embedded-opentype'),
-       url('/fonts/roboto/roboto-light.woff') format('woff'),
-       url('/fonts/roboto/roboto-light.ttf') format('truetype');
-  }
-
 /* Elements
 ----------------------------------------------- */
 HTML,
@@ -21,7 +8,7 @@ BODY {
   min-width: 900px;
   background: #FFF;
   color: #333;
-  font: 400 14px/1.6 'Open Sans', sans-serif;
+  font: 400 14px/1.6 Arial, sans-serif;
   }
 A {
   color: #0055CC;
@@ -44,7 +31,7 @@ BUTTON {
   outline: none;
   border: none;
   box-sizing: border-box;
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   }
 
@@ -121,7 +108,7 @@ BUTTON {
   border: 1px solid #0055CC;
   background: none;
   color: #0055CC;
-  font: 400 12px/1 'Open Sans', sans-serif;
+  font: 400 12px/1 Arial, sans-serif;
   cursor: pointer;
   }
 .btn:hover {
@@ -381,7 +368,7 @@ BUTTON {
     }
   .form-comment LEGEND {
     padding-bottom: 15px;
-    font: 600 20px/1 'RobotoLight', sans-serif;
+    font: 600 20px/1 Arial, sans-serif;
     }
   .form-comment .cancel {
     margin-left: 15px;
@@ -499,7 +486,7 @@ BUTTON {
   .article H2 {
     margin: 50px 0 20px 0;
     color: #000;
-    font: 30px/1 'RobotoLight', sans-serif;
+    font: 30px/1 Arial, sans-serif;
     }
   .article H1:first-child,
   .article H2:first-child {
@@ -508,7 +495,7 @@ BUTTON {
   .article H3 {
     margin: 30px 0 20px 0;
     color: #000;
-    font: 18px/1 'RobotoLight', sans-serif;
+    font: 18px/1 Arial, sans-serif;
     }
 .article-header {
   position: relative;
@@ -551,7 +538,7 @@ BUTTON {
 .article-title .highlight,
 .article-title .editable {
   color: #000;
-  font: 30px/1 'RobotoLight', sans-serif;
+  font: 30px/1 Arial, sans-serif;
   }
 .form .article-title .editable {
   margin: -5px 0;
@@ -677,7 +664,7 @@ BUTTON {
   .popup H2 {
     margin-bottom: 30px;
     color: #000;
-    font: 30px/1 'RobotoLight', sans-serif;
+    font: 30px/1 Arial, sans-serif;
     }
 
 /* Popup alert */
@@ -1260,7 +1247,7 @@ BUTTON {
     }
   .profile-desc H3 {
     margin-bottom: 20px;
-    font: 24px/1 'RobotoLight', sans-serif;
+    font: 24px/1 Arial, sans-serif;
     color: #000;
     }
   .profile-desc UL {
