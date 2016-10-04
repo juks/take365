@@ -242,3 +242,18 @@ definitions:
       author:
         type: object
         description: Comment creator
+  Post:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Post id
+      isPublished:
+        type: boolean
+        description: Published flag
+      title:
+        type: string
+        description: Post title
+      Body:
+        type: string
+        description: Post body

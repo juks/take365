@@ -17,6 +17,7 @@ return [
     '/api/<controller:\w+>/<method:\w+>'						    => '/api/<controller>/<method>',
 
     '<alias:captcha|about|logout|help|howto|blog>/?'    		    => '/site/<alias>',
+    '/blog/<id:\d+>/?'    		                                    => '/site/blog-post',
 
     '/<username:@?[0-9a-zA-Z-]{1,20}>/?'        					                                    => '/user-page/home',
     '/<username:@?[0-9a-zA-Z-]{1,20}>/story/<storyId:[0-9]{1,5}>/?'	                                    => '/user-page/story',

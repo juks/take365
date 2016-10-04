@@ -7,12 +7,12 @@ use app\components\MyJsonController;
 use app\components\Helpers;
 use app\components\interfaces\IPermissions;
 use app\modules\api\components\ApiController;
-use app\modules\api\models\ApiStory;
+use app\modules\api\models\ApiPost;
 use app\modules\api\models\ApiUser;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
-class StoryController extends ApiController {
+class PostController extends ApiController {
     public function behaviors() {
         $b = parent::behaviors();
 
@@ -20,15 +20,9 @@ class StoryController extends ApiController {
             'class' => AccessControl::className(),
             'rules' => [
                 [
-                    'actions' => ['write', 'list', 'delete-recover'],
+                    'actions' => ['write', 'list'],
                     'allow' => true,
                     'roles' => ['@'],
-                ],
-
-                [
-                    'actions' => ['get'],
-                    'allow' => true,
-                    'roles' => ['?', '@'],
                 ],
 
                 [
@@ -56,82 +50,64 @@ class StoryController extends ApiController {
 
         $defaultUserId = null;
         $defaultUsername = null;
-        $defaultEmail = null;
-        $defaultStoryId = null;
+        $defaultPostId = 1;
 
         if (!$user->isGuest) {
             $defaultUserId = $user->id;
             $defaultUsername = !empty($user->identity->username) ? $user->identity->username : null;
-            $defaultEmail = isset($user->identity->email) ? $user->identity->email : null;
 
-            $stories = $user->identity->stories;
-            if ($stories) {
-                $defaultStoryId = $stories[0]->id;
-            }
         }
 
         return [
-            'title'                     => 'Stories',
-            'description'               => 'Provides read and write access to stories data.',
+            'title'                     => 'Posts',
+            'description'               => 'Provides read and write access to posts data.',
             'methods'                   => [
-                '/story/{id}'         => [
-                    'title' => 'Fetches Story information',
+                '/post/{id}'         => [
+                    'title' => 'Fetches Post information',
                     'method' => 'GET',
                     'auth'  => true,
-                    'params'                => [['n' => 'id', 't' => 'Story Id', 'f' => 'integer', 'in' => 'path', 'd' => $defaultStoryId]],
-                    'responses'             => ['200' => ['s' => 'Story']]
+                    'params'                => [['n' => 'id', 't' => 'Post Id', 'f' => 'integer', 'in' => 'path', 'd' => 1]],
+                    'responses'             => ['200' => ['s' => 'Post']]
                 ],
 
-                '/story/list'   => [
-                    'title' => 'Fetches the list of public or given user stories',
-                    'method' => 'GET',
-                    'auth'  => true,
-                    'params'                => [
-                                                    ['n' => 'page',      't' => 'Page Number',                      'o' => true, 'f' => 'integer', 'd' => 1],
-                                                    ['n' => 'maxItems' , 't' => 'Maximal Items Count',              'o' => true, 'f' => 'integer', 'd' => 10],
-                                                    ['n' => 'username' , 't' => 'Name of User to Fetch Stories of', 'o' => true, 'h' => 'Eg. "bob" for Bob or "me" for current user', 'f' => 'string', 'd' => $defaultUsername]
-                                            ],
-                    'responses'             => ['200' => ['t' => 'array', 's' => 'Story']]
-                ],
-
-                '/story/write'      => [
-                    'title' => 'Creates or updates story',
+                '/post/write'      => [
+                    'title' => 'Creates or updates post',
                     'method' => 'POST',
                     'auth'  => true,
                     'params'                => [
-                                                    ['n' => 'id',           't' => 'Story Id', 'h'=>'If not given, a new story will be created', 'f' => 'integer', 'd' => $defaultStoryId],
-                                                    ['n' => 'status',       't' => 'Story Status', 'h'=>'0 — public, 1 — private', 'f' => 'integer', 'e' => [0, 1]],
-                                                    ['n' => 'title',        't' => 'Story Title', 'f' => 'string'],
-                                                    ['n' => 'description',  't' => 'Story Description', 'f' => 'string'],
+                                                    ['n' => 'id',           't' => 'Post Id', 'h'=>'If not given, a new post will be created', 'f' => 'integer', 'd' => $defaultPostId],
+                                                    ['n' => 'status',       't' => 'Post Status', 'h'=>'0 — public, 1 — private', 'f' => 'integer', 'e' => [0, 1]],
+                                                    ['n' => 'title',        't' => 'Post Title', 'f' => 'string'],
+                                                    ['n' => 'description',  't' => 'Post Description', 'f' => 'string'],
                                             ],
-                    'responses'             => ['200' => ['s' => 'Story']]
+                    'responses'             => ['200' => ['s' => 'Post']]
                 ],
 
-                '/story/delete-recover'      => [
-                    'title' => 'Deletes or recovers story',
+                '/post/delete-recover'      => [
+                    'title' => 'Deletes or recovers post',
                     'method' => 'POST',
                     'auth'  => true,
                     'params'                => [
-                                                    ['n' => 'id',           't' => 'Story Id',             'h'=>'If not given, a new story will be created', 'f' => 'integer', 'd' => $defaultStoryId],
+                                                    ['n' => 'id',           't' => 'Post Id',             'h'=>'If not given, a new post will be created', 'f' => 'integer', 'd' => $defaultPostId],
                                                     ['n' => 'doRecover',    't' => 'Recover Deleted Items','h'=>'If set, the deleted items will be recovered', 'f' => 'boolean'],
                                             ],
                     'responses'             => ['200' => ['s' => 'Response']]
                 ],
 
-                '/story/{id}/comments'         => [
-                    'title' => 'Fetches story comments',
+                '/post/{id}/comments'         => [
+                    'title' => 'Fetches post comments',
                     'method' => 'GET',
                     'auth'  => true,
-                    'params'                => [['n' => 'id', 't' => 'Story Id', 'f' => 'integer', 'in' => 'path', 'd' => $defaultStoryId]],
+                    'params'                => [['n' => 'id', 't' => 'Post Id', 'f' => 'integer', 'in' => 'path', 'd' => $defaultPostId]],
                     'responses'             => ['200' => ['s' => 'Comment']]
                 ],
 
-                '/story/{story-id}/write-comment'   => [
+                '/post/{post-id}/write-comment'   => [
                     'title' => 'Creates or updates comment',
                     'method' => 'POST',
                     'auth'  => true,
                     'params'                => [
-                        ['n' => 'story-id',     't' => 'Story Id',             'f' => 'integer', 'in' => 'path', 'd' => $defaultStoryId],
+                        ['n' => 'post-id',     't' => 'Post Id',             'f' => 'integer', 'in' => 'path', 'd' => $defaultPostId],
                         ['n' => 'id' ,          't' => 'Comment Id To Update', 'o' => true, 'f' => 'integer'],
                         ['n' => 'body' ,        't' => 'Comment Text',         'f' => 'string'],
                         ['n' => 'parentId' ,    't' => 'Parent Comment Id',    'o' => true, 'f' => 'integer'],
@@ -143,11 +119,11 @@ class StoryController extends ApiController {
     }
 
     protected function getModelClass() {
-        return ApiStory::className();
+        return ApiPost::className();
     }
 
     /**
-     * Fetches story data
+     * Fetches post data
      *
      * @param int $id
      */
@@ -156,7 +132,7 @@ class StoryController extends ApiController {
     }
 
 	/**
-	 * Create or update the story
+	 * Create or update the post
 	 *
 	 * @param string $username
 	 */
@@ -164,32 +140,31 @@ class StoryController extends ApiController {
 		if ($id) {
 			$model = $this->checkModelPermission(intval($id), IPermissions::permWrite);
 		} else {
-            if (!ApiStory::checkQuota()) {
-                $this->addErrorMessage('За последнее время вы создали слишком много историй');
-                return;
-            }
-
-            $model = new ApiStory();
+            $model = new ApiPost();
 		}
 
 		$model->load(Helpers::getRequestParams('post'));
+        $model->blog_id = 1;
+
+        $this->checkParentModelPermission($model->blog_id, IPermissions::permWrite, ['parentModelClass' => ApiBlog::className()]);
+
 		$model->save();
 
 		$this->addContent($model);
 	}
 
     /**
-    * Marks story for deletion
+    * Marks post for deletion
     *
     * @param int $id
     */
     public function actionDeleteRecover($id, $doRecover = false) {
-        $story = $this->checkModelPermission(intval($id), IPermissions::permWrite);
+        $post = $this->checkModelPermission(intval($id), IPermissions::permWrite);
 
         if (!$doRecover) {
-            $this->addContent($story->markDeleted());
+            $this->addContent($post->markDeleted());
         } else {
-            $this->addContent($story->undelete()); 
+            $this->addContent($post->undelete()); 
         }
     }
 
@@ -222,12 +197,12 @@ class StoryController extends ApiController {
         // Fetch all stories
         } else {
             $conditions = ['status' => 0];
-            $stories = ApiStory::find()->where($conditions)->orderBy('time_published')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
+            $stories = ApiPost::find()->where($conditions)->orderBy('time_published')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
         }
 
-        foreach ($stories as $story) {
-            $story->setScenario('listView');
-            $story->calculateProgress();
+        foreach ($stories as $post) {
+            $post->setScenario('listView');
+            $post->calculateProgress();
         }
 
         $this->addContent($stories);

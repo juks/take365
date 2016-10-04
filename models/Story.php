@@ -55,7 +55,6 @@ class Story extends StoryBase implements IPermissions, IGetType {
     **/
     public function scenarios() {
         return [
-            'import' => ['id', 'id_old', 'created_by', 'status', 'is_deleted', 'time_deleted', 'is_active', 'time_created', 'time_updated', 'time_start', 'time_published', 'media_count', 'title', 'description', 'description_jvx'],
             'default' => ['time_start', 'status', 'media_count', 'title', 'description']
         ];
     }
@@ -198,9 +197,6 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * Forms story URL
     */
     public function getUrl() {
-//        if ($this->_authorCache === false)
-//            $this->_authorCache = User::find()->where(User::getActiveCondition())->andWhere(['id' => $this->created_by])->one();
-
         return $this->creator->url . '/story/' . $this->id;
     }
 
@@ -297,10 +293,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
     // DEPRECATED
     public function fetchImagesCount($extra = []) {
-        /*$mo = Media::getMediaOptions('storyImage');
-        $this->imagesCount = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])->where(['type' => $mo[Media::mediaTypeId], 'is_deleted' => 0])->count();
-        // No null
-        if (!$this->imagesCount) $this->imagesCount = 0;*/
+
     }
 
     /**
@@ -343,7 +336,6 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $this->calculateProgress();
         $canUpload = $this->hasPermission(Yii::$app->user, IPermissions::permWrite);
 
-        $lastMonth = null;
         $dateDict = [];
         $imageIds = [];
         $likesHash = [];
@@ -418,8 +410,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
             $drop['monthTitle'] = $this->monthTitle[$month - 1];
             $drop['blankSpace'] = $blankSpace;
-
-            $lastMonth          = $month;
+            
             if (!$blankSpace || $canUpload) $this->calendar[] = $drop;
 
             if ($date == $dateTarget) break;

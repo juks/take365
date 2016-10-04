@@ -4,6 +4,7 @@ namespace app\commands;
 use Yii;
 use yii\console\Controller;
 use \app\rbac\UserGroupRule;
+use \app\models\User;
  
 class RbacController extends Controller
 {
@@ -31,5 +32,13 @@ class RbacController extends Controller
         $authManager->add($guest);
         $authManager->add($user);
         $authManager->add($admin);
+
+        $logins = ['juks', 'lusever', 'oracle'];
+        $users = User::find()->where(['username' => $logins])->all();
+
+        foreach($users as $user) {
+            $authManager->assign($admin, $user->id);
+        }
+
     }
 }

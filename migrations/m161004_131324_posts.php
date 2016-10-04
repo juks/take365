@@ -14,6 +14,8 @@ class m161004_131324_posts extends Migration
                           PRIMARY KEY (`id`)
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
+        $this->execute('INSERT INTO blog (created_by, time_created) values (1, unix_timestamp())');
+
         $this->execute('CREATE TABLE `post` (
                           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
                           `created_by` int(10) unsigned DEFAULT \'0\',

@@ -9,6 +9,8 @@ use app\models\User;
 use app\models\Story;
 use app\models\Mosaic;
 use app\models\RegisterForm;
+use app\models\Blog;
+use app\models\Post;
 use app\components\MyController;
 use app\components\Captcha;
 use app\components\Ml;
@@ -28,7 +30,7 @@ class SiteController extends MyController
                     ],
 
                     [
-                        'actions'   => ['index', 'auth', 'captcha', 'help', 'howto', 'blog', 'error', 'cave'],
+                        'actions'   => ['index', 'auth', 'captcha', 'help', 'howto', 'blog', 'blog-post', 'error', 'cave'],
                         'allow'     => true,
                         'roles'     => ['?', '@']
                     ],
@@ -107,24 +109,33 @@ class SiteController extends MyController
         return $this->goHome();
     }
 
-    public function actionConfirm() {
-
-    }
-
-    public function actionRecover() {
-
-    }
-
-    public function actionRecoverConfirm() {
-
-    }
-
+    /**
+     * Lists items in site blog
+     */
     public function actionBlog() {
         $this->setTitle(Ml::t('Blog'));
 
-        return $this->render('blog', []);
+        $blog = Blog::findOne(1);
+        $posts = $blog->posts;
+
+        return $this->render('blog', ['posts' => $posts]);
     }
 
+    /**
+     * Shows blog post
+     *
+     * @param $id
+     * @return string
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionBlogPost($id) {
+        $this->setTitle(Ml::t('Blog Post'));
+
+        $post = Post::getActiveItem($id);
+        if (!$post) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
+
+        return $this->render('post', ['post' => $post]);
+    }
 
     public function actionHelp() {
         $this->setTitle(Ml::t('About the project'));

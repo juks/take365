@@ -21,11 +21,11 @@ class ApiMediaForm extends Model {
      */
     public function rules() {
         return [
-            [['targetId', 'targetType', 'mediaType'], 'required'],
-            [['targetId', 'targetType'], 'integer'],
-            ['date',        'date', 'format' => 'yyyy-M-d'],
+            [['targetId',   'targetType',  'mediaType'], 'required'],
+            [['targetId',   'targetType'], 'integer'],
+            ['date',        'date',        'format' => 'yyyy-M-d'],
             ['autoDate',    'boolean'],
-            [['file'],      'file', 'skipOnEmpty' => false]
+            [['file'],      'file',        'skipOnEmpty' => false]
         ];
     }
 

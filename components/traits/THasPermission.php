@@ -17,7 +17,8 @@ trait THasPermission {
         if (method_exists($this, 'checkPermission')) return $this->checkPermission($user, $permission);
 
         $roles = \Yii::$app->authManager->getRolesByUser($user->id);
-        
+        if (!empty($roles['admin'])) return true;
+
         if (!method_exists($this, 'getCreatorIdField')) throw new \Exception("No getCreatorIdField() method defined for class " . get_class($this));
         if (!method_exists($this, 'getIsPublic')) throw new \Exception("No getIsPublic() method defined for class " . get_class($this));
 
