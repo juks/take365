@@ -28,7 +28,7 @@ class SiteController extends MyController
                     ],
 
                     [
-                        'actions'   => ['index', 'auth', 'captcha', 'help', 'howto', 'error', 'cave'],
+                        'actions'   => ['index', 'auth', 'captcha', 'help', 'howto', 'blog', 'error', 'cave'],
                         'allow'     => true,
                         'roles'     => ['?', '@']
                     ],
@@ -117,7 +117,14 @@ class SiteController extends MyController
 
     public function actionRecoverConfirm() {
 
-    }    
+    }
+
+    public function actionBlog() {
+        $this->setTitle(Ml::t('Blog'));
+
+        return $this->render('blog', []);
+    }
+
 
     public function actionHelp() {
         $this->setTitle(Ml::t('About the project'));
