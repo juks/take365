@@ -36,7 +36,8 @@ class PostBase extends \yii\db\ActiveRecord
         return [
             [['created_by', 'time_created', 'time_updated', 'time_published', 'blog_id', 'is_published'], 'integer'],
             [['body', 'body_jvx'], 'string'],
-            [['title'], 'string', 'max' => 255]
+            [['title'], 'string', 'max' => 255],
+            [['created_by', 'time_created', 'blog_id', 'title', 'body'], 'required'],
         ];
     }
 

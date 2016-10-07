@@ -51,4 +51,21 @@ class Blog extends BlogBase implements IPermissions {
 
         return $this->hasMany(Post::className(), ['blog_id' => 'id'])->where($conditions)->orderBy($order);
     }
+
+    /**
+     * Fetch post by id
+     */
+    public static function getActivePost($id) {
+        $post = Post::findOne($id);
+        if (!$post) return null;
+
+        $blog = Blog::findOne($post->blog_id);
+        if (!$blog) return null;
+
+        if ($blog->hasPermission(Yii::$app->user, IPermissions::permRead)) {
+            return $post;
+        } else {
+            return null;
+        }
+    }
 }

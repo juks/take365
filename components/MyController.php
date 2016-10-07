@@ -12,6 +12,7 @@ class MyController extends Controller {
 	public function render($view, $params = []) {
 		$this->view->params['jsVarsString'] = $this->getJsVarsString();
 		$this->view->params = array_merge($this->view->params, $params);
+		if (empty($this->view->params['pageType'])) $this->view->params['pageType'] = null;
 
 		if ($this->_title) $this->view->title = $this->_title . ' | ' . Helpers::getParam('projectName'); else $this->view->title = Helpers::getParam('projectName');
 
