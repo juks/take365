@@ -37,7 +37,7 @@ ProfileAsset::register($this);
 			</select>
 		</div>
 		<div class="fElem">
-		<input id="optNotify" type="checkbox" value="1" name="optNotify"<?= $optNotify ? ' checked' : '' ?>>
+		<input id="optNotify" type="checkbox" value="1" name="optNotify"<?= $optNotify ? ' checked' : '' ?> hidden>
 		<label for="optNotify">Получать уведомления по электронной почте</label>
 		</div>
 		<div class="fTitle">Часовой пояс</div>

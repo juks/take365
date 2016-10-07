@@ -1,5 +1,5 @@
 <header class="article-header">
-  <h1 class="article-title">Профиль <a href="<?= $owner->url ?>"><?= $owner->fullnameFilled ?></a></h1>
+  <h1 class="article-title">Профиль <?= $owner->fullnameFilled ?></h1>
   <?php if ($owner->thisIsMe): ?><a href="<?= $owner->urlEdit ?>" class="fa fa-pencil-square-o" title="Редактировать профиль"></a><?php endif ?>
 </header>
 <section class="profile">

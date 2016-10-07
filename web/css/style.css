@@ -1,22 +1,28 @@
-/* Elements
------------------------------------------------ */
-HTML,
-BODY {
+html,
+body {
   height: 100%;
   }
-BODY {
+body {
   min-width: 900px;
   background: #FFF;
   color: #333;
-  font: 400 14px/1.6 Arial, sans-serif;
+  font: 16px/1.4 Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
   }
-A {
+a {
+  border-bottom: 1px solid rgba(0, 85, 204, 0.2);
   color: #0055CC;
   text-decoration: none;
   }
-A:hover {
+a:hover {
+  border-color: rgba(224, 41, 41, 0.2);
   color: #E02929;
-  text-decoration: none;
+  }
+strong, b {
+  font-weight: bold;
+  }
+em {
+  font-style: italic;
   }
 .hidden {
   display: none;
@@ -24,15 +30,14 @@ A:hover {
 .color {
   color: #E02929;
   }
-INPUT,
-TEXTAREA,
-SELECT,
-BUTTON {
+input,
+textarea,
+select,
+button {
   outline: none;
   border: none;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
   }
 
 /* Close */
@@ -242,7 +247,6 @@ BUTTON {
   font-weight: 400;
   font-size: 18px;
   line-height: 1.3;
-  -webkit-font-smoothing: antialiased;
   }
 :-moz-placeholder {
   color: #999;
@@ -272,7 +276,6 @@ BUTTON {
   font-weight: 400;
   font-size: 16px;
   line-height: 1;
-  -webkit-font-smoothing: antialiased;
   }
 .form .cancel {
   margin-left: 10px;
@@ -301,7 +304,6 @@ BUTTON {
   font-weight: 400;
   font-size: 11px;
   line-height: 1;
-  -webkit-font-smoothing: antialiased;
   }
 .form .error-message:before {
   position: absolute;
@@ -394,69 +396,91 @@ BUTTON {
 
 /* Header
 ----------------------------------------------- */
-.header:after {
-  display: block;
-  height: 0;
-  content: '';
-  clear: both;
+.header {
+  padding-top: 23px;
+  margin-bottom: 17px;
+  text-align: center;
   }
 .header-logo {
   position: relative;
-  float: left;
+  display: inline-block;
   width: 154px;
   height: 54px;
-  margin: 40px 0 0 35px;
-  background: #FFF;
-  font-size: 0;
-  line-height: 0;
-  transition: box-shadow 0.5s linear;
   }
-.header-logo:after {
+  .header-logo > a {
+    position: relative;
+    display: block;
+    width: 132px;
+    height: 30px;
+    border: none;
+    font-size: 0;
+    }
+.header-logo:before {
   position: absolute;
   top: 50%;
   left: 50%;
   width: 132px;
   height: 30px;
-  margin: -15px 0 0 -66px;
-  background-image: url('/i/logo.svg');
+  margin: -16px 0 0 -66px;
   content: '';
+  background: url('/i/logo.svg') no-repeat;
   }
-.header-nav {
-  float: right;
-  padding: 9px 5px 9px 15px;
-  margin: 47px 35px 0 0;
-  background: #FFF;
-  font-size: 0;
+.header-logo-text {
+  position: absolute;
+  top: 4px;
+  left: 100%;
+  margin-left: -8px;
+  line-height: 1;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 16px;
   }
-.header-nav LI {
-  position: relative;
-  display: inline-block;
-  margin-left: 10px;
-  padding: 0 5px;
-  line-height: 1.3;
-  font-size: 14px;
-  font-weight: 400;
+
+/* Navigation
+----------------------------------------------- */
+.nav {
+  margin-bottom: 60px;
+  text-align: center;
+  line-height: 1;
+  font-size: 16px;
   }
-.header-nav LI:first-child {
-  margin-left: 0;
-  padding-left: 0;
-  }
-.header-nav LI.active {
-  padding: 0 5px 2px 5px;
-  background: #333;
-  color: #FFF;
-  }
-  .header-nav LI.active A {
+  .nav-list {
     display: inline-block;
-    line-height: 1;
-    border-bottom: 1px solid #999;
+    }
+  .nav-item {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 20px;
+    }
+  .nav-item:first-child {
+    margin-left: 0;
+    }
+  .nav-item:last-child {
+    margin-right: 0;
+    }
+  .nav-item.selected {
+    background: #333;
+    padding: 2px 5px 3px 5px;
+    margin: -2px 15px -3px 15px;
+    border-radius: 2px;
     color: #FFF;
     }
-  .header-nav LI.active A:hover {
-    border-bottom-color: #CCC;
+  .nav-item.selected:first-child {
+    margin-left: -5px;
     }
-  .header-nav LI + LI.active A {
-    border-bottom: none;
+  .nav-item.selected:last-child {
+    margin-right: -5px;
+    }
+  .nav-item.selected .nav-link {
+    position: relative;
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #FFF;
+    }
+  .nav-item.selected .nav-link:hover {
+    border-color: rgba(255, 255, 255, 0.7);
+    }
+  .nav-item.selected .nav-link-register {
+    border: none;
     }
 
 /* Content
@@ -475,9 +499,9 @@ BUTTON {
 ----------------------------------------------- */
 .article {
   position: relative;
+  width: 800px;
   box-sizing: border-box;
-  padding: 35px 45px 0 45px;
-  -webkit-font-smoothing: antialiased;
+  margin: 0 auto 60px auto;
   }
   .article P {
     margin-bottom: 20px;
@@ -496,6 +520,12 @@ BUTTON {
     margin: 30px 0 20px 0;
     color: #000;
     font: 18px/1 Arial, sans-serif;
+    }
+  .article .video {
+    text-align: center;
+    }
+  .article .download-app a {
+    border: none;
     }
 .article-header {
   position: relative;
@@ -518,6 +548,7 @@ BUTTON {
     position: absolute;
     top: 6px;
     right: 0;
+    border: none;
     font-size: 24px;
     }
   .article-header .fa-plus-square-o {
@@ -625,6 +656,7 @@ BUTTON {
   margin-right: 1px;
   width: 28px;
   height: 28px;
+  border: none;
   }
 .auth-link.facebook {
   background: url('/i/i-facebook.svg') no-repeat;
@@ -677,11 +709,9 @@ BUTTON {
   padding: 20px;
   margin-left: -150px;
   background: rgba(224, 41, 41, 0.9);
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   color: #FFF;
   line-height: 1.3;
-  -webkit-font-smoothing: antialiased;
   }
 .popup-alert.success {
   background: rgba(0, 178, 9, 0.9);
@@ -716,7 +746,6 @@ BUTTON {
   text-align: center;
   font-size: 11px;
   line-height: 1.4;
-  -webkit-font-smoothing: antialiased;
   }
   .footer UL {
     display: inline-block;
@@ -761,6 +790,12 @@ BUTTON {
 
 /* Story
 ----------------------------------------------- */
+.page-stories .article,
+.page-story .article {
+  width: auto;
+  padding: 0 50px;
+  margin: 0 0 60px 0;
+  }
 .story {
   margin: 30px 0;
   padding: 10px 0;
@@ -774,6 +809,9 @@ BUTTON {
   display: inline-block;
   vertical-align: top;
   }
+  .story-content H2 A {
+    border: none;
+    }
 
 /* Story matrix */
 .story-matrix:after {
@@ -860,6 +898,9 @@ BUTTON {
   margin: 0 5px;
   content: '·';
   }
+  .story-summary-info A {
+    border: none;
+    }
   .story-summary-info .fa {
     color: #666;
     }
@@ -1109,6 +1150,9 @@ BUTTON {
     .story-random .story-header H4 {
       font-weight: 600;
       }
+      .story-random .story-header H4 A {
+        border: none;
+        }
 
 /* Profile
 ----------------------------------------------- */
@@ -1291,22 +1335,28 @@ BUTTON {
 .main {
   overflow: hidden;
   }
-.main .header-logo {
-  position: fixed;
-  top: 40px;
-  left: 35px;
+.main .header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: 0;
   z-index: 2;
-  margin: 0;
-  float: none;
-  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
   }
-.main .header-nav {
-  position: fixed;
-  top: 47px;
-  right: 35px;
+.main .header-logo {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  }
+.main .header-logo > a {
+  width: 154px;
+  height: 54px;
+  }
+.main .nav {
+  position: absolute;
+  top: 110px;
+  left: 0;
+  right: 0;
   z-index: 2;
-  float: none;
-  margin: 0;
   }
 .main .content {
   height: 100%;
@@ -1320,7 +1370,7 @@ BUTTON {
   }
 .main .footer {
   position: fixed;
-  bottom: 0;
+  bottom: -9px;
   z-index: 2;
   width: 100%;
   padding-top: 0;
@@ -1506,6 +1556,13 @@ BUTTON {
 
 /* Feed
 ----------------------------------------------- */
+.feed {
+  text-align: center;
+  }
+.feed-list {
+  display: inline-block;
+  text-align: left;
+  }
 .feed-item {
   margin-bottom: 50px
   }
@@ -1540,6 +1597,9 @@ BUTTON {
   line-height: 23px;
   color: #CCC;
   }
+  .feed-userpic A {
+    border: none;
+    }
 .feed-userpic-img {
   display: block;
   position: relative;
@@ -1557,6 +1617,7 @@ BUTTON {
   font-weight: 600;
   }
   .feed-username A {
+    border: none;
     color: #000;
     }
   .feed-username A:hover {
@@ -1572,6 +1633,7 @@ BUTTON {
   margin: 10px 0 0 0;
   }
 .feed-likes .feed-like {
+  border: none;
   vertical-align: middle;
   font-size: 18px;
   }
@@ -1588,6 +1650,9 @@ BUTTON {
   margin-right: 10px;
   font-size: 12px;
   color: #666;
+  }
+.feed-load-more {
+  text-align: center;
   }
 .feed-load .btn {
   height: 40px;

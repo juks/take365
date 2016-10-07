@@ -34,7 +34,7 @@ FrontAsset::register($this);
           // more fps on scroll
           document.body.style.pointerEvents = 'none';
 
-          $('.header-nav-register').toggleClass('active', index === REGISTRATION_INDEX);
+          $('.nav-link-register').closest('.nav-item').toggleClass('selected', index === REGISTRATION_INDEX);
           // fix не срабатывает afterMove когда мы перемещаемся на индекс на котором находимся. v1.3.1
           setTimeout(function() {
             document.body.style.pointerEvents = 'auto';
@@ -46,7 +46,7 @@ FrontAsset::register($this);
         loop: false
       });
 
-      $('.header-nav-register').toggleClass('active', location.hash === '#' + REGISTRATION_INDEX);
+      $('.nav-link-register').closest('.nav-item').toggleClass('selected', location.hash === '#' + REGISTRATION_INDEX);
 
       Bg.create(pp.ids, pp.urls, pp.maxSpritesPerFile, pp.currentMosaicId);
     });

@@ -15,7 +15,9 @@ $isSubscribed = !$user->isGuest && Feed::isSubscribed($user);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE HTML>
-<html lang="ru-RU">
+<html lang="ru-RU"
+<?php if ($this->params['pageType'] == 'story'): ?> class="page-story"<?php endif ?>
+<?php if ($this->params['pageType'] == 'home'): ?> class="page-stories"<?php endif ?>>
 <head>
 <title><?= Html::encode($this->title) ?></title>
 <meta charset="utf-8">
@@ -29,11 +31,16 @@ $isSubscribed = !$user->isGuest && Feed::isSubscribed($user);
   <div class="page">
     <div class="page-wrapper">
       <header class="header">
-        <a href="<?= \yii\helpers\Url::base(true) ?>"><div class="header-logo">take365</div></a>
-        <ul class="header-nav">
+        <h1 class="header-logo">
+          <a href="<?= \yii\helpers\Url::base(true) ?>">take365</a>
+          <sup class="header-logo-text">блог</sup>
+        </h1>
+      </header>
+      <nav class="nav">
+        <ul class="nav-list">
           <?php if ($user->isGuest) echo $this->render('//blocks/userMenu/anonymous'); else echo $this->render('//blocks/userMenu/logged', ['user' => $user->identity, 'owner' => isset($this->params['owner']) ? $this->params['owner'] : null, 'isSubscribed' => $isSubscribed]); ?>
         </ul>
-      </header>
+      </nav>
       <div class="content">
         <article class="article">
         	<?= $content ?>
@@ -49,4 +56,3 @@ $isSubscribed = !$user->isGuest && Feed::isSubscribed($user);
 </body>
 </html>
 <?php $this->endPage() ?>
-
