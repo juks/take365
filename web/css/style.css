@@ -455,6 +455,7 @@ button {
     z-index: 1;
     }
   .nav-item {
+    position: relative;
     display: inline-block;
     vertical-align: middle;
     margin: 0 20px;
@@ -464,6 +465,14 @@ button {
     }
   .nav-item:last-child {
     margin-right: 0;
+    }
+  .nav-item-logout .nav-link {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #666;
+    }
+  .nav-item-logout .nav-link:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #333;
     }
   .nav-item.selected {
     background: #333;

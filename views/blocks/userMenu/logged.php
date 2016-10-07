@@ -17,6 +17,6 @@
 <?php endif ?>
 <?php endforeach ?>
 
-<li class="nav-item">
+<li class="nav-item nav-item-logout">
   <a href="#" onclick="logout();return false" class="nav-link">Выйти</a>
 </li>
