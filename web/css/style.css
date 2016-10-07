@@ -831,10 +831,6 @@ button {
     margin-bottom: 10px;
     font-size: 20px;
     }
-.story-content {
-  display: inline-block;
-  vertical-align: top;
-  }
   .story-content H2 A {
     border: none;
     }
