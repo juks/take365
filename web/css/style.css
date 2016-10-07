@@ -1620,6 +1620,7 @@ button {
   }
   .sep {
     margin: 0 10px;
+    vertical-align: middle;
     }
 .feed-user {
   display: inline-block;
