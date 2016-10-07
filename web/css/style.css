@@ -406,6 +406,7 @@ button {
   display: inline-block;
   width: 154px;
   height: 54px;
+  background: #FFF;
   }
   .header-logo > a {
     position: relative;
@@ -593,7 +594,7 @@ button {
     .intro P SPAN {
       position: relative;
       z-index: 2;
-      padding: 7px 15px;
+      padding: 7px 10px;
       background: #000;
       }
     .intro P A {
@@ -1357,6 +1358,12 @@ button {
   left: 0;
   right: 0;
   z-index: 2;
+  }
+.main .nav-list {
+  padding: 6px 10px 6px 10px;
+  }
+.main .nav-item A {
+  border: none;
   }
 .main .content {
   height: 100%;
