@@ -407,9 +407,12 @@ button {
   width: 154px;
   height: 54px;
   background: #FFF;
+  z-index: 2;
   }
   .header-logo > a {
     position: relative;
+    top: 11px;
+    left: 11px;
     display: block;
     width: 132px;
     height: 30px;
@@ -446,8 +449,10 @@ button {
   font-size: 16px;
   }
   .nav-list {
+    position: relative;
     display: inline-block;
     background: #FFF;
+    z-index: 1;
     }
   .nav-item {
     display: inline-block;
@@ -1370,22 +1375,22 @@ button {
   left: 0;
   right: 0;
   margin-bottom: 0;
-  z-index: 2;
   }
 .main .header-logo {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   }
 .main .header-logo > a {
+  top: 0;
+  left: 0;
   width: 154px;
   height: 54px;
   }
 .main .nav {
   position: absolute;
-  top: 110px;
+  top: 104px;
   left: 0;
   right: 0;
-  z-index: 2;
   }
 .main .nav-list {
   padding: 6px 10px 6px 10px;
@@ -1405,7 +1410,7 @@ button {
   }
 .main .footer {
   position: fixed;
-  bottom: -9px;
+  bottom: 0;
   z-index: 2;
   width: 100%;
   padding-top: 0;
@@ -1430,9 +1435,14 @@ button {
 .viewing-page-2 .header-logo {
   box-shadow: none;
   }
+  .viewing-page-2 .header-logo > a {
+    top: 11px;
+    left: 11px;
+    width: 132px;
+    height: 30px;
+    }
 .viewing-page-2 .footer {
   position: relative;
-  top: 0;
   }
   .viewing-page-2 .footer .stores {
     display: none;

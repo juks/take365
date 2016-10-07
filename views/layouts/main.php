@@ -32,8 +32,10 @@ $isSubscribed = !$user->isGuest && Feed::isSubscribed($user);
     <div class="page-wrapper">
       <header class="header">
         <h1 class="header-logo">
-          <a href="<?= \yii\helpers\Url::base(true) ?>">take365</a>
-          <sup class="header-logo-text">блог</sup>
+          <a href="<?= \yii\helpers\Url::base(true) ?>">
+            take365
+            <!-- <sup class="header-logo-text">блог</sup> -->
+          </a>
         </h1>
       </header>
       <nav class="nav">
