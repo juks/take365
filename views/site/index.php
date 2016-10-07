@@ -6,7 +6,6 @@ use yii\widgets\ActiveForm;
 <header class="header">
   <h1 class="header-logo">
     <a href="javascript:void $('.content').moveTo(1)">take365</a>
-    <sup class="header-logo-text">блог</sup>
   </h1>
 </header>
 <nav class="nav">
@@ -33,7 +32,7 @@ use yii\widgets\ActiveForm;
     </article>
     <div class="matrix"></div>
   </section>
-  <section>
+  <section class="register">
     <article class="article">
       <h2>Регистрация</h2>
       <form action="/api/user/register" method="post" onsubmit="Register.onSubmit(event)" class="form form-register">

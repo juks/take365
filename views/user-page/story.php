@@ -33,7 +33,7 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
     </tr>
     </table>
     <div class="story-info">
-      <a href="#comments" class="num-comments"><span class="fa fa-comment-o"></span> <?= Ml::t('{n,plural,=0{No comments} =1{One Comment} other{# Comments}}', null, ['n' => $story->comments_count ]) ?></a>
+      <a href="#comments" class="num-comments"><?= Ml::t('{n,plural,=0{No comments} =1{One Comment} other{# Comments}}', null, ['n' => $story->comments_count ]) ?></a>
       <a href="#" id="delete-recover" onclick="Story.deleteRecover(<?= $story->id ?>); return false;"><?php if ($story->is_deleted): ?><span class="recover">Восстановить историю</span><?php else: ?><span class="delete">Удалить историю</span><?php endif ?></a>
     </div>
   </form>

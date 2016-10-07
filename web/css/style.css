@@ -406,9 +406,13 @@ button {
   display: inline-block;
   width: 154px;
   height: 54px;
+  background: #FFF;
+  z-index: 2;
   }
   .header-logo > a {
     position: relative;
+    top: 11px;
+    left: 11px;
     display: block;
     width: 132px;
     height: 30px;
@@ -445,9 +449,13 @@ button {
   font-size: 16px;
   }
   .nav-list {
+    position: relative;
     display: inline-block;
+    background: #FFF;
+    z-index: 1;
     }
   .nav-item {
+    position: relative;
     display: inline-block;
     vertical-align: middle;
     margin: 0 20px;
@@ -457,6 +465,14 @@ button {
     }
   .nav-item:last-child {
     margin-right: 0;
+    }
+  .nav-item-logout .nav-link {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #666;
+    }
+  .nav-item-logout .nav-link:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #333;
     }
   .nav-item.selected {
     background: #333;
@@ -491,6 +507,7 @@ button {
   .content > SECTION {
     position: relative;
     overflow: hidden;
+    width: 100%;
     height: 100%;
     transform: translateZ(0);
     }
@@ -593,7 +610,7 @@ button {
     .intro P SPAN {
       position: relative;
       z-index: 2;
-      padding: 7px 15px;
+      padding: 7px 10px;
       background: #000;
       }
     .intro P A {
@@ -611,6 +628,15 @@ button {
 /* Login & Register
 ----------------------------------------------- */
 /* Register */
+.register {
+  text-align: center;
+  }
+.register .article {
+  width: auto !important;
+  padding-top: 200px !important;
+  display: inline-block;
+  text-align: left;
+  }
 .form-register {
   width: 400px;
   }
@@ -825,8 +851,8 @@ button {
   opacity: 0.7;
   width: 60px;
   height: 60px;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
+  border: none;
   }
   .story-matrix IMG {
     width: 100%;
@@ -898,11 +924,17 @@ button {
   margin: 0 5px;
   content: '·';
   }
-  .story-summary-info A {
-    border: none;
+  .story-summary-info .num-comments {
+    position: relative;
+    margin-left: 17px;
     }
-  .story-summary-info .fa {
-    color: #666;
+  .story-summary-info .num-comments:before {
+    position: absolute;
+    top: 0;
+    left: -17px;
+    content: '\f0e5';
+    font-family: 'FontAwesome';
+    color: #333;
     }
 .story .story-status,
 .story-settings .story-status {
@@ -944,16 +976,27 @@ button {
   }
 .story-info {
   margin-bottom: 10px;
+  font-size: 14px;
   }
   .story-info P {
     margin-bottom: 0;
     }
   .story-info .num-comments {
-    margin-right: 15px;
+    position: relative;
+    margin: 0 15px 0 20px;
     }
-    .story-info .num-comments .fa {
-      color: #333;
-      }
+  .story-info .num-comments:before {
+    position: absolute;
+    top: 0;
+    right: 100%;
+    padding-right: 5px;
+    content: '\f0e5';
+    font-family: 'FontAwesome';
+    color: #333;
+    }
+  .story-info #delete-recover {
+    border: none;
+    }
   .story-info .recover {
     color: #00B209;
     }
@@ -1341,22 +1384,28 @@ button {
   left: 0;
   right: 0;
   margin-bottom: 0;
-  z-index: 2;
   }
 .main .header-logo {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   }
 .main .header-logo > a {
+  top: 0;
+  left: 0;
   width: 154px;
   height: 54px;
   }
 .main .nav {
   position: absolute;
-  top: 110px;
+  top: 104px;
   left: 0;
   right: 0;
-  z-index: 2;
+  }
+.main .nav-list {
+  padding: 6px 10px 6px 10px;
+  }
+.main .nav-item A {
+  border: none;
   }
 .main .content {
   height: 100%;
@@ -1370,7 +1419,7 @@ button {
   }
 .main .footer {
   position: fixed;
-  bottom: -9px;
+  bottom: 0;
   z-index: 2;
   width: 100%;
   padding-top: 0;
@@ -1395,9 +1444,14 @@ button {
 .viewing-page-2 .header-logo {
   box-shadow: none;
   }
+  .viewing-page-2 .header-logo > a {
+    top: 11px;
+    left: 11px;
+    width: 132px;
+    height: 30px;
+    }
 .viewing-page-2 .footer {
   position: relative;
-  top: 0;
   }
   .viewing-page-2 .footer .stores {
     display: none;
@@ -1432,7 +1486,6 @@ button {
 .article .comments-title,
 .comments-title {
   font-size: 20px;
-  font-weight: 600;
   }
 .comment {
   margin-bottom: 25px;
