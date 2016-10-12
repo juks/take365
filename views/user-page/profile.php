@@ -1,8 +1,8 @@
-<header class="article-header">
-  <h1 class="article-title">Профиль <?= $owner->fullnameFilled ?></h1>
-  <?php if ($owner->thisIsMe): ?><a href="<?= $owner->urlEdit ?>" class="fa fa-pencil-square-o" title="Редактировать профиль"></a><?php endif ?>
-</header>
-<section class="profile">
+<section class="content profile">
+  <header class="content-header">
+    <h1 class="content-title">Профиль <?= $owner->fullnameFilled ?></h1>
+    <?php if ($owner->thisIsMe): ?><a href="<?= $owner->urlEdit ?>" class="fa fa-pencil-square-o" title="Редактировать профиль"></a><?php endif ?>
+  </header>
   <div class="profile-userpic fa fa-user">
     <div class="profile-userpic-img"<?php if ($owner->userpic): ?> style="background-image: url(<?= $owner->userpic['t']['maxSide']['500']['url'] ?>);<?php endif ?>"></div>
   </div>
