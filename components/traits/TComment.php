@@ -117,6 +117,8 @@ trait TComment {
      * Comments relation
      */
     public function getComments($extra = null) {
+        $comments = [];
+
         if ($this->commentsCache == null && $this->comments_count) {
             $condition = ['target_type' => self::typeId];
             $maxItems = null;
