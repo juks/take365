@@ -130,19 +130,23 @@ trait TComment {
                 $condition['is_deleted'] = 0;
             }
 
-            $comments = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all();
             if (empty($extra['lastComments'])) {
-                $this->commentsCache = $comments;
+                if ($this->commentsCache == null) {
+                    $comments = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all();
+                    $this->commentsCache = $comments;
+                } else {
+                    $comments = $this->commentsCache;
+                }
             } else {
-                $comments = array_reverse($comments);
+                $comments = array_reverse($this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all());
             }
 
-            foreach ($this->comments as $comment) {
+            foreach ($comments as $comment) {
                 $comment->urlTarget = $this->url;
                 if ($comment->is_deleted) $comment->body_jvx = '';
             }
         }
 
-        return $this->commentsCache ?: [];
+        return $comments;
     }
 }
