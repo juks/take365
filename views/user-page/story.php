@@ -42,7 +42,7 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
   <p class="story-desc"><?= $story->description_jvx ?></p>
   <div class="story-info">
     <p>Автор истории —  <a href="<?= $owner->url ?>"><?= $owner->fullnameFilled ?></a></p>
-    <p><a href="#comments" class="num-comments"><span class="fa fa-comment-o"></span> <?= Ml::t('{n,plural,=0{No comments} =1{One Comment} other{# Comments}}', null, ['n' => $story->comments_count ]) ?></a></p>
+    <p><a href="#comments" class="num-comments"><?= Ml::t('{n,plural,=0{No comments} =1{One Comment} other{# Comments}}', null, ['n' => $story->comments_count ]) ?></a></p>
   </div>
   <?php endif ?>
   <div id="socialBlock" class="element">
