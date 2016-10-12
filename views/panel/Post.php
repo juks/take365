@@ -19,8 +19,8 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model, 'blog_id')->hiddenInput()->label(false) ?>
         <?= $form->field($model, 'is_published')->hiddenInput()->label(false) ?>
         <?= $form->field($model, 'title') ?>
-        <?= $form->field($model, 'body') ?>
-    
+        <?= $form->field($model, 'body')->textArea(['rows' => '6']) ?>
+
         <div class="form-group">
             <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']) ?>
         </div>
