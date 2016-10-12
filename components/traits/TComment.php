@@ -130,9 +130,14 @@ trait TComment {
                 $condition['is_deleted'] = 0;
             }
 
-            $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all();
+            $comments = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all();
+            if (empty($extra['lastComments'])) {
+                $this->commentsCache = $comments;
+            } else {
+                $comments = array_reverse($comments);
+            }
 
-            foreach ($this->commentsCache as $comment) {
+            foreach ($this->comments as $comment) {
                 $comment->urlTarget = $this->url;
                 if ($comment->is_deleted) $comment->body_jvx = '';
             }
