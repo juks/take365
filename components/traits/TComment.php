@@ -126,29 +126,20 @@ trait TComment {
             if (!empty($extra['lastTimestamp'])) $condition['time_created'] = ['>', $extra['lastTimestamp']];
             if (empty($extra['lastComments'])) {
                 $order = 'lk';
+                $this->commentsCache = array_reverse($this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all());
             } else {
                 $order = 'lk DESC';
                 $maxItems= $extra['lastComments'];
                 $condition['is_deleted'] = 0;
+                $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all();
             }
 
-            if (empty($extra['lastComments'])) {
-                if ($this->commentsCache == null) {
-                    $comments = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all();
-                    $this->commentsCache = $comments;
-                } else {
-                    $comments = $this->commentsCache;
-                }
-            } else {
-                $comments = array_reverse($this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all());
-            }
-
-            foreach ($comments as $comment) {
+            foreach ($this->commentsCache as $comment) {
                 $comment->urlTarget = $this->url;
                 if ($comment->is_deleted) $comment->body_jvx = '';
             }
         }
 
-        return $comments;
+        return $this->commentsCache;
     }
 }
