@@ -19,7 +19,7 @@ class ApiController extends MyJsonController {
                     \app\modules\api\components\ApiHttpBearerAuth::className(),
                     \app\modules\api\components\ApiQueryParamAuth::className(),
                 ],
-                'except' => ['doc', 'index', 'login', 'error', 'check-username', 'check-email', 'register', 'player-data', 'recover', 'recover-update', 'list-comments']
+                'except' => ['doc', 'index', 'login', 'login-by-token', 'error', 'check-username', 'check-email', 'register', 'player-data', 'recover', 'recover-update', 'list-comments']
             ];
         }
 

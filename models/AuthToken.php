@@ -72,6 +72,10 @@ class AuthToken extends AuthTokenBase {
         return $this->time_expire !== 0 && $this->time_expire < time();
     }
 
+    public function getUser() {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
     public function getUsername() {
         if ($this->_user === null) $this->_user = User::findOne($this->user_id);
         return $this->_user->username;

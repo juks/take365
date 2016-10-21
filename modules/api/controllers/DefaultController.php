@@ -32,7 +32,7 @@ class DefaultController extends ApiController
 
         // Somehow need to bind to set token error code
         if (get_class($e) == 'yii\web\UnauthorizedHttpException') $params['attributes'] = ['code' => AuthController::ERR_BAD_TOKEN];
-    	
+
     	$this->addErrorMessage($e->getMessage(), $params);
 
         if (YII_DEBUG) {
@@ -41,7 +41,7 @@ class DefaultController extends ApiController
             $traceData = '';
 
             foreach($e->getTrace() as $tracePoint) {
-            	
+
                 if (isset($tracePoint['file'])) {
                     $traceData = $tracePoint['file'] . ':';
                     $traceData .= $tracePoint['line'];

@@ -27,7 +27,7 @@ class AuthController extends ApiController {
                             ],
 
                             [
-                                'actions' => ['login', 'check-token'],
+                                'actions' => ['login', 'check-token', 'reuse-token'],
                                 'allow' => true,
                                 'roles' => ['?', '@'],
                             ],
@@ -42,8 +42,9 @@ class AuthController extends ApiController {
         $b['verbs'] = [
                         'class' => VerbFilter::className(),
                         'actions' => [
-                            'login'     => ['post'],
-                            'logout'    => ['post']
+                            'login'             => ['post'],
+                            'login-by-token'    => ['post'],
+                            'logout'            => ['post']
                         ],
                     ];
 
@@ -65,6 +66,15 @@ class AuthController extends ApiController {
                                                     ['n' => 'username',     't' => 'Username', 'f' => 'string'],
                                                     ['n' => 'password',     't' => 'User Password', 'f' => 'string']
                                             ],
+                    'responses'             => ['200' => ['s' => 'Token']]
+                ],
+
+                '/auth/reuse-token'      => [
+                    'title' => 'Checks if session specified by token exists',
+                    'method' => 'POST',
+                    'params'                => [
+                        ['n' => 'accessToken',  't' => 'Access token', 'f' => 'string'],
+                    ],
                     'responses'             => ['200' => ['s' => 'Token']]
                 ],
 
@@ -120,6 +130,17 @@ class AuthController extends ApiController {
 
     public function actionCheckToken($accessToken) {
         $this->addContent(ApiAuthToken::getToken($accessToken, ['noTouch' => true]));
+    }
+
+
+    public function actionReuseToken($accessToken) {
+        $token = ApiAuthToken::getToken($accessToken, ['noTouch' => true]);
+
+        if (!$token) {
+            throw new \app\components\ControllerException('Bad token');
+        } else {
+            $this->addContent($token->user);
+        }
     }
 
     /**
