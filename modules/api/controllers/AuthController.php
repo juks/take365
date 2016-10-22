@@ -3,7 +3,7 @@
 namespace app\modules\api\controllers;
 
 use Yii;
-use app\components\MyJsonController;
+use app\models\User;
 use app\components\Helpers;
 use app\modules\api\models\ApiLoginForm;
 use app\modules\api\components\ApiController;
@@ -111,7 +111,7 @@ class AuthController extends ApiController {
         $model = new ApiLoginForm();
 
         if ($model->load(Helpers::getRequestParams('post'))) $model->login();
-       
+
         $this->addContent($model);
 
         if (!$model->hasErrors() && Yii::$app->request->isAjax) {
@@ -134,12 +134,14 @@ class AuthController extends ApiController {
 
 
     public function actionReuseToken($accessToken) {
-        $token = ApiAuthToken::getToken($accessToken, ['noTouch' => true]);
+        $user = User::findIdentityByAccessToken($accessToken);
 
-        if (!$token) {
+        if (!$user) {
             throw new \app\components\ControllerException('Bad token');
         } else {
-            $this->addContent($token->user);
+            $model = new ApiLoginForm();
+            $model->setUser($user);
+            $this->addContent($model);
         }
     }
 

@@ -79,6 +79,7 @@ class ApiLoginForm extends Model {
         if (!$this->validate()) return false;
         
         $result = Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+
         if ($result) {
             $this->token = $this->_user->getAuthKey();
             $this->tokenExpires = $this->_user->getAuthKeyExpirationTime();
@@ -98,5 +99,17 @@ class ApiLoginForm extends Model {
         }
 
         return $this->_user;
+    }
+
+    /**
+     * Sets user object from outside
+     *
+     * @param $user
+     */
+    public function setUser($user) {
+        $this->_user = $user;
+        $this->username = $user->username;
+        $this->token = $this->_user->getAuthKey();
+        $this->tokenExpires = $this->_user->getAuthKeyExpirationTime();
     }
 }
