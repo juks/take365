@@ -261,6 +261,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
         if ($percentsComplete >= 100) $percentsComplete = 100;
 
         $this->progressData = [
+                    'dateStart'             => date('Y-m-d', $this->time_start),
+                    'dateEnd'               => date('Y-m-d', $this->time_start + $totalDays * 86400),
                     'percentsComplete'      => $percentsComplete,
                     'isComplete'            => $percentsComplete == 100,
                     'isOutdated'            => $passedDays > 365,
