@@ -33,7 +33,7 @@ class MediaController extends Controller
     }
 
     public function actionAnnotate() {
-        foreach (Media::find()->where(['id' => 20149, 'type' => Media::typeStoryImage, 'is_annotated' => 0])->batch(10) as $items) {
+        foreach (Media::find()->where(['type' => Media::typeStoryImage, 'is_annotated' => 0])->batch(100) as $items) {
             foreach ($items as $item) {
                 $thumb = $item['t']['maxSide']['700'];
                 $path = $thumb['path'];
