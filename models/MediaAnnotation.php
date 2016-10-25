@@ -29,7 +29,7 @@ class MediaAnnotation extends MediaAnnotationBase {
      **/
     public function scenarios() {
         return [
-            'default' => ['data']
+            'default' => ['media_id', 'data']
         ];
     }
 
