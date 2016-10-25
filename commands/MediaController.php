@@ -38,11 +38,14 @@ class MediaController extends Controller
                 $thumb = $item['t']['maxSide']['700'];
                 $path = $thumb['path'];
 
-                if (!file_exists($path)) {
+                if (0 && !file_exists($path)) {
                     echo 'File not found for #' . $item->id . "\n";
                     continue;
                 }
-                $data = GoogleVision::annotateImage($path);
+
+                //$data = GoogleVision::annotateImage($path);
+
+                $data = 'foo';
                 $item->setAnnotation($data, ['width' => $thumb['width'], 'height' => $thumb['height']]);
 
                 echo $item->id . "\n";

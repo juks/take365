@@ -195,7 +195,7 @@ class Media extends MediaCore {
      * @throws \Exception
      */
     public function setAnnotation($data, $extra = null) {
-        $item = MediaAnnotation::find(['media_id' => $this->id])->one();
+        $item = MediaAnnotation::find()->where(['media_id' => $this->id])->one();
 
         if (!$item) {
             $item = new MediaAnnotation();
