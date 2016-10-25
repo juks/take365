@@ -80,7 +80,8 @@ trait TMediaThumbExtra {
         if (!$dimensions) {
             return [
             			'id' 		=> $this->id,
-            			'path' 		=> $this->path,
+            			//'path' 		=> $this->path,
+                        'path'      => $this->getFullPath(),
             			'width' 	=> $this->width,
             			'height' 	=> $this->height,
             			'url' 		=> $this->getUrl(),

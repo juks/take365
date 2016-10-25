@@ -257,7 +257,20 @@ class Download {
 		
 		if(empty($extra['get'])) {
 			curl_setopt($ch, CURLOPT_POST, 				true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, 		$data); 
+			if(is_array($data)) {
+				if (!empty($extra['postJson'])) {
+					$data = json_encode($data);
+					curl_setopt($ch, CURLOPT_HTTPHEADER, [
+							'Content-Type: application/json',
+							'Content-Length: ' . strlen($data)]
+					);
+					curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+				} else {
+					curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+				}
+			} else {
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+			}
 		} else {
 			curl_setopt($ch, CURLOPT_POST, 				false);
 			

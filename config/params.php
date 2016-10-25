@@ -18,5 +18,9 @@ return [
                         'storeTime'        => 86400 * 7,
                         'expire'           => 3600,
                         'devEnvFilter'     => ['juks@juks.ru', 'ufokorpas@mail.ru', 'sergey.oracle@gmail.com']
+                    ],
+    'googleVision'  => [
+                        'url' => 'https://vision.googleapis.com/v1/images:annotate',
+                        'key' => 'AIzaSyChgzhOw14_QOl3ljtgberxkATtbdpZ81Q'
                     ]
 ];

@@ -6,6 +6,7 @@ use Yii;
 use app\models\mediaExtra\MediaCore;
 use app\models\User;
 use app\models\Story;
+use app\models\MediaAnnotation;
 use app\components\interfaces\IPermissions;
 use app\components\traits\TComment;
 use app\components\traits\TLike;
@@ -85,6 +86,7 @@ class Media extends MediaCore {
     **/
     public function scenarios() {
         return [
+            'default'=> ['is_annotated'],
             'import' => ['id', 'target_id', 'filename', 'ext', 'target_type', 'type', 'id_old', 'date', 'is_deleted', 'time_created', 'title', 'description', 'description_jvx', 'created_by']
         ];
     }
@@ -174,6 +176,38 @@ class Media extends MediaCore {
         }
 
         return null;
+    }
+
+    /**
+     * Annotation data relation
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAnnotation() {
+        return $this->hasOne(MediaAnnotation::className(), ['media_id' => 'id']);
+    }
+
+    /**
+     * Saves annotation data
+     *
+     * @param $data
+     * @param null $extra
+     * @throws \Exception
+     */
+    public function setAnnotation($data, $extra = null) {
+        $item = MediaAnnotation::find(['media_id' => $this->id])->one();
+
+        if (!$item) $item = new MediaAnnotation();
+
+        $item->data = $data;
+        if ($extra) $item->extra = $extra;
+
+        if (!$item->save()) {
+            throw new \Exception($item->errors['data'][0]);
+        }
+
+        $this->is_annotated = 1;
+        $this->save();
     }
 
     /**

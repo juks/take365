@@ -33,6 +33,7 @@ use Yii;
  * @property string $exif
  * @property integer likes_count
  * @property integer comments_count
+ * @property integer is_annotated
  */
 class MediaBase extends \yii\db\ActiveRecord
 {
@@ -51,7 +52,7 @@ class MediaBase extends \yii\db\ActiveRecord
     {
         return [
             [['target_id', 'target_type', 'type', 'created_by', 'time_created'], 'required'],
-            [['target_id', 'target_type', 'type', 'is_deleted', 'position', 'created_by', 'size', 'width', 'height', 'is_vertical', 'format', 'time_created', 'time_updated', 'likes_cont', 'media_count'], 'integer'],
+            [['target_id', 'target_type', 'type', 'is_deleted', 'position', 'created_by', 'size', 'width', 'height', 'is_vertical', 'format', 'time_created', 'time_updated', 'likes_cont', 'media_count', 'comments_count', 'is_annotated'], 'integer'],
             [['exif'], 'string'],
             [['filename', 'title'], 'string', 'max' => 100],
             [['ext'], 'string', 'max' => 4],
@@ -93,7 +94,8 @@ class MediaBase extends \yii\db\ActiveRecord
             'time_updated' => 'Time Updated',
             'exif' =>  'Exif',
             'likes_count' => 'Likes Count',
-            'comments_count' => 'Comments Count'
+            'comments_count' => 'Comments Count',
+            'is_annotated' => 'Is annotated'
         ];
     }
 
