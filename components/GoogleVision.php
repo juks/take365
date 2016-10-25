@@ -32,7 +32,7 @@ class GoogleVision {
         $result = $dl->sendData($url, $request, ['isJson' => true, 'postJson' => true]);
 
         if ($result['code'] == 200) {
-            return $result['data']->responses[0];
+            return $result['data']->responses;
         } else {
             if (!empty($result['data']) && !empty($result['data']->error)) {
                 throw new \Exception($result['data']->error->message);
