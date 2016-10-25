@@ -32,7 +32,7 @@ class MediaAnnotationBase extends \yii\db\ActiveRecord
         return [
             [['media_id'], 'required'],
             [['time_created', 'time_updated'], 'integer'],
-            [['data', 'extra'], 'string', 'max' => 32768],
+            [['data', 'extra'], 'string', 'max' => 65536],
         ];
     }
 
