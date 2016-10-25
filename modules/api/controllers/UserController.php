@@ -85,7 +85,9 @@ class UserController extends ApiController {
                         'title' => 'Gives Users Suggest for Given Username Part',
                         'method' => 'GET',
                         'params'                => [
-                                                        ['n' => 'username', 't' => 'Username', 'f' => 'string'],
+                                                        ['n' => 'username',     't' => 'Username', 'f' => 'string'],
+                                                        ['n' => 'followFlag' ,  't' => 'Include subscription flag for current user', 'o' => true, 'f' => 'boolean'],
+                                                        ['n' => 'maxItems' ,    't' => 'Maximal Items Count', 'o' => true, 'f' => 'integer']
                                                 ],
                         'responses'             => ['200' => ['t' => 'array', 's' => 'User']]
                     ],
@@ -232,8 +234,11 @@ class UserController extends ApiController {
      *
      * @param string $username
      */
-    public function actionSuggest($username) {
-        $this->addContent(ApiUser::suggest(['username' => $username], 10));
+    public function actionSuggest($username, $maxItems = 10, $followFlag = false) {
+        $this->addContent(ApiUser::suggest([
+                                                'username'      => $username,
+                                                'followFlag'    => $followFlag
+                                            ], $maxItems));
     }
 
 	/**

@@ -58,13 +58,17 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     *   Sets the lists of fields that are available for public exposure
     **/
     public function fields() {
-        return [
+        $f = [
             'id'            => 'id',
             'username'      => 'fullnameFilled',
             'url'           => 'url',
             'userpic'       => function() { $up = $this->userpic; return $up ? $up->getThumbData(Media::resizeMaxSide, 100) : null; },
             'userpicLarge'  => function() { $up = $this->userpic; return $up ? $up->getThumbData(Media::resizeMaxSide, 200) : null; }
         ];
+
+        if (array_key_exists('isSubscribed', $this->relatedRecords)) $f['isSubscribed'] = function() { return !empty($this->relatedRecords['isSubscribed']); };
+
+        return $f;
     }
 
     /**
@@ -132,18 +136,42 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     /**
      * List users sugges by given part of their username
      *
-     * @param  string $username
+     * @param array $params
      * @return int $maxItems
      */
-    public static function suggest($criteria, $maxItems = 10) {
-        if (strlen($criteria['username']) < 2) return [];
-        if (!self::isValidUsername($criteria['username'])) return [];
+    public static function suggest($params, $maxItems = 10) {
+        if (strlen($params['username']) < 2) return [];
+        if (!self::isValidUsername($params['username'])) return [];
 
         $conditions = self::getActiveCondition();
-        $conditions['username'] = ['LIKE', $criteria['username'] . '%'];
+        $conditions['username'] = ['LIKE', $params['username'] . '%'];
 
-        return self::find()->where(self::makeCondition($conditions))->orderBy('username')->limit($maxItems)->all();
-    } 
+        if (empty($params['followFlag'])) {
+            return self::find()->where(self::makeCondition($conditions))->orderBy('username')->limit($maxItems)->all();
+        } else {
+            $items = self::find()->where(self::makeCondition($conditions))->with('isSubscribed')->orderBy('username')->limit($maxItems)->all();
+
+            foreach ($items as $item) {
+                if ($item->isSubscribed) true;
+            }
+
+            return $items;
+        }
+    }
+
+    /**
+     * Subscription relation
+     * @return $this|null
+     */
+    public function getIsSubscribed() {
+        $user = Yii::$app->user;
+
+        if ($user->isGuest) {
+            return null;
+        } else {
+            return $this->hasOne(\app\models\Feed::className(), ['user_id' => 'id'])->where(['reader_id' => $user->id, 'is_active' => 1]);
+        }
+    }
 
     /**
      * @inheritdoc
