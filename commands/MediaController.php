@@ -10,6 +10,7 @@ namespace app\commands;
 use yii\console\Controller;
 use app\models\Media;
 use app\models\Mosaic;
+use app\models\MediaTagLink;
 use app\components\GoogleVision;
 
 /**
@@ -49,5 +50,9 @@ class MediaController extends Controller
                 echo $item->id . "\n";
             }
         }
+    }
+
+    public function actionMakeTags() {
+        MediaTagLink::rebuild();
     }
 }

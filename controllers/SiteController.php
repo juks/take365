@@ -30,7 +30,7 @@ class SiteController extends MyController
                     ],
 
                     [
-                        'actions'   => ['index', 'auth', 'captcha', 'help', 'howto', 'blog', 'blog-post', 'error', 'cave'],
+                        'actions'   => ['index', 'auth', 'captcha', 'help', 'howto', 'blog', 'blog-post', 'tag', 'error', 'cave'],
                         'allow'     => true,
                         'roles'     => ['?', '@']
                     ],
@@ -149,6 +149,11 @@ class SiteController extends MyController
     public function actionHowto() {
         $this->setTitle(Ml::t('Howto'));
         return $this->render('howto');
+    }
+
+    public function actionTag($name) {
+        $mediaList = \app\models\MediaTagLink::listByTag($name);
+        return $this->render('tag', ['mediaList' => $mediaList]);
     }
 
     public function actionCaptcha() {

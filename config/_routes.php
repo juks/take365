@@ -16,7 +16,7 @@ return [
     '/api-doc/'														=> '/api/default/doc',
     '/api/<controller:\w+>/<method:\w+>'						    => '/api/<controller>/<method>',
 
-    '<alias:captcha|about|logout|help|howto|blog>/?'    		    => '/site/<alias>',
+    '<alias:captcha|about|logout|help|howto|blog|tag>/?'   		    => '/site/<alias>',
     '/blog/<id:\d+>/?'    		                                    => '/site/blog-post',
 
     '/<username:@?[0-9a-zA-Z-]{1,20}>/?'        					                                    => '/user-page/home',

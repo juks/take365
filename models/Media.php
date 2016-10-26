@@ -28,6 +28,7 @@ class Media extends MediaCore {
     const typeId            = 3;
 
     public $urlDay;
+    protected $_annotationData = null;
 
     protected static $_globalOptions = [
                                     Media::typeUserpic => [
@@ -185,6 +186,33 @@ class Media extends MediaCore {
      */
     public function getAnnotation() {
         return $this->hasOne(MediaAnnotation::className(), ['media_id' => 'id']);
+    }
+
+    /**
+     * Returns parsed annotation data
+     *
+     * @return null
+     */
+    public function getAnnotationArray($type = null) {
+        if (array_key_exists('annotation', $this->relatedRecords) && !empty($this->annotation->data)) {
+            if ($this->_annotationData === null) {
+                $this->_annotationData = json_decode($this->annotation->data);
+            }
+
+            if (!$type) {
+                return count($this->_annotationData) == 1 ? $this->_annotationData[0] : $this->_annotationData;
+            } else {
+                foreach ($this->_annotationData as $data) {
+                    if (!empty($data->$type)) {
+                        return $data->$type;
+                    }
+                }
+
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     /**
