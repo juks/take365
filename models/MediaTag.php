@@ -14,6 +14,26 @@ use app\components\traits\TModelExtra;
 class MediaTag extends MediaTagBase {
     use TModelExtra;
 
+    protected $_subjects = [
+        'food' => 'еда',
+        'cat' => 'кошка',
+        'dog' => 'собака',
+        'car' => 'машина',
+        'brick' => 'кирпичи',
+        'horse' => 'лошадь',
+        'bicycle' => 'велосипед',
+        'flower' => 'цветок',
+        'pattern' => 'узор',
+        'selfie' => 'автопортрет',
+        'ship' => 'корабль',
+        'painting' => 'картина',
+        'bird' => 'птица',
+        'road' => 'дорога',
+        'bw' => 'чёрно-белое',
+        'snow' => 'снег',
+        'darkness' => 'темонта'
+    ];
+
     /**
      *   Sets the lists of fields that are available for public exposure
      **/
@@ -43,5 +63,15 @@ class MediaTag extends MediaTagBase {
         }
 
         return parent::beforeValidate();
+    }
+
+    /**
+     * Retrieve images by a random criteria
+     * @return array
+     */
+    public function listByRandomTag() {
+        $tag = array_keys($this->_subjects)[rand(0,count($this->_subjects) - 1)];
+
+        return ['tag' => ucfirst($this->_subjects[$tag]), 'list' => \app\models\MediaTagLink::listByTag($tag)];
     }
 }
