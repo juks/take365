@@ -106,10 +106,10 @@ class ApiLoginForm extends Model {
      *
      * @param $user
      */
-    public function setUser($user) {
+    public function setUser($user, $noCreate = false) {
         $this->_user = $user;
         $this->username = $user->username;
-        $this->token = $this->_user->getAuthKey();
+        $this->token = $this->_user->getAuthKey($noCreate);
         $this->tokenExpires = $this->_user->getAuthKeyExpirationTime();
     }
 }

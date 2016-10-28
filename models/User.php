@@ -221,8 +221,6 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * @return static|null
      */
     public static function findByPasswordResetToken($token, $id = null) {
-
-
         $user = static::findOne([
             'recovery_code' => $token
         ]);
@@ -248,8 +246,8 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     /**
      * @inheritdoc
      */
-    public function getAuthKey() {
-        if (!$this->accessToken) {
+    public function getAuthKey($noCreate = false) {
+        if (!$this->accessToken && !$noCreate) {
             $t = AuthToken::issueToken($this);
             $this->accessToken = $t->key;
             $this->accessTokenExpires = $t->time_expire;

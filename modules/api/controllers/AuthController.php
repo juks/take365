@@ -21,13 +21,13 @@ class AuthController extends ApiController {
                         'class' => AccessControl::className(),
                         'rules' => [
                             [
-                                'actions' => ['logout'],
+                                'actions' => ['logout', 'reuse-token'],
                                 'allow' => true,
                                 'roles' => ['@'],
                             ],
 
                             [
-                                'actions' => ['login', 'check-token', 'reuse-token'],
+                                'actions' => ['login', 'check-token'],
                                 'allow' => true,
                                 'roles' => ['?', '@'],
                             ],
@@ -132,8 +132,19 @@ class AuthController extends ApiController {
         $this->addContent(ApiAuthToken::getToken($accessToken, ['noTouch' => true]));
     }
 
+    public function actionReuseToken() {
+        $user =  Yii::$app->user->identity;
 
-    public function actionReuseToken($accessToken) {
+        if (!$user) {
+            throw new \app\components\ControllerException('Bad token');
+        } else {
+            $model = new ApiLoginForm();
+            $model->setUser($user, true);
+            $this->addContent($model);
+        }
+    }
+
+    public function actionReuseToken1($accessToken) {
         $user = User::findIdentityByAccessToken($accessToken);
 
         if (!$user) {
