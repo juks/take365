@@ -197,7 +197,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
             $user = static::findOne($t->user_id);
             if ($user) {
                 $user->accessToken = $token;
-                $user->accessTokenExpires = $token;
+                $user->accessTokenExpires = $t->time_expire;
             }
 
             return $user;  
