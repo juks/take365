@@ -129,10 +129,15 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * @param int $permission
     **/
     public function checkPermission($user, $permission = IPermissions::permWrite) {
+        $isAuthor = $this->created_by == $user->id;
         if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
         if ($permission == IPermissions::permComment && $this->getIsPublic()) return true;
-        if ($this->created_by == $user->id) return true;
-        if ($permission == IPermissions::permWrite && StoryCollaborator::hasPermission($this, $user)) return true;
+        if (!$this->is_deleted) {
+            if ($isAuthor) return true;
+            if ($permission == IPermissions::permWrite && StoryCollaborator::hasPermission($this, $user)) return true;
+        } elseif ($permission == IPermissions::permDeleteRecover && $isAuthor) {
+            return true;
+        }
 
         return false;
     }
@@ -177,11 +182,17 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * @param  string $date
     */
     public function isValidDate($date) {
+        if (!$date) return false;
+
         $dtDate = new \DateTime($date);
         $dtStart = new \DateTime('@' . $this->time_start);
         $interval = date_diff($dtStart, $dtDate);
 
-        if (!$interval->invert && $interval->days >= 0 && $interval->days <= 365 || $interval->invert && $interval->h <= 24 && $interval->days <= 1) return true; else return false;
+        if (!$interval->invert && $interval->days >= 0 && $interval->days <= 365 || $interval->invert && $interval->h <= 24 && $interval->days <= 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -329,7 +340,10 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         $timezone = new \DateTimeZone($creator->defaultTimezone);
         $now = new \DateTime('now', $timezone);
-        $nowTimestamp = $now->getTimestamp() + $now->getOffset();
+
+        $offset = $now->getOffset();
+        $offsetDiff = $offset - date('Z');
+        $nowTimestamp = time();
 
         $this->calendar = [];
         $this->fetchImages($extra);
@@ -356,7 +370,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $timeTo = mktime(0, 0, 0, date('n', $this->time_start), date('j', $this->time_start), date('Y', $this->time_start));
         $dateTarget = date('Y-m-d', $this->time_start);
 
-        $daysDiff = floor(($nowTimestamp - $timeTo) / 86400);
+        $daysDiff = floor(($nowTimestamp + $offsetDiff - $timeTo) / 86400);
         if ($daysDiff > 365) $daysDiff = 365;
 
         // Add sample dummy days

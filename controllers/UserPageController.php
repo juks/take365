@@ -161,6 +161,7 @@ class UserPageController extends MyController {
         if (!$owner) throw new NotFoundHttpException('Здесь ничего нет');
 
         $story = Story::getActiveItem($storyId);
+
         if (!$story || $story->created_by != $owner->id) throw new NotFoundHttpException('Здесь ничего нет');
         if ($date && !$story->isValidDate($date)) throw new NotFoundHttpException('Здесь ничего нет');
 

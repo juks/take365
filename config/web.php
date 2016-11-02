@@ -8,7 +8,7 @@ $config = [
     'bootstrap'         => ['log'],
     'language'          => 'ru',
     'sourceLanguage'    => 'en',
-    'timezone'           => 'Europe/Moscow',
+    'timezone'          => 'Europe/Moscow',
     'modules'   => [
         'api'   => ['class' => 'app\modules\api\ApiModule']
     ],
