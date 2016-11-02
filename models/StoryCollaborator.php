@@ -118,6 +118,7 @@ class StoryCollaborator extends StoryCollaboratorBase {
      * @param object $user
      */
     public static function hasPermission($story, $user = null, $perm = self::permAuthor) {
+        if ($story->is_deleted) return false;
         if (!$user) $user = Yii::$app->user;
 
         $data = ['story_id' => $story->id, 'user_id' => $user->id, 'is_confirmed' => true, 'permission' => $perm];

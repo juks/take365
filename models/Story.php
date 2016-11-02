@@ -111,12 +111,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $story = self::findOne($storyId);
         $user = Yii::$app->user;
 
-        if ($story) {
-            if ($story->status == self::statusPublic && !$story->is_deleted) {
-                return $story;
-            } elseif ($story->hasPermission($user, IPermissions::permWrite)) {
-                return $story;
-            }
+        if ($story && $story->hasPermission($user, IPermissions::permRead)) {
+            return $story;
         }
 
         return null;
@@ -135,7 +131,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         if (!$this->is_deleted) {
             if ($isAuthor) return true;
             if ($permission == IPermissions::permWrite && StoryCollaborator::hasPermission($this, $user)) return true;
-        } elseif ($permission == IPermissions::permDeleteRecover && $isAuthor) {
+        } elseif ($permission == IPermissions::permAdmin && $isAuthor) {
             return true;
         } elseif ($permission == IPermissions::permRead && $isAuthor) {
             return true;
@@ -401,7 +397,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                             'imageLarge'    => ['url' => $dateDict[$date]['t']['squareCrop']['400']['url'], 'width' => 400, 'height' => 400],
                             'monthDay'      => $monthDay,
                             'url'           => $this->getUrlDay($dateDict[$date]->date),
-                            'isUploadable'  => $timestamp <= $timeUploadFrom,
+                            'isUploadable'  => $canUpload && ($timestamp <= $timeUploadFrom),
                             'likesCount'    => $dateDict[$date]['likes_count'],
                         ];
 

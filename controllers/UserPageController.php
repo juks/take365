@@ -172,7 +172,7 @@ class UserPageController extends MyController {
         $this->setTitle($story->titleFilled);
 
         $canManage = $story->hasPermission(Yii::$app->user, IPermissions::permAdmin);
-        $canUpload = $canManage ? true : StoryCollaborator::hasPermission($story);
+        $canUpload = $story->hasPermission(Yii::$app->user, IPermissions::permWrite) ? true : StoryCollaborator::hasPermission($story);
 
         $this->addJsVars([
                             'storyId'         => $storyId,

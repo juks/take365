@@ -184,7 +184,7 @@ class StoryController extends ApiController {
     * @param int $id
     */
     public function actionDeleteRecover($id, $doRecover = false) {
-        $story = $this->checkModelPermission(intval($id), IPermissions::permDeleteRecover);
+        $story = $this->checkModelPermission(intval($id), IPermissions::permAdmin);
 
         if (!$doRecover) {
             $this->addContent($story->markDeleted());

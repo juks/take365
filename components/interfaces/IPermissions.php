@@ -11,7 +11,6 @@ interface IPermissions {
     const permAdmin 	    = 3;
     const permComment 	    = 4;
     const permLike          = 5;
-    const permDeleteRecover = 6;
 
 	function getIsPublic();
     function getCreatorIdField();
