@@ -137,6 +137,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
             if ($permission == IPermissions::permWrite && StoryCollaborator::hasPermission($this, $user)) return true;
         } elseif ($permission == IPermissions::permDeleteRecover && $isAuthor) {
             return true;
+        } elseif ($permission == IPermissions::permRead && $isAuthor) {
+            return true;
         }
 
         return false;
