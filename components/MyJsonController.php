@@ -105,6 +105,11 @@ class MyJsonController extends Controller {
 			$this->addErrorMessage($e->getMessage());
 
 			return $this->afterAction($id, null);
+		} catch (yii\web\ForbiddenHttpException $e) {
+			$this->_responseCode = $e->statusCode;
+			$this->addErrorMessage($e->getMessage());
+
+			return $this->afterAction($id, null);
 		}
 	}
 
@@ -191,9 +196,9 @@ class MyJsonController extends Controller {
 		$parentModel = Yii::createObject($extra['parentModelClass'])->findOne($id);
 
 		if (!$parentModel) {
-			throw new NotFoundHttpException();
+			throw new NotFoundHttpException(Ml::t('Object not found'));
 		} elseif (!$parentModel->hasPermission($extra['user'], $permission)) {
-			throw new ForbiddenHttpException();
+			throw new ForbiddenHttpException(Ml::t('Forbidden'));
 		}
 
 		return $parentModel;
