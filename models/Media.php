@@ -65,7 +65,7 @@ class Media extends MediaCore {
                                                         MediaCore::resizeMode            => MediaCore::resizeMaxSide,
                                                         MediaCore::targetDimension       => 3000,
                                                         MediaCore::thumbsList            => [
-                                                                                                MediaCore::resizeMaxSide    => [1400, 700, 100],
+                                                                                                MediaCore::resizeMaxSide    => [1400, 1000, 700, 100],
                                                                                                 MediaCore::resizeSquareCrop => [400, 200, 100, 50],
                                                                                             ],
 
