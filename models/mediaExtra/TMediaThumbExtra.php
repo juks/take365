@@ -4,6 +4,7 @@ namespace app\models\mediaExtra;
 
 use Yii;
 use add\models\media;
+use app\components\Ml;
 
 trait TMediaThumbExtra {
     /**
@@ -223,7 +224,7 @@ trait TMediaThumbExtra {
     public function resize($dimensions, $targetFile = null) {
         $image = $this->getImageResource();
 
-        if (!$image) throw new Exception(Ml::t('Preloaded image resource is missing', 'media'));
+        if (!$image) throw new \Exception(Ml::t('Preloaded image resource is missing', 'media'));
 
         // IM
         if ($this->getOption(self::engine) == self::engineImageMagick) {
@@ -245,7 +246,7 @@ trait TMediaThumbExtra {
                 $image->setImageCompressionQuality($this->getOption(self::quality));
 
                 if (!$image->writeImage($targetFile)) {
-                    throw new Exception('Failed to write media file!');
+                    throw new \Exception('Failed to write media file!');
                 }
             // Return the result
             } else {

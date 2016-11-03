@@ -7,6 +7,7 @@ use app\models\mediaExtra\MediaCore;
 use app\models\User;
 use app\models\Story;
 use app\models\MediaAnnotation;
+use app\components\Ml;
 use app\components\interfaces\IPermissions;
 use app\components\traits\TComment;
 use app\components\traits\TLike;
@@ -64,7 +65,7 @@ class Media extends MediaCore {
                                                         MediaCore::resizeMode            => MediaCore::resizeMaxSide,
                                                         MediaCore::targetDimension       => 3000,
                                                         MediaCore::thumbsList            => [
-                                                                                                MediaCore::resizeMaxSide    => [1400, 700, 200, 100],
+                                                                                                MediaCore::resizeMaxSide    => [1400, 700, 100],
                                                                                                 MediaCore::resizeSquareCrop => [400, 200, 100, 50],
                                                                                             ],
 
