@@ -112,6 +112,8 @@ class Media extends MediaCore {
         } elseif ($this->type == self::typeStoryImage) {
             $fields['thumb']         = function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('mainThumbDimension')); };
             $fields['thumbLarge']    = function() { return $this->getThumbData(MediaCore::resizeSquareCrop, $this->getOption('largeThumbDimension')); };
+            $fields['image']         = function() { return $this->getThumbData(MediaCore::resizeMaxSide, 1000); };
+            $fields['imageLarge']    = function() { return $this->getThumbData(MediaCore::resizeMaxSide, 1400); };
         } else {
             $fields['thumb']         = function() { return $this->getThumbData(MediaCore::resizeMaxSide, $this->getOption('mainThumbDimension')); };
             $fields['thumbLarge']    = function() { return $this->getThumbData(MediaCore::resizeMaxSide, $this->getOption('largeThumbDimension')); };
