@@ -3,7 +3,7 @@
 <p><strong>take<span class="color">365</span></strong> &mdash;&nbsp;проект-испытание. Миниатюрный, созданный небольшой группой беззаботных энтузиастов, он&nbsp;позволяет любому человеку, находящемуся в&nbsp;бодром расположении духа, проверить свою способность вести фотолетопись в&nbsp;течение года в&nbsp;режиме &laquo;одна фотография каждый день&raquo;.</p>
 <p>Для каждой истории ведётся статистика, прилагается удобный инструмент для поддержания актуальности календаря. Кроме этого, мы разрабатываем мобильные приложения проекта. Уже сейчас все желающие могут воспользоваться приложением для устройств, работающих под управлением <a href="https://itunes.apple.com/ru/app/take365/id1082676900">iOS</a>. Мы стараемся сделать всё для того, чтобы непростая цель не&nbsp;выглядела такой уж&nbsp;неприступной.</p>
 <div class="download-app">
-  <a href="https://itunes.apple.com/ru/app/take365/id1082676900"><img src="/i/appstore.svg"></a>
+  <a href="https://itunes.apple.com/ru/app/take365/id1082676900"><img src="/i/appstore.svg"></a>  <a href='https://play.google.com/store/apps/details?id=org.take365.take365&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='/i/googleplay.svg' /></a>
 </div>
 <h2>Зачем это нужно?</h2>
 <p>Разные люди находят в&nbsp;этом разный смысл. Для кого-то это испытание, вызов собственной непостоянности и&nbsp;творческим способностям. Для других&nbsp;&mdash; это, пожалуй, не&nbsp;самый плохой способ создать и&nbsp;сохранить визуальную летопись года своей жизни, понять, что&nbsp;же в&nbsp;это время происходило и&nbsp;что вокруг менялось.</p>
