@@ -21,7 +21,7 @@ class UserController extends ApiController {
             'class' => AccessControl::className(),
             'rules' => [
                 [
-                    'actions' => ['get', 'list', 'update-profile', 'get-option', 'set-options'],
+                    'actions' => ['get', 'list', 'update-profile', 'update-security', 'get-option', 'set-options'],
                     'allow' => true,
                     'roles' => ['@'],
                 ],
@@ -154,6 +154,17 @@ class UserController extends ApiController {
                                                         ['n' => 'email',        't' => 'User Email',                    'o' => true, 'f' => 'string'],
                                                         ['n' => 'description',  't' => 'User Profile Description',      'o' => true, 'f' => 'string'],
                                                 ],
+                        'responses'             => ['200' => ['s' => 'User']]
+                    ],
+
+                    '/user/update-security'   => [
+                        'title' => 'Updates User Secure information',
+                        'method' => 'POST',
+                        'auth'  => true,
+                        'params'                => [
+                            ['n' => 'id',           't' => 'User Id', 'f' => 'integer', 'd' => $defaultUserId],
+                            ['n' => 'password',     't' => 'User Password',                 'o' => true, 'f' => 'string'],
+                        ],
                         'responses'             => ['200' => ['s' => 'User']]
                     ],
 
@@ -335,7 +346,25 @@ class UserController extends ApiController {
         $model->setOptionValue('notify', !empty($data['optNotify']) ? true : false);
 
 		$this->addContent($model);
-	}
+    }
+
+    /**
+     * Update user security profile
+     *
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     */
+    public function actionUpdateSecurity($id) {
+        $model = $this->checkModelPermission(intval($id), IPermissions::permWrite);
+        $data = Helpers::getRequestParams('post');
+
+        $model->load($data);
+        $model->save();
+
+        $this->addContent($model);
+    }
+
 
     /**
      * Set user options

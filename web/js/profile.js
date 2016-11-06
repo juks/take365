@@ -63,7 +63,9 @@ function updateProfile(formName) {
 	}, 10000);
 
 
-	$.ajax('/api/user/update-profile', {
+	var url = formName == 'secForm' ? '/api/user/update-security' : '/api/user/update-profile';
+
+	$.ajax(url, {
 	data: data,
 	type: 'post',
 	success: function(data) {
