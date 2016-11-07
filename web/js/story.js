@@ -78,6 +78,12 @@ function initStoriesIndex() {
 	});
 
 	[1, 2].forEach(function(i) {
+		var today = new Date();
+		var day = today.getDate();
+		var month = today.getMonth()+1; //January is 0!
+		var year = today.getFullYear();
+		var dateString = year + '-' + month + '-' + day;
+
 		var uploader = new plupload.Uploader({
 				runtimes: "html5,html4",
 				browse_button: "startNewStory" + i,
@@ -92,7 +98,7 @@ function initStoriesIndex() {
 				multiple_queues: true,
 				multipart: true,
 				multipart_params: {
-					date: (new Date()).toISOString().split('T')[0],
+					date: dateString,
 					targetId: 0,
 					targetType: 2,
 					mediaType: 'storyImage'
