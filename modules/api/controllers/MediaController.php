@@ -250,7 +250,7 @@ class MediaController extends ApiController {
                     if (!$form->date) throw new \app\components\ModelException('No story date', 'date');
 
                     if (!ApiStory::checkQuota()) {
-                        $this->addErrorMessage('За последнее время мы создали слишком много историй');
+                        $this->addErrorMessage('За последнее время вы создали слишком много историй');
                         return;
                     }
 

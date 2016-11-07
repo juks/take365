@@ -16,6 +16,7 @@ use app\models\Media;
 use app\models\mediaExtra\MediaCore;
 use app\models\Like;
 use app\models\mediaExtra\TMediaUploadExtra;
+use app\components\Ml;
 use app\components\interfaces\IPermissions;
 use app\components\interfaces\IGetType;
 
@@ -244,6 +245,19 @@ class Story extends StoryBase implements IPermissions, IGetType {
     }
 
     /**
+     * Sets time_start according to the given date
+     * @param $date
+     */
+    public function setStartDate($date) {
+        $dt = new \DateTime($date);
+        $dtNow = new \DateTime();
+        $interval = date_diff($dt, $dtNow);
+        if ($interval->days > 30) throw new \Exception(Ml::t('Time difference exceeds limit', 'story'));
+
+        $this->time_start = $dt->getTimestamp();
+    }
+
+    /**
     * Returns story progress information
     */
     public function calculateProgress() {
@@ -379,12 +393,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
             $timestamp = $timeTo + $daysDiff * 86400;
             $timeUploadFrom = $timestamp;
         }
-
+        
         $blankSpace = true;
 
         while (true) {
             $date       = date('Y-m-d', $timestamp);
-
             $year       = date('Y', $timestamp);
             $month      = date('m', $timestamp);
             $monthDay   = date('j', $timestamp);

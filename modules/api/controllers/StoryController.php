@@ -99,10 +99,11 @@ class StoryController extends ApiController {
                     'method' => 'POST',
                     'auth'  => true,
                     'params'                => [
-                                                    ['n' => 'id',           't' => 'Story Id', 'h'=>'If not given, a new story will be created', 'f' => 'integer', 'd' => $defaultStoryId],
-                                                    ['n' => 'status',       't' => 'Story Status', 'h'=>'0 — public, 1 — private', 'f' => 'integer', 'e' => [0, 1]],
-                                                    ['n' => 'title',        't' => 'Story Title', 'f' => 'string'],
-                                                    ['n' => 'description',  't' => 'Story Description', 'f' => 'string'],
+                                                    ['n' => 'id',           't' => 'Story Id',          'o' => true, 'h'=>'If not given, a new story will be created', 'f' => 'integer', 'd' => $defaultStoryId],
+                                                    ['n' => 'status',       't' => 'Story Status',      'o' => true, 'h'=>'0 — public, 1 — private', 'f' => 'integer', 'e' => [0, 1]],
+                                                    ['n' => 'title',        't' => 'Story Title',       'o' => true, 'f' => 'string'],
+                                                    ['n' => 'description',  't' => 'Story Description', 'o' => true, 'f' => 'string'],
+                                                    ['n' => 'startDate',    't' => 'The start date (if not specified the current local time date fill be used)', 'o' => true, 'f' => 'string'],
                                             ],
                     'responses'             => ['200' => ['s' => 'Story']]
                 ],
@@ -172,7 +173,9 @@ class StoryController extends ApiController {
             $model = new ApiStory();
 		}
 
-		$model->load(Helpers::getRequestParams('post'));
+        $params = Helpers::getRequestParams('post');
+		$model->load($params);
+        if (!empty($params['startDate'])) $model->setStartDate($params['startDate']);
 		$model->save();
 
 		$this->addContent($model);
