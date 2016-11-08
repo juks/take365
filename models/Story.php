@@ -67,6 +67,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $f =  [
             'id'        => 'id',
             'status'    => 'status',
+            'isDeleted' => function() { return $this->is_deleted ? true : false; },
             'title'     => 'title',
             'url'       => function() { return $this->url; },
             'authors'   => function() { return $this->authors; },
