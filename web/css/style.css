@@ -604,23 +604,29 @@ button {
 /* Intro
 ----------------------------------------------- */
 .intro {
-  display: inline-block;
+  position: absolute;
+  top: 210px;
+  left: 0;
+  right: 0;
   width: auto;
-  margin-top: 60px;
+  margin: 0;
+  }
+.intro-text {
+  display: inline-block;
   text-align: left;
   }
-.intro P {
+.intro p {
   color: #FFF;
   font-size: 16px;
   line-height: 1.8;
   }
-  .intro P SPAN {
+  .intro p span {
     position: relative;
     z-index: 2;
     padding: 7px 10px;
     background: #000;
     }
-  .intro P A {
+  .intro p a {
     position: relative;
     z-index: 2;
     padding: 5px 15px;
@@ -628,7 +634,7 @@ button {
     background: #DE0202;
     color: #FFF;
     }
-  .intro P A:hover {
+  .intro p a:hover {
     background: #BF0000;
     }
 
