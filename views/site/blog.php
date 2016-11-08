@@ -3,7 +3,7 @@
         <?= $this->render('//blocks/blogPost', ['post' => $post]); ?>
     <?php endforeach ?>
 <?php else: ?>
-  <article class="article">
+  <article class="article article-blog">
     <header class="article-header">
       <time datetime="2016-09-30 20:00">30.09.2016</time>
       <h2><a href="#">Лавров отказался извиняться за «Боинг»</a></h2>
@@ -14,7 +14,7 @@
       <a href="#" class="article-link-more">Читать полностью</a>
     </footer>
   </article>
-  <article class="article">
+  <article class="article article-blog">
     <header class="article-header">
       <time datetime="2016-09-13 20:00">13.09.2016</time>
       <h2 class="article-title"><a href="#">Боксера Фьюри уличили в употреблении кокаина</a></h2>
@@ -24,7 +24,7 @@
       <a href="#" class="article-link-more">Читать полностью</a>
     </footer>
   </article>
-  <article class="article">
+  <article class="article article-blog">
     <header class="article-header">
       <time datetime="2016-09-13 20:00">11.09.2016</time>
       <h2 class="article-title"><a href="#">Россия возглавила Совбез ООН</a></h2>
@@ -34,7 +34,7 @@
       <a href="#" class="article-link-more">Читать полностью</a>
     </footer>
   </article>
-  <article class="article">
+  <article class="article article-blog">
     <header class="article-header">
       <time datetime="2016-09-13 20:00">02.09.2016</time>
       <h2 class="article-title"><a href="#">В Мариуполе произошел скандал из-за школьного стихотворения про флаг России</a></h2>
@@ -44,7 +44,7 @@
       <a href="#" class="article-link-more">Читать полностью</a>
     </footer>
   </article>
-  <article class="article">
+  <article class="article article-blog">
     <header class="article-header">
       <time datetime="2016-09-13 20:00">21.08.2016</time>
       <h2 class="article-title"><a href="#">Apple оштрафовали на 300 миллионов долларов за нарушение патентных прав</a></h2>
