@@ -30,7 +30,7 @@ class SiteController extends MyController
                     ],
 
                     [
-                        'actions'   => ['index', 'auth', 'captcha', 'help', 'howto', 'blog', 'blog-post', 'tag', 'error', 'cave'],
+                        'actions'   => ['index', 'register', 'auth', 'captcha', 'help', 'howto', 'blog', 'blog-post', 'tag', 'error', 'cave'],
                         'allow'     => true,
                         'roles'     => ['?', '@']
                     ],
@@ -91,6 +91,10 @@ class SiteController extends MyController
         $this->layout = 'front';
 
         return $this->render('index', ['model' => $model]);
+    }
+
+    public function actionRegister() {
+        return $this->render('register');
     }
 
     public function actionLogin() {        
