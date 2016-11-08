@@ -497,21 +497,30 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         $mo = Media::getMediaOptions('storyImage');
 
-        foreach($storyList as $story) {
-            $images = $story->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])
-                ->where(['type' => $mo[Media::mediaTypeId], 'is_deleted' => 0])
-                ->all();
+            foreach($storyList as $story) {
+                Helpers::transact(function() use($story, $mo) {
+                    $images = $story->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])
+                    ->where(['type' => $mo[Media::mediaTypeId], 'is_deleted' => 0])
+                    ->all();
 
-            Helpers::transact(function() use($images, $story) {
-                if ($images) {
-                    foreach ($images as $image) {
-                        $image->markDeleted();
+                    // Drop images
+                    if ($images) {
+                        foreach ($images as $image) {
+                            $image->markDeleted();
+                        }
                     }
-                }
 
-                $story->delete();
-            });
-        }
+                    // Drop comments
+                    $comments = $story->comments;
+                    if ($comments) {
+                        foreach ($comments as $comment) {
+                            $comment->delete();
+                        }
+                    }
+
+                    $story->delete();
+                });
+            }
     }
 
     /**

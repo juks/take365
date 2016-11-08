@@ -80,6 +80,12 @@ trait TMediaDeleteExtra {
         $this->deleteRecursive($this->_storeFolder);
 
         Helpers::transact(function() {
+            $likesList = $this->listLikes();
+            if ($likesList) {
+                foreach($likesList as $like) {
+                    $like->delete();
+                }
+            }
             parent::delete();
         });
     }
