@@ -204,7 +204,7 @@ trait TMediaFileExtra {
     public function getPartitionName() {
         if (!$this->getSaltValue()) throw new \Exception(Ml::t('Failed to get salt value for the media item', 'media'));
 
-        $clusterSize = Yii::$app->params['mediaFileClusterSize'];
+        $clusterSize = self::getParam('media/fileClusterSize');
 
         if (!$clusterSize) $n = 0; else $n = ceil($this->getSaltValue() / $clusterSize);
 
@@ -220,16 +220,16 @@ trait TMediaFileExtra {
         $salt = $this->getSaltValue();
         if (!$salt) throw new \Exception(Ml::t('Failed to get salt value for the media item', 'media'));
 
-        $depth = $this->getParam(self::pMediaFolderSpreadDepth);
-        if (!$depth) $depth = 2;
+        $depth = self::getParam('media/folderSpreadDepth');
+        if (!$depth) $depth = 1;
         elseif ($depth > 5) $depth = 5;
 
         $hashString = md5($salt);
         $result = '';
 
-        for ($i = 0; $i < $depth - 1; $i++) {
+        for ($i = 0; $i < $depth; $i++) {
             $result .= substr($hashString, $i*2, 2);
-            if ($i < $depth - 2) $result .= '/';
+            if ($i < $depth - 1) $result .= '/';
         }
 
         return $result;
@@ -323,14 +323,14 @@ trait TMediaFileExtra {
      * @return bool|null
      * @throws \Exception
      */
-    public function deleteRecursive($path) {
+    public static function deleteRecursive($path) {
         if (is_dir($path) && !is_link($path)) {
             $dh = opendir($path);
             if ($dh) {
                 while (($sf = readdir($dh)) !== false) {
                     if ($sf == '.' || $sf == '..') continue;
 
-                    if(!self::deleteRecursive($path . '/' . $sf)) throw new \Exception('Unable to Delete Folder');
+                    if(!self::deleteRecursive($path . '/' . $sf)) throw new \Exception('Unable to Delete Folder ' . $path . '/' . $sf);
                 }
 
                 closedir($dh);

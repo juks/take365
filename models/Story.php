@@ -457,6 +457,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public function markDeleted() {
         if (!$this->is_deleted) {
             $this->is_deleted = true;
+            $this->time_deleted = time();
             $this->save();
 
             return true;
@@ -471,11 +472,45 @@ class Story extends StoryBase implements IPermissions, IGetType {
     public function undelete() {
         if ($this->is_deleted) {
             $this->is_deleted = false;
+            $this->time_deleted = 0;
             $this->save();
 
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Disposes deleted stories completely
+     * @static
+     *
+     */
+    public static function deleteMarked($maxDelete = 100) {
+        $lifeTime = Helpers::getParam('story/deletedLifetime');
+        if (!$lifeTime) throw new \Exception('No lifetime parameter for story deletion');
+
+        $storyList = self::find()->where(self::makeCondition([
+                                                                'is_deleted'    => 1,
+                                                                'time_deleted'  => ['<', time() - $lifeTime]
+                                                            ]))->limit($maxDelete)->all();
+
+        $mo = Media::getMediaOptions('storyImage');
+
+        foreach($storyList as $story) {
+            $images = $story->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])
+                ->where(['type' => $mo[Media::mediaTypeId], 'is_deleted' => 0])
+                ->all();
+
+            Helpers::transact(function() use($images, $story) {
+                if ($images) {
+                    foreach ($images as $image) {
+                        $image->markDeleted();
+                    }
+                }
+
+                $story->delete();
+            });
         }
     }
 

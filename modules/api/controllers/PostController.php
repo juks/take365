@@ -169,7 +169,7 @@ class PostController extends ApiController {
     }
 
     /**
-     * List stories
+     * List posts
      *
      * @param int $page
      * @param int $maxItems
