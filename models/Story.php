@@ -87,7 +87,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
      * Returns public criteria
      */
 	public function getIsPublic() {
-        return $this->status == self::statusPublic;
+        return $this->status == self::statusPublic && !$this->is_deleted;
     }
 
     /**
@@ -128,6 +128,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     **/
     public function checkPermission($user, $permission = IPermissions::permWrite) {
         $isAuthor = $this->created_by == $user->id;
+
         if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
         if ($permission == IPermissions::permComment && $this->getIsPublic()) return true;
         if (!$this->is_deleted) {
