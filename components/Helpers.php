@@ -445,4 +445,19 @@ class Helpers {
 
         return $string;
     }
+
+    public static function transact($sub) {
+        $connection = Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+
+        try {
+            $sub();
+        } catch (\Exception $e) {
+            $transaction->rollback();
+
+            throw $e;
+        }
+
+        $transaction->commit();
+    }
 }

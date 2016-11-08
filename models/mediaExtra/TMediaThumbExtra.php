@@ -94,7 +94,7 @@ trait TMediaThumbExtra {
         if ($dimensions) {
             $thumbPath = $this->getThumbPath($dimensions);
 
-            if (!empty($extra[self::forceThumbsCreate]) || ((!empty($extra[self::thumbsCreate]) || $this->getParam('mediaThumbsAutoCreate')) && !file_exists($thumbPath))) {
+            if (!empty($extra[self::forceThumbsCreate]) || ((!empty($extra[self::thumbsCreate]) || self::getParam('media/thumbsAutoCreate')) && !file_exists($thumbPath))) {
                 if (!$this->_thumbFolderReady) {
                     $this->preparePath('thumb');
                     $this->_thumbFolderReady = true;

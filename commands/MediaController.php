@@ -111,4 +111,8 @@ class MediaController extends Controller {
             }
         }
     }
+
+    public function actionPurgeDeleted() {
+        Media::deleteMarked(500);
+    }
 }

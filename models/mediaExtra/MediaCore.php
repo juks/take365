@@ -4,10 +4,6 @@ namespace app\models\mediaExtra;
 
 use Yii;
 use app\models\base\MediaBase;
-use app\models\mediaExtra\TMediaFileExtra;
-use app\models\mediaExtra\TMediaThumbExtra;
-use app\models\mediaExtra\TMediaImageExtra;
-use app\models\mediaExtra\TMediaUrlExtra;
 use app\components\Download;
 use app\components\Helpers;
 use app\components\HelpersTxt;
@@ -25,17 +21,18 @@ class MediaCore extends MediaBase {
     use THasPermission;
     use TModelExtra;
 
-    use TMediaFileExtra;
-    use TMediaThumbExtra;
-    use TMediaImageExtra;
-    use TMediaUrlExtra;
+    use \app\models\mediaExtra\TMediaFileExtra;
+    use \app\models\mediaExtra\TMediaThumbExtra;
+    use \app\models\mediaExtra\TMediaImageExtra;
+    use \app\models\mediaExtra\TMediaUrlExtra;
+    use \app\models\mediaExtra\TMediaDeleteExtra;
     use TCreator;
 
     const uploadTypeForm            = 'uploadTypeForm';
     const uploadTypeUrl             = 'uploadTypeUrl';
     const uploadTypeLocal           = 'uploadTypeLocal';
 
-    const mediaTypeId                    = 'typeId';
+    const mediaTypeId               = 'typeId';
     const targetType                = 'targetType';
     const path                      = 'path';
     const alias                     = 'alias';
@@ -73,8 +70,6 @@ class MediaCore extends MediaBase {
     const skipThumbsCreate          = 'skipThumbsCreate';
     const forceThumbsCreate         = 'forceThumbsCreate';
     const cleanPrev                 = 'cleanPrev';
-
-    const pMediaFolderSpreadDepth   = 'pMediaFolderSpreadDepth';
 
     public $i = [];                                             // Image url and dimensions
     public $t = [];                                             // Thumbs urls and dimensions
@@ -239,7 +234,7 @@ class MediaCore extends MediaBase {
                 if (!copy($currentFilePath, $this->_fullPath)) throw new \Exception('Failed to copy uploaded file: ' . $currentFilePath . ' to ' . $this->_fullPath);
             // URL upload
             } elseif ($uploadInfo['type'] == self::uploadTypeUrl) {
-                $tmpPath = $this->getParam('tmpPath');
+                $tmpPath = self::getParam('tmpPath');
                 if (!$tmpPath) throw new Exception('Temporary file path is not configured');
                 
                 $download = new Download($tmpPath);
@@ -311,13 +306,13 @@ class MediaCore extends MediaBase {
     * Checks of target quota limit exceeds the file size
     **/
     public function checkQuotas() {
-        if (!Helpers::getParam('mediaStorageQuota')) {
+        if (!Helpers::getParam('media/storageQuota')) {
             throw new \Exception(Ml::t('Media storage quota not set', 'media'));    
         }
 
         $storedSize = self::sqlGetFuncValue('size', $this->getBrotherCondition('target'), 'sum');
 
-        if ($this->size > Helpers::getParam('mediaStorageQuota') - $storedSize) {
+        if ($this->size > Helpers::getParam('media/storageQuota') - $storedSize) {
             throw new \Exception(Ml::t('Media storage quota exceeded', 'media'));
         }
     }
@@ -400,31 +395,8 @@ class MediaCore extends MediaBase {
      * @param null $default
      * @return null
      */
-    public function getParam($name, $default = null) {
-        if (isset(Yii::$app->params[$name])) {
-            return Yii::$app->params[$name];
-        } else {
-            return $default;
-        }
-    }
-
-    /**
-     * Marks item for deletion
-     */
-    public function markDeleted($replace = false) {
-        $this->is_deleted = 1;
-        
-        if ($this->save()) {
-            if (method_exists($this, 'afterMediaDelete')) $this->afterMediaDelete($replace);
-        }
-    }
-
-    /**
-     * Recovers item from deleetd state
-     */
-    public function recoverDeleted() {
-        $this->is_deleted = 0;
-        $this->save();
+    public static function getParam($name, $default = null) {
+        return Helpers::getParam($name, $default);
     }
 
     /**
