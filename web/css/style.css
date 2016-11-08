@@ -502,7 +502,6 @@ button {
 /* Content
 ----------------------------------------------- */
 .content {
-  position: relative;
   width: 800px;
   margin: 0 auto;
   }
@@ -603,6 +602,12 @@ button {
 
 /* Intro
 ----------------------------------------------- */
+.intro {
+  display: inline-block;
+  width: auto;
+  margin-top: 60px;
+  text-align: left;
+  }
 .intro P {
   color: #FFF;
   font-size: 16px;
@@ -746,6 +751,13 @@ button {
 
 /* Matrix
 ----------------------------------------------- */
+.matrix {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  }
 .matrix-link {
   position: relative;
   display: block;
@@ -1382,8 +1394,11 @@ button {
 .main .nav-list {
   padding: 6px 10px 6px 10px;
   }
-.main .nav-item A {
+.main .nav-item a {
   border: none;
+  }
+.main .content {
+  text-align: center;
   }
 .main .footer {
   position: fixed;
