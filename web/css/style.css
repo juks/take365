@@ -408,6 +408,7 @@ button {
   height: 54px;
   background: #FFF;
   z-index: 2;
+  font-size: 0;
   }
   .header-logo > a {
     position: relative;
@@ -417,7 +418,6 @@ button {
     width: 132px;
     height: 30px;
     border: none;
-    font-size: 0;
     }
 .header-logo:before {
   position: absolute;
@@ -503,15 +503,9 @@ button {
 ----------------------------------------------- */
 .content {
   position: relative;
-  padding: 0 50px;
+  width: 800px;
+  margin: 0 auto;
   }
-  .content > SECTION {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    transform: translateZ(0);
-    }
 .content-header {
   position: relative;
   margin-bottom: 50px;
@@ -609,33 +603,28 @@ button {
 
 /* Intro
 ----------------------------------------------- */
-.intro {
-  position: absolute;
-  bottom: 70px;
-  left: 35px;
+.intro P {
+  color: #FFF;
+  font-size: 16px;
+  line-height: 1.8;
   }
-  .intro P {
-    color: #FFF;
-    font-size: 16px;
-    line-height: 1.8;
+  .intro P SPAN {
+    position: relative;
+    z-index: 2;
+    padding: 7px 10px;
+    background: #000;
     }
-    .intro P SPAN {
-      position: relative;
-      z-index: 2;
-      padding: 7px 10px;
-      background: #000;
-      }
-    .intro P A {
-      position: relative;
-      z-index: 2;
-      padding: 5px 15px;
-      border: none;
-      background: #DE0202;
-      color: #FFF;
-      }
-    .intro P A:hover {
-      background: #BF0000;
-      }
+  .intro P A {
+    position: relative;
+    z-index: 2;
+    padding: 5px 15px;
+    border: none;
+    background: #DE0202;
+    color: #FFF;
+    }
+  .intro P A:hover {
+    background: #BF0000;
+    }
 
 /* Login & Register
 ----------------------------------------------- */
@@ -757,12 +746,6 @@ button {
 
 /* Matrix
 ----------------------------------------------- */
-.matrix:after {
-  display: block;
-  height: 0;
-  content: '';
-  clear: both;
-  }
 .matrix-link {
   position: relative;
   display: block;
@@ -1386,16 +1369,6 @@ button {
 
 /* Main
 ----------------------------------------------- */
-.main {
-  overflow: hidden;
-  }
-.main .header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin-bottom: 0;
-  }
 .main .header-logo {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
@@ -1406,29 +1379,11 @@ button {
   width: 154px;
   height: 54px;
   }
-.main .nav {
-  position: absolute;
-  top: 104px;
-  left: 0;
-  right: 0;
-  }
 .main .nav-list {
   padding: 6px 10px 6px 10px;
   }
 .main .nav-item A {
   border: none;
-  }
-.main .content {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  }
-.main .article {
-  width: 70%;
-  padding: 130px 0 50px 45px;
-  }
-.main .intro {
-  padding-left: 0;
   }
 .main .footer {
   position: fixed;
@@ -1452,35 +1407,6 @@ button {
       border-color: #CCC;
       color: #FFF;
       }
-
-/* Page 2 */
-.viewing-page-2 .header-logo {
-  box-shadow: none;
-  }
-  .viewing-page-2 .header-logo > a {
-    top: 11px;
-    left: 11px;
-    width: 132px;
-    height: 30px;
-    }
-.viewing-page-2 .footer {
-  position: relative;
-  }
-  .viewing-page-2 .footer .stores {
-    display: none;
-    }
-  .viewing-page-2 .footer UL {
-    background: none;
-    color: #666;
-    }
-  .viewing-page-2 .footer A {
-    border-color: #CCC;
-    color: #666;
-    }
-  .viewing-page-2 .footer A:hover {
-    border-color: #999;
-    color: #000;
-    }
 
 /* Comments
 ----------------------------------------------- */

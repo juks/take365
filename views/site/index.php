@@ -4,9 +4,7 @@ use yii\widgets\ActiveForm;
 
 ?>
 <header class="header">
-  <h1 class="header-logo">
-    <a href="javascript:void $('.content').moveTo(1)">take365</a>
-  </h1>
+  <h1 class="header-logo">take365</h1>
 </header>
 <nav class="nav">
   <ul class="nav-list">
@@ -14,24 +12,21 @@ use yii\widgets\ActiveForm;
       <a href="#" onclick="Auth.open(event);return false" class="nav-link">Вход</a>
     </li>
     <li class="nav-item">
-      <a href="/#2" onclick="$('.content').moveTo(REGISTRATION_INDEX);return false" class="nav-link nav-link-register">Регистрация</a>
+      <a href="/#2" class="nav-link nav-link-register">Регистрация</a>
     </li>
   </ul>
 </nav>
 <section class="content">
-  <section>
-    <article class="article intro">
-      <p><span>Этот проект претворяет в жизнь идею «365 фотографий».</span></p>
-      <p>
-        <span>Суть проста: если вы чувствуете в себе силу попытаться довести от начала до конца</span><br>
-        <span>историю в формате 365, в течение целого года делать по одному снимку</span><br>
-        <span>на каждый день, то этот небольшой сайт готов всячески помочь вам пройти</span><br>
-        <span>этот нелёгкий путь.</span>
-      </p>
-      <p><a href="/help/">Узнать больше</a></p>
-    </article>
-    <div class="matrix"></div>
-  </section>
+  <article class="article intro">
+    <p><span>Этот проект претворяет в жизнь идею «365 фотографий».</span></p>
+    <p>
+      <span>Суть проста: если вы чувствуете в себе силу попытаться довести от начала до конца</span><br>
+      <span>историю в формате 365, в течение целого года делать по одному снимку</span><br>
+      <span>на каждый день, то этот небольшой сайт готов всячески помочь вам пройти</span><br>
+      <span>этот нелёгкий путь.</span>
+    </p>
+    <p><a href="/help/">Узнать больше</a></p>
+  </article>
   <section class="register">
     <header class="content-header">
       <h2 class="content-title">Регистрация</h2>
@@ -60,5 +55,5 @@ use yii\widgets\ActiveForm;
       </fieldset>
     </form>
   </section>
+  <div class="matrix"></div>
 </section>
-<!--[if lte IE 9]><script src="/js/placeholders.jquery.min.js"></script><![endif]-->

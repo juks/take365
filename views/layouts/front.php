@@ -10,47 +10,13 @@ FrontAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE HTML>
-<!-- fix one page scroll v.1.3.1 for ie9 -->
-<!--[if lte IE 9]><html class="ie8"><![endif]-->
-<!--[if gt IE 9]><!--><html lang="ru-RU"><!--<![endif]-->
+<html lang="ru-RU">
 <head>
   <title><?= Html::encode($this->title) ?></title>
   <meta charset="utf-8">
   <meta name="keywords" content="365 фотографий, 365 дней, проект 365 дней, год фотографий, фото-год, по одной фотографии на каждый день, идеи фотографий на каждый день, take365">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <?php $this->head() ?>
-  <script>
-    <?= $this->params['jsVarsString'] ?>
-
-    window.REGISTRATION_INDEX = 2;
-    $(function(){
-      $('.content').onepage_scroll({
-        sectionContainer: 'section',
-        responsiveFallback: 600,
-        animationTime: 600,
-        easing: 'ease-in-out',
-        pagination: false,
-        beforeMove: function(index) {
-          // more fps on scroll
-          document.body.style.pointerEvents = 'none';
-
-          $('.nav-link-register').closest('.nav-item').toggleClass('selected', index === REGISTRATION_INDEX);
-          // fix не срабатывает afterMove когда мы перемещаемся на индекс на котором находимся. v1.3.1
-          setTimeout(function() {
-            document.body.style.pointerEvents = 'auto';
-          }, 600);
-        },
-        afterMove: function(index) {
-          document.body.style.pointerEvents = 'auto';
-        },
-        loop: false
-      });
-
-      $('.nav-link-register').closest('.nav-item').toggleClass('selected', location.hash === '#' + REGISTRATION_INDEX);
-
-      Bg.create(pp.ids, pp.urls, pp.maxSpritesPerFile, pp.currentMosaicId);
-    });
-  </script>
 </head>
 <body class="main">
 <?php $this->beginBody() ?>
