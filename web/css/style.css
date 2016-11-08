@@ -3,6 +3,7 @@ body {
   height: 100%;
   }
 body {
+  overflow-x: hidden;
   min-width: 900px;
   background: #FFF;
   color: #333;
@@ -635,7 +636,7 @@ button {
 ----------------------------------------------- */
 /* Register */
 .register {
-  text-align: center;
+  display: inline-block;
   }
 .register .article {
   width: auto !important;
@@ -751,13 +752,6 @@ button {
 
 /* Matrix
 ----------------------------------------------- */
-.matrix {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  }
 .matrix-link {
   position: relative;
   display: block;
@@ -1381,6 +1375,12 @@ button {
 
 /* Main
 ----------------------------------------------- */
+.main .header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  }
 .main .header-logo {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
@@ -1391,6 +1391,12 @@ button {
   width: 154px;
   height: 54px;
   }
+.main .nav {
+  position: absolute;
+  top: 110px;
+  left: 0;
+  right: 0;
+  }
 .main .nav-list {
   padding: 6px 10px 6px 10px;
   }
@@ -1399,6 +1405,7 @@ button {
   }
 .main .content {
   text-align: center;
+  margin-bottom: 100px;
   }
 .main .footer {
   position: fixed;

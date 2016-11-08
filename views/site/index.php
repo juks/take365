@@ -16,6 +16,7 @@ use yii\widgets\ActiveForm;
     </li>
   </ul>
 </nav>
+<div class="matrix"></div>
 <section class="content">
   <article class="article intro">
     <p><span>Этот проект претворяет в жизнь идею «365 фотографий».</span></p>
@@ -55,5 +56,4 @@ use yii\widgets\ActiveForm;
       </fieldset>
     </form>
   </section>
-  <div class="matrix"></div>
 </section>
