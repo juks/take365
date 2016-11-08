@@ -180,6 +180,9 @@ definitions:
       status:
         type: integer
         description: Story status
+      isDeleted:
+        type: boolean
+        description: Deletion flag
       title:
         type: string
         description: Story title
