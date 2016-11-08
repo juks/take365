@@ -4,7 +4,10 @@ use yii\widgets\ActiveForm;
 
 ?>
 <header class="header">
-  <h1 class="header-logo">take365</h1>
+  <h1 class="header-logo">
+    <a href="javascript:void $('.content').moveTo(1)">take365</a>
+    <sup class="header-logo-text">блог</sup>
+  </h1>
 </header>
 <nav class="nav">
   <ul class="nav-list">
@@ -12,7 +15,7 @@ use yii\widgets\ActiveForm;
       <a href="#" onclick="Auth.open(event);return false" class="nav-link">Вход</a>
     </li>
     <li class="nav-item">
-      <a href="/#2" class="nav-link nav-link-register">Регистрация</a>
+      <a href="/#2" onclick="$('.content').moveTo(REGISTRATION_INDEX);return false" class="nav-link nav-link-register">Регистрация</a>
     </li>
   </ul>
 </nav>

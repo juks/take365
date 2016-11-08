@@ -912,6 +912,11 @@ button {
 
 /* Stories
 ----------------------------------------------- */
+.stories {
+  width: auto;
+  padding: 0 50px;
+  margin: 0 0 60px 0;
+  }
 .story {
   margin: 30px 0;
   padding: 10px 0;
@@ -1503,7 +1508,7 @@ button {
   }
 .main .footer {
   position: fixed;
-  bottom: 0;
+  bottom: -9px;
   z-index: 2;
   width: 100%;
   padding-top: 0;
