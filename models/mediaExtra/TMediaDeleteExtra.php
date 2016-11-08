@@ -58,7 +58,7 @@ trait TMediaDeleteExtra {
      *
      */
     public static function deleteMarked($maxDelete = 100) {
-        $lifeTime = Helpers::getParam('story/deletedLifetime');
+        $lifeTime = Helpers::getParam('media/deletedLifetime');
         if (!$lifeTime) throw new \Exception('No lifetime parameter for media deletion');
 
         $mediaList = self::find()->where(self::makeCondition([
