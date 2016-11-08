@@ -110,7 +110,7 @@ class Feed extends FeedBase {
         $maxItems      = empty($extra['maxItems']) ? self::$maxItems : $extra['maxItems'];
         $lastTime      = empty($extra['lastTime']) ? 0 : $extra['lastTime'];
         $firstTime     = empty($extra['firstTime']) ? 0 : $extra['firstTime'];
-        $lastComments   = empty($extra['lastComments']) ? null : $extra['lastComments'];
+        $lastComments  = empty($extra['lastComments']) ? null : $extra['lastComments'];
 
         if (!$maxItems > self::$maxItemsLimit) $maxItems = self::$maxItemsLimit;
 
@@ -129,10 +129,10 @@ class Feed extends FeedBase {
             }
         } else {
             $cond = [
-                'created_by' => ['IN', $ids],
-                'type' => Media::typeStoryImage,
-                'is_deleted' => false,
-                'is_hidden' => false
+                'created_by'   => ['IN', $ids],
+                'type'         => Media::typeStoryImage,
+                'is_deleted'   => false,
+                'is_hidden'    => false
             ];
 
             if ($lastTime) $cond['time_created'] = ['>', $lastTime];
