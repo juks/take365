@@ -577,9 +577,12 @@ class Story extends StoryBase implements IPermissions, IGetType {
     /**
      * @param $userId
      * @param $date
+     * @param $extra
      * @return mixed
      */
-    public static function getNotifyStories($userId, $date) {
+    public static function getNotifyStories($userId, $date, $extra = null) {
+        if (empty($extra['maxItems'])) $maxItems = 3; else $maxItems = $extra['maxItems'];
+
         $result = [];
         $conditions = [
                             'created_by' => $userId,
@@ -595,6 +598,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
             if (!$lastMedia || $lastMedia[0]->date != $date) {
                 $story->setScenario('notify');
                 $result[] = $story;
+                if (count($result) == $maxItems) break;
             }
         }
 
