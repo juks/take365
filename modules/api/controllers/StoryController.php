@@ -20,7 +20,7 @@ class StoryController extends ApiController {
             'class' => AccessControl::className(),
             'rules' => [
                 [
-                    'actions' => ['write', 'list', 'delete-recover'],
+                    'actions' => ['write', 'list', 'list-notify', 'delete-recover'],
                     'allow' => true,
                     'roles' => ['@'],
                 ],
@@ -91,6 +91,16 @@ class StoryController extends ApiController {
                                                     ['n' => 'maxItems' , 't' => 'Maximal Items Count',              'o' => true, 'f' => 'integer', 'd' => 10],
                                                     ['n' => 'username' , 't' => 'Name of User to Fetch Stories of', 'o' => true, 'h' => 'Eg. "bob" for Bob or "me" for current user', 'f' => 'string', 'd' => $defaultUsername]
                                             ],
+                    'responses'             => ['200' => ['t' => 'array', 's' => 'Story']]
+                ],
+
+                '/story/list-notify'   => [
+                    'title' => 'Fetches the list user stories due to a notification for given date',
+                    'method' => 'GET',
+                    'auth'  => true,
+                    'params'                => [
+                                                    ['n' => 'date',      't' => 'Current date',                      'f' => 'string'],
+                    ],
                     'responses'             => ['200' => ['t' => 'array', 's' => 'Story']]
                 ],
 
@@ -234,5 +244,13 @@ class StoryController extends ApiController {
         }
 
         $this->addContent($stories);
-    } 
+    }
+
+    /**
+     * Fetch the list of stories due to by notified
+     * @param $date
+     */
+    public function actionListNotify($date) {
+        $this->addContent(Yii::$app->user->identity->getNotifyStories($date));
+    }
 }

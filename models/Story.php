@@ -310,12 +310,16 @@ class Story extends StoryBase implements IPermissions, IGetType {
         if ($this->images === null) {
             $mo = Media::getMediaOptions('storyImage');
             $limit = !empty($extra['imageLimit']) ? $extra['imageLimit'] : null;
-            $this->images = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])
+            $result = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])
                                  ->where(['type' => $mo[Media::mediaTypeId], 'is_deleted' => 0])
                                  ->orderBy('date DESC')
                                  ->limit($limit)
                                  ->all();
+
+            if (empty($extra['returnOnly'])) $this->images = $result;
         }
+
+        return $result;
     }
 
     // DEPRECATED
@@ -568,5 +572,32 @@ class Story extends StoryBase implements IPermissions, IGetType {
             $this->is_complete = $isComplete;
             $this->save();
         }
+    }
+
+    /**
+     * @param $userId
+     * @param $date
+     * @return mixed
+     */
+    public static function getNotifyStories($userId, $date) {
+        $result = [];
+        $conditions = [
+                            'created_by' => $userId,
+                            'is_deleted' => 0,
+                            'time_start' => ['>', time() - 86400 * 365]
+                        ];
+
+        $stories = self::find()->where(self::makeCondition($conditions))->all();
+
+        foreach($stories as $story) {
+            $lastMedia = $story->fetchImages(['imageLimit' => 1, 'returnOnly' => true]);
+
+            if (!$lastMedia || $lastMedia[0]->date != $date) {
+                $story->setScenario('notify');
+                $result[] = $story;
+            }
+        }
+
+        return $result;
     }
 }
