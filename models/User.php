@@ -474,6 +474,14 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         return $this->hasMany(Story::className(), ['created_by' => 'id'])->where($conditions)->orderBy($order);
     }
 
+    public function getNotifyStories($date) {
+        return Story::getNotifyStories($this->id, $date);
+    }
+
+    /**
+     * Format current user
+     * @param array $xtra
+     */
     public function format($xtra = []) {
         $this->getImages();
         $this->sex = intval($this->sex);
@@ -481,12 +489,21 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         $this->sexTitle = ['undefined', 'male', 'female'][$this->sex];
     }
 
+    /**
+     * Retireves images
+     * @param array $extra
+     * @return $this
+     */
     public function getImages($extra = []) {
         if ($this->userpicCache === null) $this->userpicCache = $this->getUserpic();
 
         return $this->userpicCache;
     }
 
+    /**
+     * Formt the fullname field according to user properties
+     * @return mixed|string
+     */
     public function getFullnameFilled() {
         if ($this->fullname) {
             return $this->fullname;
