@@ -8,6 +8,8 @@ return [
     'Please enter security code' 							        => 'Пожалуйста, введите код',
     'Incorrect security code'								        => 'Некорретный код',
     'Too many recovery attempts. Try again in few moments'	        => 'Слишком много попыток восстановить пароль. Попробуйте позже.',
+	'This username has been already taken'							=> 'Указанное имя пользователя уже используется',
+	'This email has been already taken'								=> 'Указанный адрес электронной почты уже используется',
 
     'Profile update'										        => 'Редактирование профиля',
     'Password recovery'										        => 'Восстановление пароля',
