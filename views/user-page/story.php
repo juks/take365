@@ -15,7 +15,7 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
 
 ?>
 
-<section class="content story">
+<section class="content stories">
   <div id="userPhotos" class="user-photos">
     <?php if ($story): ?>
     <?php if ($canManage): ?>
@@ -39,7 +39,7 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
       </div>
     </form>
     <?php else: ?>
-    <h1 class="story-title1"><?= $story->titleFilled ?></h1>
+    <h1 class="story-title"><?= $story->titleFilled ?></h1>
     <p class="story-desc"><?= $story->description_jvx ?></p>
     <div class="story-info">
       <p>Автор истории —  <a href="<?= $owner->url ?>"><?= $owner->fullnameFilled ?></a></p>

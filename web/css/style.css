@@ -923,11 +923,15 @@ button {
   }
 .story-title {
   margin-bottom: 10px;
-  font-size: 20px;
+  font-size: 30px;
+  color: #000;
   }
   .story-title a {
     border: none;
     }
+.story .story-header .story-title {
+  font-size: 20px;
+  }
 
 /* Story matrix */
 .story-matrix:after {

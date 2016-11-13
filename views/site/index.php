@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 <header class="header">
   <h1 class="header-logo">
     <a href="javascript:void $('.content').moveTo(1)">take365</a>
-    <sup class="header-logo-text">блог</sup>
+    <!-- <sup class="header-logo-text">блог</sup> -->
   </h1>
 </header>
 <nav class="nav">
