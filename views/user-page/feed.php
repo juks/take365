@@ -13,5 +13,9 @@ if ($isSubscribed) $this->registerJs("feedRender(document.getElementById('feed')
 
 ?>
 
-<?php if (!$isSubscribed): ?><div>Пользователь не подписан на обновления!</div><?php endif ?>
-<div id="feed"></div>
+<?php if (!$isSubscribed): ?>
+  <section class="content feed">
+    <p>Пользователь не подписан на обновления!</p>
+  </section>
+<?php endif ?>
+<section id="feed" class="content feed"></section>

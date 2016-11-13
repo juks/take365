@@ -28,7 +28,7 @@ class RegisterController extends MyController
         if (!$user) {
             $confirmError = 'Пользователь не найден';
         } elseif ($user->email != $email) {
-            $confirmError = 'Адрес электронной почты изменился. Пожалуйста, воспользовайтесь обновлённой ссылкой из письма-уведомления.';
+            $confirmError = 'Адрес электронной почты изменился. Пожалуйста, воспользуйтесь обновлённой ссылкой из письма-уведомления.';
         } elseif (!$user->confirmEmail()) {
             $confirmError = 'Не удалось подтвердить адрес электронной почты';
         }

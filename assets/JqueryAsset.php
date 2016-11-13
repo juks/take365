@@ -15,9 +15,7 @@ class JqueryAsset extends AssetBundle
     /*public $css = [
     ];*/
     public $js = [
-        'js/jquery.js',
-        'js/jquery.onepage-scroll.js',
-        'js/jquery.slick.min.js'
+        'js/jquery.js'
     ];
     public $depends = [
         //'yii\web\JqueryAsset',
