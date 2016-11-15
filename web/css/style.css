@@ -1026,11 +1026,11 @@ button {
   }
 
 /* Deleted story */
-.story-deleted .story-content {
+.story-deleted {
   opacity: 0.4;
   transition: opacity 400ms ease-out;
   }
-.story-deleted .story-content:hover {
+.story-deleted:hover {
   opacity: 1;
   }
 .story-deleted H2 A {
