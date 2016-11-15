@@ -1,9 +1,12 @@
-<div>Post create / update</div>
+<section class="content blog">
+  <header class="content-header">
+    <h1 class="content-title">Создать запись</h1>
+  </header>
+  <?php
 
-<?php
+  echo $this->render('Post', [
+      'model' => $post,
+  ])
 
-echo $this->render('Post', [
-    'model' => $post,
-])
-
-?>
+  ?>
+</section>
