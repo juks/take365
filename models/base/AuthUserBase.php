@@ -58,6 +58,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
             ['username', 'checkUsernameReserved'],
             ['username', 'checkUsernameValid'],
             ['username', 'checkUsernameExists'],
+            ['password', 'checkPasswordWeak'],
             [['email'], 'email'],
             [['email'], 'checkEmailExists'],
             [['description', 'description_jvx'], 'string', 'max' => 1024],
@@ -101,6 +102,20 @@ class AuthUserBase extends \yii\db\ActiveRecord
     public function checkUsernameReserved($attribute, $params) {
         if (array_search(strtolower($this->$attribute), $this->_reservedNames) != null) {
             $this->addError($attribute, Ml::t('Sorry, username ' . $this->$attribute . ' is reserved'));
+        }
+    }
+
+    public function checkPasswordWeak($attribute, $params) {
+        if (preg_match('/^(123456|qwertyasdf|12345678|654321|87654321)$/i', $this->$attribute)) {
+            $this->addError($attribute, Ml::t('Given password is insecure'));
+        }
+
+        if ($this->username && $this->$attribute == $this->username) {
+            $this->addError($attribute, Ml::t('Given password is insecure'));
+        }
+
+        if ($this->email && $this->$attribute == $this->email) {
+            $this->addError($attribute, Ml::t('Given password is insecure'));
         }
     }
 
