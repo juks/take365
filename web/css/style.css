@@ -758,6 +758,10 @@ button {
 
 /* Matrix
 ----------------------------------------------- */
+.matrix {
+  position: relative;
+  z-index: 1;
+  }
 .matrix-link {
   position: relative;
   display: block;
@@ -1414,6 +1418,7 @@ button {
   top: 110px;
   left: 0;
   right: 0;
+  z-index: 2;
   }
 .main .nav-list {
   padding: 6px 10px 6px 10px;
