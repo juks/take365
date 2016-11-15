@@ -30,7 +30,7 @@ use app\ext\AuthChoice;
           <?php AuthChoice::end(); ?>
         </fieldset>
         <fieldset class="hint">
-          <p><a href="/register/recover/">Забыли пароль</a> или <a href="/#2" onclick="Auth.onClickRegister(event)">ещё не зарегистрировались</a>?</p>
+          <p><a href="/register/recover/">Забыли пароль</a> или <a href="/register">ещё не зарегистрировались</a>?</p>
         </fieldset>
       </form>
       <span class="close" title="Закрыть" onclick="Auth.close(event)"></span>
