@@ -3,6 +3,7 @@ body {
   height: 100%;
   }
 body {
+  overflow-x: hidden;
   min-width: 900px;
   background: #FFF;
   color: #333;
@@ -408,6 +409,7 @@ button {
   height: 54px;
   background: #FFF;
   z-index: 2;
+  font-size: 0;
   }
   .header-logo > a {
     position: relative;
@@ -417,7 +419,6 @@ button {
     width: 132px;
     height: 30px;
     border: none;
-    font-size: 0;
     }
 .header-logo:before {
   position: absolute;
@@ -502,15 +503,43 @@ button {
 /* Content
 ----------------------------------------------- */
 .content {
-  position: relative;
+  width: 800px;
+  margin: 0 auto;
   }
-  .content > SECTION {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    transform: translateZ(0);
+.content-header {
+  position: relative;
+  margin-bottom: 50px;
+  }
+  .content-header .fa-pencil-square-o,
+  .content-header .fa-plus-square-o {
+    position: absolute;
+    top: 6px;
+    right: 0;
+    border: none;
+    font-size: 24px;
     }
+  .content-header .fa-plus-square-o {
+    top: 2px;
+    font-size: 30px;
+    }
+  .content-header .fa-pencil-square-o:hover,
+  .content-header .fa-plus-square-o:hover {
+    cursor: pointer;
+    color: #E02929;
+    }
+  .content-header .fa-pencil-square-o.selected {
+    color: #E02929;
+    }
+  .content-header .fa-pencil-square-o.selected:hover {
+    color: #333;
+    }
+.content-title {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  color: #000;
+  font: 30px/1 Arial, sans-serif;
+  }
 
 /* Article
 ----------------------------------------------- */
@@ -560,29 +589,6 @@ button {
       left: 100%;
       margin-left: 5px;
       }
-  .article-header .fa-pencil-square-o,
-  .article-header .fa-plus-square-o {
-    position: absolute;
-    top: 6px;
-    right: 0;
-    border: none;
-    font-size: 24px;
-    }
-  .article-header .fa-plus-square-o {
-    top: 2px;
-    font-size: 30px;
-    }
-  .article-header .fa-pencil-square-o:hover,
-  .article-header .fa-plus-square-o:hover {
-    cursor: pointer;
-    color: #E02929;
-    }
-  .article-header .fa-pencil-square-o.selected {
-    color: #E02929;
-    }
-  .article-header .fa-pencil-square-o.selected:hover {
-    color: #333;
-    }
 .article-title .highlight,
 .article-title .editable {
   color: #000;
@@ -595,41 +601,137 @@ button {
   font-size: 24px;
   }
 
+/* Blog
+----------------------------------------------- */
+.article-blog .article-header {
+  margin-bottom: 15px;
+  }
+.article-blog .article-header time {
+  position: absolute;
+  top: 2px;
+  right: 100%;
+  margin-right: 20px;
+  font-size: 11px;
+  color: #999;
+  }
+.article-blog .article-header > h2 {
+  margin: 0;
+  line-height: 1.2;
+  font-size: 20px;
+  color: #333;
+  }
+.article-blog .article-header a {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #000;
+  }
+.article-blog .article-header a:hover {
+  border-color: rgba(224, 41, 41, 0.2);
+  color: #E02929;
+  }
+.article-blog > h3 {
+  margin: 30px 0 15px 0;
+  line-height: 1.2;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  }
+.article-blog > h4 {
+  margin: 30px 0 15px 0;
+  line-height: 1.2;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  }
+.article-blog p {
+  margin-bottom: 20px;
+  line-height: 1.4;
+  font-size: 16px;
+  }
+.article-blog ul,
+.article-blog ol {
+  margin: 0 0 20px 18px;
+  }
+.article-blog ul {
+  list-style: disc;
+  }
+.article-blog ol {
+  list-style: decimal;
+  }
+.article-blog ul li,
+.article-blog ol li {
+  margin-bottom: 5px;
+  line-height: 1.4;
+  font-size: 16px;
+  }
+.article-blog .article-link-more,
+.article-blog .article-link-all {
+  position: relative;
+  }
+.article-blog .article-link-more:after {
+  position: absolute;
+  top: -2px;
+  left: 100%;
+  padding: 0 0 0 5px;
+  content: '→';
+  }
+.article-blog .article-link-all:before {
+  position: absolute;
+  top: -2px;
+  right: 100%;
+  padding: 0 5px 0 0;
+  content: '←';
+  }
+.article-blog .article-footer {
+  font-size: 16px;
+  }
+.article-blog.article-full .article-header > h2 {
+  font-weight: 600;
+  color: #333;
+  }
+
 /* Intro
 ----------------------------------------------- */
 .intro {
   position: absolute;
-  bottom: 70px;
-  left: 35px;
+  top: 30%;
+  left: 0;
+  right: 0;
+  width: auto;
+  margin: 0;
   }
-  .intro P {
-    color: #FFF;
-    font-size: 16px;
-    line-height: 1.8;
+.intro-text {
+  display: inline-block;
+  text-align: left;
+  }
+.intro p {
+  color: #FFF;
+  font-size: 16px;
+  line-height: 1.8;
+  }
+  .intro p span {
+    position: relative;
+    z-index: 2;
+    padding: 7px 10px;
+    background: #000;
     }
-    .intro P SPAN {
-      position: relative;
-      z-index: 2;
-      padding: 7px 10px;
-      background: #000;
-      }
-    .intro P A {
-      position: relative;
-      z-index: 2;
-      padding: 5px 15px;
-      border: none;
-      background: #DE0202;
-      color: #FFF;
-      }
-    .intro P A:hover {
-      background: #BF0000;
-      }
+  .intro p a {
+    position: relative;
+    z-index: 2;
+    padding: 5px 15px;
+    border: none;
+    background: #DE0202;
+    color: #FFF;
+    }
+  .intro p a:hover {
+    background: #BF0000;
+    }
 
 /* Login & Register
 ----------------------------------------------- */
 /* Register */
 .register {
-  text-align: center;
+  display: inline-block;
+  margin: 150px 0 250px 0;
   }
 .register .article {
   width: auto !important;
@@ -745,12 +847,6 @@ button {
 
 /* Matrix
 ----------------------------------------------- */
-.matrix:after {
-  display: block;
-  height: 0;
-  content: '';
-  clear: both;
-  }
 .matrix-link {
   position: relative;
   display: block;
@@ -814,10 +910,9 @@ button {
   border: none;
   }
 
-/* Story
+/* Stories
 ----------------------------------------------- */
-.page-stories .article,
-.page-story .article {
+.stories {
   width: auto;
   padding: 0 50px;
   margin: 0 0 60px 0;
@@ -826,14 +921,17 @@ button {
   margin: 30px 0;
   padding: 10px 0;
   }
-  .story H2,
-  .story H3 {
-    margin-bottom: 10px;
-    font-size: 20px;
-    }
-  .story-content H2 A {
+.story-title {
+  margin-bottom: 10px;
+  font-size: 30px;
+  color: #000;
+  }
+  .story-title a {
     border: none;
     }
+.story .story-header .story-title {
+  font-size: 20px;
+  }
 
 /* Story matrix */
 .story-matrix:after {
@@ -1196,7 +1294,9 @@ button {
 /* Profile
 ----------------------------------------------- */
 .profile {
-  margin-top: 50px;
+  width: 800px;
+  padding: 0;
+  margin: 0 auto;
   }
 .profile:after {
   display: block;
@@ -1356,6 +1456,14 @@ button {
   display: inline-block;
   }
 
+/* About
+----------------------------------------------- */
+.about {
+  width: 800px;
+  padding: 0;
+  margin: 0 auto;
+  }
+
 /* Social
 ----------------------------------------------- */
 .social {
@@ -1371,15 +1479,11 @@ button {
 
 /* Main
 ----------------------------------------------- */
-.main {
-  overflow: hidden;
-  }
 .main .header {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  margin-bottom: 0;
   }
 .main .header-logo {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
@@ -1393,29 +1497,22 @@ button {
   }
 .main .nav {
   position: absolute;
-  top: 104px;
+  top: 110px;
   left: 0;
   right: 0;
   }
 .main .nav-list {
   padding: 6px 10px 6px 10px;
   }
-.main .nav-item A {
+.main .nav-item a {
   border: none;
   }
 .main .content {
-  height: 100%;
-  }
-.main .article {
-  width: 70%;
-  padding: 130px 0 50px 45px;
-  }
-.main .intro {
-  padding-left: 0;
+  text-align: center;
   }
 .main .footer {
   position: fixed;
-  bottom: 0;
+  bottom: -9px;
   z-index: 2;
   width: 100%;
   padding-top: 0;
@@ -1435,35 +1532,6 @@ button {
       border-color: #CCC;
       color: #FFF;
       }
-
-/* Page 2 */
-.viewing-page-2 .header-logo {
-  box-shadow: none;
-  }
-  .viewing-page-2 .header-logo > a {
-    top: 11px;
-    left: 11px;
-    width: 132px;
-    height: 30px;
-    }
-.viewing-page-2 .footer {
-  position: relative;
-  }
-  .viewing-page-2 .footer .stores {
-    display: none;
-    }
-  .viewing-page-2 .footer UL {
-    background: none;
-    color: #666;
-    }
-  .viewing-page-2 .footer A {
-    border-color: #CCC;
-    color: #666;
-    }
-  .viewing-page-2 .footer A:hover {
-    border-color: #999;
-    color: #000;
-    }
 
 /* Comments
 ----------------------------------------------- */
@@ -1606,6 +1674,9 @@ button {
 /* Feed
 ----------------------------------------------- */
 .feed {
+  width: 800px;
+  padding: 0;
+  margin: 0 auto;
   text-align: center;
   }
 .feed-list {

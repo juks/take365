@@ -2,6 +2,7 @@
   $items = [];
   $items[] = ['title' => 'Истории', 'alias' => 'home', 'url' => $user->url];
   $items[] = ['title' => 'Профиль', 'alias' => 'profile', 'url' => $user->urlProfile];
+  // $items[] = ['title' => 'Блог', 'alias' => 'blog', 'url' => $urlBlog];
 
   if ($isSubscribed) $items[] = ['title' => 'Лента', 'alias' => 'feed', 'url' => $user->urlFeed];
 ?>

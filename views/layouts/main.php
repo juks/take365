@@ -43,12 +43,7 @@ $isSubscribed = !$user->isGuest && Feed::isSubscribed($user);
           <?php if ($user->isGuest) echo $this->render('//blocks/userMenu/anonymous'); else echo $this->render('//blocks/userMenu/logged', ['user' => $user->identity, 'owner' => isset($this->params['owner']) ? $this->params['owner'] : null, 'isSubscribed' => $isSubscribed]); ?>
         </ul>
       </nav>
-      <div class="content">
-        <article class="article">
-        	<?= $content ?>
-          <div class="cl"></div>
-        </article>
-      </div>
+      <?= $content ?>
     </div>
   </div>
   <?php include('includes/footer.php'); ?>

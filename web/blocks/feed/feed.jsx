@@ -43,7 +43,7 @@ class Feed extends React.Component {
   }
 
   render() {
-    return <div className="feed">
+    return <div className="feed-wrapper">
       { (() => {
         return <div className="feed-inner">
           <div className="feed-list">

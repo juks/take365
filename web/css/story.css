@@ -11,9 +11,17 @@
   font-size: 14px;
   }
 .yearTitle {
-	font-size: 2em;
-	padding: 10px 0 0 0;
+	font-size: 24px;
 	}
+.story-title.editable {
+  font-size: 30px;
+  }
+.story-desc {
+	margin-bottom: 10px;
+	}
+.story-submit {
+  margin-bottom: 30px;
+  }
 .editable-not-editing .editable {
 	display: block;
 	background: none;
@@ -38,7 +46,6 @@
   background: #F7F7F7;
   border: none;
   font: 30px/1 Arial, sans-serif;
-  box-shadow: 3px 0px 0 #F7F7F7, -3px 0px 0 #F7F7F7, 3px 0px 0 1px #E2E2E2, -3px 0px 0 1px #E2E2E2;
   }
 .form TEXTAREA.editable-input {
 	height: 70px;
@@ -60,7 +67,6 @@
 	}
 .editable-input:hover {
   cursor: text;
-  box-shadow: 3px 0px 0 #F7F7F7, -3px 0px 0 #F7F7F7, 3px 0px 0 1px #E2E2E2, -3px 0px 0 1px #E2E2E2;
   }
 .editable-not-editing .editable-submit,
 .editable-not-editing .editable-cancel,
@@ -394,7 +400,7 @@
 }
 
 #socialBlock {
-	padding: 10px 0 20px 0;
+	padding: 10px 0 40px 0;
 	}
 	#socialBlock A {
 		border: none;
