@@ -1390,6 +1390,9 @@ button {
 
 /* Main
 ----------------------------------------------- */
+.main {
+  overflow-y: hidden;
+  }
 .main .header {
   position: absolute;
   top: 0;
