@@ -399,7 +399,7 @@ button {
 ----------------------------------------------- */
 .header {
   padding-top: 23px;
-  margin-bottom: 17px;
+  margin-bottom: 23px;
   text-align: center;
   }
 .header-logo {
@@ -758,6 +758,10 @@ button {
 
 /* Matrix
 ----------------------------------------------- */
+.matrix {
+  position: relative;
+  z-index: 1;
+  }
 .matrix-link {
   position: relative;
   display: block;
@@ -1412,8 +1416,9 @@ button {
 .main .nav {
   position: absolute;
   top: 110px;
-  left: 0;
-  right: 0;
+  left: 50%;
+  margin-left: -97px;
+  z-index: 2;
   }
 .main .nav-list {
   padding: 6px 10px 6px 10px;
