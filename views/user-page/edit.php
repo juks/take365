@@ -48,6 +48,7 @@ ProfileAsset::register($this);
       </div>
       <div class="fElem">
         <input type="submit" class="fSubmit" name="submitButton" value="Сохранить" />
+        <a href="#" class="fElem-back">Вернутся в профиль</a>
       </div>
     </form>
   </div>

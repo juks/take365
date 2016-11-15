@@ -220,6 +220,12 @@ h1, h2, h3, h4 {
 	position: relative;
 	margin-bottom: 20px;
 }
+.fElem-back {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 12px 0 0 10px;
+	font-size: 12px;
+}
 
 .fGap {
 	margin-top: 10px;
