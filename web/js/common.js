@@ -219,7 +219,22 @@ function noticeErrors(errors) {
 	if (typeof errors === "string") {
 		notice(errors, true);
 		return;
+	} else if (typeof errors === "object" && !$.isArray(errors)) {
+		if (errors.hasOwnProperty('responseText')) {
+			var data = JSON.parse(errors.responseText);
+
+			if (data && data.hasOwnProperty('errors')) {
+				noticeErrors(data.errors);
+
+				return;
+			}
+		}
+
+		notice('Произошла неизвестная ошибка');
+
+		return;
 	}
+	
 	$.each(errors, function(i, error) {
 		if (error.value) {
 			notice(error.value, true);

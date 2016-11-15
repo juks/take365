@@ -26,7 +26,7 @@ class PanelController extends MyController
                     [
                         'actions'   => ['blog', 'write'],
                         'allow'     => true,
-                        'roles'     => ['?', 'admin']
+                        'roles'     => ['admin']
                     ],
 
                     [

@@ -21,9 +21,9 @@
       <?php if ($owner->thisIsMe): ?>
         <h3>Истории</h3>
       <p><a href="<?= $owner->url ?>">Страница моих историй</a></p>
-      <?php elseif ($owner->hasStories): ?>
+      <?php else: ?>
         <h3>Истории</h3>
-      <p><a href="<?= $owner->url ?>">Истории пользователя</a></p>
+      <p><a href="<?= $owner->url ?>">Страница пользователя</a></p>
       <?php endif ?>
     </div>
     <?php if ($owner->thisIsMe): ?>

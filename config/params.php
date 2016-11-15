@@ -9,7 +9,7 @@ return [
                         'recoveryLifetime'      => 7200
                     ],
     'story'      => [
-                        'deletedLifetime'       => 86400 * 7
+                        'deletedLifetime'       => 86400 * 2
                     ],
     'media'      => [
                         'storageQuota'          => 10737418240, // 10G

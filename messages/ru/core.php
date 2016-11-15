@@ -10,6 +10,7 @@ return [
     'Too many recovery attempts. Try again in few moments'	        => 'Слишком много попыток восстановить пароль. Попробуйте позже.',
 	'This username has been already taken'							=> 'Указанное имя пользователя уже используется',
 	'This email has been already taken'								=> 'Указанный адрес электронной почты уже используется',
+	'Given password is insecure'									=> 'Введённый пароль небезопасен',
 
     'Profile update'										        => 'Редактирование профиля',
     'Password recovery'										        => 'Восстановление пароля',

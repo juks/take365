@@ -13,11 +13,10 @@ ProfileAsset::register($this);
   <ul class="profile-nav">
     <li id="mainSwHolder" class="fl ro bbo roundedSw"><a href="#" id="mainLink" onclick="switchSection('main'); return false;" class="simple noOl" title="Редактирование анкеты">Основное</a></li>
     <li id="imagesSwHolder" class="fl ro bbo"><a href="#" id="imagesLink" onclick="switchSection('images'); return false;" title="Загрузка изображений" class="noOl">Изображения</a></li>
-    <!-- <li id="contactsSwHolder" class="fl ro bbo hidden"><a href="#" id="contactsLink" onclick="switchSection('contacts'); return false;" title="Изменение контактной информации" class="noOl">Ресурсы и контакты</a></li> -->
     <li id="secSwHolder" class="fl ro bbo"><a href="#" id="secLink" onclick="switchSection('sec'); return false;" title="Изменение пароля и параметров безопасности" class="noOl">Безопасность</a></li>
   </ul>
   <div id="mainHolder">
-    <form action="#" name="mainForm" id="mainForm" onsubmit="updateProfile('mainForm'); return false;" class="form">
+    <form action="/api/user/update-profile" method="post" onsubmit="ProfileForm.onSubmit(event)" name="mainForm" id="mainForm" class="form">
       <input type="hidden" name="id" value="<?= $owner->id ?>">
       <div id="mainFormDefaultMessage" class="small error">&nbsp;</div>
       <div class="fTitle"><label for="email" id="emailLabel">Меня зовут</label></div>
@@ -49,6 +48,7 @@ ProfileAsset::register($this);
       </div>
       <div class="fElem">
         <input type="submit" class="fSubmit" name="submitButton" value="Сохранить" />
+        <a href="<?= $owner->urlProfile ?>" class="fElem-back">Вернутся в профиль</a>
       </div>
     </form>
   </div>
@@ -77,7 +77,7 @@ ProfileAsset::register($this);
     <table border="0">
       <tr>
         <td width="500">
-          <form name="secForm" id="secForm" onsubmit="updateProfile('secForm'); return false;" class="form">
+          <form name="secForm" id="secForm" method="post" action="/api/user/update-security" onsubmit="SecForm.onSubmit(event)" class="form">
             <div id="secFormDefaultMessage" class="small error">&nbsp;</div>
             <input type="hidden" name="id" value="<?= $targetId ?>">
             <div class="fTitle to">

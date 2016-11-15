@@ -399,7 +399,7 @@ button {
 ----------------------------------------------- */
 .header {
   padding-top: 23px;
-  margin-bottom: 17px;
+  margin-bottom: 23px;
   text-align: center;
   }
 .header-logo {
@@ -601,94 +601,6 @@ button {
   font-size: 24px;
   }
 
-/* Blog
------------------------------------------------ */
-.article-blog .article-header {
-  margin-bottom: 15px;
-  }
-.article-blog .article-header time {
-  position: absolute;
-  top: 2px;
-  right: 100%;
-  margin-right: 20px;
-  font-size: 11px;
-  color: #999;
-  }
-.article-blog .article-header > h2 {
-  margin: 0;
-  line-height: 1.2;
-  font-size: 20px;
-  color: #333;
-  }
-.article-blog .article-header a {
-  border-color: rgba(0, 0, 0, 0.2);
-  color: #000;
-  }
-.article-blog .article-header a:hover {
-  border-color: rgba(224, 41, 41, 0.2);
-  color: #E02929;
-  }
-.article-blog > h3 {
-  margin: 30px 0 15px 0;
-  line-height: 1.2;
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  }
-.article-blog > h4 {
-  margin: 30px 0 15px 0;
-  line-height: 1.2;
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  }
-.article-blog p {
-  margin-bottom: 20px;
-  line-height: 1.4;
-  font-size: 16px;
-  }
-.article-blog ul,
-.article-blog ol {
-  margin: 0 0 20px 18px;
-  }
-.article-blog ul {
-  list-style: disc;
-  }
-.article-blog ol {
-  list-style: decimal;
-  }
-.article-blog ul li,
-.article-blog ol li {
-  margin-bottom: 5px;
-  line-height: 1.4;
-  font-size: 16px;
-  }
-.article-blog .article-link-more,
-.article-blog .article-link-all {
-  position: relative;
-  }
-.article-blog .article-link-more:after {
-  position: absolute;
-  top: -2px;
-  left: 100%;
-  padding: 0 0 0 5px;
-  content: '→';
-  }
-.article-blog .article-link-all:before {
-  position: absolute;
-  top: -2px;
-  right: 100%;
-  padding: 0 5px 0 0;
-  content: '←';
-  }
-.article-blog .article-footer {
-  font-size: 16px;
-  }
-.article-blog.article-full .article-header > h2 {
-  font-weight: 600;
-  color: #333;
-  }
-
 /* Intro
 ----------------------------------------------- */
 .intro {
@@ -730,8 +642,7 @@ button {
 ----------------------------------------------- */
 /* Register */
 .register {
-  display: inline-block;
-  margin: 150px 0 250px 0;
+  width: 400px;
   }
 .register .article {
   width: auto !important;
@@ -847,6 +758,10 @@ button {
 
 /* Matrix
 ----------------------------------------------- */
+.matrix {
+  position: relative;
+  z-index: 1;
+  }
 .matrix-link {
   position: relative;
   display: block;
@@ -1115,11 +1030,11 @@ button {
   }
 
 /* Deleted story */
-.story-deleted .story-content {
+.story-deleted {
   opacity: 0.4;
   transition: opacity 400ms ease-out;
   }
-.story-deleted .story-content:hover {
+.story-deleted:hover {
   opacity: 1;
   }
 .story-deleted H2 A {
@@ -1479,6 +1394,9 @@ button {
 
 /* Main
 ----------------------------------------------- */
+.main {
+  overflow-y: hidden;
+  }
 .main .header {
   position: absolute;
   top: 0;
@@ -1498,8 +1416,9 @@ button {
 .main .nav {
   position: absolute;
   top: 110px;
-  left: 0;
-  right: 0;
+  left: 50%;
+  margin-left: -97px;
+  z-index: 2;
   }
 .main .nav-list {
   padding: 6px 10px 6px 10px;

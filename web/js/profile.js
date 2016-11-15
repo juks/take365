@@ -1,4 +1,3 @@
-var profileUpdateTimer;
 var currentSection = 'main';
 
 function switchSection(name) {
@@ -14,128 +13,17 @@ function switchSection(name) {
 	}
 }
 
-function passwordStrength() {
-	var password = $('#password').value;
-	var messageHolder = $('#ps');
+var ProfileForm = new FormBase();
 
-	if(!password || password.length < 6) {
-		messageHolder.innerHTML = '';
-		messageHolder.addClass('hidden');
-	} else {
-		var strength = 0;
+ProfileForm.success = function(form, result) {
+	notice('Данные успешно обновлены');
+};
 
-		if(password.match(/[a-zа-я]/) && password.match(/[A-ZА-Я]/) && password.match(/[0-9]/i) && password.match(/[!?@#$%^&*()_+\-.,\/"№;%:*(){}\[\]|<>~]/i)) {
-			var strength = 3;
-			var message = 'Ни в жизнь не отгадают!';
-			messageHolder.setStyle('background-color', '#CC99CC');
-		} else if(password.match(/[a-zа-я]/) && password.match(/[A-ZА-Я]/) && (password.match(/[0-9]/) || password.match(/[!@#$%^&*()_+\-.,.,\/"№;%:*(){}\[\]|<>~]/i))) {
-			var strength = 2;
-			var message = 'М-м-м… Неплохое сочетание!';
-			messageHolder.setStyle('background-color', '#FFCC66');
-		} else if(password.match(/[a-zа-я]/i) && (password.match(/[0-9]/i) || password.match(/[A-ZА-Я]/) || password.match(/[!@#$%^&*()_+\-.,.,\/"№;%:*(){}\[\]|<>~]/i))) {
-			var strength = 1;
-			var message = 'Пароль&nbsp;— ничего так, сойдёт';
-			messageHolder.setStyle('background-color', '#99EE99');
-		} else if(password.toLowerCase() == 'qwerty' || password.toLowerCase() == 'qweasdzxc' || password.toLowerCase() == 'helloworld' || password == '123456' || password == '654321' || password == pp.myLogin) {
-			var strength = -1;
-			var message = 'Такой вариант&nbsp;— отстой полнейший!';
-			messageHolder.setStyle('background-color', '#FF0000');
-		} else {
-			var strength = 0;
-			var message = 'Пароль&nbsp;— слабоват';
-			messageHolder.setStyle('background-color', '#FFFFCC');
-		}
+var SecForm = new FormBase();
 
-		messageHolder.innerHTML = message;
-		messageHolder.removeClass('hidden');
-	}
-}
-
-function updateProfile(formName) {
-	// Main form data
-	document.forms[formName].submitButton.disabled = true;
-
-	var data = $('#' + formName).serialize();
-
-	profileUpdateTimer = setTimeout(function() {
-		notice("Время ожидания ответа с сервера истекло. Попробуйте повторить попытку через некоторое время.");
-		document.forms[formName].submitButton.disabled = false;
-	}, 10000);
-
-
-	var url = formName == 'secForm' ? '/api/user/update-security' : '/api/user/update-profile';
-
-	$.ajax(url, {
-	data: data,
-	type: 'post',
-	success: function(data) {
-		notice('Данные успешно обновлены');
-
-		clearTimeout(profileUpdateTimer);
-		document.forms[formName].submitButton.disabled = false;
-	},
-	error: function() {
-		noticeErrors("Произошла ошибка. Повторите сохранение.");
-
-		clearTimeout(profileUpdateTimer);
-		document.forms[formName].submitButton.disabled = false;
-	}});
-}
-
-function addContact() {
-	var id = $('#newContactId').val(),
-		value = $('#newContactValue').val();
-
-	if(id && value) {
-		$.ajax("/ajax/contacts/", {
-		data: {'action': 'add', 'id': id, 'value': value},
-		dataType: 'json',
-		type: 'post',
-		success: function(result) {
-			if(result.debug) {
-				debugOutput(result.debug);
-			}
-			if(result.errors) {
-				$.each(result.errors, function(i, error) {
-					notice(error.value, true);
-				});
-			} else {
-				if(result.item) {
-					$('#userContacts')[0].innerHTML += result.item;
-					$('#newContactValue').val('');
-				}
-			}
-		},
-		error: function() {
-			noticeErrors('Ошибка добавление данных!', true);
-		}});
-	}
-}
-
-function deleteContact(id) {
-	if(!id) return false;
-
-	if(!confirm("В самом деле удалить этот контакт?")) return false;
-
-	$.ajax("/ajax/contacts/", {
-	data: {'action': 'delete', 'id': id},
-	dataType: 'json',
-	type: 'post',
-	success: function(result) {
-		if(result.errors) {
-			$.each(result.errors, function(i, error) {
-				notice(error.value, true);
-			});
-		} else {
-			if(result.deleted) {
-				smoothDelete('contact' + result.deleted);
-			}
-		}
-	},
-	error: function() {
-		noticeErrors('Ошибка удаления данных!', true);
-	}});
-}
+SecForm.success = function(form, result) {
+	notice('Данные успешно обновлены');
+};
 
 $(function() {
 	// need set custom message

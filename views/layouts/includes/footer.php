@@ -1,7 +1,7 @@
 <footer class="footer">
     <ul>
         <li>&copy; 2011&mdash;<?= date("Y") ?> <?= Yii::$app->params['projectName'] ?></li>
-        <li><a href="/help/">О&nbsp;проекте</a></li>
+        <li><a href="/help">О&nbsp;проекте</a></li>
         <!-- <li><a href="/blog">Блог</a></li> -->
         <li><a href="/api/">Разработчикам</a></li>
         <li>
@@ -20,5 +20,6 @@
         <li><a href="mailto:bang@take365.org">bang@take365.org</a></li>
         <li><a href="https://itunes.apple.com/ru/app/take365/id1082676900"><span class="fa fa-apple"></span> iOS</a></li>
         <li><a href="https://play.google.com/store/apps/details?id=org.take365.take365"><span class="fa fa-android"></span> Android</a></li>
+        <li><a href="https://telegram.me/take365"><span class="fa fa-telegram"></span> Telegram</a></li>
     </ul>
 </footer>
