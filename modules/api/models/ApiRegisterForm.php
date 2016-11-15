@@ -4,6 +4,7 @@ namespace app\modules\api\models;
 
 use Yii;
 use yii\base\Model;
+use app\components\Ml;
 
 class ApiRegisterForm extends Model {
     public $username;
@@ -52,8 +53,8 @@ class ApiRegisterForm extends Model {
     public function validateCaptcha($attribute, $params) {
         if (Yii::$app->request->isAjax) {
             if (!$this->$attribute)
-                $this->addError($attribute, 'Please enter security code');
+                $this->addError($attribute, Ml::t('Please enter security code'));
             elseif (!\app\components\Captcha::validate($this->$attribute))
-                $this->addError($attribute, 'Incorrect security code');
+                $this->addError($attribute, Ml::t('Incorrect security code'));
         }
     }}
