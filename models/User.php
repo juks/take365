@@ -465,7 +465,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     public function getStories() {
         if ($this->hasPermission(Yii::$app->user, IPermissions::permWrite)) {
             $conditions = [];
-            $order = 'time_published DESC, status';
+            $order = 'is_deleted, time_published DESC, status';
         } else {
             $conditions = ['status' => Story::statusPublic, 'is_deleted' => false];
             $order = 'time_published DESC';
