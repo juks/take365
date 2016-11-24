@@ -11,7 +11,7 @@ use app\components\traits\THasPermission;
 use app\components\traits\TModelExtra;
 
 /**
- * Feed class
+ * Blog class
  */
 class Blog extends BlogBase implements IPermissions {
 	use TModelExtra;

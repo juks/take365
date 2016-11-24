@@ -3,11 +3,9 @@
 namespace app\modules\api\controllers;
 
 use Yii;
-use app\components\MyJsonController;
 use app\components\Helpers;
 use app\components\interfaces\IPermissions;
 use app\components\Ml;
-use app\models\MQueue;
 use app\modules\api\components\ApiController;
 use app\modules\api\models\ApiUser;
 use yii\filters\AccessControl;

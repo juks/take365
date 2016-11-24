@@ -4,7 +4,7 @@
   </header>
   <?php
 
-  echo $this->render('Post', [
+  echo $this->render('PostForm', [
       'model' => $post,
   ])
 

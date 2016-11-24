@@ -94,6 +94,8 @@ class MQueue extends MQueueBase {
      * @param string $recipient
      */
     public function to($recipient) {
+        if (is_object($recipient)) return $this->toUser($recipient);
+        
         $this->to = $recipient;
 
         return $this;
