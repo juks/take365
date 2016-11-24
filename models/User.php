@@ -507,10 +507,8 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     public function getFullnameFilled() {
         if ($this->fullname) {
             return $this->fullname;
-        } elseif ($this->usernameFilled) {
-            return $this->usernameFilled;
         } else {
-            return 'Пользователь';
+            return $this->usernameFilled;
         }
     }
 

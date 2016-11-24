@@ -8,9 +8,11 @@ return [
     'user'       => [
                         'recoveryLifetime'      => 7200
                     ],
+
     'story'      => [
                         'deletedLifetime'       => 86400 * 2
                     ],
+
     'media'      => [
                         'storageQuota'          => 10737418240, // 10G
                         'folderSpreadDepth'     => 1,
@@ -18,6 +20,7 @@ return [
                         'mediaThumbsAutoCreate' => false,
                         'deletedLifetime'       => 86400 * 30
                     ],
+
     'mQueue'     => [
                         'pendingTime'           => 3600,
                         'sendLimit'             => 5,
@@ -25,6 +28,11 @@ return [
                         'expire'                => 3600,
                         'devEnvFilter'          => ['juks@juks.ru', 'ufokorpas@mail.ru', 'sergey.oracle@gmail.com', 'jeka.vinny@gmail.com']
                     ],
+
+    'newsletter'  => [
+                        'testList'              => ['juks@juks.ru']
+                    ],
+
     'googleVision'  => [
                         'url' => 'https://vision.googleapis.com/v1/images:annotate',
                         'key' => 'AIzaSyChgzhOw14_QOl3ljtgberxkATtbdpZ81Q'
