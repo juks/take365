@@ -25,7 +25,7 @@ class PanelController extends MyController
                 //'only' => ['logout', 'contact'],
                 'rules' => [
                     [
-                        'actions'   => ['blog', 'write', 'newsletter', 'newsletter-write', 'newsletter-test', 'newsletter-deliver'],
+                        'actions'   => ['blog', 'blog-write', 'newsletter', 'newsletter-write', 'newsletter-test', 'newsletter-deliver'],
                         'allow'     => true,
                         'roles'     => ['admin']
                     ],
@@ -67,7 +67,7 @@ class PanelController extends MyController
      * @param null $id
      * @return string
      */
-    public function actionWrite($id = null) {
+    public function actionBlogWrite($id = null) {
         if (!$id) {
             $post = new \app\models\Post();
         } else {
