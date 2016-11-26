@@ -215,7 +215,7 @@ var Photoview = (function(){
 })();
 
 Photoview.show = function(href) {
-  slideshowHistoryPush(href)
+  slideshowHistoryPush(href.replace(/https?:\/\/[^/]+/, ''));
 };
 
 jQuery(function() {

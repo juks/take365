@@ -334,7 +334,7 @@ function initStoryUploder() {
 			$('#' + file.storyNodeId + ' .user-photo-content').remove();
 			var content = $('<div/>', {
 				'class': 'user-photo-content',
-				html: '<a><img class="user-photo-image" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
+				html: '<a href="'+response.result.url+'"><img class="user-photo-image" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
 						+'<div class="user-photo-manage">Редактировать</div>'
 						+'<div class="user-photo-likes">'
 							+'<a href="#" class="fa user-photo-like fa-heart-o"></a>'

@@ -1,3 +1,5 @@
+// fork https://github.com/jossmac/react-images
+
 import React, { Component, PropTypes } from 'react';
 import Swipeable from 'react-swipeable';
 import utils from './utils';
@@ -13,7 +15,7 @@ export default class Lightbox extends Component {
     super();
 
     utils.bindFunctions.call(this, [
-      'close',
+      'onCloseFade',
       'gotoNext',
       'gotoPrev',
       'handleImageClick',
@@ -43,13 +45,14 @@ export default class Lightbox extends Component {
   // METHODS
   // ==============================
 
-  close (e) {
-    if (e.target.id !== 'react-images-container') return;
+  onCloseFade (e) {
+    if (e.currentTarget !== e.target) {
+      return;
+    }
 
     if (this.props.backdropClosesModal && this.props.onClose) {
       this.props.onClose();
     }
-
   }
   gotoNext (event) {
     if (this.props.currentImage === (this.props.images.length - 1)) return;
@@ -146,11 +149,10 @@ export default class Lightbox extends Component {
     if (!this.props.isOpen) return null;
 
     return <Fade id="react-images-container"
-      key="dialog"
       duration={250}
       className={classes.container}
-      onClick={this.close}
-      onTouchEnd={this.close}
+      onClick={this.onCloseFade}
+      onTouchEnd={this.onCloseFade}
     >
       <span className={classes.contentHeightShim} />
       <div className={classes.content}>
