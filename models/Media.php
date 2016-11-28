@@ -124,6 +124,7 @@ class Media extends MediaCore {
         }
 
         if ($this->target_type == Story::typeId) {
+            $fields['url']           = function() { return $this->targetStory->getUrlDay($this->date); };
             $fields['date']          = 'date';
             $fields['timestamp']     = 'time_created';
             $fields['likesCount']    = function() { return $this->likes_count; };

@@ -4,6 +4,7 @@ namespace app\models\mediaExtra;
 
 use Yii;
 use app\components\Ml;
+use app\components\ModelException;
 use yii\base\Exception;
 
 trait TMediaFileExtra {
@@ -63,8 +64,8 @@ trait TMediaFileExtra {
             $this->path_thumb       = 'thumbs/' . $relativePath;
         }
 
-        if (!$this->filename) throw new \Exception(Ml::t('Failed to parse media file name', 'media'));
-        if (!$this->ext) throw new \Exception(Ml::t('Failed to parse media file extension', 'media'));
+        if (!$this->filename) throw new ModelException(Ml::t('Failed to parse media file name', 'media'));
+        if (!$this->ext) throw new ModelException(Ml::t('Unsupported file type', 'media'));
 
         $this->_fullPath = $this->getFullPath();
         $this->_storeFolder = $this->getStoreFolder();

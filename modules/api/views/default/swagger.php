@@ -218,6 +218,9 @@ definitions:
       story:
         type: object
         description: Target story
+      url:
+        type: string
+        description: The day url (for story image)
       date:
         type: string
         description: The calendar date (for story image)

@@ -1,6 +1,6 @@
 <section class="content profile">
   <header class="content-header">
-    <h1 class="content-title">Профиль <?= $owner->fullnameFilled ?></h1>
+    <h1 class="content-title"><?= $owner->fullnameFilled ?></h1>
     <?php if ($owner->thisIsMe): ?><a href="<?= $owner->urlEdit ?>" class="fa fa-pencil-square-o" title="Редактировать профиль"></a><?php endif ?>
   </header>
   <div class="profile-userpic fa fa-user">

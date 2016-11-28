@@ -36,7 +36,6 @@ class Fade extends Component {
   }
 
   render () {
-    const props = Object.assign({}, this.props);
     const style = {
       opacity: 0,
       WebkitTransition: `opacity ${this.props.duration}ms ease-out`,
@@ -46,7 +45,11 @@ class Fade extends Component {
     //props.style = Object.assign(style, this.props.style);
     return React.createElement(
       this.props.component,
-      props,
+      {
+        className: this.props.className,
+        onClick: this.props.onClick,
+        onTouchEnd: this.props.onTouchEnd,
+      },
       this.props.children
     );
   }
