@@ -70,10 +70,6 @@ class MediaController extends ApiController {
         $defaultDate = date('Y-m-d', time());
 
         if (!$user->isGuest) {
-            $defaultUserId = $user->id;
-            $defaultUsername = !empty($user->identity->username) ? $user->identity->username : null;
-            $defaultEmail = isset($user->identity->email) ? $user->identity->email : null;
-
             if (!$user->isGuest) {
                 $stories = $user->identity->stories;
                 if ($stories) {
