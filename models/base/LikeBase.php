@@ -30,8 +30,7 @@ class LikeBase extends \yii\db\ActiveRecord
     {
         return [
             [['target_id', 'target_type', 'created_by', 'time_created'], 'required'],
-            [['target_id', 'target_type', 'created_by', 'time_created', 'is_active'], 'integer'],
-            [['target_id', 'target_type', 'created_by'], 'unique', 'targetAttribute' => ['target_id', 'target_type', 'created_by'], 'message' => 'The combination of Target ID, Target Type and User ID has already been taken.']
+            [['target_id', 'target_type', 'created_by', 'time_created', 'is_active'], 'integer']
         ];
     }
 

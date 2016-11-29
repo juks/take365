@@ -2,6 +2,7 @@
 
 namespace app\modules\api\models;
 
+use YII;
 use app\models\Media as BaseMedia;
 use app\models\Story;
 
@@ -43,7 +44,12 @@ class ApiMedia extends BaseMedia {
             $order = '`date`';
         }
 
-        $items = self::find()->where(self::makeCondition($conditions))->limit(abs($params['span']))->orderBy($order)->all();
+        $search = self::find()->where(self::makeCondition($conditions))->with('targetStory');
+
+        // Fetch all likes information in advance
+        if (!Yii::$app->user->isGuest) $search = $search->with('isLiked');
+
+        $items = $search->limit(abs($params['span']))->orderBy($order)->all();
         $cnt = count($items);
         
         foreach($items as $item) $item->setScenario('player');
