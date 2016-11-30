@@ -147,6 +147,7 @@ class UserPageController extends MyController {
                                         'mediaType'    => Media::aliasUserpic,
                                         'timezones'    => $timezones,
                                         'optNotify'    => $owner->getOptionValue('notify'),
+                                        'optNewsletter'=> $owner->getOptionValue('newsletter'),
                                         'isOwnPage'    => $user && ($owner->id == $user->id),
                                     ]);
     }

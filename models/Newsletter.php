@@ -58,7 +58,7 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
      */
     public function sendTo($user) {
         MQueue::compose()
-            ->toUser($user)
+            ->toUser($user, ['checkOption' => 'newsletter'])
             ->subject($this->title)
             ->bodyTemplate('newsletter.php', ['body' => $this->prepareUserBody(['user' => $user])])
             ->send();
@@ -87,7 +87,7 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
      */
     public function massDeliver() {
         //$emails = Helpers::getParam('newsletter/testList');
-        if ($this->time_sent) throw new \Exception('This message was already mass-delivered');
+        if ($this->time_sent) throw new \app\components\ModelException('This message was already mass-delivered');
 
         foreach (User::find()->orderBy('id')->batch(100) as $users) {
             foreach ($users as $user) {

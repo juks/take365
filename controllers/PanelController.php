@@ -112,29 +112,4 @@ class PanelController extends MyController
 
         return $this->render('newsletterWrite', ['newsletter' => $newsletter]);
     }
-
-    /**
-     * Newsletter test delivery
-     * @param $id
-     * @throws \Exception
-     */
-    public function actionNewsletterTest($id) {
-        $newsletter = Newsletter::findOne($id);
-
-        if ($newsletter) {
-            $newsletter->testDeliver();
-        }
-    }
-
-    /**
-     * Newletter mass delivery
-     * @param $id
-     */
-    public function actionNewsletterDeliver($id) {
-        $newsletter = Newsletter::findOne($id);
-
-        if ($newsletter) {
-            $newsletter->massDeliver();
-        }
-    }
 }

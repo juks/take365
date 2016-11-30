@@ -104,15 +104,16 @@ class MQueue extends MQueueBase {
     /**
      * Sets message recipient
      * @param id|object $recipient
+     * @param array $extra
      */
-    public function toUser($id) {
+    public function toUser($id, $extra) {
         if (is_object($id)) {
             $user = $id;
         } else {
             $user = User::getActiveUser($id);
         }
 
-        if (!$user || !$user->email || !$user->email_confirmed || !$user->getOptionValue('notify')) {
+        if (!$user || !$user->email || !$user->email_confirmed || (!empty($extra['checkOption']) && !$user->getOptionValue($extra['checkOption']))) {
             $this->_doSkip = true;
         } else {
             $this->to = $user->email;

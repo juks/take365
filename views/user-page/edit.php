@@ -40,6 +40,10 @@ ProfileAsset::register($this);
       <input id="optNotify" type="checkbox" value="1" name="optNotify"<?= $optNotify ? ' checked' : '' ?> hidden>
       <label for="optNotify">Получать уведомления по электронной почте</label>
       </div>
+      <div class="fElem">
+        <input id="optNewsletter" type="checkbox" value="1" name="optNewsletter"<?= $optNewsletter ? ' checked' : '' ?> hidden>
+        <label for="optNewsletter">Получать письма с новостями проекта</label>
+      </div>
       <div class="fTitle">Часовой пояс</div>
       <div class="fElem">
         <select name='timezone' id='timezoneSelect'>

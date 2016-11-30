@@ -536,7 +536,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
             // Notify story owner
             if ($data['target']->created_by != $data['comment']->created_by) {
                 MQueue::compose()
-                                ->toUser($data['target']->created_by)
+                                ->toUser($data['target']->created_by, ['checkOption' => 'notify'])
                                 ->subject('Новый комментарий к вашей истории')
                                 ->bodyTemplate('comment.php', [
                                                                         'target'                => $data['target'],
@@ -549,7 +549,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
             // Notify parent comment owner
             if (!empty($data['parentComment']) && $data['comment']->created_by != $data['parentComment']->created_by) {
                 MQueue::compose()
-                                ->toUser($data['parentComment']->created_by)
+                                ->toUser($data['parentComment']->created_by, ['checkOption' => 'notify'])
                                 ->subject('Ответ на ваш комментарий')
                                 ->bodyTemplate('commentReply.php', [
                                                                         'target'                => $data['target'],
