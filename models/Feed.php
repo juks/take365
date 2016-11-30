@@ -73,7 +73,7 @@ class Feed extends FeedBase {
         if ($user->id == $reader->id) return;
         
         MQueue::compose()
-            ->toUser($user)
+            ->toUser($user, ['checkOption' => 'notify'])
             ->subject('Новый читатель')
             ->bodyTemplate('follower.php', [
                 'reader'         => $reader,

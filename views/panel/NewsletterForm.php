@@ -14,6 +14,8 @@ use yii\widgets\ActiveForm;
     $form = ActiveForm::begin(
       [
         'options' => [
+          'id'    => 'newsletterForm',
+          'name'  => 'newsletterForm',
           'class' => 'form'
         ]
       ]
@@ -26,8 +28,8 @@ use yii\widgets\ActiveForm;
 
     <fieldset>
       <?= Html::submitInput(Yii::t('app', 'Submit')) ?>
-      <?php if ($model->id): ?><a href="#">Test</a><?php endif ?>
-      <?php if (!$model->time_sent): ?><a href="#">Deliver</a><?php endif ?>
+      <?php if ($model->id): ?><a href="#" id="newsletterTest">Test</a><?php endif ?>
+      <?php if (!$model->time_sent): ?><a href="#" id="newsletterDeliver">Deliver</a><?php endif ?>
     </fieldset>
   <?php ActiveForm::end(); ?>
 </div>

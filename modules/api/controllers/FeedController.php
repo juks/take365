@@ -30,8 +30,8 @@ class FeedController extends ApiController {
         $b['verbs'] = [
                         'class' => VerbFilter::className(),
                         'actions' => [
-                            //'addReader'     => ['post'],
-                            //'removeReader'  => ['post'],
+                            'addReader'     => ['post'],
+                            'removeReader'  => ['post'],
                         ],
                     ];
 

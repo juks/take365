@@ -342,6 +342,7 @@ class UserController extends ApiController {
 		$model->save();
 
         $model->setOptionValue('notify', !empty($data['optNotify']) ? true : false);
+        $model->setOptionValue('newsletter', !empty($data['optNewsletter']) ? true : false);
 
 		$this->addContent($model);
     }
