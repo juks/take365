@@ -3,7 +3,7 @@
 return [
     'adminEmail' 					=> 'admin@example.com',
     'projectName'					=> 'Take365',
-    'projectUrl'                    => 'http://take365.org/',
+    'projectUrl'                    => 'https://take365.org/',
     'projectRobotEmail'             => 'noreply@take365.org',
     'user'       => [
                         'recoveryLifetime'      => 7200
