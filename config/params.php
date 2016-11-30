@@ -2,7 +2,7 @@
 
 return [
     'adminEmail' 					=> 'admin@example.com',
-    'projectName'					=> 'Take365',
+    'projectName'					=> 'take365',
     'projectUrl'                    => 'https://take365.org/',
     'projectRobotEmail'             => 'noreply@take365.org',
     'user'       => [

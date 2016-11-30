@@ -544,7 +544,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     * Forms user profile update URL
     */
     public function getUrlEdit() {
-        return \yii\helpers\Url::base(true) . '/' . $this->getUsernameFilled() . '/profile/edit/';
+        return \yii\helpers\Url::base(true) . '/' . $this->getUsernameFilled() . '/profile/edit';
     }
 
     /**
