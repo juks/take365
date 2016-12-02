@@ -270,14 +270,16 @@ class MQueue extends MQueueBase {
         if ($this->attach_count) {
             $items = $this->attachments;
 
+            $dataHTML .= "\n\n--" . $boundary . "--";
+            $dataHTML .= "\n\n--" . $boundaryMixed . "--\n";
+
             foreach ($items as $item) {
-                $dataHTML .= "\n\n--" . $boundary . "--\n";
                 $dataHTML .= "Content-Type: " . $item->resource->mime . ";\n name=\"" . $item->name . "\"\n";
                 $dataHTML .= "Content-Transfer-Encoding: base64\n";
                 $dataHTML .= "Content-Disposition: attachment;\n filename=\"" . $item->name . "\"\n\n";
 
                 $dataHTML .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
-                $dataHTML .= "\n--" . $boundary . "--";
+                $dataHTML .= "--" . $boundaryMixed . "--";
             }
         } else {
             $dataHTML  .= "\n\n--" . $boundary . "--";
@@ -299,7 +301,7 @@ class MQueue extends MQueueBase {
                 return;
             }
         }
-
+echo $mailBody;
         if (!mail($this->to, $mailSubject, $mailBody, $stringHeaders)) {
             $this->unlock();
             throw new \Exception('Cannot send mail');
