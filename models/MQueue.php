@@ -268,7 +268,7 @@ class MQueue extends MQueueBase {
                 $dataHTML .= "Content-Location: " . $item->name . "\n\n";
 
                 $dataHTML .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
-                $dataHTML .= "\n\n--" . $boundary . "--";
+                $dataHTML .= "\n--" . $boundary . "--";
             }
         } else {
             $dataHTML  .= "\n\n--" . $boundary . "--";
