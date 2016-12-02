@@ -180,7 +180,10 @@ class SiteController extends MyController
             ->attach($a)
             ->send();*/
 
-        $s = new \app\models\Storage();
-        $s->takeFile('http://pagemywork.com/filestorage/p1/d3/d9/10/logo.jpg');
+        $nl = \app\models\Newsletter::findOne(1);
+        $nl->testDeliver();
+
+        //$s = new \app\models\Storage();
+        //$s->takeFile('http://pagemywork.com/filestorage/p1/d3/d9/10/logo.jpg');
     }
 }

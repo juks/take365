@@ -356,7 +356,7 @@ class MQueue extends MQueueBase {
      */
     public function attach($item) {
         if (is_object($item) && get_class($item) == 'app\models\Storage') {
-            if ($this->hasAttachment($item->id)) throw new \Exception('This object is already attached');
+            if ($this->isAttached($item)) return $this; //throw new \Exception('This object is already attached');
 
             $attachName = !empty($item->filename) ? $item->filename . '.' . $item->ext : '@' . $item->id;
             $link = new MQueueAttach(['message_id' => $this->id, 'attach_id' => $item->id, 'name' => $attachName]);
@@ -381,8 +381,8 @@ class MQueue extends MQueueBase {
      * @param $attachmentId
      * @return bool
      */
-    public function hasAttachment($attachmentId) {
-        return MQueueAttach::getCount(['attach_id' => $attachmentId]) > 0;
+    public function isAttached($attach) {
+        return MQueueAttach::getCount(['attach_id' => $attach->id]) > 0;
     }
 
     /**

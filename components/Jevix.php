@@ -167,7 +167,7 @@ class Jevix{
                                 if($createIfNoExists){
                                         $this->tagsRules[$tag] = array();
                                 } else {
-                                        throw new Exception("Тег $tag отсутствует в списке разрешённых тегов");
+                                        throw new \Exception("Тег $tag отсутствует в списке разрешённых тегов");
                                 }
                         }
                         $this->tagsRules[$tag][$flag] = $value;
@@ -229,7 +229,7 @@ class Jevix{
          * @param string|array $params разрешённые параметры
          */
         function cfgAllowTagParams($tag, $params){
-                if(!isset($this->tagsRules[$tag])) throw new Exception("Тег $tag отсутствует в списке разрешённых тегов");
+                if(!isset($this->tagsRules[$tag])) throw new \Exception("Тег $tag отсутствует в списке разрешённых тегов");
                 if(!is_array($params)) $params = array($params);
                 // Если ключа со списком разрешенных параметров не существует - создаём ео
                 if(!isset($this->tagsRules[$tag][self::TR_PARAM_ALLOWED])) {
@@ -250,7 +250,7 @@ class Jevix{
          * @param string|array $params разрешённые параметры
          */
         function cfgSetTagParamsRequired($tag, $params){
-                if(!isset($this->tagsRules[$tag])) throw new Exception("Тег $tag отсутствует в списке разрешённых тегов");
+                if(!isset($this->tagsRules[$tag])) throw new \Exception("Тег $tag отсутствует в списке разрешённых тегов");
                 if(!is_array($params)) $params = array($params);
                 // Если ключа со списком разрешенных параметров не существует - создаём ео
                 if(!isset($this->tagsRules[$tag][self::TR_PARAM_REQUIRED])) {
@@ -268,7 +268,7 @@ class Jevix{
          * @param boolean $isChildOnly вложенные теги не могут присутствовать нигде кроме указанного тега
          */
         function cfgSetTagChilds($tag, $childs, $isContainerOnly = false, $isChildOnly = false){
-                if(!isset($this->tagsRules[$tag])) throw new Exception("Тег $tag отсутствует в списке разрешённых тегов");
+                if(!isset($this->tagsRules[$tag])) throw new \Exception("Тег $tag отсутствует в списке разрешённых тегов");
                 if(!is_array($childs)) $childs = array($childs);
                 // Тег является контейнером и не может содержать текст
                 if($isContainerOnly) $this->tagsRules[$tag][self::TR_TAG_CONTAINER] = true;
@@ -279,7 +279,7 @@ class Jevix{
                 foreach($childs as $child){
                         $this->tagsRules[$tag][self::TR_TAG_CHILD_TAGS][$child] = true;
                         //  Указанный тег должен сущеаствовать в списке тегов
-                        if(!isset($this->tagsRules[$child])) throw new Exception("Тег $child отсутствует в списке разрешённых тегов");
+                        if(!isset($this->tagsRules[$child])) throw new \Exception("Тег $child отсутствует в списке разрешённых тегов");
                         if(!isset($this->tagsRules[$child][self::TR_TAG_PARENT])) $this->tagsRules[$child][self::TR_TAG_PARENT] = array();
                         $this->tagsRules[$child][self::TR_TAG_PARENT][$tag] = true;
                         // Указанные разрешённые теги могут находится только внтутри тега-контейнера
@@ -293,7 +293,7 @@ class Jevix{
      * @param string|array $params array of pairs attributeName => attributeValue
      */
     function cfgSetTagParamsAutoAdd($tag, $params){
-        if(!isset($this->tagsRules[$tag])) throw new Exception("Tag $tag is missing in allowed tags list");
+        if(!isset($this->tagsRules[$tag])) throw new \Exception("Tag $tag is missing in allowed tags list");
         if(!is_array($params)) $params = array($params);
         if(!isset($this->tagsRules[$tag][self::TR_PARAM_AUTO_ADD])) {
             $this->tagsRules[$tag][self::TR_PARAM_AUTO_ADD] = array();
@@ -431,11 +431,11 @@ class Jevix{
          *
          */
         protected function restoreState($index = null){
-                if(!count($this->states)) throw new Exception('Конец стека');
+                if(!count($this->states)) throw new \Exception('Конец стека');
                 if($index == null){
                         $state = array_pop($this->states);
                 } else {
-                        if(!isset($this->states[$index])) throw new Exception('Неверный индекс стека');
+                        if(!isset($this->states[$index])) throw new \Exception('Неверный индекс стека');
                         $state = $this->states[$index];
                         $this->states = array_slice($this->states, 0, $index);
                 }
