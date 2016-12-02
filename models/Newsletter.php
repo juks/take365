@@ -7,7 +7,6 @@ use app\models\User;
 use app\models\MQueue;
 use app\models\Storage;
 use app\components\Helpers;
-use app\components\HelpersTxt;
 use app\components\interfaces\IPermissions;
 use app\components\traits\THasPermission;
 use app\components\traits\TModelExtra;
@@ -18,8 +17,6 @@ use app\components\traits\TModelExtra;
 class Newsletter extends \app\models\base\NewsletterBase implements IPermissions {
 	use TModelExtra;
     use THasPermission;
-
-    protected $_bodyJvx;
 
     public function getIsPublic() {
         return true;
@@ -47,7 +44,7 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
         $fullname = $data['user']->fullnameFilled;
         if (substr($fullname, 0, 1) == '@') $fullname = 'Уважаемый пользователь';
 
-        $result = preg_replace('/%username%/i', $fullname, $this->bodyJvx);
+        $result = preg_replace('/%username%/i', $fullname, $this->body);
 
         return $result;
     }
@@ -107,17 +104,5 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
 
         //$this->time_sent = time();
         //$this->save();
-    }
-
-    /**
-     * Processes the body with Jevix
-     * @return string
-     */
-    public function getBodyJvx() {
-        if (!$this->_bodyJvx) {
-            $this->_bodyJvx = HelpersTxt::simpleText($this->body);
-        }
-
-        return $this->_bodyJvx;
     }
 }

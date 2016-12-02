@@ -63,8 +63,7 @@ class HelpersTxt {
 
 		return $result;
 	}
-
-
+	
 	/**
 	 * Фильтр пожжёще
 	 */
