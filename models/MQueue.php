@@ -267,7 +267,7 @@ class MQueue extends MQueueBase {
                 $dataHTML .= "Content-ID: <" . $item->attach_id . ">\n";
                 $dataHTML .= "Content-Location: " . $item->name . "\n";
 
-                $dataHTML .= self::base64trim(file_get_contents($item->resource->fullPath));
+                $dataHTML .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
                 $dataHTML .= "\n\n--" . $boundary . "--";
             }
         } else {
@@ -290,7 +290,7 @@ class MQueue extends MQueueBase {
                 return;
             }
         }
-
+echo $mailBody;
         if (!mail($this->to, $mailSubject, $mailBody, $stringHeaders)) {
             $this->unlock();
             throw new \Exception('Cannot send mail');
