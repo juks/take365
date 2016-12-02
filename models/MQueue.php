@@ -262,7 +262,7 @@ class MQueue extends MQueueBase {
 
         $dataHTML   = "\n--" . $boundary . "\n";
         $dataHTML  .= "Content-Type: text/html; charset=utf-8\n";
-        $dataHTML  .= "MIME-Version: 1.0\n";
+        //$dataHTML  .= "MIME-Version: 1.0\n";
         if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n";
         $dataHTML .= "\n";
         $dataHTML  .= $doEncode ? self::base64trim(base64_encode(trim($this->body))) : trim($this->body);
