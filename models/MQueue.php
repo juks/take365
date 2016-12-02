@@ -246,8 +246,9 @@ class MQueue extends MQueueBase {
             $stringHeaders .= "Content-Type: multipart/alternative;" . "\n " . "boundary=\"" . $boundary . "\"\n\n";
         } else {
             $stringHeaders .= "MIME-Version: 1.0\n";
-            $stringHeaders .= "Content-Type: multipart/mixed;" . "\n " . "boundary=\"" . $boundaryMixed . "\"\n\n";
+            $stringHeaders .= "Content-Type: multipart/mixed;" . "\n boundary=\"" . $boundaryMixed . "\"\n\n";
 
+            $dataPlain     .= "\n\nThis is a multi-part message in MIME format.\n";
             $dataPlain     .= $boundaryMixed . "\n";
             $dataPlain     .= "Content-Type: multipart/alternative;\n boundary=\"" . $boundary . "\"\n\n";
         }
@@ -301,7 +302,7 @@ class MQueue extends MQueueBase {
                 return;
             }
         }
-echo $mailBody;
+
         if (!mail($this->to, $mailSubject, $mailBody, $stringHeaders)) {
             $this->unlock();
             throw new \Exception('Cannot send mail');
