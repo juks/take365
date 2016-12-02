@@ -248,9 +248,9 @@ class MQueue extends MQueueBase {
             $stringHeaders .= "MIME-Version: 1.0\n";
             $stringHeaders .= "Content-Type: multipart/mixed;" . "\n " . "boundary=\"" . $boundaryMixed . "\"\n\n";
 
-            $stringHeaders .= "This is a multi-part message in MIME format.\n\n";
-            $dataPlain      .= $boundaryMixed . "\n";
-            $dataPlain      .= "Content-Type: multipart/alternative;\n boundary=\"" . $boundary . "\"\n\n";
+            $dataPlain     .= "This is a multi-part message in MIME format.\n\n";
+            $dataPlain     .= $boundaryMixed . "\n";
+            $dataPlain     .= "Content-Type: multipart/alternative;\n boundary=\"" . $boundary . "\"\n\n";
         }
 
         $dataPlain .= "\n--" . $boundary . "\n";
