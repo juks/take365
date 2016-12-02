@@ -238,22 +238,10 @@ class MQueue extends MQueueBase {
 
         if ($stringHeaders) $stringHeaders .= "\n";
         $boundary = '==' . Helpers::randomString(10) . '==';
-        $boundaryMixed = '==Mixed-' . Helpers::randomString(4) . '==';
 
-        if (!$this->attach_count) {
-            $stringHeaders .= "Content-Type: multipart/alternative;" . "\n " . "boundary=\"" . $boundary . "\"\n\n";
-        } else {
-            $stringHeaders .= "Content-Type: multipart/mixed;" . "\n " . "boundary=\"" . $boundaryMixed . "\"\n\n";
-        }
+        $stringHeaders .= "Content-Type: multipart/alternative;" . "\n " . "boundary=\"" . $boundary . "\"\n\n";
 
-        $dataPlain = '';
-
-        if ($this->attach_count) {
-            $dataPlain .= "\n--" . $boundaryMixed . "\n";
-            $dataPlain .= 'Content-Type: multipart/alternative; boundary="' . $boundary. '"' . "\n\n";
-        }
-
-        $dataPlain  .= "\n--" . $boundary . "\n";
+        $dataPlain  = "\n--" . $boundary . "\n";
         $dataPlain .= "Content-Type: text/plain; charset=utf-8\n";
         $dataPlain .= "MIME-Version: 1.0\n";
         if ($doEncode) $dataPlain .= "Content-Transfer-Encoding: base64\n";
@@ -266,23 +254,22 @@ class MQueue extends MQueueBase {
         if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n";
         $dataHTML .= "\n";
         $dataHTML  .= $doEncode ? self::base64trim(base64_encode(trim($this->body))) : trim($this->body);
-        $dataHTML .= "\n\n--" . $boundary . "--\n";
 
         // Attachments
         if ($this->attach_count) {
             $items = $this->attachments;
 
             foreach ($items as $item) {
-                $dataHTML .= "\n\n--" . $boundaryMixed . "--\n";
-                $dataHTML .= "Content-Type: " . $item->resource->mime . "; name=\"" . $item->name . "\"\n";
-                $dataHTML .= "Content-Disposition: inline; filename=\"" . $item->name . "\"\n";
+                $dataHTML .= "\n\n--" . $boundary . "--\n";
+                $dataHTML .= "Content-Type: " . $item->resource->mime . ";\n name=\"" . $item->name . "\"\n";
                 $dataHTML .= "Content-Transfer-Encoding: base64\n";
-                $dataHTML .= "Content-ID: <" . $item->name . ">\n";
-                $dataHTML .= "Content-Location: " . $item->name . "\n\n";
+                $dataHTML .= "Content-Disposition: attachment;\n filename=\"" . $item->name . "\"\n\n";
 
                 $dataHTML .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
-                $dataHTML .= "\n--" . $boundaryMixed . "--";
+                $dataHTML .= "\n--" . $boundary . "--";
             }
+        } else {
+            $dataHTML  .= "\n\n--" . $boundary . "--";
         }
 
         $mailBody = $dataPlain . $dataHTML;
