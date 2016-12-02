@@ -237,30 +237,31 @@ class MQueue extends MQueueBase {
         $stringHeaders = $this->getHeadersString();
 
         if ($stringHeaders) $stringHeaders .= "\n";
-        $boundary = '==' . Helpers::randomString(10) . '==';
-        $boundaryMixed = '==MIXED' . Helpers::randomString(5) . '==';
+        $doAttach = $this->attach_count ? 1 : 0;
+
+        $boundary = ['==' . Helpers::randomString(10) . '==',
+                     '==MIXED' . Helpers::randomString(5) . '=='];
 
         $dataPlain = '';
 
-        if (!$this->attach_count) {
-            $stringHeaders .= "Content-Type: multipart/alternative;" . "\n " . "boundary=\"" . $boundary . "\"\n\n";
-        } else {
-            //$stringHeaders .= "MIME-Version: 1.0\n";
-            $stringHeaders .= "Content-Type: multipart/mixed;\n boundary=\"" . $boundaryMixed . "\"\n\n";
+        $stringHeaders .= "Content-Type: multipart/alternative;\n boundary=\"" . $boundary[0] . "\"\n\n";
 
-            $dataPlain     .= "This is a multi-part message in MIME format.\n";
-            $dataPlain     .= '--' . $boundaryMixed . "\n";
-            $dataPlain     .= "Content-Type: multipart/alternative;\n boundary=\"" . $boundary . "\"\n\n";
-        }
-
-        $dataPlain .= "\n--" . $boundary . "\n";
+        if ($this->attach_count) $dataPlain .= "This is a multi-part message in MIME format.";
+        $dataPlain .= "\n--" . $boundary[0] . "\n";
         $dataPlain .= "Content-Type: text/plain; charset=utf-8\n";
         $dataPlain .= "MIME-Version: 1.0\n";
         if ($doEncode) $dataPlain .= "Content-Transfer-Encoding: base64\n";
         $dataPlain .= "\n";
         $dataPlain .= $doEncode ? self::base64trim(base64_encode(strip_tags(trim($this->body)))) : strip_tags(trim($this->body));
 
-        $dataHTML   = "\n--" . $boundary . "\n";
+        $dataHTML = '';
+
+        if ($this->attach_count) {
+            $dataHTML   .= "\n--" . $boundary[0] . "\n";
+            $dataHTML   .= "Content-Type: multipart/related;\n boundary=\"" . $boundary[1] . "\"\n\n";
+        }
+
+        $dataHTML  .= "\n--" . $boundary[$doAttach] . "\n";
         $dataHTML  .= "Content-Type: text/html; charset=utf-8\n";
         //$dataHTML  .= "MIME-Version: 1.0\n";
         if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n";
@@ -271,20 +272,21 @@ class MQueue extends MQueueBase {
         if ($this->attach_count) {
             $items = $this->attachments;
 
-            $dataHTML .= "\n--" . $boundary . "--";
-            $dataHTML .= "\n\n--" . $boundaryMixed . "\n";
+            $dataHTML .= "\n--" . $boundary[1] . "\n";
 
             foreach ($items as $item) {
                 $dataHTML .= "Content-Type: " . $item->resource->mime . ";\n name=\"" . $item->name . "\"\n";
                 $dataHTML .= "Content-Transfer-Encoding: base64\n";
-                $dataHTML .= "Content-Disposition: attachment;\n filename=\"" . $item->name . "\"\n\n";
+                $dataHTML .= "Content-ID: <" . $item->name . ">\n";
+                $dataHTML .= "Content-Disposition: inline;\n filename=\"" . $item->name . "\"\n\n";
 
                 $dataHTML .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
-                $dataHTML .= "--" . $boundaryMixed . "--";
+                $dataHTML .= "--" . $boundary[1] . "--";
             }
-        } else {
-            $dataHTML  .= "\n\n--" . $boundary . "--";
+
         }
+
+        $dataHTML  .= "\n\n--" . $boundary[0] . "--";
 
         $mailBody = $dataPlain . $dataHTML;
 
