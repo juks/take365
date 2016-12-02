@@ -20,7 +20,7 @@ class Post extends PostBase {
     const typeId = 5;
 
     /**
-     *   Sets the Story model scenarios
+     *   Sets the Post model scenarios
      **/
     public function scenarios() {
         return [

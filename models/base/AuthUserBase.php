@@ -130,14 +130,14 @@ class AuthUserBase extends \yii\db\ActiveRecord
         return preg_match('/^[a-z][a-z0-9-]{1,}$/i', $username);
     }
 
-    public function checkUsernameExists($attribute, $params) {
+    public function checkUsernameExists($attribute) {
         $cond = ['username' => $this->$attribute, 'is_active' => 1];
         if ($this->id) $cond['id'] = ['!=', $this->id];
 
         if (self::find()->where(static::makeCondition($cond))->count()) $this->addError($attribute, Ml::t('This username has been already taken'));
     }
 
-    public function checkEmailExists($attribute, $params) {
+    public function checkEmailExists($attribute) {
         $cond = ['email' => $this->$attribute, 'is_active' => 1];
         if ($this->id) $cond['id'] = ['!=', $this->id];
 

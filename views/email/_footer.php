@@ -1,4 +1,25 @@
-<p>С наилучшими пожеланиями, <a href="<?= $projectUrl ?>"><?= $projectName ?></a>.</p>
-<?php if (isset($urlUnsubscribe)): ?><p style="color: #777777; font-size: 80%">Отключить все или только некоторые e-mail уведомления проекта <?= $projectName ?> вы можете на <a href="<?= $urlUnsubscribe ?>">странице личных настроек</a>.</p><?php endif ?>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tr>
+        <td valign="top" align="left">
+            <div style="font-family: Arial, sans-serif; font-weight: normal; font-style: normal; font-size: 14px; line-height: 18px; color: #666666;">С наилучшими пожеланиями, <a href="<?= $projectUrl ?>" style="font-family: Arial, sans-serif; font-weight: normal; font-style: normal; font-size: 14px; text-decoration: underline; color: #0055CC;"><?= $projectName ?></a>.</div>
+        </td>
+    </tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<?php if (isset($urlUnsubscribe)): ?><tr>
+<td valign="top" align="center" style="padding: 0 20px 20px 20px;">
+<table cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 680px;">
+<tr>
+<td valign="top" style="padding: 0 20px;">
+<div style="font-family: Arial, sans-serif; font-weight: normal; font-style: normal; font-size: 11px; line-height: 14px; color: #666666;">Отключить все или только некоторые e-mail уведомления проекта <?= $projectName ?> вы можете на <a href="<?= $urlUnsubscribe ?>">странице личных настроек</a>.</div>
+</td>
+</tr>
+</td>
+</tr><?php endif ?>
+</table>
 </body>
 </html>

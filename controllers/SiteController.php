@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\MQueue;
+use app\models\MQueueAttach;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -166,5 +168,19 @@ class SiteController extends MyController
         @session_start();
         $_SESSION['CAPTCHAString'] = $captcha->getCaptchaString();
         $captcha->makeCaptcha();    
+    }
+
+    public function actionCave() {
+        /*$a = \app\models\Storage::getByKey('logo');
+
+        \app\models\MQueue::compose()
+            ->toUser(Yii::$app->user->identity, ['checkOption' => 'notify'])
+            ->subject('Test')
+            ->body('foo')
+            ->attach($a)
+            ->send();*/
+
+        $s = new \app\models\Storage();
+        $s->takeFile('http://pagemywork.com/filestorage/p1/d3/d9/10/logo.jpg');
     }
 }
