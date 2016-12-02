@@ -265,7 +265,7 @@ class MQueue extends MQueueBase {
                 $dataHTML .= "Content-Disposition: inline; filename=\"" . $item->name . "\"\n";
                 $dataHTML .= "Content-Transfer-Encoding: base64\n";
                 $dataHTML .= "Content-ID: <" . $item->attach_id . ">\n";
-                $dataHTML .= "Content-Location: " . $item->name . "\n";
+                $dataHTML .= "Content-Location: " . $item->name . "\n\n";
 
                 $dataHTML .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
                 $dataHTML .= "\n\n--" . $boundary . "--";
@@ -290,7 +290,7 @@ class MQueue extends MQueueBase {
                 return;
             }
         }
-echo $mailBody;
+
         if (!mail($this->to, $mailSubject, $mailBody, $stringHeaders)) {
             $this->unlock();
             throw new \Exception('Cannot send mail');
@@ -382,7 +382,7 @@ echo $mailBody;
      * @return bool
      */
     public function isAttached($attach) {
-        return MQueueAttach::getCount(['attach_id' => $attach->id]) > 0;
+        return MQueueAttach::getCount(['message_id' => $this->id, 'attach_id' => $attach->id]) > 0;
     }
 
     /**
