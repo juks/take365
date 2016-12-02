@@ -239,7 +239,7 @@ class MQueue extends MQueueBase {
         if ($stringHeaders) $stringHeaders .= "\n";
         $boundary = '==' . Helpers::randomString(10) . '==';
 
-        if (0 && !$this->attach_count) {
+        if (1 || !$this->attach_count) {
             $stringHeaders .= "Content-Type: multipart/alternative;" . "\n " . "boundary=\"" . $boundary . "\"\n\n";
         } else {
             $stringHeaders .= "MIME-Version: 1.0\n";
