@@ -277,7 +277,7 @@ class MQueue extends MQueueBase {
             foreach ($items as $item) {
                 $dataHTML .= "Content-Type: " . $item->resource->mime . ";\n name=\"" . $item->name . "\"\n";
                 $dataHTML .= "Content-Transfer-Encoding: base64\n";
-                $dataHTML .= "Content-ID: <" . $item->name . ">\n";
+                $dataHTML .= "Content-ID: <part" . $item->id . "." . $item->name . ">\n";
                 $dataHTML .= "Content-Disposition: inline;\n filename=\"" . $item->name . "\"\n\n";
 
                 $dataHTML .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
