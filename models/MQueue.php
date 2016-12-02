@@ -36,7 +36,7 @@ class MQueue extends MQueueBase {
      * @return string
      */
     public static function base64trim($data) {
-        $limit = 76;
+        $limit = 72;
         $ln = strlen($data);
 
         if($ln < $limit) return $data;
