@@ -238,15 +238,22 @@ class MQueue extends MQueueBase {
 
         if ($stringHeaders) $stringHeaders .= "\n";
         $boundary = '==' . Helpers::randomString(10) . '==';
+        $boundaryMixed = '==MIXED' . Helpers::randomString(5) . '==';
 
-        if (1 || !$this->attach_count) {
+        $dataPlain = '';
+
+        if (!$this->attach_count) {
             $stringHeaders .= "Content-Type: multipart/alternative;" . "\n " . "boundary=\"" . $boundary . "\"\n\n";
         } else {
             $stringHeaders .= "MIME-Version: 1.0\n";
-            $stringHeaders .= "Content-Type: multipart/mixed;" . "\n " . "boundary=\"" . $boundary . "\"\n\n";
+            $stringHeaders .= "Content-Type: multipart/mixed;" . "\n " . "boundary=\"" . $boundaryMixed . "\"\n\n";
+
+            $dataPlain      .= "This is a multi-part message in MIME format.\n";
+            $dataPlain      .= $boundaryMixed . "\n";
+            $dataPlain      .= "Content-Type: multipart/alternative;\n boundary=\"" . $boundary . "\"\n\n";
         }
 
-        $dataPlain  = "\n--" . $boundary . "\n";
+        $dataPlain .= "\n--" . $boundary . "\n";
         $dataPlain .= "Content-Type: text/plain; charset=utf-8\n";
         $dataPlain .= "MIME-Version: 1.0\n";
         if ($doEncode) $dataPlain .= "Content-Transfer-Encoding: base64\n";
