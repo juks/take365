@@ -249,7 +249,7 @@ class MQueue extends MQueueBase {
             $stringHeaders .= "Content-Type: multipart/mixed;\n boundary=\"" . $boundaryMixed . "\"\n\n";
 
             $dataPlain     .= "This is a multi-part message in MIME format.\n";
-            $dataPlain     .= $boundaryMixed . "\n";
+            $dataPlain     .= '--' . $boundaryMixed . "\n";
             $dataPlain     .= "Content-Type: multipart/alternative;\n boundary=\"" . $boundary . "\"\n\n";
         }
 
