@@ -242,7 +242,6 @@ class MQueue extends MQueueBase {
         if (!$this->attach_count) {
             $stringHeaders .= "Content-Type: multipart/alternative;" . "\n " . "boundary=\"" . $boundary . "\"\n\n";
         } else {
-            $stringHeaders .= "MIME-Version: 1.0\n";
             $stringHeaders .= "Content-Type: multipart/mixed;" . "\n " . "boundary=\"" . $boundary . "\"\n\n";
         }
 
