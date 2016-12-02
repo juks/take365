@@ -248,6 +248,7 @@ class MQueue extends MQueueBase {
             //$stringHeaders .= "MIME-Version: 1.0\n";
             $stringHeaders .= "Content-Type: multipart/mixed;\n boundary=\"" . $boundaryMixed . "\"\n\n";
 
+            $dataPlain     .= "This is a multi-part message in MIME format.\n";
             $dataPlain     .= $boundaryMixed . "\n";
             $dataPlain     .= "Content-Type: multipart/alternative;\n boundary=\"" . $boundary . "\"\n\n";
         }
@@ -271,7 +272,7 @@ class MQueue extends MQueueBase {
             $items = $this->attachments;
 
             $dataHTML .= "\n--" . $boundary . "--";
-            $dataHTML .= "\n\n--" . $boundaryMixed . "--\n";
+            $dataHTML .= "\n\n--" . $boundaryMixed . "\n";
 
             foreach ($items as $item) {
                 $dataHTML .= "Content-Type: " . $item->resource->mime . ";\n name=\"" . $item->name . "\"\n";
