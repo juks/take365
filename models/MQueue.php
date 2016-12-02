@@ -4,9 +4,11 @@ namespace app\models;
 
 use Yii;
 use app\models\User;
+use app\models\MQueueAttach;
 use app\components\Helpers;
 use app\models\base\MQueueBase;
 use app\components\traits\TModelExtra;
+use yii\base\Exception;
 
 /**
  * MQueue class
@@ -86,7 +88,13 @@ class MQueue extends MQueueBase {
     public static function dropOldies() {
         $storeTime = Helpers::getParam('mQueue/storeTime', 86400 * 7);
 
-        $messages = MQueue::deleteAll(self::makeCondition(['send_me' => 0, 'time_created' => ['<', time() - $storeTime]]));          
+        $oldies = MQueue::find()->where(self::makeCondition(['send_me' => 0, 'time_created' => ['<', time() - $storeTime]]))->all();
+
+        if ($oldies) {
+            foreach ($oldies as $item) {
+                $item->delete();
+            }
+        }
     }
 
     /**
@@ -97,6 +105,8 @@ class MQueue extends MQueueBase {
         if (is_object($recipient)) return $this->toUser($recipient);
         
         $this->to = $recipient;
+
+        $this->save();
 
         return $this;
     }
@@ -119,6 +129,8 @@ class MQueue extends MQueueBase {
             $this->to = $user->email;
             $this->_user = $user;
         }
+
+        $this->save();
 
         return $this;
     }    
@@ -242,7 +254,25 @@ class MQueue extends MQueueBase {
         if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n";
         $dataHTML .= "\n";
         $dataHTML  .= $doEncode ? self::base64trim(base64_encode(trim($this->body))) : trim($this->body);
-        $dataHTML  .= "\n\n--" . $boundary . "--";
+
+        // Attachments
+        if ($this->attach_count) {
+            $items = $this->attachments;
+
+            foreach ($items as $item) {
+                $dataHTML .= "\n\n--" . $boundary . "--\n";
+                $dataHTML .= "Content-Type: " . $item->resource->mime . "; name=\"" . $item->name . "\"\n";
+                $dataHTML .= "Content-Disposition: inline; filename=\"" . $item->name . "\"\n";
+                $dataHTML .= "Content-Transfer-Encoding: base64\n";
+                $dataHTML .= "Content-ID: <" . $item->attach_id . ">\n";
+                $dataHTML .= "Content-Location: " . $item->name . "\n";
+
+                $dataHTML .= self::base64trim(file_get_contents($item->resource->fullPath));
+                $dataHTML .= "\n\n--" . $boundary . "--";
+            }
+        } else {
+            $dataHTML  .= "\n\n--" . $boundary . "--";
+        }
 
         $mailBody = $dataPlain . $dataHTML;
 
@@ -317,5 +347,63 @@ class MQueue extends MQueueBase {
                                     'time_sent'     => time()
                             ]);
         $this->save();
+    }
+
+    /**
+     * Attaches object to message
+     * @param $item
+     * @throws \Exception
+     */
+    public function attach($item) {
+        if (is_object($item) && get_class($item) == 'app\models\Storage') {
+            if ($this->hasAttachment($item->id)) throw new \Exception('This object is already attached');
+
+            $attachName = !empty($item->filename) ? $item->filename . '.' . $item->ext : '@' . $item->id;
+            $link = new MQueueAttach(['message_id' => $this->id, 'attach_id' => $item->id, 'name' => $attachName]);
+
+            Helpers::transact(function() use ($link) {
+                if ($link->save()) {
+                    $this->attach_count ++;
+                    $this->save();
+                } else {
+                    throw new \Exception('Failed to attach resource');
+                }
+            });
+        } else {
+            throw new \Exception('Unsupported attachment type');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Checks if message has an attachment with specified id
+     * @param $attachmentId
+     * @return bool
+     */
+    public function hasAttachment($attachmentId) {
+        return MQueueAttach::getCount(['attach_id' => $attachmentId]) > 0;
+    }
+
+    /**
+     * Get message attachments list
+     * @return $this
+     */
+    public function getAttachments() {
+        return $this->hasMany(MQueueAttach::className(), ['message_id' => 'id'])->with('resource')->orderBy('time_created');
+    }
+
+    /**
+     * Delete this message together with it's attachments if there are any
+     * @return false|int
+     * @throws \Exception
+     */
+    public function delete()
+    {
+        if ($this->attach_count) {
+            MQueueAttach::deleteAll(self::makeCondition(['message_id' => $this->id]));
+        }
+
+        return parent::delete();
     }
 }

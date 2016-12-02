@@ -291,4 +291,22 @@ trait TModelExtra {
 
         return Yii::$app->db->quoteValue($value);
     }
+
+    /**
+     **  Convert model errors to string
+     */
+    public function modelErrorsToString() {
+        $result = '';
+        $errors = $this->getErrors();
+
+        if (!$errors) return 'Unknown error';
+
+        foreach ($errors as $field => $errorList) {
+            foreach($errorList as $error) {
+                $result .= $field . ': ' . $error . "\n";
+            }
+        }
+
+        return $result;
+    }
 }

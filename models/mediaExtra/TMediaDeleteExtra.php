@@ -22,26 +22,6 @@ trait TMediaDeleteExtra {
         });
     }
 
-    public function markDeleted1($replace = false) {
-        $this->is_deleted = 1;
-        $this->time_deleted = time();
-
-        $connection = Yii::$app->db;
-        $transaction = $connection->beginTransaction();
-
-        try {
-            if ($this->save()) {
-                if (method_exists($this, 'afterMediaDelete')) $this->afterMediaDelete($replace);
-            }
-        } catch (\Exception $e) {
-            $transaction->rollback();
-
-            throw $e;
-        }
-
-        $transaction->commit();
-    }
-
     /**
      * Recovers item from deleetd state
      */
@@ -50,8 +30,7 @@ trait TMediaDeleteExtra {
         $this->time_deleted = 0;
         $this->save();
     }
-
-
+    
     /**
      * Deletes items marked for deletion
      * @static

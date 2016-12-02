@@ -18,6 +18,7 @@ use Yii;
  * @property string $headers
  * @property string $subject
  * @property string $body
+ * @property integer attach_count
  */
 class MQueueBase extends \yii\db\ActiveRecord
 {
@@ -36,7 +37,7 @@ class MQueueBase extends \yii\db\ActiveRecord
     {
         return [
             [['time_created'], 'required'],
-            [['time_created', 'time_sent', 'send_me', 'is_pending', 'is_rejected', 'pending_since'], 'integer'],
+            [['time_created', 'time_sent', 'send_me', 'is_pending', 'is_rejected', 'pending_since', 'attach_count'], 'integer'],
             [['headers', 'body'], 'string'],
             [['to', 'subject'], 'string', 'max' => 255]
         ];
@@ -59,6 +60,7 @@ class MQueueBase extends \yii\db\ActiveRecord
             'headers' => 'Headers',
             'subject' => 'Subject',
             'body' => 'Body',
+            'attach_count' => 'Attachments count'
         ];
     }
 

@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use app\models\User;
 use app\models\MQueue;
+use app\models\Storage;
 use app\components\Helpers;
 use app\components\HelpersTxt;
 use app\components\interfaces\IPermissions;
@@ -57,11 +58,20 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
      * @throws \Exception
      */
     public function sendTo($user) {
-        MQueue::compose()
+        $attachments = [1];
+
+        $m = MQueue::compose()
             ->toUser($user, ['checkOption' => 'newsletter'])
             ->subject($this->title)
-            ->bodyTemplate('newsletter.php', ['body' => $this->prepareUserBody(['user' => $user])])
-            ->send();
+            ->bodyTemplate('newsletter.php', ['body' => $this->prepareUserBody(['user' => $user])]);
+
+        if ($attachments) {
+            foreach ($attachments as $attachId) {
+                $m->attach(Storage::findOne($attachId));
+            }
+        }
+
+        $m->send();
     }
 
     /**

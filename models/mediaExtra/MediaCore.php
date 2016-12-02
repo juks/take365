@@ -278,7 +278,7 @@ class MediaCore extends MediaBase {
 
             return ['type' => self::uploadTypeForm, 'filePath' => $filePath->tempName, 'fileName' => $this->getFileName($filePath->name)];
         // Check if it is just a file URL
-        } elseif (preg_match("!^http://!", $filePath)) {
+        } elseif (preg_match("!^https?://!", $filePath)) {
             return ['type' => self::uploadTypeUrl, 'filePath' => $filePath, 'fileName' => $this->getFileName($filePath)];
         // Check if it is local file
         } elseif ($filePath && file_exists($filePath)) {
@@ -397,23 +397,5 @@ class MediaCore extends MediaBase {
      */
     public static function getParam($name, $default = null) {
         return Helpers::getParam($name, $default);
-    }
-
-    /**
-    **  Convert model errors to string
-    */
-    public function modelErrorsToString() {
-        $result = '';
-        $errors = $this->getErrors();
-
-        if (!$errors) return 'Unknown error';
-
-        foreach ($errors as $field=>$errorList) {
-            foreach($errorList as $error) {
-                $result .= $field . ': ' . $error . "\n";
-            }
-        }
-
-        return $result;
     }
 }

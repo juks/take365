@@ -21,6 +21,11 @@ return [
                         'deletedLifetime'       => 86400 * 30
                     ],
 
+    'storage'    => [
+                        'folderSpreadDepth'     => 1,
+                        'maxFileSize'           => 1048576
+                    ],
+
     'mQueue'     => [
                         'pendingTime'           => 3600,
                         'sendLimit'             => 5,

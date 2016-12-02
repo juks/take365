@@ -119,7 +119,7 @@ class Download {
 		}
 		
 		$info = curl_getinfo($ch);
-		
+
 		if($fileName != 'memory') fclose($fileHandler);
 
         if(curl_errno($ch)) {
@@ -134,12 +134,14 @@ class Download {
     						'data'			=> $result,
     						'contentType'	=> $contentType,
     						'charset'		=> strtolower($charset),
-    						'code'			=> curl_getinfo($ch, CURLINFO_HTTP_CODE)
+    						'code'			=> curl_getinfo($ch, CURLINFO_HTTP_CODE),
+							'size'			=> $info['size_download']
         				];
         	} else {
         		return [
-        					'filePath' 	 => $fileName,
-        					'fileOrigin' => $this->getFileName($url, false)
+        					'filePath' 	 	=> $fileName,
+        					'fileOrigin' 	=> $this->getFileName($url, false),
+					        'size'	  	 	=> $info['size_download']
         				];
         	}
         } 
