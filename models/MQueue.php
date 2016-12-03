@@ -299,7 +299,7 @@ class MQueue extends MQueueBase {
     public function registerCID($resource) {
         $uName = date('YmdHis', time()) . '.' . strtoupper(substr(md5($resource->id), 0, 12)) . '@' . gethostname();
         $fullname = $resource->filename;
-        if ($resource->ext) $fullname . '.' . $resource->ext;
+        if ($resource->ext) $fullname .= '.' . $resource->ext;
 
         $this->_CIDRegister[$fullname] = $uName;
 
