@@ -1,18 +1,4 @@
 var currentSection = 'main';
-
-function switchSection(name) {
-	if(currentSection != name) {
-		$('#' + currentSection + 'Link').removeClass('simple');
-		$('#' + currentSection + 'Holder').addClass('hidden');
-
-		$('#' + name + 'Link').addClass('simple');
-		$('#' + name + 'Holder').removeClass('hidden');
-		$('#mainSwHolder').trigger('show', name);
-
-		currentSection = name;
-	}
-}
-
 var ProfileForm = new FormBase();
 
 ProfileForm.success = function(form, result) {
