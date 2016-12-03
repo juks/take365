@@ -278,7 +278,8 @@ class MQueue extends MQueueBase {
                 $dataAttach .= "Content-ID: <" . $CID. ">\n";
                 $dataAttach.= "Content-Disposition: inline;\n filename=\"" . $item->name . "\"\n\n";
 
-                $dataAttach .= self::base64trim(file_get_contents($item->resource->fullPath));
+                //.$dataAttach .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
+                $dataAttach .= base64_encode(file_get_contents($item->resource->fullPath));
                 $dataAttach .= "--" . $boundary[1] . "--";
             }
 
