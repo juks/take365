@@ -23,6 +23,8 @@ class MQueue extends MQueueBase {
                                     'MIME-Version'              => '1.0',
                                 ];
 
+    protected $_CIDRegister = [];
+
     /*
     * Composes new email
     */
@@ -261,36 +263,39 @@ class MQueue extends MQueueBase {
             $dataHTML   .= "Content-Type: multipart/related;\n boundary=\"" . $boundary[1] . "\"\n\n";
         }
 
-        $dataHTML  .= "\n--" . $boundary[$doAttach] . "\n";
-        $dataHTML  .= "Content-Type: text/html; charset=utf-8\n";
-        //$dataHTML  .= "MIME-Version: 1.0\n";
-        if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n";
-        $dataHTML .= "\n";
-        $dataHTML  .= $doEncode ? self::base64trim(base64_encode(trim($this->body))) : trim($this->body);
-
         // Attachments
         if ($this->attach_count) {
+            $dataAttach = '';
             $items = $this->attachments;
 
-            $dataHTML .= "\n--" . $boundary[1] . "\n";
+            $dataAttach .= "\n--" . $boundary[1] . "\n";
 
             foreach ($items as $item) {
-                $dataHTML .= "Content-Type: " . $item->resource->mime . ";\n name=\"" . $item->name . "\"\n";
-                $dataHTML .= "Content-Transfer-Encoding: base64\n";
-                $dataHTML .= "Content-ID: <" . $item->name . ">\n";
-                $dataHTML .= "Content-Disposition: inline;\n filename=\"" . $item->name . "\"\n\n";
+                $CID = $this->registerCID($item->resource);
 
-                $dataHTML .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
-                $dataHTML .= "--" . $boundary[1] . "--";
+                $dataAttach .= "Content-Type: " . $item->resource->mime . ";\n name=\"" . $item->name . "\"\n";
+                $dataAttach .= "Content-Transfer-Encoding: base64\n";
+                $dataAttach .= "Content-ID: <" . $CID. ">\n";
+                $dataAttach.= "Content-Disposition: inline;\n filename=\"" . $item->name . "\"\n\n";
+
+                $dataAttach .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
+                $dataAttach .= "--" . $boundary[1] . "--";
             }
 
+            $this->body = $this->replaceCIDStrings($this->body);
         }
 
+        $dataHTML .= "\n--" . $boundary[$doAttach] . "\n";
+        $dataHTML .= "Content-Type: text/html; charset=utf-8\n";
+        if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n";
+        $dataHTML .= "\n";
+        $dataHTML .= $doEncode ? self::base64trim(base64_encode(trim($this->body))) : trim($this->body);
+
+        $dataHTML .= $dataAttach;
         $dataHTML  .= "\n\n--" . $boundary[0] . "--";
 
         $mailBody = $dataPlain . $dataHTML;
 
-        //$mailSubject = $doEncode ? "=?UTF-8?B?" . base64_encode($this->subject) . "?=" : $this->subject;
         $mailSubject = $this->subject;
 
         // Non production environmеnt safety
@@ -311,6 +316,37 @@ class MQueue extends MQueueBase {
         }
 
         $this->markSent();
+    }
+
+    /**
+     * Generates and stores a proper nice CID for given resource
+     * @param $resource
+     */
+    public function registerCID($resource) {
+        $uName = $resource->id . '.' . substr(md5($resource->filename), 0, 5) . '@' . Helpers::getParam('projectBaseUrl');
+
+        $this->_CIDRegister[$resource->filename] = $uName;
+
+        return $uName;
+    }
+
+    /**
+     * Replaces the occurrences of resources aliases with their proper CID values
+     * @param $text
+     * @return mixed
+     */
+    public function replaceCIDStrings($text) {
+        return preg_replace_callback(
+            '/\[\[resource:([^\]]+)\]\]/',
+            function($matches) {
+                if (!empty($this->_CIDRegister[$matches[1]])) {
+                    return 'cid:' . $this->_CIDRegister[$matches[1]];
+                } else {
+                    return $matches[0];
+                }
+            },
+            $text
+        );
     }
 
     /**
