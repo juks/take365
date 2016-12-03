@@ -250,7 +250,7 @@ class MQueue extends MQueueBase {
                 $dataAttach .= "Content-Type: " . $item->resource->mime . ";\n name=\"" . $item->name . "\"\n";
                 $dataAttach .= "Content-Transfer-Encoding: base64\n";
                 $dataAttach .= "Content-ID: <" . $CID. ">\n";
-                $dataAttach .= "Content-Disposition: inline;\n filename=\"" . $item->name . "\"\n\n";
+                $dataAttach .= "Content-Disposition: inline;\n filename=\"" . $item->name . "\"\n";
 
                 $dataAttach .= chunk_split(base64_encode(file_get_contents($item->resource->fullPath)));
                 $dataAttach .= "--" . $boundary[1] . "--";
