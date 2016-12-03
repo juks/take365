@@ -33,32 +33,6 @@ class MQueue extends MQueueBase {
     }
 
     /**
-     * Limit the base64-encoded string length
-     * @param $data
-     * @return string
-     */
-    public static function base64trim($data) {
-        $limit = 72;
-        $ln = strlen($data);
-
-        if($ln < $limit) return $data;
-
-        $s = 0; $n = $limit;
-        $result = '';
-
-        while(1) {
-            $result .= substr($data, $s, $n) . "\n";
-
-            if ($s + $n >= $ln) break;
-
-            $s += $n;
-            $n = ($s + $n > $ln) ? $ln - $n : $limit;
-        }
-
-        return $result;
-    }
-
-    /**
      * Process queue, send new messages
      */
     public static function processQueue() {
@@ -254,7 +228,7 @@ class MQueue extends MQueueBase {
         $dataPlain .= "MIME-Version: 1.0\n";
         if ($doEncode) $dataPlain .= "Content-Transfer-Encoding: base64\n";
         $dataPlain .= "\n";
-        $dataPlain .= $doEncode ? self::base64trim(base64_encode(strip_tags(trim($this->body)))) : strip_tags(trim($this->body));
+        $dataPlain .= $doEncode ? chunk_split(base64_encode(strip_tags(trim($this->body)))) : strip_tags(trim($this->body));
 
         $dataHTML = '';
 
@@ -276,10 +250,9 @@ class MQueue extends MQueueBase {
                 $dataAttach .= "Content-Type: " . $item->resource->mime . ";\n name=\"" . $item->name . "\"\n";
                 $dataAttach .= "Content-Transfer-Encoding: base64\n";
                 $dataAttach .= "Content-ID: <" . $CID. ">\n";
-                $dataAttach.= "Content-Disposition: inline;\n filename=\"" . $item->name . "\"\n\n";
+                $dataAttach .= "Content-Disposition: inline;\n filename=\"" . $item->name . "\"\n\n";
 
-                //.$dataAttach .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
-                $dataAttach .= file_get_contents($item->resource->fullPath);
+                $dataAttach .= chunk_split(base64_encode(file_get_contents($item->resource->fullPath)));
                 $dataAttach .= "--" . $boundary[1] . "--";
             }
 
@@ -290,7 +263,7 @@ class MQueue extends MQueueBase {
         $dataHTML .= "Content-Type: text/html; charset=utf-8\n";
         if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n";
         $dataHTML .= "\n";
-        $dataHTML .= $doEncode ? self::base64trim(base64_encode(trim($this->body))) : trim($this->body);
+        $dataHTML .= $doEncode ? chunk_split(base64_encode(trim($this->body))) : trim($this->body);
 
         $dataHTML .= $dataAttach;
         $dataHTML  .= "\n\n--" . $boundary[0] . "--";
