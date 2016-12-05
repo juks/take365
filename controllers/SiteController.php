@@ -210,7 +210,7 @@ class SiteController extends MyController
 
         if ($toggle) {
             $user->setOptionValue($optionName, $value ? false : true);
-            $value = !$value;
+            $value = $value ? 0 : 1;
             $actionResult = $actionStrings[$optionName][$value]['result'];
         }
 
