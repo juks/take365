@@ -18,42 +18,21 @@ class MQueue extends MQueueBase {
 
     protected $_user;
     protected $_doSkip = false;
+    protected $_optionName = '';
 
-    protected $_headersArray = [
-                                    'MIME-Version'              => '1.0',
-                                ];
+    protected $_headersArray = [];
+
+    protected $_defaultHeadersArray = [
+        'MIME-Version'              => '1.0',
+    ];
+
+    protected $_CIDRegister = [];
 
     /*
     * Composes new email
     */
     public static function compose() {
         return new MQueue();
-    }
-
-    /**
-     * Limit the base64-encoded string length
-     * @param $data
-     * @return string
-     */
-    public static function base64trim($data) {
-        $limit = 76;
-        $ln = strlen($data);
-
-        if($ln < $limit) return $data;
-
-        $s = 0; $n = $limit;
-        $result = '';
-
-        while(1) {
-            $result .= substr($data, $s, $n) . "\n";
-
-            if ($s + $n >= $ln) break;
-
-            $s += $n;
-            $n = ($s + $n > $ln) ? $ln - $n : $limit;
-        }
-
-        return $result;
     }
 
     /**
@@ -112,6 +91,17 @@ class MQueue extends MQueueBase {
     }
 
     /**
+     * Sets sender email (for certain cases like newsletter delivery)
+     * @param $sender
+     * @return $this
+     */
+    public function from($sender) {
+        $this->from = $sender;
+
+        return $this;
+    }
+
+    /**
      * Sets message recipient
      * @param id|object $recipient
      * @param array $extra
@@ -128,6 +118,7 @@ class MQueue extends MQueueBase {
         } else {
             $this->to = $user->email;
             $this->_user = $user;
+            if (!empty($extra['checkOption'])) $this->_optionName = $extra['checkOption'];
         }
 
         $this->save();
@@ -163,7 +154,9 @@ class MQueue extends MQueueBase {
         $parameters['projectName'] = Helpers::getParam('projectName');
         $parameters['projectUrl'] = Helpers::getParam('projectUrl');
 
-        if ($this->_user) $parameters['urlUnsubscribe'] = $this->_user->urlEdit;
+        if ($this->_user && $this->_optionName) {
+            $parameters['urlUnsubscribe'] = $this->_user->getUrlUnsubscribe($this->_optionName);
+        }
 
         $this->body = Yii::$app->view->renderFile('@app/views/email/' . $templateName, $parameters);
 
@@ -171,22 +164,20 @@ class MQueue extends MQueueBase {
     }
 
     /**
-     * Sets message header
-     * @param string $name
-     * @param string $value
-     */
-    public function setHeader($name, $value) {
-        $this->_headersArray[$name] = $value;
-    }
-
-
-    /**
      * Prepare for validation
      */
     public function beforeValidate() {
         if ($this->isNewRecord) {
             if (!$this->time_created) $this->time_created = time();
-        } 
+        }
+
+        if (count($this->_headersArray)) {
+            $this->headers = '';
+            foreach ($this->_headersArray as $headerName => $headerValue) {
+                if ($this->headers) $this->headers .= "\n";
+                $this->headers .= $headerName . ': ' .$headerValue;
+            }
+        }
 
         return parent::beforeValidate();
     }
@@ -199,7 +190,20 @@ class MQueue extends MQueueBase {
 
         $this->send_me = 1;
 
+        if ($this->_user && $this->_optionName) {
+            $this->setHeader('X-Unsubscribe-Web', $this->_user->getUrlUnsubscribe($this->_optionName));
+        }
+
         if (!$this->save()) throw new \Exception("Failed to queue message!");
+    }
+
+    /**
+     * Sets message header
+     * @param string $name
+     * @param string $value
+     */
+    public function setHeader($name, $value) {
+        $this->_headersArray[$name] = $value;
     }
 
     /**
@@ -208,7 +212,9 @@ class MQueue extends MQueueBase {
     public function getHeadersString() {
         $result = $this->headers;
 
-        foreach ($this->_headersArray as $header => $value) {
+        $headers = array_merge($this->_headersArray, $this->_defaultHeadersArray);
+
+        foreach ($headers as $header => $value) {
             if ($result) $result .= "\n";
             $result .= $header . ': ' . $value;
         }
@@ -224,7 +230,7 @@ class MQueue extends MQueueBase {
 
         $this->lock();
 
-        $senderEmail = Helpers::getParam('projectRobotEmail');
+        $senderEmail = $this->from ? $this->from : Helpers::getParam('projectRobotEmail');
         $expire = Helpers::getParam('mQueue/expire', 86400);
 
         // Is message expired
@@ -237,57 +243,63 @@ class MQueue extends MQueueBase {
         $stringHeaders = $this->getHeadersString();
 
         if ($stringHeaders) $stringHeaders .= "\n";
-        $boundary = '==' . Helpers::randomString(10) . '==';
-        $boundaryMixed = '==Mixed-' . Helpers::randomString(4) . '==';
+        $doAttach = $this->attach_count ? 1 : 0;
 
-        if (!$this->attach_count) {
-            $stringHeaders .= "Content-Type: multipart/alternative;" . "\n " . "boundary=\"" . $boundary . "\"\n\n";
-        } else {
-            $stringHeaders .= "Content-Type: multipart/mixed;" . "\n " . "boundary=\"" . $boundaryMixed . "\"\n\n";
-        }
+        $boundary = ['==' . Helpers::randomString(10) . '==',
+                     '==MIXED' . Helpers::randomString(5) . '=='];
 
         $dataPlain = '';
 
-        if ($this->attach_count) {
-            $dataPlain .= "\n--" . $boundaryMixed . "\n";
-            $dataPlain .= 'Content-Type: multipart/alternative; boundary="' . $boundary. '"' . "\n\n";
-        }
+        $stringHeaders .= "Content-Type: multipart/alternative;\n boundary=\"" . $boundary[0] . "\"\n\n";
 
-        $dataPlain  .= "\n--" . $boundary . "\n";
+        if ($this->attach_count) $dataPlain .= "This is a multi-part message in MIME format.";
+        $dataPlain .= "\n--" . $boundary[0] . "\n";
         $dataPlain .= "Content-Type: text/plain; charset=utf-8\n";
         $dataPlain .= "MIME-Version: 1.0\n";
         if ($doEncode) $dataPlain .= "Content-Transfer-Encoding: base64\n";
         $dataPlain .= "\n";
-        $dataPlain .= $doEncode ? self::base64trim(base64_encode(strip_tags(trim($this->body)))) : strip_tags(trim($this->body));
+        $dataPlain .= $doEncode ? chunk_split(base64_encode(strip_tags(trim($this->body)))) : strip_tags(trim($this->body));
 
-        $dataHTML   = "\n\n--" . $boundary . "\n";
-        $dataHTML  .= "Content-Type: text/html; charset=utf-8\n";
-        $dataHTML  .= "MIME-Version: 1.0\n";
-        if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n";
-        $dataHTML .= "\n";
-        $dataHTML  .= $doEncode ? self::base64trim(base64_encode(trim($this->body))) : trim($this->body);
-        $dataHTML .= "\n\n--" . $boundary . "--\n";
+        $dataHTML = '';
+
+        if ($this->attach_count) {
+            $dataHTML   .= "\n--" . $boundary[0] . "\n";
+            $dataHTML   .= "Content-Type: multipart/related;\n boundary=\"" . $boundary[1] . "\"\n\n";
+        }
 
         // Attachments
         if ($this->attach_count) {
+            $dataAttach = '';
             $items = $this->attachments;
 
-            foreach ($items as $item) {
-                $dataHTML .= "\n\n--" . $boundaryMixed . "--\n";
-                $dataHTML .= "Content-Type: " . $item->resource->mime . "; name=\"" . $item->name . "\"\n";
-                $dataHTML .= "Content-Disposition: inline; filename=\"" . $item->name . "\"\n";
-                $dataHTML .= "Content-Transfer-Encoding: base64\n";
-                $dataHTML .= "Content-ID: <" . $item->name . ">\n";
-                $dataHTML .= "Content-Location: " . $item->name . "\n\n";
+            $dataAttach .= "\n--" . $boundary[1] . "\n";
 
-                $dataHTML .= self::base64trim(base64_encode(file_get_contents($item->resource->fullPath)));
-                $dataHTML .= "\n--" . $boundaryMixed . "--";
+            foreach ($items as $item) {
+                $CID = $this->registerCID($item->resource);
+
+                $dataAttach .= "Content-Type: " . $item->resource->mime . ";\n name=\"" . $item->name . "\"\n";
+                $dataAttach .= "Content-Transfer-Encoding: base64\n";
+                $dataAttach .= "Content-ID: <" . $CID. ">\n";
+                $dataAttach .= "Content-Disposition: inline;\n filename=\"" . $item->name . "\"\n\n";
+
+                $dataAttach .= chunk_split(base64_encode(file_get_contents($item->resource->fullPath)));
+                $dataAttach .= "--" . $boundary[1] . "--";
             }
+
+            $this->body = $this->replaceCIDStrings($this->body);
         }
+
+        $dataHTML .= "\n--" . $boundary[$doAttach] . "\n";
+        $dataHTML .= "Content-Type: text/html; charset=utf-8\n";
+        if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n";
+        $dataHTML .= "\n";
+        $dataHTML .= $doEncode ? chunk_split(base64_encode(trim($this->body))) : trim($this->body);
+
+        $dataHTML .= $dataAttach;
+        $dataHTML  .= "\n\n--" . $boundary[0] . "--";
 
         $mailBody = $dataPlain . $dataHTML;
 
-        //$mailSubject = $doEncode ? "=?UTF-8?B?" . base64_encode($this->subject) . "?=" : $this->subject;
         $mailSubject = $this->subject;
 
         // Non production environmеnt safety
@@ -308,6 +320,39 @@ class MQueue extends MQueueBase {
         }
 
         $this->markSent();
+    }
+
+    /**
+     * Generates and stores a proper nice CID for given resource
+     * @param $resource
+     */
+    public function registerCID($resource) {
+        $uName = date('YmdHis', time()) . '.' . strtoupper(substr(md5($resource->id), 0, 12)) . '@' . gethostname();
+        $fullname = $resource->filename;
+        if ($resource->ext) $fullname .= '.' . $resource->ext;
+
+        $this->_CIDRegister[$fullname] = $uName;
+
+        return $uName;
+    }
+
+    /**
+     * Replaces the occurrences of resources aliases with their proper CID values
+     * @param $text
+     * @return mixed
+     */
+    public function replaceCIDStrings($text) {
+        return preg_replace_callback(
+            '/\[\[resource:([^\]]+)\]\]/',
+            function($matches) {
+                if (!empty($this->_CIDRegister[$matches[1]])) {
+                    return 'cid:' . $this->_CIDRegister[$matches[1]];
+                } else {
+                    return $matches[0];
+                }
+            },
+            $text
+        );
     }
 
     /**

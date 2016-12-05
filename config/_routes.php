@@ -17,6 +17,7 @@ return [
     '/api/<controller:\w+>/<method:\w+>'						    => '/api/<controller>/<method>',
 
     '<alias:captcha|about|logout|help|howto|blog|tag|register>/?'   => '/site/<alias>',
+    ['pattern' =>'/unsubscribe/<optionName:[a-zA-Z]+>/?',                 'route' => '/site/unsubscribe'],
     '/blog/<id:\d+>/?'    		                                    => '/site/blog-post',
 
     '/<username:@?[0-9a-zA-Z-]{1,20}>/?'        					                                    => '/user-page/home',

@@ -59,6 +59,7 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
 
         $m = MQueue::compose()
             ->toUser($user, ['checkOption' => 'newsletter'])
+            ->from(Helpers::getParam('newsletterEmail'))
             ->subject($this->title)
             ->bodyTemplate('newsletter.php', ['body' => $this->prepareUserBody(['user' => $user])]);
 

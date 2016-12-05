@@ -328,7 +328,8 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         if ($this->isNewRecord) {
             $this->time_created = time();
             if (!$this->ip_created) $this->ip_created = ip2long(Yii::$app->request->userIP);
-            if (!$this->recovery_code) $this->generatePasswordResetToken(); 
+            if (!$this->recovery_code) $this->generatePasswordResetToken();
+            $this->option_code = Helpers::randomString(16);
         } else {
             $this->time_updated = time();
         }
@@ -568,6 +569,13 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     */
     public function getUrlRecoverConfirm() {
         return \yii\helpers\Url::base(true) . '/register/recover?id=' . $this->id . '&code=' . $this->recovery_code;
+    }
+
+    /**
+     * Newsletter subscription/unsubscription url
+     */
+    public function getUrlUnsubscribe($optionName = 'newsletter') {
+        return \yii\helpers\Url::base(true) . '/unsubscribe/' . $optionName . '?id=' . $this->id . '&code=' . $this->option_code;
     }
 
     /**
