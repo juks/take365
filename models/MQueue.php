@@ -155,7 +155,7 @@ class MQueue extends MQueueBase {
         $parameters['projectUrl'] = Helpers::getParam('projectUrl');
 
         if ($this->_user && $this->_optionName) {
-            $parameters['urlUnsubscribe'] = $this->_user->getUrlUnsubscribe($this->_optionName, true);
+            $parameters['urlUnsubscribe'] = $this->_user->getUrlUnsubscribe($this->_optionName);
         }
 
         $this->body = Yii::$app->view->renderFile('@app/views/email/' . $templateName, $parameters);
@@ -191,7 +191,7 @@ class MQueue extends MQueueBase {
         $this->send_me = 1;
 
         if ($this->_user && $this->_optionName) {
-            $this->setHeader('X-Unsubscribe-Web', $this->_user->getUrlUnsubscribe($this->_optionName));
+            $this->setHeader('X-Unsubscribe-Web', $this->_user->getUrlUnsubscribe($this->_optionName, true));
         }
 
         if (!$this->save()) throw new \Exception("Failed to queue message!");
