@@ -267,9 +267,10 @@ class MQueue extends MQueueBase {
             $dataHTML   .= "Content-Type: multipart/related;\n boundary=\"" . $boundary[1] . "\"\n\n";
         }
 
+        $dataAttach = '';
+
         // Attachments
         if ($this->attach_count) {
-            $dataAttach = '';
             $items = $this->attachments;
 
             $dataAttach .= "\n--" . $boundary[1] . "\n";
