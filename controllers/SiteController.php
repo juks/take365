@@ -178,6 +178,8 @@ class SiteController extends MyController
         if (!Option::findOne(['name' => $optionName]))  throw new \yii\web\NotFoundHttpException(Ml::t('Option not found'));
         if ($user->option_code != $code)                throw new \yii\web\ForbiddenHttpException(Ml::t('Forbidden'));
 
+        $actionResult = null;
+
         $actionStrings = [
             Option::oNotify => [
                 [
