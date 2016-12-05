@@ -183,12 +183,12 @@ class SiteController extends MyController
         $actionStrings = [
             Option::oNotify => [
                 [
-                    'result' => 'Email-уведомления о событиях вылючены.',
+                    'result' => 'Email-уведомления о событиях выключены.',
                     'title'  => 'Включить email-уведомления о событиях.'
                 ],
 
                 [
-                    'result' => 'Email-уведомления о событиях влючены.',
+                    'result' => 'Email-уведомления о событиях включены.',
                     'title'  => 'Отказаться от получения email-уведомлений о событиях.'
                 ],
             ],
@@ -210,10 +210,11 @@ class SiteController extends MyController
 
         if ($toggle) {
             $user->setOptionValue($optionName, $value ? false : true);
-            $actionResult = $actionStrings[$optionName][$value ? 0 : 1]['result'];
+            $value = !$value;
+            $actionResult = $actionStrings[$optionName][$value]['result'];
         }
 
-        $actionTitle = $actionStrings[$optionName][$value ? 0 : 1]['title'];
+        $actionTitle = $actionStrings[$optionName][$value]['title'];
 
         return $this->render('unsubscribe', [
                                                 'actionResult'  => $actionResult,
