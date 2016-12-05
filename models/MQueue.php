@@ -155,7 +155,7 @@ class MQueue extends MQueueBase {
         $parameters['projectUrl'] = Helpers::getParam('projectUrl');
 
         if ($this->_user && $this->_optionName) {
-            $parameters['urlUnsubscribe'] = $this->_user->getUrlUnsubscribe($this->_optionName);
+            $parameters['urlUnsubscribe'] = $this->_user->getUrlUnsubscribe($this->_optionName, true);
         }
 
         $this->body = Yii::$app->view->renderFile('@app/views/email/' . $templateName, $parameters);

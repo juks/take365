@@ -574,8 +574,11 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     /**
      * Newsletter subscription/unsubscription url
      */
-    public function getUrlUnsubscribe($optionName = 'newsletter') {
-        return \yii\helpers\Url::base(true) . '/unsubscribe/' . $optionName . '?id=' . $this->id . '&code=' . $this->option_code;
+    public function getUrlUnsubscribe($optionName = 'newsletter', $toggle = false) {
+        $result =  \yii\helpers\Url::base(true) . '/unsubscribe/' . $optionName . '?id=' . $this->id . '&code=' . $this->option_code;
+        if ($toggle) $result .= '&toggle=true';
+
+        return $result;
     }
 
     /**

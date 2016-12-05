@@ -219,7 +219,7 @@ class SiteController extends MyController
         return $this->render('unsubscribe', [
                                                 'actionResult'  => $actionResult,
                                                 'actionTitle'   => $actionTitle,
-                                                'actionUrl'     => $user->getUrlUnsubscribe($optionName) . '&toggle=true']);
+                                                'actionUrl'     => $user->getUrlUnsubscribe($optionName, true)]);
     }
 
     public function actionCave() {
