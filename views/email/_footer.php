@@ -15,7 +15,7 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 800px;">
 <tr>
 <td valign="top" style="padding: 0 20px;">
-<div style="font-family: Arial, sans-serif; font-weight: normal; font-style: normal; font-size: 11px; line-height: 14px; color: #666666;"><a href="<?= $urlUnsubscribe ?>">Отписаться от этой чепухи</a>.</div>
+<div style="font-family: Arial, sans-serif; font-weight: normal; font-style: normal; font-size: 11px; line-height: 14px; color: #666666;"><a href="<?= $urlUnsubscribe ?>">Отписаться от этой чепухи</a></div>
 </td>
 </tr>
 </td>
