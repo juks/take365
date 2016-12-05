@@ -12,10 +12,10 @@
 </tr>
 <?php if (isset($urlUnsubscribe)): ?><tr>
 <td valign="top" align="center" style="padding: 0 20px 20px 20px;">
-<table cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 680px;">
+<table cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 800px;">
 <tr>
 <td valign="top" style="padding: 0 20px;">
-<div style="font-family: Arial, sans-serif; font-weight: normal; font-style: normal; font-size: 11px; line-height: 14px; color: #666666;">Отключить все или только некоторые e-mail уведомления проекта <?= $projectName ?> вы можете на <a href="<?= $urlUnsubscribe ?>">странице личных настроек</a>.</div>
+<div style="font-family: Arial, sans-serif; font-weight: normal; font-style: normal; font-size: 11px; line-height: 14px; color: #666666;"><a href="<?= $urlUnsubscribe ?>">Отключить уведомления этого типа</a>.</div>
 </td>
 </tr>
 </td>

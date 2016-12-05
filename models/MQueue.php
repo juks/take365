@@ -18,10 +18,13 @@ class MQueue extends MQueueBase {
 
     protected $_user;
     protected $_doSkip = false;
+    protected $_optionName = '';
 
-    protected $_headersArray = [
-                                    'MIME-Version'              => '1.0',
-                                ];
+    protected $_headersArray = [];
+
+    protected $_defaultHeadersArray = [
+        'MIME-Version'              => '1.0',
+    ];
 
     protected $_CIDRegister = [];
 
@@ -88,6 +91,17 @@ class MQueue extends MQueueBase {
     }
 
     /**
+     * Sets sender email (for certain cases like newsletter delivery)
+     * @param $sender
+     * @return $this
+     */
+    public function from($sender) {
+        $this->from = $sender;
+
+        return $this;
+    }
+
+    /**
      * Sets message recipient
      * @param id|object $recipient
      * @param array $extra
@@ -104,6 +118,7 @@ class MQueue extends MQueueBase {
         } else {
             $this->to = $user->email;
             $this->_user = $user;
+            if (!empty($extra['checkOption'])) $this->_optionName = $extra['checkOption'];
         }
 
         $this->save();
@@ -139,7 +154,9 @@ class MQueue extends MQueueBase {
         $parameters['projectName'] = Helpers::getParam('projectName');
         $parameters['projectUrl'] = Helpers::getParam('projectUrl');
 
-        if ($this->_user) $parameters['urlUnsubscribe'] = $this->_user->urlEdit;
+        if ($this->_user && $this->_optionName) {
+            $parameters['urlUnsubscribe'] = $this->_user->getUrlUnsubscribe($this->_optionName);
+        }
 
         $this->body = Yii::$app->view->renderFile('@app/views/email/' . $templateName, $parameters);
 
@@ -147,22 +164,20 @@ class MQueue extends MQueueBase {
     }
 
     /**
-     * Sets message header
-     * @param string $name
-     * @param string $value
-     */
-    public function setHeader($name, $value) {
-        $this->_headersArray[$name] = $value;
-    }
-
-
-    /**
      * Prepare for validation
      */
     public function beforeValidate() {
         if ($this->isNewRecord) {
             if (!$this->time_created) $this->time_created = time();
-        } 
+        }
+
+        if (count($this->_headersArray)) {
+            $this->headers = '';
+            foreach ($this->_headersArray as $headerName => $headerValue) {
+                if ($this->headers) $this->headers .= "\n";
+                $this->headers .= $headerName . ': ' .$headerValue;
+            }
+        }
 
         return parent::beforeValidate();
     }
@@ -175,7 +190,20 @@ class MQueue extends MQueueBase {
 
         $this->send_me = 1;
 
+        if ($this->_user && $this->_optionName) {
+            $this->setHeader('X-Unsubscribe-Web', $this->_user->getUrlUnsubscribe($this->_optionName));
+        }
+
         if (!$this->save()) throw new \Exception("Failed to queue message!");
+    }
+
+    /**
+     * Sets message header
+     * @param string $name
+     * @param string $value
+     */
+    public function setHeader($name, $value) {
+        $this->_headersArray[$name] = $value;
     }
 
     /**
@@ -184,7 +212,9 @@ class MQueue extends MQueueBase {
     public function getHeadersString() {
         $result = $this->headers;
 
-        foreach ($this->_headersArray as $header => $value) {
+        $headers = array_merge($this->_headersArray, $this->_defaultHeadersArray);
+
+        foreach ($headers as $header => $value) {
             if ($result) $result .= "\n";
             $result .= $header . ': ' . $value;
         }
@@ -200,7 +230,7 @@ class MQueue extends MQueueBase {
 
         $this->lock();
 
-        $senderEmail = Helpers::getParam('projectRobotEmail');
+        $senderEmail = $this->from ? $this->from : Helpers::getParam('projectRobotEmail');
         $expire = Helpers::getParam('mQueue/expire', 86400);
 
         // Is message expired

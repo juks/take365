@@ -5,6 +5,8 @@ return [
     'projectName'					=> 'take365',
     'projectUrl'                    => 'https://take365.org/',
     'projectRobotEmail'             => 'noreply@take365.org',
+    'newsletterEmail'               => 'newsletter@take365.org',
+
     'user'       => [
                         'recoveryLifetime'      => 7200
                     ],

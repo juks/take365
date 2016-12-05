@@ -13,6 +13,7 @@ use app\models\Mosaic;
 use app\models\RegisterForm;
 use app\models\Blog;
 use app\models\Post;
+use \app\models\Option;
 use app\components\MyController;
 use app\components\Captcha;
 use app\components\Ml;
@@ -32,7 +33,7 @@ class SiteController extends MyController
                     ],
 
                     [
-                        'actions'   => ['index', 'register', 'auth', 'captcha', 'help', 'howto', 'blog', 'blog-post', 'tag', 'error', 'cave'],
+                        'actions'   => ['index', 'register', 'auth', 'captcha', 'help', 'howto', 'blog', 'blog-post', 'tag', 'error', 'cave', 'unsubscribe'],
                         'allow'     => true,
                         'roles'     => ['?', '@']
                     ],
@@ -168,6 +169,54 @@ class SiteController extends MyController
         @session_start();
         $_SESSION['CAPTCHAString'] = $captcha->getCaptchaString();
         $captcha->makeCaptcha();    
+    }
+
+    public function actionUnsubscribe($id, $code, $optionName, $toggle = false) {
+        $user = User::getActiveUser(intval($id));
+
+        if (!$user)                                     throw new \yii\web\NotFoundHttpException(Ml::t('Object not found'));
+        if (!Option::findOne(['name' => $optionName]))  throw new \yii\web\NotFoundHttpException(Ml::t('Option not found'));
+        if ($user->option_code != $code)                throw new \yii\web\ForbiddenHttpException(Ml::t('Forbidden'));
+
+        $actionStrings = [
+            Option::oNotify => [
+                [
+                    'result' => 'Email-уведомления о событиях вылючены.',
+                    'title'  => 'Включить email-уведомления о событиях.'
+                ],
+
+                [
+                    'result' => 'Email-уведомления о событиях влючены.',
+                    'title'  => 'Отказаться от получения email-уведомлений о событиях.'
+                ],
+            ],
+
+            Option::oNewsletter => [
+                [
+                    'result' => 'Подписка на новости отключена.',
+                    'title'  => 'Подписаться на нововсти проекта.'
+                ],
+
+                [
+                    'result' => 'Подписка на новости включена.',
+                    'title'  => 'Отказаться от получения нововстей проекта.'
+                ],
+            ],
+        ];
+
+        $value = $user->getOptionValue($optionName);
+
+        if ($toggle) {
+            $user->setOptionValue($optionName, $value ? false : true);
+            $actionResult = $actionStrings[$optionName][$value ? 0 : 1]['result'];
+        }
+
+        $actionTitle = $actionStrings[$optionName][$value ? 0 : 1]['title'];
+
+        return $this->render('unsubscribe', [
+                                                'actionResult'  => $actionResult,
+                                                'actionTitle'   => $actionTitle,
+                                                'actionUrl'     => $user->getUrlUnsubscribe($optionName) . '&toggle=true']);
     }
 
     public function actionCave() {

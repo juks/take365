@@ -30,6 +30,7 @@ use app\components\Ml;
  * @property string $description_jvx
  * @property string $recovery_code
  * @property integer $recovery_code_time_issued
+ * @property string $option_code
  */
 class AuthUserBase extends \yii\db\ActiveRecord
 {
@@ -63,6 +64,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
             [['email'], 'checkEmailExists'],
             [['description', 'description_jvx'], 'string', 'max' => 1024],
             [['recovery_code'], 'string', 'max' => 16],
+            [['option_code'], 'string', 'max' => 16],
         ];
     }
 
@@ -92,7 +94,8 @@ class AuthUserBase extends \yii\db\ActiveRecord
             'description' => 'Description',
             'description_jvx' => 'Description Jevix',
             'recovery_code' => 'Recovery Code',
-            'recovery_code_time_issued' => 'Recovery Code Time Issued'
+            'recovery_code_time_issued' => 'Recovery Code Time Issued',
+            'option_code' => 'Option Code'
         ];
     }
 

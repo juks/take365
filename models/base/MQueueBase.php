@@ -15,6 +15,7 @@ use Yii;
  * @property integer $is_rejected
  * @property integer $pending_since
  * @property string $to
+ * @property string $from
  * @property string $headers
  * @property string $subject
  * @property string $body
@@ -39,7 +40,7 @@ class MQueueBase extends \yii\db\ActiveRecord
             [['time_created'], 'required'],
             [['time_created', 'time_sent', 'send_me', 'is_pending', 'is_rejected', 'pending_since', 'attach_count'], 'integer'],
             [['headers', 'body'], 'string'],
-            [['to', 'subject'], 'string', 'max' => 255]
+            [['to', 'from', 'subject'], 'string', 'max' => 255]
         ];
     }
 
@@ -57,6 +58,7 @@ class MQueueBase extends \yii\db\ActiveRecord
             'is_rejected' => 'Is Rejected',
             'pending_since' => 'Pending Since',
             'to' => 'To',
+            'from' => 'From',
             'headers' => 'Headers',
             'subject' => 'Subject',
             'body' => 'Body',
