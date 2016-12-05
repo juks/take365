@@ -41,8 +41,11 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
     }
 
     public function prepareUserBody($data) {
-        $fullname = $data['user']->fullnameFilled;
-        if (substr($fullname, 0, 1) == '@') $fullname = 'Уважаемый пользователь';
+        if ($data['user']->fullname) {
+            $fullname = $data['user']->fullname;
+        } else {
+            $fullname = 'Уважаемый пользователь';
+        }
 
         $result = preg_replace('/%username%/i', $fullname, $this->body);
 

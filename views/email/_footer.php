@@ -1,6 +1,6 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
-        <td valign="top" align="left" style="padding-top: 20px">
+        <td valign="top" align="left" style="padding-top: 15px">
             <div style="font-family: Arial, sans-serif; font-weight: normal; font-style: normal; font-size: 14px; line-height: 18px; color: #666666;">С наилучшими пожеланиями, <a href="<?= $projectUrl ?>" style="font-family: Arial, sans-serif; font-weight: normal; font-style: normal; font-size: 14px; text-decoration: underline; color: #0055CC;"><?= $projectName ?></a>.</div>
         </td>
     </tr>
