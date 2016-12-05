@@ -210,16 +210,16 @@ class SiteController extends MyController
 
         if ($toggle) {
             $user->setOptionValue($optionName, $value ? false : true);
-            $value = $value ? 0 : 1;
+            $value = !$value;
             $actionResult = $actionStrings[$optionName][$value]['result'];
         }
 
-        $actionTitle = $actionStrings[$optionName][$value]['title'];
+        $actionTitle = $actionStrings[$optionName][$value ? 1 : 0]['title'];
 
         return $this->render('unsubscribe', [
                                                 'actionResult'  => $actionResult,
                                                 'actionTitle'   => $actionTitle,
-                                                'actionUrl'     => $user->getUrlUnsubscribe($optionName) . '&toggle=true']);
+                                                'actionUrl'     => $user->getUrlUnsubscribe($optionName, true)]);
     }
 
     public function actionCave() {

@@ -191,7 +191,7 @@ class MQueue extends MQueueBase {
         $this->send_me = 1;
 
         if ($this->_user && $this->_optionName) {
-            $this->setHeader('X-Unsubscribe-Web', $this->_user->getUrlUnsubscribe($this->_optionName));
+            $this->setHeader('X-Unsubscribe-Web', $this->_user->getUrlUnsubscribe($this->_optionName, true));
         }
 
         if (!$this->save()) throw new \Exception("Failed to queue message!");
