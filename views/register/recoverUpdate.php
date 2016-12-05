@@ -11,12 +11,12 @@ RecoverAsset::register($this);
 <p>Если вам всё ещё необходимо восстановить пароль, пожалуйста, повторите <a href="/register/recover/">процедуру восстановления</a> заново.<br>Срок годности кода — 2 часа.</p>
 <?php else: ?>
 
-<form action="/api/user/recover-update" onsubmit="RecoverUpdate.onSubmit(event)" class="form form-register">
+<form id="recoverForm" action="/api/user/recover-update" onsubmit="if (RecoverUpdate.onPassword(event)) RecoverUpdate.onSubmit(event); else return false; " class="form form-register">
   <fieldset>
-    <input oninput="RecoverUpdate.onPassword(event)" name="password" type="password" placeholder="Ваш новый пароль" autofocus>
+    <input onblur="RecoverUpdate.onPassword()" oninput="RecoverUpdate.clearError()" name="password" type="password" placeholder="Ваш новый пароль" autofocus>
   </fieldset>
   <fieldset>
-    <input oninput="RecoverUpdate.onPassword(event)" name="password" type="password" placeholder="Повторите ваш новый пароль">
+    <input onblur="RecoverUpdate.onPassword()" oninput="RecoverUpdate.clearError()" name="password" type="password" placeholder="Повторите ваш новый пароль">
   </fieldset>
   <input name="code" type="hidden" value="<?= $code ?>">
   <input name="id" type="hidden" value="<?= $id ?>">
