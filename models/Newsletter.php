@@ -41,13 +41,11 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
     }
 
     public function prepareUserBody($data) {
-        if ($data['user']->fullname) {
-            $fullname = $data['user']->fullname;
-        } else {
-            $fullname = 'Уважаемый пользователь';
-        }
+        $name = \app\components\HelpersName::parseName($data['user']->fullname);
 
-        $result = preg_replace('/%username%/i', $fullname, $this->body);
+        if(!$name) $name = 'уважаемый Пользователь';
+
+        $result = preg_replace('/%username%/i', $name, $this->body);
 
         return $result;
     }
@@ -97,16 +95,18 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
      * @throws \Exception
      */
     public function massDeliver() {
-        //$emails = Helpers::getParam('newsletter/testList');
+        //
+        return;
+        //
         if ($this->time_sent) throw new \app\components\ModelException('This message was already mass-delivered');
 
         foreach (User::find()->orderBy('id')->batch(100) as $users) {
             foreach ($users as $user) {
-                //$this->sendTo($user);
+                $this->sendTo($user);
             }
         }
 
-        //$this->time_sent = time();
-        //$this->save();
+        $this->time_sent = time();
+        $this->save();
     }
 }

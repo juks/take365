@@ -27,4 +27,20 @@ class HelloController extends Controller
     {
         echo $message . "\n";
     }
+
+    public function actionName() {
+        //echo \app\components\HelpersName::parseName('софiя'); return;
+
+        foreach (\app\models\User::find()->batch(100) as $items) {
+            foreach ($items as $item) {
+                if (!$item->fullname) continue;
+
+                $name =  \app\components\HelpersName::parseName($item->fullname);
+
+                if (!$name) continue;
+
+                echo  str_pad($item->fullname, 20, ' ', STR_PAD_LEFT) . ': ' . $name . "\n";
+            }
+        }
+    }
 }
