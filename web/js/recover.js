@@ -10,8 +10,8 @@ RecoverUpdate.success = function(form) {
 };
 
 RecoverUpdate._onPasswordTimeout;
-RecoverUpdate.onPassword = function(e) {
-  var form = e.target.form;
+RecoverUpdate.onPassword = function() {
+  var form = document.forms.recoverForm;
 
   if (form.password[0].value !== form.password[1].value && form.password[1].value) {
     RecoverUpdate._onPasswordTimeout = setTimeout(function() {
@@ -19,12 +19,24 @@ RecoverUpdate.onPassword = function(e) {
         .after('<span class="error-message">Пароли не совпадают</span>')
         .parent().addClass('error');
     }, 200);
+
+    return false;
   } else {
-    $(form.password[1].parentNode)
+    RecoverUpdate.clearError();
+
+    return true;
+  }
+
+  return false;
+};
+
+RecoverUpdate.clearError = function() {
+  var form = document.forms.recoverForm;
+
+  $(form.password[1].parentNode)
       .removeClass('error')
       .find('.error-message').remove();
-  }
-};
+}
 
 $(function() {
   // удаляем запомненые пароли, чтобы были видны битки
