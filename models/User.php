@@ -422,7 +422,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         MQueue::compose()
                         ->to($this->email)
                         ->subject('Изменение пароля')
-                        ->bodyTemplate('recoverConfirm.php', ['confirmUrl' => $this->urlRecoverConfirm, 'username' => $this->fullNameFilled])
+                        ->bodyTemplate('recoverConfirm.php', ['confirmUrl' => $this->urlRecoverConfirm, 'username' => \app\components\HelpersName::parseName($this->fullname, 'уважаемый Пользователь')])
                         ->send();
     }
 
@@ -437,7 +437,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         MQueue::compose()
                         ->to($this->email)
                         ->subject('Изменение пароля')
-                        ->bodyTemplate('recoverNotice.php', ['confirmUrl' => $this->urlRecoverConfirm, 'username' => $this->fullNameFilled, 'ip' => Yii::$app->request->userIP])
+                        ->bodyTemplate('recoverNotice.php', ['confirmUrl' => $this->urlRecoverConfirm, 'username' => \app\components\HelpersName::parseName($this->fullname, 'уважаемый Пользователь'), 'ip' => Yii::$app->request->userIP])
                         ->send();
     }
 

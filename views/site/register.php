@@ -11,6 +11,7 @@
   <form action="/api/user/register" method="post" onsubmit="Register.onSubmit(event)" class="form form-register">
     <fieldset>
       <input name="username" type="text" placeholder="Имя учётной записи">
+      <span style="font-size: 11px; color: #BBBBBB">Можно использовать латинские символы и цифры, а между ними &mdash; чёрточку</span>
     </fieldset>
     <fieldset>
       <input name="email" type="text" placeholder="Электронный адрес">

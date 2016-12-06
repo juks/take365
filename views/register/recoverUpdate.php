@@ -4,6 +4,7 @@ use app\assets\RecoverAsset;
 RecoverAsset::register($this);
 ?>
 
+<div class="content">
 <h1>Восстановление пароля</h1>
 
 <?php if ($recoverError): ?>
@@ -25,6 +26,7 @@ RecoverAsset::register($this);
     <a href="/" class="cancel">Отмена</a>
   </fieldset>
 </form>
+</div>
 
 <?php endif ?>
 

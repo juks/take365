@@ -28,7 +28,7 @@ class HelpersName {
      * @param $string
      * @return null|string
      */
-    public static function parseName ($string) {
+    public static function parseName ($string, $default = null) {
         $string = trim($string);
 
         $matches = [];
@@ -44,7 +44,7 @@ class HelpersName {
             $parts = array_slice($matches, 1);
         // Cant help
         } else {
-            return null;
+            return $default;
         }
 
         if ($parts) {
@@ -54,7 +54,7 @@ class HelpersName {
             }
         }
 
-        return null;
+        return $default;
     }
 }
 

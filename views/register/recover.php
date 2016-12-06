@@ -4,6 +4,7 @@ use app\assets\RecoverAsset;
 RecoverAsset::register($this);
 ?>
 
+<div class="content">
 <h1>Восстановление пароля</h1>
 <form action="/api/user/recover" onsubmit="Recover.onSubmit(event)" class="form form-register">
   <fieldset>
@@ -23,3 +24,4 @@ RecoverAsset::register($this);
     <a href="/" class="cancel">Отмена</a>
   </fieldset>
 </form>
+</div>
