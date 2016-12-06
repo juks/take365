@@ -64,6 +64,15 @@ class Helpers {
     }
 
     /**
+     * Removes starting http:// | https://
+     * @param $url
+     * @return mixed
+     */
+    public static function removeProtocolString($url) {
+        return  preg_replace('#^https?://#', '', $url);
+    }
+
+    /**
      * Check if the given url belongs to current server
      * @static
      * @param string $url

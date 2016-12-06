@@ -30,8 +30,7 @@ class MQueueAttachBase extends \yii\db\ActiveRecord
         return [
             [['message_id', 'attach_id', 'time_created'], 'required'],
             [['message_id', 'attach_id', 'time_created'], 'integer'],
-            [['name'], 'string', 'max' => 255],
-            [['message_id', 'attach_id'], 'unique', 'targetAttribute' => ['message_id', 'attach_id'], 'message' => 'The combination of Message ID and Attach ID has already been taken.']
+            [['name'], 'string', 'max' => 255]
         ];
     }
 

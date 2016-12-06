@@ -22,9 +22,11 @@ class MQueue extends MQueueBase {
 
     protected $_headersArray = [];
 
-    protected $_defaultHeadersArray = [
+    protected static $_defaultHeadersArray = [
         'MIME-Version'              => '1.0',
     ];
+
+    protected static $_noStoreHeaders = ['from'];
 
     protected $_CIDRegister = [];
 
@@ -174,6 +176,8 @@ class MQueue extends MQueueBase {
         if (count($this->_headersArray)) {
             $this->headers = '';
             foreach ($this->_headersArray as $headerName => $headerValue) {
+                if (array_search(strtolower($headerName), self::$_noStoreHeaders) !== false) continue;
+
                 if ($this->headers) $this->headers .= "\n";
                 $this->headers .= $headerName . ': ' .$headerValue;
             }
@@ -194,6 +198,8 @@ class MQueue extends MQueueBase {
             $this->setHeader('X-Unsubscribe-Web', $this->_user->getUrlUnsubscribe($this->_optionName, true));
         }
 
+        if (!$this->to) throw new \Exception("No recipient!");
+
         if (!$this->save()) throw new \Exception("Failed to queue message!");
     }
 
@@ -212,7 +218,7 @@ class MQueue extends MQueueBase {
     public function getHeadersString() {
         $result = $this->headers;
 
-        $headers = array_merge($this->_headersArray, $this->_defaultHeadersArray);
+        $headers = array_merge($this->_headersArray, self::$_defaultHeadersArray);
 
         foreach ($headers as $header => $value) {
             if ($result) $result .= "\n";
@@ -258,7 +264,7 @@ class MQueue extends MQueueBase {
         $dataPlain .= "MIME-Version: 1.0\n";
         if ($doEncode) $dataPlain .= "Content-Transfer-Encoding: base64\n";
         $dataPlain .= "\n";
-        $dataPlain .= $doEncode ? chunk_split(base64_encode(strip_tags(trim($this->body)))) : strip_tags(trim($this->body));
+        $dataPlain .= $doEncode ? chunk_split(base64_encode(strip_tags(trim(html_entity_decode($this->body))))) : strip_tags(trim($this->body));
 
         $dataHTML = '';
 
@@ -269,32 +275,39 @@ class MQueue extends MQueueBase {
 
         $dataAttach = '';
 
+        $sendBody = $this->body;
+
         // Attachments
         if ($this->attach_count) {
             $items = $this->attachments;
 
             $dataAttach .= "\n--" . $boundary[1] . "\n";
+            $attachCount = 0;
 
             foreach ($items as $item) {
                 $CID = $this->registerCID($item->resource);
 
+                if ($attachCount) $dataAttach .= "\n";
                 $dataAttach .= "Content-Type: " . $item->resource->mime . ";\n name=\"" . $item->name . "\"\n";
                 $dataAttach .= "Content-Transfer-Encoding: base64\n";
                 $dataAttach .= "Content-ID: <" . $CID. ">\n";
                 $dataAttach .= "Content-Disposition: inline;\n filename=\"" . $item->name . "\"\n\n";
 
                 $dataAttach .= chunk_split(base64_encode(file_get_contents($item->resource->fullPath)));
-                $dataAttach .= "--" . $boundary[1] . "--";
+                $dataAttach .= "--" . $boundary[1] ;
+                $attachCount++;
             }
 
-            $this->body = $this->replaceCIDStrings($this->body);
+            $dataAttach .= '--';
+
+            $sendBody = $this->replaceCIDStrings($sendBody);
         }
 
         $dataHTML .= "\n--" . $boundary[$doAttach] . "\n";
         $dataHTML .= "Content-Type: text/html; charset=utf-8\n";
         if ($doEncode) $dataHTML .= "Content-Transfer-Encoding: base64\n";
         $dataHTML .= "\n";
-        $dataHTML .= $doEncode ? chunk_split(base64_encode(trim($this->body))) : trim($this->body);
+        $dataHTML .= $doEncode ? chunk_split(base64_encode(trim($sendBody))) : trim($sendBody);
 
         $dataHTML .= $dataAttach;
         $dataHTML  .= "\n\n--" . $boundary[0] . "--";
@@ -329,8 +342,13 @@ class MQueue extends MQueueBase {
      */
     public function registerCID($resource) {
         $uName = date('YmdHis', time()) . '.' . strtoupper(substr(md5($resource->id), 0, 12)) . '@' . gethostname();
-        $fullname = $resource->filename;
-        if ($resource->ext) $fullname .= '.' . $resource->ext;
+
+        if ($resource->key) {
+            $fullname = $resource->key;
+        } else {
+            $fullname = $resource->filename;
+            if ($resource->ext) $fullname .= '.' . $resource->ext;
+        }
 
         $this->_CIDRegister[$fullname] = $uName;
 
@@ -344,7 +362,7 @@ class MQueue extends MQueueBase {
      */
     public function replaceCIDStrings($text) {
         return preg_replace_callback(
-            '/\[\[resource:([^\]]+)\]\]/',
+            '/\[\[storage:([^\]]+)\]\]/',
             function($matches) {
                 if (!empty($this->_CIDRegister[$matches[1]])) {
                     return 'cid:' . $this->_CIDRegister[$matches[1]];

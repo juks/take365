@@ -243,6 +243,8 @@ trait TModelExtra {
                 } else {
                     if($value === null) {
                         $cond = 'IS NULL';
+                    } elseif (strtolower($value) == 'is not null') {
+                        $cond = 'IS NOT NULL';
                     } elseif($value === true) {
                         $cond = '= 1';
                     } elseif($value === false) {

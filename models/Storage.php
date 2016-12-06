@@ -90,6 +90,7 @@ class Storage extends StorageBase {
                 $download = new Download($tmpPath);
                 $downloadedFile = $download->get($currentFilePath, Helpers::getParam('storage/maxFileSize'));
                 $this->size = $downloadedFile['size'];
+                $this->key = self::getKey($currentFilePath);
 
                 $mime = mime_content_type($downloadedFile['filePath']);
                 if ($mime) $this->mime = $mime;
@@ -119,6 +120,21 @@ class Storage extends StorageBase {
      */
     public static function getByKey($key) {
         return self::find()->where(['key' => $key, 'is_deleted' => 0])->one();
+    }
+
+    /**
+     * Generates key string for item identifier
+     * @param $value
+     * @return string
+     */
+    public static function getKey($value) {
+        if (Helpers::checkUrl($value)) {
+            $key = 'web_' . Helpers::removeProtocolString($value);
+        } else {
+            $key = 'string_' . $value;
+        }
+
+        return $key;
     }
 
     /**
