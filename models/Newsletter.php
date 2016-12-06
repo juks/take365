@@ -10,6 +10,7 @@ use app\components\Helpers;
 use app\components\interfaces\IPermissions;
 use app\components\traits\THasPermission;
 use app\components\traits\TModelExtra;
+use yii\base\Exception;
 
 /**
  * Newsletter class
@@ -17,6 +18,8 @@ use app\components\traits\TModelExtra;
 class Newsletter extends \app\models\base\NewsletterBase implements IPermissions {
 	use TModelExtra;
     use THasPermission;
+
+    protected $_attachKeysCache = null;
 
     public function getIsPublic() {
         return true;
@@ -37,11 +40,57 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
             $this->time_updated = time();
         }
 
+        if (1 || !$this->_oldAttributes['body'] !== $this->body) {
+            $this->fetchResources();
+        }
+
         return parent::beforeValidate();
     }
 
+    /**
+     * Looks message body for resources and replaces them
+     */
+    public function fetchResources() {
+        $this->body = preg_replace_callback(
+            '!(src="(https?://[^"]+)")!i',
+            function($matches) {
+                $url = $matches[2];
+
+                $resource = Storage::getByKey(Storage::getKey($url));
+
+                if (!$resource && Helpers::checkUrl($url)) {
+                    $resource = new Storage();
+                    $resource->takeFile($url);
+                }
+
+                if ($resource) {
+                    return 'src="[[storage:' . $resource->key . ']]"';
+                } else {
+                    return $matches[1];
+                }
+            },
+            $this->body
+        );
+    }
+
+    /**
+     * Retrieves the list of attachments keys
+     * @return array
+     */
+    public function fetchAttachKeys() {
+        if ($this->_attachKeysCache === null) {
+            if (preg_match_all('/\[\[storage:([^]]+)\]\]/i', $this->body, $matches)) {
+               $this->_attachKeysCache = $matches[1];
+            } else {
+                $this->_attachKeysCache = [];
+            }
+        }
+
+        return $this->_attachKeysCache;
+    }
+
     public function prepareUserBody($data) {
-        $name = \app\components\HelpersName::parseName($data['user']->fullname);
+        $name = $data['user']->fullname ? \app\components\HelpersName::parseName($data['user']->fullname) : null;
 
         if(!$name) $name = 'уважаемый Пользователь';
 
@@ -56,7 +105,7 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
      * @throws \Exception
      */
     public function sendTo($user) {
-        $attachments = [1];
+        $attachments = $this->fetchAttachKeys();
 
         $m = MQueue::compose()
             ->toUser($user, ['checkOption' => 'newsletter'])
@@ -65,8 +114,8 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
             ->bodyTemplate('newsletter.php', ['body' => $this->prepareUserBody(['user' => $user])]);
 
         if ($attachments) {
-            foreach ($attachments as $attachId) {
-                $m->attach(Storage::findOne($attachId));
+            foreach ($attachments as $attachKey) {
+                $m->attach(Storage::getByKey($attachKey));
             }
         }
 
@@ -96,14 +145,23 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
      */
     public function massDeliver() {
         //
-        return;
+        // return;
         //
         if ($this->time_sent) throw new \app\components\ModelException('This message was already mass-delivered');
 
-        foreach (User::find()->orderBy('id')->batch(100) as $users) {
-            foreach ($users as $user) {
-                $this->sendTo($user);
+        try {
+            foreach (User::find()->where(
+                self::makeCondition(['email' => 'IS NOT NULL', 'email_confirmed' => true]))
+                         ->orderBy('id')->batch(300) as $users) {
+                foreach ($users as $user) {
+                    $this->sendTo($user);
+                }
             }
+        } catch (\Exception $e) {
+            $this->time_sent = time();
+            $this->save();
+
+            throw new \app\components\ControllerException('Delivery failed: ' . $e->getMessage());
         }
 
         $this->time_sent = time();
