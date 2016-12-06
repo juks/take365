@@ -115,7 +115,12 @@ class Newsletter extends \app\models\base\NewsletterBase implements IPermissions
 
         if ($attachments) {
             foreach ($attachments as $attachKey) {
-                $m->attach(Storage::getByKey($attachKey));
+                $resource = Storage::getByKey($attachKey);
+                if ($resource) {
+                    $m->attach($resource);
+                } else {
+                    throw new \Exception('Storage item not found!');
+                }
             }
         }
 
