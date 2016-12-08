@@ -121,9 +121,9 @@ class MQueue extends MQueueBase {
             $this->to = $user->email;
             $this->_user = $user;
             if (!empty($extra['checkOption'])) $this->_optionName = $extra['checkOption'];
-        }
 
-        $this->save();
+            $this->save();
+        }
 
         return $this;
     }    
@@ -430,6 +430,8 @@ class MQueue extends MQueueBase {
      * @throws \Exception
      */
     public function attach($item) {
+        if ($this->_doSkip) return $this;
+
         if (is_object($item) && get_class($item) == 'app\models\Storage') {
             if ($this->isAttached($item)) return $this; //throw new \Exception('This object is already attached');
 
