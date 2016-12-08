@@ -13,6 +13,14 @@
 .yearTitle {
 	font-size: 24px;
 	}
+.hugeTitle {
+	padding-top: 30px;
+	margin-bottom: 10px;
+	font-size: 24px;
+	}
+.cl {
+	clear: both;
+	}
 .story-title.editable {
   font-size: 30px;
   }
