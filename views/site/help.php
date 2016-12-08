@@ -1,4 +1,4 @@
-<section class="content about">
+<main class="content">
   <article class="article">
     <div class="video"><iframe src="//player.vimeo.com/video/83113874?portrait=0" width="650" height="366" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
     <h2>Идея</h2>
@@ -38,4 +38,4 @@
     <h2>Чьих это рук дело?</h2>
     <p>Четыре приятеля: <a href="http://juks.ru">Игорь</a>, <a href="http://lusever.ru">Паша</a>, <a href="http://ioracle.ru">Серёжа</a> и <a href="http://evgenii.useless.rocks">Женя</a> сделали этот проект в&nbsp;своё свободное время.</p>
   </article>
-</section>
+</main>

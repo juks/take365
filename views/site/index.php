@@ -3,6 +3,7 @@
 use yii\widgets\ActiveForm;
 
 ?>
+
 <header class="header">
   <h1 class="header-logo">
     <a href="javascript:void $('.content').moveTo(1)">take365</a>
@@ -20,17 +21,15 @@ use yii\widgets\ActiveForm;
   </ul>
 </nav>
 <div class="matrix"></div>
-<section class="content">
-  <article class="article intro">
-    <div class="intro-text">
-      <p><span>Этот проект претворяет в жизнь идею «365 фотографий».</span></p>
-      <p>
-        <span>Суть проста: если вы чувствуете в себе силу попытаться довести от начала до конца</span><br>
-        <span>историю в формате 365, в течение целого года делать по одному снимку</span><br>
-        <span>на каждый день, то этот небольшой сайт готов всячески помочь вам пройти</span><br>
-        <span>этот нелёгкий путь.</span>
-      </p>
-      <p><a href="/help/">Узнать больше</a></p>
-    </div>
+<main class="content intro">
+  <article class="article">
+    <p><span>Этот проект претворяет в жизнь идею «365 фотографий».</span></p>
+    <p>
+      <span>Суть проста: если вы чувствуете в себе силу попытаться довести от начала до конца</span><br>
+      <span>историю в формате 365, в течение целого года делать по одному снимку</span><br>
+      <span>на каждый день, то этот небольшой сайт готов всячески помочь вам пройти</span><br>
+      <span>этот нелёгкий путь.</span>
+    </p>
+    <p><a href="/help/">Узнать больше</a></p>
   </article>
-</section>
+</main>

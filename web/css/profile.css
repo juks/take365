@@ -20,24 +20,4 @@
 	cursor: pointer;
 }
 
-/* for Safari, append .fileDragover after */
-.fileDrag input[type="file"] {
-	background: red !important;
-	opcity: 1 !important;
-	z-index: 1;
-}
 
-.fileDragover {
-	opacity: .4;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	-webkit-border-radius: 10px;
-       -moz-border-radius: 10px;
-            border-radius: 10px;
-	background: #777;
-	color: #fff;
-	text-align: center;
-}

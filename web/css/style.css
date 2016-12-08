@@ -280,9 +280,11 @@ button {
   }
 .form .cancel {
   margin-left: 10px;
+  border-color: rgba(0, 0, 0, 0.2);
   color: #666;
   }
 .form .cancel:hover {
+  border-color: rgba(224, 41, 41, 0.2);
   color: #E02929;
   }
 .form .error INPUT {
@@ -318,6 +320,15 @@ button {
   }
 .form .error .error-message {
   display: block;
+  }
+.form .label {
+  display: block;
+  margin-bottom: 5px;
+  }
+.form .label-inline {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px 0 0;
   }
 
 /* Highlight */
@@ -505,33 +516,22 @@ button {
 .content {
   width: 800px;
   margin: 0 auto;
+  text-align: center;
+  }
+.content-info {
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
   }
 .content-header {
   position: relative;
   margin-bottom: 50px;
   }
-  .content-header .fa-pencil-square-o,
-  .content-header .fa-plus-square-o {
+  .content-header .fa-long-arrow-left {
     position: absolute;
-    top: 6px;
-    right: 0;
-    border: none;
-    font-size: 24px;
-    }
-  .content-header .fa-plus-square-o {
-    top: 2px;
-    font-size: 30px;
-    }
-  .content-header .fa-pencil-square-o:hover,
-  .content-header .fa-plus-square-o:hover {
-    cursor: pointer;
-    color: #E02929;
-    }
-  .content-header .fa-pencil-square-o.selected {
-    color: #E02929;
-    }
-  .content-header .fa-pencil-square-o.selected:hover {
-    color: #333;
+    top: 4px;
+    left: -30px;
+    font-size: 16px;
     }
 .content-title {
   position: relative;
@@ -540,14 +540,18 @@ button {
   color: #000;
   font: 30px/1 Arial, sans-serif;
   }
+  .content h2 {
+    margin-bottom: 15px;
+    color: #000;
+    font: 24px/1 Arial, sans-serif;
+    }
 
 /* Article
 ----------------------------------------------- */
 .article {
   position: relative;
-  width: 800px;
   box-sizing: border-box;
-  margin: 0 auto 60px auto;
+  text-align: left;
   }
   .article P {
     margin-bottom: 20px;
@@ -601,6 +605,27 @@ button {
   font-size: 24px;
   }
 
+/* Notice
+----------------------------------------------- */
+.noticeLevel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index:200;
+  }
+
+.noticeLevel .noticeHolder {
+  position: relative;
+  z-index: 200;
+  }
+
+.noticeContainer {
+  position: absolute;
+  top: 0px;
+  width: 300px;
+  z-index: 200;
+  }
 /* Intro
 ----------------------------------------------- */
 .intro {
@@ -608,10 +633,9 @@ button {
   top: 30%;
   left: 0;
   right: 0;
-  width: auto;
-  margin: 0;
+  text-align: center;
   }
-.intro-text {
+.intro .article {
   display: inline-block;
   text-align: left;
   }
@@ -641,15 +665,6 @@ button {
 /* Login & Register
 ----------------------------------------------- */
 /* Register */
-.register {
-  width: 400px;
-  }
-.register .article {
-  width: auto !important;
-  padding-top: 200px !important;
-  display: inline-block;
-  text-align: left;
-  }
 .form-register {
   width: 400px;
   }
@@ -830,7 +845,7 @@ button {
 .stories {
   width: auto;
   padding: 0 50px;
-  margin: 0 0 60px 0;
+  text-align: left;
   }
 .story {
   margin: 30px 0;
@@ -1208,16 +1223,17 @@ button {
 
 /* Profile
 ----------------------------------------------- */
-.profile {
-  width: 800px;
-  padding: 0;
-  margin: 0 auto;
+.profile-content {
+  margin-bottom: 60px;
   }
-.profile:after {
+.profile-content:after {
+  clear: both;
   display: block;
   height: 0;
   content: '';
-  clear: both;
+  }
+.profile .content-info {
+  width: 555px;
   }
 .profile-userpic {
   position: relative;
@@ -1232,13 +1248,12 @@ button {
   left: 0;
   width: 300px;
   height: 300px;
-  border: 1px solid #ececec;
+  border: 1px solid #ECECEC;
   text-align: center;
   border-radius: 50%;
   line-height: 1.4;
   font-size: 200px;
-  color: #ececec;
-  -moz-box-sizing: border-box;
+  color: #ECECEC;
   box-sizing: border-box;
   }
 .profile-userpic-img {
@@ -1251,21 +1266,9 @@ button {
   background-position: 50% 0;
   background-size: cover;
   }
-.profile-userpic .fa-trash-o {
-  display: none;
-  position: absolute;
-  top: 5px;
-  left: 30px;
-  font-size: 24px;
-  color: #333;
-  }
-.profile-userpic .fa-trash-o:hover {
-  cursor: pointer;
-  color: #EF2020;
-  }
 .profile-userpic-edit {
   position: absolute;
-  bottom: -54px;
+  bottom: 0;
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.5);
@@ -1273,59 +1276,14 @@ button {
   text-align: center;
   padding: 20px 0;
   transition: bottom 200ms ease-out;
+  font-family: Arial, sans-serif;
   }
-.profile-userpic:hover .fa-trash-o {
-  display: block;
-  }
-.profile-userpic:hover .profile-userpic-edit {
-  bottom: 0;
-  }
-.profile-userpic .fa-circle-o-notch {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -17px 0 0 -17px;
-  font-size: 34px;
-  line-height: 1;
-  z-index: 1;
-  }
-.profile-userpic.upload .fa-circle-o-notch {
-  color: #CCC;
-  }
-.profile-userpic.re-upload .fa-circle-o-notch {
+.profile-userpic-edit:hover {
+  background: rgba(0, 0, 0, 0.6);
   color: #FFF;
   }
-.profile-userpic.upload:hover,
-.profile-userpic.re-upload:hover {
-  cursor: default;
-  }
-.profile-userpic.upload .profile-userpic-edit,
-.profile-userpic.upload .fa-trash-o,
-.profile-userpic.re-upload .profile-userpic-edit,
-.profile-userpic.re-upload .fa-trash-o,
-.profile-userpic.re-upload:before {
-  display: none;
-  }
-.profile-userpic.upload .profile-userpic-img:after,
-.profile-userpic.re-upload .profile-userpic-img:after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  content: '';
-  }
-.profile-userpic.upload .profile-userpic-img:after,
-.profile-userpic.re-upload .profile-userpic-img:after {
-  background: rgba(255, 255, 255, 0.5);
-  }
-.profile-userpic.upload .fa-spin,
-.profile-userpic.re-upload .fa-spin {
-  display: block;
-  }
 .profile-desc {
-  padding-left: 350px;
+  padding-left: 370px;
   }
 .profile-field {
   margin-top: 50px;
@@ -1333,50 +1291,27 @@ button {
 .profile-field:first-child {
   margin-top: 0;
   }
-  .profile-field FIELDSET {
-    width: 400px;
-    }
-  .profile-desc TEXTAREA.editable {
-    width: 100%;
-    line-height: 1.6;
-    font-weight: 400;
-    font-size: 14px;
-    color: #333;
-    }
   .profile-desc H3 {
     margin-bottom: 20px;
     font: 24px/1 Arial, sans-serif;
     color: #000;
     }
-  .profile-desc UL {
-    width: 395px;
-    margin-bottom: 20px;
-    }
-  .profile-desc LI {
-    margin-bottom: 5px;
-    }
-    .profile-desc LI .editable {
-      line-height: 1.6;
-      font-size: 14px;
-      }
-
-/* Edit */
-.edit .profile-userpic:hover {
-  cursor: pointer;
-  }
-.edit-all .highlight {
-  display: none;
-  }
-.edit-all .editable {
+.profile-photo {
+  position: relative;
   display: inline-block;
   }
-
-/* About
------------------------------------------------ */
-.about {
-  width: 800px;
-  padding: 0;
-  margin: 0 auto;
+.profile-photo-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 24px;
+  }
+  .profile-photo-remove .fa {
+    border: none;
+    }
+.profile-edit .profile-userpic {
+  float: none;
+  margin-right: 0;
   }
 
 /* Social
@@ -1451,6 +1386,30 @@ button {
       border-color: #CCC;
       color: #FFF;
       }
+
+/* Profile
+----------------------------------------------- */
+.profile-nav {
+  margin: 0 -10px 30px -10px;
+  }
+.profile-nav li {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 1;
+  font-size: 16px;
+  margin: 0 10px;
+  }
+  .profile-nav li a {
+    margin: 0;
+    }
+  .profile-nav li a:hover {
+    text-decoration: none;
+    }
+  .profile-nav li .simple {
+    border: none;
+    font-weight: bold;
+    color: #333;
+    }
 
 /* Comments
 ----------------------------------------------- */
