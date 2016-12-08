@@ -1293,6 +1293,7 @@ button {
   }
   .profile-desc H3 {
     margin-bottom: 20px;
+    white-space: nowrap;
     font: 24px/1 Arial, sans-serif;
     color: #000;
     }
