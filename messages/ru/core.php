@@ -1,6 +1,6 @@
 <?php
 return [
-	'Incorrect username or password'						        => 'Некорректное имя пользователя или пароль',
+    'Incorrect username or password'						        => 'Некорректное имя пользователя или пароль',
     'Forbidden'                                                     => 'В доступе отказано',
     'User not found'                                                => 'Пользователь не найден',
     'Object not found'                                              => 'Объект не найден',
@@ -8,10 +8,10 @@ return [
     'Please enter security code' 							        => 'Пожалуйста, введите код',
     'Incorrect security code'								        => 'Некорретный код',
     'Too many recovery attempts. Try again in few moments'	        => 'Слишком много попыток восстановить пароль. Попробуйте позже.',
-	'This username has been already taken'							=> 'Указанное имя пользователя уже используется',
-	'This email has been already taken'								=> 'Указанный адрес электронной почты уже используется',
-	'Invalid username'												=> 'Недопустимые символы в имени пользователя',
-	'Given password is insecure'									=> 'Введённый пароль небезопасен',
+    'This username has been already taken'							=> 'Указанное имя пользователя уже используется',
+    'This email has been already taken'								=> 'Указанный адрес электронной почты уже используется',
+    'Invalid username'												=> 'Недопустимые символы в имени пользователя',
+    'Given password is insecure'									=> 'Введённый пароль небезопасен',
 
     'Profile update'										        => 'Редактирование профиля',
     'Password recovery'										        => 'Восстановление пароля',
