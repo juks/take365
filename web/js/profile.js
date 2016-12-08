@@ -51,22 +51,6 @@ $(function() {
 		//.add( ValidateCustom, emailCustomParams )
 		.add( Validate.Presence, { failureMessage: "Пожалуйста, укажите адрес электронной почты" } );
 
-	new LiveValidation(document.getElementById('password'), {
-			insertAfterWhatNode: "passwordLabel",
-			validMessage: " ",
-			onlyOnBlur: true
-		})
-		.add( Validate.Length, { minimum: 6, tooShortMessage: "Минимальная длина пароля — 6 символов" } )
-		.add( Validate.Presence, { failureMessage: "Пожалуйста, введите пароль" } );
-
-	new LiveValidation(document.getElementById('password1'), {
-			insertAfterWhatNode: "password1Label",
-			validMessage: " "
-		})
-		.add( Validate.Presence, { failureMessage: "Пожалуйста, подтвердите пароль" } )
-		.add( Validate.Confirmation, { match: "password", failureMessage: "Пароли не совпадают" } );
-
-
 	validation.email.customError = function(message) {
 		var span = document.createElement("span");
 		var textNode = document.createTextNode(message);

@@ -19,15 +19,16 @@ ProfileAsset::register($this);
         <input name="mediaType" value="<?= $mediaType ?>" type="hidden">
         <div id="userPhotoDrop" class="profile-userpic fa fa-user">
           <?php if ($owner->userpic): ?>
-            <div class="profile-userpic-img"<?php if ($owner->userpic): ?> style="background-image: url(<?= $owner->userpic['t']['maxSide']['500']['url'] ?>);<?php endif ?>">
+            <div id="userPhoto" class="profile-userpic-img"<?php if ($owner->userpic): ?> style="background-image: url(<?= $owner->userpic['t']['maxSide']['500']['url'] ?>);<?php endif ?>">
               <a id="userPhotoPick" href="javascript:;" class="profile-userpic-edit">Редактировать</a>
             </div>
             <div id="userPhotoDelete" class="profile-photo-remove">
               <a href="javascript:;" title="Удалить" class="fa fa-trash-o" onclick="deleteMedia(<?= $owner->userpic->id ?>,'userPhoto')"></a>
             </div>
           <?php else: ?>
-            <div id="userPhoto"></div>
-            <a id="userPhotoPick" href="javascript:;" class="profile-userpic-edit">Загрузить</a>
+            <div id="userPhoto" class="profile-userpic-img">
+              <a id="userPhotoPick" href="javascript:;" class="profile-userpic-edit">Загрузить</a>
+            </div>
             <div id="userPhotoDelete" class="profile-photo-remove hidden">
               <a href="javascript:;" title="Удалить" class="fa fa-trash-o"></a>
             </div>
@@ -39,7 +40,7 @@ ProfileAsset::register($this);
       <form action="/api/user/update-profile" method="post" onsubmit="ProfileForm.onSubmit(event)" name="mainForm" id="mainForm" class="form">
         <input type="hidden" name="id" value="<?= $owner->id ?>">
         <fieldset>
-          <label for="email" id="emailLabel" class="label">Меня зовут</label>
+          <label for="fullname" id="fullnameLabel" class="label">Меня зовут</label>
           <input type="text" name="fullname" id="fullname" value="<?= $owner->fullname ?>" maxlength="255">
         </fieldset>
         <fieldset>
@@ -90,7 +91,7 @@ ProfileAsset::register($this);
       <form name="secForm" id="secForm" method="post" action="/api/user/update-security" onsubmit="SecForm.onSubmit(event)" class="form">
         <input type="hidden" name="id" value="<?= $targetId ?>">
         <fieldset>
-          <input type="password" name="password" id="password" maxlength="20" placeholder="Новый пароль" onkeyup="passwordStrength()">
+          <input type="password" name="password" id="password" maxlength="20" placeholder="Новый пароль">
         </fieldset>
         <fieldset>
           <input type="password" name="password1" id="password1" maxlength="20" placeholder="Подтверждение пароля">

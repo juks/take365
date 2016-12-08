@@ -605,6 +605,27 @@ button {
   font-size: 24px;
   }
 
+/* Notice
+----------------------------------------------- */
+.noticeLevel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index:200;
+  }
+
+.noticeLevel .noticeHolder {
+  position: relative;
+  z-index: 200;
+  }
+
+.noticeContainer {
+  position: absolute;
+  top: 0px;
+  width: 300px;
+  z-index: 200;
+  }
 /* Intro
 ----------------------------------------------- */
 .intro {
