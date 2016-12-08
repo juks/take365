@@ -13,7 +13,7 @@ if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
 
 ?>
 
-<section class="content stories">
+<main class="content stories">
   <header class="content-header">
     <h1 class="content-title"><?php if ($owner->thisIsMe): ?>Привет, <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a>!<?php else: ?>Истории <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a> <span id="follow"></span><?php endif ?></h1>
     <?php if ($canCreate): ?>
@@ -55,4 +55,4 @@ if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
     Фотографию следующего дня можно будет загрузить завтра, послезавтра — ещё, и так далее.
   </p>
   <?php endif ?>
-</section>
+</main>

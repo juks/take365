@@ -1,4 +1,4 @@
-<section class="content about">
+<main class="content">
   <article class="article">
     <h2>Советы и&nbsp;наставления</h2>
   	<p>Вот несколько советов, которые, мы&nbsp;надеемся, помогут вам.</p>
@@ -21,4 +21,4 @@
   	<p><img src="/i/howto.jpg" width="600" height="392" alt="Результат того стоит — Take365"></p>
   	<p><a href="/help">На справочную страницу</a></p>
   </article>
-</section>
+</main>

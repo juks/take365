@@ -30,15 +30,12 @@ function initUploder() {
 					mediaType: document.forms[name + "Upload"].mediaType.value
 				}
 			}),
-			procces, proccesPercent, errorsNode;
+			procces, proccesPercent;
 
 		uploader.bind("FilesAdded", function(uploader, files) {
 			//the timeout needed because the file isn't yet added to files collection of the uploader on some runtimes, and it has no files to upload
 			setTimeout(function(){
 				if (files[0].status !== plupload.FAILED) {
-					if (errorsNode) {
-						errorsNode.remove();
-					}
 					procces =$("<div/>", {
 						html: "Загружается <span>0</span>%.",
 						css: {
@@ -64,14 +61,15 @@ function initUploder() {
 		});
 
 		uploader.bind("Error", function(uploader, error) {
-			if (errorsNode) {
-				errorsNode.remove();
+			if (error.response) {
+				noticeErrors(
+					JSON.parse(error.response)
+						.errors
+						.map(function(e){ return e.value; })
+					);
+			} else {
+				noticeErrors(error.message);
 			}
-			var node = $('<span/>', {
-				'class': 'LV_invalid LV_validation_message',
-				text: error.message
-			}).appendTo(name + 'UploadWrap');
-			errorsNode = node;
 		});
 
 		// for correct error (ex. 500)
@@ -83,12 +81,7 @@ function initUploder() {
 		uploader.bind("FileUploaded", function(uploader, file, response) {
 			response = $.parseJSON(response.response);
 			if (response.result) {
-				var img = new Image();
-				img.src = response.result.thumbLarge.url;
-				img.width = response.result.thumbLarge.width / 2;
-				img.height = response.result.thumbLarge.height / 2;
-				$('#' + name).replaceWith(img);
-				img.id = name;
+				$('#userPhoto').css({backgroundImage: 'url("'+response.result.thumbLarge.url+'")'});
 
 				$('#' + name + 'Delete')
 				.removeClass('hidden')
@@ -143,20 +136,15 @@ function initUploder() {
 }
 
 $(function() {
-	$("#mainSwHolder").on("show", function(e, nameSection) {
-
-		// fix: кнопка загрузки висит невидимой в том же месте
-		if (nameSection !== "images" && window.controlsObj) {
-			$.each(controlsObj, function(name, conf) {
-				if (conf.uploader) {
-					conf.uploader.destroy();
-				}
-			});
-		}
-		if (nameSection === "images") {
-			initUploder();
-		}
-	});
+	// fix: кнопка загрузки висит невидимой в том же месте
+	if (window.controlsObj) {
+		$.each(controlsObj, function(name, conf) {
+			if (conf.uploader) {
+				conf.uploader.destroy();
+			}
+		});
+	}
+	initUploder();
 });
 
 function deleteMedia(id, name) {
@@ -167,7 +155,7 @@ function deleteMedia(id, name) {
 		type: 'post',
 		success: function(data) {
 			if (!data.errors) {
-				$('<div id="' + name + '"></div>').replaceAll('#' + name);
+				$('#' + name).css({backgroundImage: ''});
 				$('#' +name + 'Delete').addClass('hidden');
 
 				notice("Изображение удалено");

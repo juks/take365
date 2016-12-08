@@ -15,8 +15,8 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
 
 ?>
 
-<section class="content stories">
-  <div id="userPhotos" class="user-photos">
+<main class="content stories">
+  <div id="userPhotos">
     <?php if ($story): ?>
     <?php if ($canManage): ?>
     <form id="storyEditForm" class="editable-not-editing form" action="/api/story/write" method="post" name="storyEditForm">
@@ -83,4 +83,4 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
     <?php endif ?>
   </div>
   <div class="comments" id="comments"></div>
-</section>
+</main>

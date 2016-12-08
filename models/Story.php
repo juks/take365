@@ -542,12 +542,13 @@ class Story extends StoryBase implements IPermissions, IGetType {
                                                                         'target'                => $data['target'],
                                                                         'comment'               => $data['comment'],
                                                                         'commentAuthor'         => $data['comment']->author,
+                                                                        'username'              => \app\components\HelpersName::parseName($data['comment']->author->fullname, 'уважаемый Пользователь')
                                                                     ])
                                 ->send();
             }
 
             // Notify parent comment owner
-            if (!empty($data['parentComment']) && $data['comment']->created_by != $data['parentComment']->created_by) {
+            if (!empty($data['parentComment']) && $data['comment']->created_by != $data['parentComment']->created_by && $data['parentComment']->created_by != $data['target']->created_by) {
                 MQueue::compose()
                                 ->toUser($data['parentComment']->created_by, ['checkOption' => 'notify'])
                                 ->subject('Ответ на ваш комментарий')
@@ -557,6 +558,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                                                                         'commentAuthor'         => $data['comment']->author,
                                                                         'parentComment'         => $data['parentComment'],
                                                                         'parentCommentAuthor'   => $data['parentComment']->author,
+                                                                        'username'              => \app\components\HelpersName::parseName($data['parentComment']->author->fullname, 'уважаемый Пользователь')
                                                                     ])
                                 ->send();
             }
