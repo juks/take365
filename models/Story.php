@@ -312,9 +312,13 @@ class Story extends StoryBase implements IPermissions, IGetType {
             $limit = !empty($extra['imageLimit']) ? $extra['imageLimit'] : null;
             $result = $this->hasMany(Media::className(), ['target_id' => 'id', 'target_type' => 'type'])
                                  ->where(['type' => $mo[Media::mediaTypeId], 'is_deleted' => 0])
-                                 ->orderBy('date DESC')
-                                 ->limit($limit)
-                                 ->all();
+                                 ->with('targetStory');
+
+            if (!Yii::$app->user->isGuest) $result = $result->with('isLiked');
+
+            $result = $result->orderBy('date DESC')
+                ->limit($limit)
+                ->all();
 
             if (empty($extra['returnOnly'])) $this->images = $result;
         }
@@ -361,12 +365,9 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         $offset = $now->getOffset();
         $offsetDiff = $offset - date('Z');
-        $nowTimestamp = time();
 
         $this->calendar = [];
         $this->fetchImages($extra);
-        // DEPRECATED. DUE TO REMOVAL
-        $this->fetchImagesCount($extra);
         $this->calculateProgress();
         $canUpload = $this->hasPermission(Yii::$app->user, IPermissions::permWrite);
 
@@ -385,28 +386,30 @@ class Story extends StoryBase implements IPermissions, IGetType {
             if ($likes) $likesHash = Helpers::makeDict($likes, 'target_id');
         }
 
-        $timeTo = mktime(0, 0, 0, date('n', $this->time_start), date('j', $this->time_start), date('Y', $this->time_start));
-        $dateTarget = date('Y-m-d', $this->time_start);
+        $dateIterator = new \DateTime('now');
+        $dateIterator->setTimezone($timezone);
+        $dateUploadFrom = new \DateTime('now');
+        $dateUploadFrom->setTimezone($timezone);
 
-        $daysDiff = floor(($nowTimestamp + $offsetDiff - $timeTo) / 86400);
+        $dateTarget = new \DateTime('@' . $this->time_start);
+        $dateTarget->setTimezone($timezone);
+
+        $daysDiff = $dateIterator->diff($dateTarget)->format('%d');
         if ($daysDiff > 365) $daysDiff = 365;
 
         // Add sample dummy days
         if ($daysDiff < self::dummyDaysCount) {
-            $timestamp = $timeTo + (self::dummyDaysCount - 1) * 86400;
-            $timeUploadFrom = $timeTo + $daysDiff * 86400;
-        } else {
-            $timestamp = $timeTo + $daysDiff * 86400;
-            $timeUploadFrom = $timestamp;
+            date_add($dateIterator, date_interval_create_from_date_string((self::dummyDaysCount - $daysDiff) . ' day'));
         }
-        
+
         $blankSpace = true;
+        $step = date_interval_create_from_date_string('1 day');
 
         while (true) {
-            $date       = date('Y-m-d', $timestamp);
-            $year       = date('Y', $timestamp);
-            $month      = date('m', $timestamp);
-            $monthDay   = date('j', $timestamp);
+            $date       = $dateIterator->format('Y-m-d');
+            $year       = $dateIterator->format('Y');
+            $month      = $dateIterator->format('m');
+            $monthDay   = $dateIterator->format('j');
 
             if (!empty($dateDict[$date])) {
                 $drop = [
@@ -416,7 +419,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                             'imageLarge'    => ['url' => $dateDict[$date]['t']['squareCrop']['400']['url'], 'width' => 400, 'height' => 400],
                             'monthDay'      => $monthDay,
                             'url'           => $this->getUrlDay($dateDict[$date]->date),
-                            'isUploadable'  => $canUpload && ($timestamp <= $timeUploadFrom),
+                            'isUploadable'  => $canUpload && ($dateIterator <= $dateUploadFrom),
                             'likesCount'    => $dateDict[$date]['likes_count'],
                         ];
 
@@ -436,7 +439,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                 $drop = [
                             'date'          => $date,
                             'monthDay'      => $monthDay,
-                            'isUploadable'  => $timestamp <= $timeUploadFrom,
+                            'isUploadable'  => $dateIterator <= $dateUploadFrom,
                             'isEmpty'       => true
                         ];
             }
@@ -446,8 +449,8 @@ class Story extends StoryBase implements IPermissions, IGetType {
             
             if (!$blankSpace || $canUpload) $this->calendar[] = $drop;
 
-            if ($date == $dateTarget) break;
-            $timestamp -= 86400;
+            if ($dateIterator->format('Y-m-d') == $dateTarget->format('Y-m-d')) break;
+            date_sub($dateIterator, $step);
         }
 
         $this->yearStart        = $year;

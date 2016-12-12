@@ -174,7 +174,15 @@ class MyJsonController extends Controller {
 			$cond = ['username' => $id];
 		}
 
-		$model = call_user_func($this->getModelClass() . '::find')->where($cond)->one();
+		$model = call_user_func($this->getModelClass() . '::find')->where($cond);
+
+		if (!empty($extra['with'])) {
+			foreach ($extra['with'] as $relationName) {
+				$model = $model->with($relationName);
+			}
+		}
+
+		$model = $model->one();
 
 		if (!$model) {
 			throw new NotFoundHttpException(Ml::t('Object not found'));
