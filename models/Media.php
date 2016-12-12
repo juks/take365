@@ -88,7 +88,7 @@ class Media extends MediaCore {
     **/
     public function scenarios() {
         return [
-            'default'=> ['is_annotated'],
+            'default'=> ['title', 'description', 'is_annotated'],
             'import' => ['id', 'target_id', 'filename', 'ext', 'target_type', 'type', 'id_old', 'date', 'is_deleted', 'time_created', 'title', 'description', 'description_jvx', 'created_by']
         ];
     }
@@ -269,26 +269,12 @@ class Media extends MediaCore {
 
         try {
             if ($this->type == self::typeStoryImage) {
-                $target = $this->targetStory;
-
-                $oldies = $this->find()->where(self::makeCondition([
-                    'target_id' => $this->target_id,
-                    'target_type' => $this->target_type,
-                    'is_deleted' => 0,
-                    'date' => $this->date,
-                    'id' => ['!=', $this->id]
-                ]))->all();
-
-                foreach ($oldies as $pred) {
-                    $pred->markDeleted(true);
+                if ($this->targetStory) {
+                    $this->targetStory->media_count++;
+                    $this->targetStory->save();
                 }
 
-                if ($target) {
-                    $target->media_count++;
-                    $target->save();
-                }
-
-                if (method_exists($target, 'afterMediaCountChanged')) $target->afterMediaCountChanged();
+                if (method_exists($this->targetStory, 'afterMediaCountChanged')) $this->targetStory->afterMediaCountChanged();
             }
         } catch(\Exception $e) {
             $transaction->rollback();
@@ -304,9 +290,18 @@ class Media extends MediaCore {
     **/
     public function afterMediaDelete($replace) {
         if (!$replace && $this->type == self::typeStoryImage) {
-            $target = $this->targetStory;
-            if ($target) $target->media_count --;
-            $target->save();
+            if ($this->targetStory) $this->targetStory->media_count --;
+            $this->targetStory->save();
+        }
+    }
+
+    /**
+     *   After the media item was recovered
+     **/
+    public function afterMediaRecover() {
+        if ($this->type == self::typeStoryImage) {
+            if ($this->targetStory) $this->targetStory->media_count ++;
+            $this->targetStory->save();
         }
     }
 

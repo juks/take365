@@ -28,7 +28,9 @@ trait TMediaDeleteExtra {
     public function recoverDeleted() {
         $this->is_deleted = 0;
         $this->time_deleted = 0;
-        $this->save();
+        if ($this->save()) {
+            if (method_exists($this, 'afterMediaRecover')) $this->afterMediaRecover();
+        }
     }
     
     /**

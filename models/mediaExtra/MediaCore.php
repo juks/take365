@@ -297,8 +297,25 @@ class MediaCore extends MediaBase {
 
         $predecessors = $this->find()->where($predCond)->all();
 
+        $lastTitle = '';
+        $lastDescription = '';
+        $lastDescriptionJvx = '';
+
         foreach ($predecessors as $predecessor) {
+            if ($predecessor->title) $lastTitle = $predecessor->title;
+            if ($predecessor->description) {
+                $lastDescription = $predecessor->description;
+                $lastDescriptionJvx = $predecessor->description_jvx;
+            }
+
             $predecessor->markDeleted();
+        }
+
+        if ($lastTitle || $lastDescription) {
+            $this->title = $lastTitle;
+            $this->description = $lastDescription;
+            $this->description_jvx = $lastDescriptionJvx;
+            $this->save();
         }
     }
 
