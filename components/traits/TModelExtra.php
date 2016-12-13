@@ -311,4 +311,15 @@ trait TModelExtra {
 
         return $result;
     }
+
+    public function getTarget() {
+        if (!isset($this->target_id) || !isset($this->target_type)) throw new \Exception('This object does not seem to belong to any target!');
+        if (empty($this->target_id) || empty($this->target_type)) throw new \Exception('No target data!');
+
+        if ($this->target_type == \app\models\Story::typeId) {
+            return \app\models\Story::findOne($this->target_id);
+        } else {
+            throw new \Exception('Invalid target type');
+        }
+    }
 }

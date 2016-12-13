@@ -73,11 +73,19 @@ class Comment extends CommentBase {
         $item = Comment::findOne($id);
         $user = Yii::$app->user;
 
-        if (!$item) throw new \app\components\ModelException(Ml::t('Comment not found'));
+        if (!$item) throw new app\components\ModelException(Ml::t('Comment not found'));
         if (!$item->hasPermission($user, IPermissions::permWrite)) throw new app\components\ModelException(Ml::t('Comment not found'));
 
         if ($item->is_deleted) $item->is_deleted = false; else $item->is_deleted = true;
-        $item->save();
+
+        Helpers::transact(function() use ($item) {
+            $target = $item->getTarget();
+            if (isset($target->comments_count)) {
+                $target->comments_count--;
+                $target->save();
+            }
+            $item->save();
+        });
 
         return $item->is_deleted;
     }
