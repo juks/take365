@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\traits\TAttachTo;
 use Yii;
 use app\models\base\CommentBase;
 use app\models\Story;
@@ -12,6 +13,7 @@ use app\components\Ml;
 use app\components\interfaces\IPermissions;
 use app\components\traits\TModelExtra;
 use app\components\traits\THasPermission;
+use app\components\traits\TAuthor;
 
 /**
  * Feed class
@@ -19,6 +21,7 @@ use app\components\traits\THasPermission;
 class Comment extends CommentBase {
 	use TModelExtra;
 	use THasPermission;
+    use TAuthor;
 
 	const maxLevel = 7;
 
@@ -102,13 +105,6 @@ class Comment extends CommentBase {
      */
 	public function getIsPublic() {
         return $this->is_deleted == false;
-    }
-
-    /**
-     * Author relation
-     */
-    public function getAuthor() {
-        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
     /**

@@ -9,6 +9,7 @@ use app\components\Helpers;
 use app\components\HelpersTxt;
 use app\components\traits\TModelExtra;
 use app\components\traits\TComment;
+use app\components\traits\TAuthor;
 
 /**
  * Feed class
@@ -16,6 +17,7 @@ use app\components\traits\TComment;
 class Post extends PostBase {
 	use TModelExtra;
     use TComment;
+    use TAuthor;
 
     const typeId = 5;
 
@@ -82,13 +84,6 @@ class Post extends PostBase {
         if ($permission == IPermissions::permWrite && StoryCollaborator::hasPermission($this, $user)) return true;
 
         return false;
-    }
-
-    /**
-     * Returns post author
-     */
-    public function getAuthor() {
-        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
     /**

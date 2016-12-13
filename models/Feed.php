@@ -71,12 +71,13 @@ class Feed extends FeedBase {
      */
     public static function onFirstTimeFollow($user, $reader) {
         if ($user->id == $reader->id) return;
-        
+
         MQueue::compose()
             ->toUser($user, ['checkOption' => 'notify'])
             ->subject('Новый читатель')
             ->bodyTemplate('follower.php', [
                 'reader'         => $reader,
+                'username'       => \app\components\HelpersName::parseName($user->fullname, 'уважаемый Пользователь')
             ])
             ->send();
     }
@@ -138,7 +139,7 @@ class Feed extends FeedBase {
             if ($lastTime) $cond['time_created'] = ['>', $lastTime];
             elseif ($firstTime) $cond['time_created'] = ['<', $firstTime];
 
-            $mediaList = Media::find()->where(self::makeCondition($cond))->with('targetStory')->with('creator')->with('isLiked')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
+            $mediaList = Media::find()->where(self::makeCondition($cond))->with('targetStory')->with('author')->with('isLiked')->orderBy('time_created DESC')->offset(($page - 1) * $maxItems)->limit($maxItems)->all();
 
             if (count($mediaList)) $isEmpty = false;
 

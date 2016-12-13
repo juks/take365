@@ -10,7 +10,7 @@ use app\components\traits\TCheckField;
 use app\components\traits\THasPermission;
 use app\components\traits\TModelExtra;
 use app\components\traits\TComment;
-use app\components\traits\TCreator;
+use app\components\traits\TAuthor;
 use app\models\StoryCollaborator;
 use app\models\Media;
 use app\models\mediaExtra\MediaCore;
@@ -29,7 +29,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     use TModelExtra;
     use TMediaUploadExtra;
     use TComment;
-    use TCreator;
+    use TAuthor;
 
     const typeId = 2;
 
@@ -209,7 +209,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     * Forms story URL
     */
     public function getUrl() {
-        return $this->creator->url . '/story/' . $this->id;
+        return $this->author->url . '/story/' . $this->id;
     }
 
     /**
@@ -358,7 +358,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
     */
     public function format($extra = []) {
         $user = Yii::$app->user;
-        $creator = $this->creator;
+        $creator = $this->author;
 
         $timezone = new \DateTimeZone($creator->defaultTimezone);
         $now = new \DateTime('now', $timezone);
@@ -545,7 +545,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
                                                                         'target'                => $data['target'],
                                                                         'comment'               => $data['comment'],
                                                                         'commentAuthor'         => $data['comment']->author,
-                                                                        'username'              => \app\components\HelpersName::parseName($data['comment']->author->fullname, 'уважаемый Пользователь')
+                                                                        'username'              => \app\components\HelpersName::parseName($data['target']->author->fullname, 'уважаемый Пользователь')
                                                                     ])
                                 ->send();
             }

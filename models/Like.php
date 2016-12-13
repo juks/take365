@@ -8,12 +8,14 @@ use Yii;
 use app\models\User;
 use app\components\Helpers;
 use app\components\traits\TModelExtra;
+use app\components\traits\TAuthor;
 
 /**
  * Like class
  */
 class Like extends LikeBase {
 	use TModelExtra;
+    use TAuthor;
 
     /**
      *   Sets the lists of fields that are available for public exposure
@@ -53,13 +55,5 @@ class Like extends LikeBase {
      */
     public function getValue() {
         return $this->is_active ? true : false;
-    }
-
-    /**
-     * Author relation
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAuthor() {
-        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 }
