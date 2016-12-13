@@ -394,7 +394,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $dateTarget = new \DateTime('@' . $this->time_start);
         $dateTarget->setTimezone($timezone);
 
-        $daysDiff = $dateIterator->diff($dateTarget)->format('%d');
+        $daysDiff = $dateIterator->diff($dateTarget)->days;
         if ($daysDiff > 365) $daysDiff = 365;
 
         // Add sample dummy days
