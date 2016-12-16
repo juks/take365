@@ -363,8 +363,11 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $timezone = new \DateTimeZone($creator->defaultTimezone);
         $now = new \DateTime('now', $timezone);
 
-        $offset = $now->getOffset();
-        $offsetDiff = $offset - date('Z');
+        $yearStart = date('Y', $this->time_start);
+        $yearEnd = $yearStart + 1;
+        $monthStart = date('n', $this->time_start);
+        $isLeapStart = date("L", mktime(1, 0, 0, 1, 1, $yearStart)) == 1;
+        $isLeapEnd = date("L", mktime(1, 0, 0, 1, 1, $yearEnd)) == 1;
 
         $this->calendar = [];
         $this->fetchImages($extra);
@@ -386,13 +389,23 @@ class Story extends StoryBase implements IPermissions, IGetType {
             if ($likes) $likesHash = Helpers::makeDict($likes, 'target_id');
         }
 
-        $dateIterator = new \DateTime('now');
-        $dateIterator->setTimezone($timezone);
-        $dateUploadFrom = new \DateTime('now');
-        $dateUploadFrom->setTimezone($timezone);
-
         $dateTarget = new \DateTime('@' . $this->time_start);
         $dateTarget->setTimezone($timezone);
+
+        if (date_add(new \DateTime('@' . $this->time_start), date_interval_create_from_date_string('1 year')) >= new \DateTime('now')) {
+            $dateIterator = new \DateTime('now');
+            $dateIterator->setTimezone($timezone);
+        } else {
+            $dateIterator = date_add(new \DateTime('@' . $this->time_start), date_interval_create_from_date_string('1 year'));
+
+            if ($isLeapStart && $monthStart <= 2 || ($isLeapEnd && $monthStart > 1)) {
+                date_sub($dateIterator, date_interval_create_from_date_string('1 day'));
+            }
+            $dateIterator->setTimezone($timezone);
+        }
+
+        $dateUploadFrom = new \DateTime('now');
+        $dateUploadFrom->setTimezone($timezone);
 
         $daysDiff = $dateIterator->diff($dateTarget)->days;
         if ($daysDiff > 365) $daysDiff = 365;
