@@ -54,7 +54,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
             [['password'], 'required', 'when' => function($m) { return !$m->ext_type; }],
             [['email'], 'required', 'when' => function($m) { return !$m->ext_type; }],
             [['username'], 'string', 'min' => 1, 'max' => 20],
-            [['password', 'fullname'], 'string', 'max' => 64],
+            [['password', 'fullname'], 'string', 'min' => 6, 'max' => 64],
             [['timezone'], 'string', 'max' => 32],
             ['username', 'checkUsernameReserved'],
             ['username', 'checkUsernameValid'],

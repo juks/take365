@@ -24,7 +24,8 @@ class AppAsset extends AssetBundle
         'css/font-awesome.min.css'
     ];
     public $js = [
-        'js/common.js'
+        'js/common.js',
+        'js/smartdate.js'
     ];
     public $depends = [
       //'yii\web\JqueryAsset'

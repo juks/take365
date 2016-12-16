@@ -25,7 +25,7 @@ class PanelController extends MyController
                 //'only' => ['logout', 'contact'],
                 'rules' => [
                     [
-                        'actions'   => ['blog', 'blog-write', 'newsletter', 'newsletter-write', 'newsletter-test', 'newsletter-deliver'],
+                        'actions'   => ['blog', 'post-write', 'newsletter', 'newsletter-write', 'newsletter-test', 'newsletter-deliver'],
                         'allow'     => true,
                         'roles'     => ['admin']
                     ],
@@ -67,20 +67,21 @@ class PanelController extends MyController
      * @param null $id
      * @return string
      */
-    public function actionBlogWrite($id = null) {
-        if (!$id) {
-            $post = new \app\models\Post();
-        } else {
+    public function actionPostWrite($id = null) {
+        if ($id) {
+            $formTitle = 'Редактировать запись';
+            
             $post = Blog::getActivePost($id);
+            if (!$post) throw new \yii\web\NotFoundHttpException('Post not found!');
+        } else {
+            $formTitle = 'Создать запись';
+            $post = new Post();
         }
 
-        if ($post->load(Yii::$app->request->post())) {
-            if ($post->validate()) {
-                $post->save();
-            }
-        }
-
-        return $this->render('write', ['post' => $post]);
+        return $this->render('blogWrite', [
+            'formTitle'  => $formTitle,
+            'post'       => $post
+        ]);
     }
 
     /**

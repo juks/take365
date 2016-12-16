@@ -441,6 +441,82 @@ class Helpers {
         return $result;
     }
 
+    /**
+     * Fetches request parameter with the given name
+     * @param string $name
+     * @param array $extra
+     * @return array|bool|float|int|mixed|null|string
+     */
+    public static function getRequestParam($name, $extra = null) {
+        $val = null;
+
+        if(!empty($extra['post'])) {
+            $params = &$_POST;
+        } elseif(!empty($extra['get'])) {
+            $params = &$_GET;
+        } else {
+            $params = &$_REQUEST;
+        }
+
+        if (strpos($name, '/') === false) {
+            $paramValue = isset($params[$name]) ? $params[$name] : null;
+        } else {
+            $nameParts = preg_split('!/!', $name);
+            $paramValue = null;
+
+            $cnt = count($nameParts);
+
+            for ($i = 0; $i < $cnt; $i++) {
+                $level = $nameParts[$i];
+
+                if (isset($params[$level])) {
+                    if ($i == $cnt - 1) $paramValue = $params[$level];
+                    else $params = &$params[$level];
+                } else {
+                    $paramValue = null;
+                    break;
+                }
+            }
+        }
+
+        if($paramValue === null) {
+            if(!empty($extra['isCommaDivided']) || !empty($extra['isNaturalNumArray']) || !empty($extra['isCommaDivided'])) {
+                $val = array();
+            } else {
+                $val = null;
+            }
+        } elseif(!empty($extra['isBoolean'])	) {
+            $val = $paramValue && strtolower($paramValue) != 'false' ? 1 : 0;
+        } elseif(!empty($extra['isFloat'])) {
+            $val = $paramValue ? (float)$paramValue : 0;
+        } elseif(!empty($extra['isNatural'])) {
+            $val = Helpers::checkNaturalNum($paramValue) ? intval($paramValue) : false;
+        } elseif(!empty($extra['isInteger'])) {
+            $val = intval($paramValue);
+        } elseif(!empty($extra['isNaturalNumArray'])) {
+            $val = $paramValue;
+            if(!is_array($val)) $val = array($val);
+
+            for($i = 0; $i < count($val); $i++) {
+                if(empty($val[$i]) || !Helpers::checkNaturalNum($val[$i])) unset($val[$i]);
+            }
+        } elseif(!empty($extra['isArray'])) {
+            $val = is_array($paramValue) ? $paramValue : false;
+        } elseif(!empty($extra['isCommaDivided'])) {
+            $val = preg_split('/,/', $paramValue);
+        } elseif(!empty($extra['isCommaDividedInteger'])) {
+            $val = array_map(function($a) {return intval($a);}, preg_split('/,/', $paramValue));
+        } elseif (!empty($extra['isUrl'])) {
+            $val = Helpers::checkUrl($paramValue) ? $paramValue : false;
+        } elseif (!empty($extra['isEmail'])) {
+            $val = Helpers::checkEmail($paramValue) ? $paramValue : false;
+        } else {
+            $val = $paramValue;
+        }
+
+        return $val;
+    }
+
     public static function isConsole() {
         if (empty($_SERVER['argv']) && empty($_SERVER['argc'])) {
             return false;

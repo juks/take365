@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\interfaces\IPermissions;
 use Yii;
 use app\models\base\PostBase;
 use app\models\User;
@@ -78,6 +79,9 @@ class Post extends PostBase {
      * @param int $permission
      **/
     public function checkPermission($user, $permission = IPermissions::permWrite) {
+        $roles = \Yii::$app->authManager->getRolesByUser($user->id);
+        if (!empty($roles['admin'])) return true;
+
         if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
         if ($permission == IPermissions::permComment && $this->getIsPublic()) return true;
         if ($this->created_by == $user->id) return true;
@@ -96,13 +100,29 @@ class Post extends PostBase {
         $user = Yii::$app->user;
 
         if ($post) {
-            if ($post->is_published) {
+            if ($post->getIsPublic()) {
                 return $post;
             } elseif ($post->hasPermission($user, IPermissions::permWrite)) {
                 return $post;
+            } else {
+                return false;
             }
         }
 
         return null;
+    }
+
+    public function getCanManage() {
+        $user = Yii::$app->user;
+
+        return $this->checkPermission($user, IPermissions::permWrite);
+    }
+
+    public function getUrl() {
+        return \yii\helpers\Url::base(true) . '/post/' . $this->id;
+    }
+
+    public function getUrlEdit() {
+        return \yii\helpers\Url::base(true) . '/panel/post-write?id=' . $this->id;
     }
 }

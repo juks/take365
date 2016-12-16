@@ -16,6 +16,8 @@ trait TMediaFileExtra {
     public function cleanFileName($fileName) {
         $fileName = $this->removeNameJunk($fileName);
         if (!$fileName) $fileName = $this->generateFileName();
+
+        return $fileName;
     }
 
     /**
@@ -28,7 +30,7 @@ trait TMediaFileExtra {
     public function removeNameJunk($fileName) {
         $fileName = urldecode($fileName);
         $fileName = preg_replace('/[^.a-z0-9_!@$^&()+={} \[\]\-]/ui', '', $fileName);
-        $fileName = preg_replace('/  +/', ' ', $fileName);
+        $fileName = preg_replace('/ +/', '_', $fileName);
         if(preg_match('/^ +$/i', $fileName)) $fileName = ''; else $fileName = str_replace(' ', '_', $fileName);
 
         return $fileName ? $fileName : 'none';

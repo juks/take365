@@ -5,12 +5,11 @@ use app\assets\AppAsset;
 use app\assets\FrontAsset;
 use app\models\Feed;
 
-//Yii::$app->getAssetManager()->getBundle('app')->register($this);
 AppAsset::register($this);
-//FrontAsset::register($this);
 
 $user = Yii::$app->user;
 $isSubscribed = !$user->isGuest && Feed::isSubscribed($user);
+$this->registerJs('smartdate.init({locale: \'ru\'});');
 
 ?>
 <?php $this->beginPage() ?>

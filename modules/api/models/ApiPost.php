@@ -10,7 +10,7 @@ class ApiPost extends Post {
     *   In in case of api the entire object root is okay
     **/
     public function formName() {
-        return '';
+        return 'Post';
     }
 }
 

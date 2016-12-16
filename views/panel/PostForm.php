@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Post */
+/* @var $post app\models\Post */
 /* @var $form ActiveForm */
 
 ?>
@@ -14,19 +14,20 @@ use yii\widgets\ActiveForm;
     $form = ActiveForm::begin(
       [
         'options' => [
-          'class' => 'form'
+          'id'        => 'postForm',
+          'name'      => 'postForm',
+          'class'     => 'form'
         ]
       ]
     );
-    $model->blog_id = 1;
-    $model->is_published = 1;
+    $post->blog_id = 1;
   ?>
 
-    <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
-    <?= $form->field($model, 'blog_id')->hiddenInput()->label(false) ?>
-    <?= $form->field($model, 'is_published')->hiddenInput()->label(false) ?>
-    <?= $form->field($model, 'title') ?>
-    <?= $form->field($model, 'body')->textArea(['rows' => '6']) ?>
+  <?= $form->field($post, 'id')->hiddenInput()->label(false) ?>
+  <?= $form->field($post, 'blog_id')->hiddenInput()->label(false) ?>
+  <?= $form->field($post, 'title') ?>
+  <?= $form->field($post, 'body')->textArea(['rows' => '10']) ?>
+  <?= $form->field($post, 'is_published')->checkbox(['value' => 1, 'label' => 'Запись опубликована']) ?>
 
     <fieldset>
       <?= Html::submitInput(Yii::t('app', 'Submit')) ?>

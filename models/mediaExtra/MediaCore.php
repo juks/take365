@@ -276,13 +276,13 @@ class MediaCore extends MediaBase {
         if ($filePath instanceof yii\web\UploadedFile) {
             if (empty($filePath->tempName)) throw new \Exception(Ml::t('Can\'t get filename', 'media'));
 
-            return ['type' => self::uploadTypeForm, 'filePath' => $filePath->tempName, 'fileName' => $this->getFileName($filePath->name)];
+            return ['type' => self::uploadTypeForm, 'filePath' => $filePath->tempName, 'fileName' => $this->cleanFileName($this->getFileName($filePath->name))];
         // Check if it is just a file URL
         } elseif (preg_match("!^https?://!", $filePath)) {
-            return ['type' => self::uploadTypeUrl, 'filePath' => $filePath, 'fileName' => $this->getFileName($filePath)];
+            return ['type' => self::uploadTypeUrl, 'filePath' => $filePath, 'fileName' => $this->cleanFileName($this->getFileName($filePath))];
         // Check if it is local file
         } elseif ($filePath && file_exists($filePath)) {
-            return ['type' => self::uploadTypeLocal, 'filePath' => $filePath, 'fileName' => $this->getFileName($filePath)];
+            return ['type' => self::uploadTypeLocal, 'filePath' => $filePath, 'fileName' => $this->cleanFileName($this->getFileName($filePath))];
         } else {
             return null;
         }
