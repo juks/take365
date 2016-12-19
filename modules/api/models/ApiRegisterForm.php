@@ -19,6 +19,7 @@ class ApiRegisterForm extends Model {
         return [
             [['email', 'password'], 'required'],
             ['email', 'email'],
+            ['username', 'string'],
             ['captcha', 'validateCaptcha', 'skipOnEmpty' => false],
         ];
     }

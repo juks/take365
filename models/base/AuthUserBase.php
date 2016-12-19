@@ -130,7 +130,7 @@ class AuthUserBase extends \yii\db\ActiveRecord
     }
 
     public static function isValidUsername($username) {
-        return preg_match('/^[a-z0-9!][a-z0-9\-._~[]@!$()*+=.]*$/i', $username);
+        return preg_match('/^[a-z0-9!][a-z0-9\-._~\[\]@!$()*+=.]*$/i', $username);
         //return preg_match('/^[a-z][a-z0-9-]{1,}$/i', $username);
     }
 
