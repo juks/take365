@@ -20,12 +20,12 @@ return [
     ['pattern' =>'/unsubscribe/<optionName:[a-zA-Z]+>/?',                 'route' => '/site/unsubscribe'],
     '/blog/<id:\d+>/?'    		                                    => '/site/blog-post',
 
-    '/<username:@?[a-z0-9!][a-z0-9\-._~\[\]@!$()*+=.]{0,19}>/?'        					                                    => '/user-page/home',
-    '/<username:@?[a-z0-9!][a-z0-9\-._~\[\]@!$()*+=.]{0,19}>/story/<storyId:[0-9]{1,5}>/?'	                                    => '/user-page/story',
-    '/<username:@?[a-z0-9!][a-z0-9\-._~\[\]@!$()*+=.]{0,19}>/story/<storyId:[0-9]{1,5}>/<date:[0-9]{4}-[0-9]{2}-[0-9]{2}>/?'	=> '/user-page/story',
-    '/<username:@?[a-z0-9!][a-z0-9\-._~\[\]@!$()*+=.]{0,19}>/profile/?'					                                    => '/user-page/profile',
-    '/<username:@?[a-z0-9!][a-z0-9\-._~\[\]@!$()*+=.]{0,19}>/profile/edit/?'				                                    => '/user-page/edit',
-    '/<username:@?[a-z0-9!][a-z0-9\-._~\[\]@!$()*+=.]{0,19}>/feed/?'				                                            => '/user-page/feed',
+    '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/?'        					                                    => '/user-page/home',
+    '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/story/<storyId:[0-9]{1,5}>/?'	                                    => '/user-page/story',
+    '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/story/<storyId:[0-9]{1,5}>/<date:[0-9]{4}-[0-9]{2}-[0-9]{2}>/?'	=> '/user-page/story',
+    '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/profile/?'					                                    => '/user-page/profile',
+    '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/profile/edit/?'				                                    => '/user-page/edit',
+    '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/feed/?'				                                            => '/user-page/feed',
 ];
 
 ?>
