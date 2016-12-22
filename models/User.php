@@ -334,7 +334,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
             $this->time_updated = time();
         }
 
-        if (!$this->_oldAttributes['description'] !== $this->description) $this->description_jvx = HelpersTxt::simpleText($this->description);
+        if ($this->_oldAttributes['description'] !== $this->description) $this->description_jvx = HelpersTxt::simpleText($this->description);
 
         return parent::beforeValidate();
     }
@@ -371,7 +371,7 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
                 $fullname = !empty($userAttributes['first_name']) ? $userAttributes['first_name'] : '';
                 if (!empty($userAttributes['last_name'])) $fullname .= ' ' . $userAttributes['last_name'];
                 $user->fullname = $fullname;
-                if (!empty($userAttributes['nickname']) && !self::getActiveUser($userAttributes['nickname'])) $user->username = $userAttributes['nickname'];
+                if (!empty($userAttributes['nickname']) && !self::getActiveUser($userAttributes['nickname']) && self::isValidUsername($userAttributes['nickname'])) $user->username = $userAttributes['nickname'];
             }
 
             if ($email && !$user->validate(['email'])) throw new \yii\web\ConflictHttpException(Ml::t('This email address is already taken'));

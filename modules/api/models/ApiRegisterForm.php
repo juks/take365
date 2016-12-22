@@ -18,8 +18,7 @@ class ApiRegisterForm extends Model {
     public function rules() {
         return [
             [['email', 'password'], 'required'],
-            ['email', 'email'],
-            ['username', 'string'],
+            [['username', 'email'], 'string'],
             ['captcha', 'validateCaptcha', 'skipOnEmpty' => false],
         ];
     }

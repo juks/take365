@@ -278,6 +278,7 @@ function initStoryUploder() {
 		if (!Story.active) {
 			return;
 		}
+
 		var id = Story.active[0].id;
 
 		//the timeout needed because the file isn't yet added to files collection of the uploader on some runtimes, and it has no files to upload
@@ -626,6 +627,7 @@ Story = {
 		$(document).mousedown(Story.winCloseMousedown);
 
 		var content = container.find(".user-photo-content");
+		var date = container.prop('id') ? container.prop('id').replace("day-", "") : '';
 		var id = container.data('id'),
 			img = content.find(".user-photo-image").parent().clone().find('img').removeClass('user-photo-image');
 		img.css('position', 'static'); // IE8 fix
@@ -689,7 +691,7 @@ Story = {
 			}).appendTo(content);
 
 			function success() {
-				restore.html('<a class="ctrl-restore" onclick="Story.recoverMedia(\''+id+'\')">Восстановить</a> или <a class="ctrl-replace i-upload" onclick="Story.openUpload(\''+id+'\')">заменить</a>.');
+				restore.html('<a class="ctrl-restore" onclick="Story.recoverMedia(\''+id+'\')">Восстановить</a> или <a class="ctrl-replace i-upload" onclick="Story.openUpload(\''+date+'\')">заменить</a>.');
 			}
 
 			Story.removeMedia(id, success, success/*TODO*/);

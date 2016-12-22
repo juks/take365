@@ -51,20 +51,21 @@ class AuthUserBase extends \yii\db\ActiveRecord
         return [
             [['user_type', 'ext_type', 'time_created', 'time_updated', 'time_registered', 'ip_created', 'time_login', 'ip_login', 'is_active', 'is_banned', 'failure_counter', 'email_confirmed', 'sex', 'recovery_code_time_issued'], 'integer'],
             [['time_created', 'ip_created'], 'required'],
-            [['password'], 'required', 'when' => function($m) { return !$m->ext_type; }],
-            [['email'], 'required', 'when' => function($m) { return !$m->ext_type; }],
-            [['username'], 'string', 'min' => 1, 'max' => 20],
+            ['password', 'required', 'when' => function($m) { return !$m->ext_type; }],
+            ['email', 'required', 'when' => function($m) { return !$m->ext_type; }],
+            ['username', 'string', 'min' => 1, 'max' => 20],
             [['password', 'fullname'], 'string', 'min' => 6, 'max' => 64],
-            [['timezone'], 'string', 'max' => 32],
+            ['timezone', 'string', 'max' => 32],
+            [['username', 'email'], 'trim'],
             ['username', 'checkUsernameReserved'],
             ['username', 'checkUsernameValid'],
             ['username', 'checkUsernameExists'],
             ['password', 'checkPasswordWeak'],
-            [['email'], 'email'],
-            [['email'], 'checkEmailExists'],
+            ['email', 'email'],
+            ['email', 'checkEmailExists'],
             [['description', 'description_jvx'], 'string', 'max' => 1024],
-            [['recovery_code'], 'string', 'max' => 16],
-            [['option_code'], 'string', 'max' => 16],
+            ['recovery_code', 'string', 'max' => 16],
+            ['option_code', 'string', 'max' => 16],
         ];
     }
 
@@ -131,7 +132,6 @@ class AuthUserBase extends \yii\db\ActiveRecord
 
     public static function isValidUsername($username) {
         return preg_match('/^[a-z0-9!][a-z0-9\-._~\[\]@!$()*+=.]*$/i', $username);
-        //return preg_match('/^[a-z][a-z0-9-]{1,}$/i', $username);
     }
 
     public function checkUsernameExists($attribute) {
