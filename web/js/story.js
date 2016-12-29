@@ -626,22 +626,26 @@ Story = {
 	winOpen: function(container) {
 		$(document).mousedown(Story.winCloseMousedown);
 
+		var renderInLeft = window.innerWidth - container.offset().left < 420;
+
 		var content = container.find(".user-photo-content");
 		var date = container.prop('id') ? container.prop('id').replace("day-", "") : '';
-		var id = container.data('id'),
-			img = content.find(".user-photo-image").parent().clone().find('img').removeClass('user-photo-image');
+		var id = container.data('id');
+		var img = content.find(".user-photo-image").parent().clone().find('img').removeClass('user-photo-image');
 		img.css('position', 'static'); // IE8 fix
 		var win = $('<div/>', {
-				'class': 'user-photo-manage-win',
+				'class': 'user-photo-manage-win' + (renderInLeft ? ' user-photo-manage-win-left' : ''),
 				html: '<div class="manage-win">'
 						+'<div class="manage-win-image">'+img.parent().html()+'</div>'
-						+'<div class="manage-win-title">Редактирование</div>'
-						+'<div class="manage-win-control">'
-							+'<a class="ctrl-replace i-upload">Заменить</a>'
-							+' или <a class="ctrl-remove">удалить</a>.'
+						+'<div class="manage-win-aside">'
+							+'<div class="manage-win-title">Редактирование</div>'
+							+'<div class="manage-win-control">'
+								+'<a class="ctrl-replace i-upload">Заменить</a>'
+								+' или <a class="ctrl-remove">удалить</a>.'
+							+'</div>'
+							+'<form class="manage-win-texts"></form>'
 						+'</div>'
-						+'<form class="manage-win-texts"></div>'
-					+'</div>'
+					+'</div>',
 			}).appendTo(container);
 
 		win.find(".ctrl-replace").click(function() {

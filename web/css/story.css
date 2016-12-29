@@ -305,12 +305,20 @@
 	bottom: -10px;
 	top: -10px;
 	background: #fff;
-	-webkit-border-radius: 10px;
-	     -o-border-radius: 10px;
-	        border-radius: 10px;
+  border-radius: 10px;
 	border: 1px solid #888;
 	z-index: 20;
 }
+.user-photo-manage-win-left {
+	right: -10px;
+	left: -210px;
+}
+.user-photo-manage-win-left .manage-win-image {
+	float: right;
+}
+	.manage-win-aside {
+		padding: 0 7px;
+	}
 	.ctrl-replace, .ctrl-remove, .ctrl-restore {
 		cursor: pointer;
 	}
@@ -319,7 +327,7 @@
 	}
 	.manage-win-image {
 		float: left;
-		margin: 1px 16px 0 9px;
+		margin: 1px 9px 0 9px;
 	}
 
 .user-photo-restore {
