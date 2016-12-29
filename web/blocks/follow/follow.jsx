@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class CommentList extends React.Component {
+class Follow extends React.Component {
   constructor(props) {
     super(props);
 
@@ -40,5 +40,5 @@ class CommentList extends React.Component {
 }
 
 window.followRender = function(node, props) {
-  ReactDOM.render(React.createElement(CommentList, props), node);
+  ReactDOM.render(React.createElement(Follow, props), node);
 };

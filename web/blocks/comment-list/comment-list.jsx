@@ -9,6 +9,7 @@ import {TransitionMotion, spring} from 'react-motion';
 import TEMP1 from '../follow/follow.jsx';
 import TEMP2 from '../feed/feed.jsx';
 import TEMP3 from '../slideshow/slideshow.jsx';
+import '../Search/Search.jsx';
 
 class CommentList extends React.Component {
   constructor(props) {
