@@ -7,9 +7,6 @@
   if ($isSubscribed) $items[] = ['title' => 'Лента', 'alias' => 'feed', 'url' => $user->urlFeed];
 ?>
 
-  <li>
-    <div id="search-container"></div>
-  </li>
 <?php foreach ($items as $item): ?>
 
 <?php if (!empty($this->params['isOwnPage']) && !empty($this->params['pageType']) && $this->params['pageType'] == $item['alias']): ?>
@@ -23,6 +20,12 @@
 
 <li class="nav-item nav-item-logout">
   <a href="#" onclick="logout();return false" class="nav-link">Выйти</a>
+</li>
+<li class="nav-item search">
+  <div class="search-inner">
+    <div id="search-container"></div>
+    <i class="fa fa-search" aria-hidden="true"></i>
+  </div>
 </li>
 
 <?php

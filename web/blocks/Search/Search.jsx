@@ -76,8 +76,6 @@ export default class Search extends React.Component {
       renderSuggestion={this.renderSuggestion}
       suggestions={this.state.suggestions}
       inputProps={{
-        className: 'form-control',
-        placeholder: 'Поиск',
         value: this.state.value,
         type: 'search',
         onChange: this.onChange,
