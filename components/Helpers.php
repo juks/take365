@@ -244,19 +244,29 @@ class Helpers {
                     if (!empty($extra['multi'])) {
                         $result[$index] = [$result[$index]];
                     } else {
-                        break;
+                        continue;
                     }
                 }
 
                 if(!empty($result[$index]) && is_array($result[$index]) && isset($result[$index][0])) {
-                    $result[$index][] = !empty($extra['binary']) ? true : $item;
+                    $result[$index][] = !empty($extra['boolean']) ? true : $item;
                 } else {
-                    $result[$index] = !empty($extra['binary']) ? true : $item;
+                    $result[$index] = !empty($extra['boolean']) ? true : $item;
                 }
             }
         }
 
         return $result;
+    }
+
+    /**
+     * Makes array of hashes uniuque by given field balue
+     * @param $data
+     * @param $key
+     * @return mixed
+     */
+    static function uniqueByKey($data, $key) {
+        return array_values(self::makeDict($data, $key));
     }
 
     /**

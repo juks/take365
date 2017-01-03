@@ -140,23 +140,40 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * @return int $maxItems
      */
     public static function suggest($params, $maxItems = 10) {
-        if (strlen($params['username']) < 2) return [];
-        if (!self::isValidUsername($params['username'])) return [];
+        if (strlen($params['query']) < 2) return [];
 
-        $conditions = self::getActiveCondition();
-        $conditions['username'] = ['LIKE', $params['username'] . '%'];
+        $baseCondition = self::getActiveCondition();
+        $searches = [];
+        $order = 'username';
 
-        if (empty($params['followFlag'])) {
-            return self::find()->where(self::makeCondition($conditions))->orderBy('username')->limit($maxItems)->all();
+        if (Helpers::checkEmail($params['query'])) {
+            $searches[] = array_merge($baseCondition, ['email' => $params['query'], 'email_confirmed' => 1]);
+        } elseif ($params['query'] == 'последние') {
+            $searches[] = $baseCondition;
+            $order = 'time_created DESC';
         } else {
-            $items = self::find()->where(self::makeCondition($conditions))->with('isSubscribed')->orderBy('username')->limit($maxItems)->all();
-
-            foreach ($items as $item) {
-                if ($item->isSubscribed) true;
+            if (self::isValidUsername($params['query'])) {
+                $searches[] = array_merge($baseCondition, ['username' => ['LIKE', $params['query'] . '%']]);
             }
 
-            return $items;
+            $searches[] = array_merge($baseCondition, ['fullname' => ['LIKE', $params['query'] . '%']]);
         }
+
+        $items = [];
+
+        foreach ($searches as $condition) {
+            if (empty($params['followFlag'])) {
+                $items = array_merge($items, self::find()->where(self::makeCondition($condition))->orderBy($order)->limit($maxItems)->all());
+            } else {
+                $items = array_merge($items, self::find()->where(self::makeCondition($condition))->with('isSubscribed')->orderBy($order)->limit($maxItems)->all());
+            }
+        }
+
+        if (count($searches) > 1) {
+            if ($items && is_array($items)) $items = Helpers::uniqueByKey($items, 'id');
+        }
+
+        return $items;
     }
 
     /**

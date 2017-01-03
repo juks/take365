@@ -245,7 +245,7 @@ class UserController extends ApiController {
      */
     public function actionSuggest($username, $maxItems = 10, $followFlag = false) {
         $this->addContent(ApiUser::suggest([
-                                                'username'      => $username,
+                                                'query'         => $username,
                                                 'followFlag'    => $followFlag
                                             ], $maxItems));
     }
@@ -295,7 +295,7 @@ class UserController extends ApiController {
         $form = new \app\modules\api\models\ApiRecoverForm();
     
         if ($form->load(Helpers::getRequestParams('post')) && $form->validate()) {
-            $user = ApiUser::getActiveUser($email);
+            $user = ApiUser::getActiveUser($form->email);
 
             if ($user) {
                 $user->recover();

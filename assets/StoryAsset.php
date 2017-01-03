@@ -19,8 +19,7 @@ class StoryAsset extends AssetBundle
     public $js = [
         'js/plupload/plupload.full.js',
         'js/photoview.js',
-        'js/story.js',
-        'js/react.js',
+        'js/story.js'
     ];
     public $depends = [
         'app\assets\AppAsset',

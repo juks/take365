@@ -26,7 +26,8 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/common.js',
-        'js/smartdate.js'
+        'js/smartdate.js',
+        'js/react.js'
     ];
     public $depends = [
       //'yii\web\JqueryAsset'

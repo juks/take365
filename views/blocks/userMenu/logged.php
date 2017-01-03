@@ -21,12 +21,7 @@
 <li class="nav-item nav-item-logout">
   <a href="#" onclick="logout();return false" class="nav-link">Выйти</a>
 </li>
-<li class="nav-item search">
-  <div class="search-inner">
-    <div id="search-container"></div>
-    <i class="fa fa-search" aria-hidden="true"></i>
-  </div>
-</li>
+<?php include('searchBlock.php'); ?>
 
 <?php
   $this->registerJs("searchRender(document.getElementById('search-container'));");

@@ -25,9 +25,10 @@ class RegisterForm extends Model
             // name, email, subject and body are required
             [['login', 'email', 'password', 'captcha'], 'required'],
             // email has to be a valid email address
+            [['login', 'email', 'captcha'],'trim'],
             ['email', 'email'],
             // verifyCode needs to be entered correctly
-            ['captcha', 'captcha'],
+            ['captcha', 'captcha']
         ];
     }
 

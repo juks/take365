@@ -16,6 +16,7 @@ class ApiRecoverForm extends Model {
     public function rules() {
         return [
             [['email'], 'required'],
+            [['email', 'captcha'], 'trim'],
             ['email', 'email'],
             ['captcha', 'validateCaptcha', 'skipOnEmpty' => false],
         ];
