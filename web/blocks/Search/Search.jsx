@@ -24,7 +24,7 @@ export default class Search extends React.Component {
   }
 
   fetchSuggestion(filter) {
-    return $.getJSON('/api/user/suggest/', {username: filter}).then(data => {
+    return $.getJSON('/api/user/suggest', {username: filter}).then(data => {
       return data.result;
     });
   }
