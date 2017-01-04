@@ -51,12 +51,14 @@ export default class Search extends React.Component {
 
   renderSuggestion(suggestion) {
     return <div>
-      {suggestion.userpic &&
+      {suggestion.userpic ?
         <img
           src={suggestion.userpic.url}
           width={suggestion.userpic.width / 4}
           height={suggestion.userpic.height / 4}
-        />
+          alt=""
+        /> :
+        <span className="fa fa-user" />
       }
       {' '}
       {suggestion.username}
