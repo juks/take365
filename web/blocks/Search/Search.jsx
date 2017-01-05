@@ -54,9 +54,10 @@ export default class Search extends React.Component {
       {suggestion.userpic ?
         <img
           src={suggestion.userpic.url}
-          width={suggestion.userpic.width / 4}
-          height={suggestion.userpic.height / 4}
+          width="16"
+          height="16"
           alt=""
+          className="react-autosuggest__suggestion-userpic"
         /> :
         <span className="fa fa-user" />
       }
