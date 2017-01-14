@@ -17,22 +17,24 @@ ProfileAsset::register($this);
         <input name="targetId" value="<?= $targetId ?>" type="hidden">
         <input name="targetType" value="<?= $targetType ?>" type="hidden">
         <input name="mediaType" value="<?= $mediaType ?>" type="hidden">
-        <div id="userPhotoDrop" class="profile-userpic fa fa-user">
-          <?php if ($owner->userpic): ?>
-            <div id="userPhoto" class="profile-userpic-img"<?php if ($owner->userpic): ?> style="background-image: url(<?= $owner->userpic['t']['maxSide']['500']['url'] ?>);<?php endif ?>">
-              <a id="userPhotoPick" href="javascript:;" class="profile-userpic-edit">Редактировать</a>
-            </div>
-            <div id="userPhotoDelete" class="profile-photo-remove">
-              <a href="javascript:;" title="Удалить" class="fa fa-trash-o" onclick="deleteMedia(<?= $owner->userpic->id ?>,'userPhoto')"></a>
-            </div>
-          <?php else: ?>
-            <div id="userPhoto" class="profile-userpic-img">
-              <a id="userPhotoPick" href="javascript:;" class="profile-userpic-edit">Загрузить</a>
-            </div>
-            <div id="userPhotoDelete" class="profile-photo-remove hidden">
-              <a href="javascript:;" title="Удалить" class="fa fa-trash-o"></a>
-            </div>
-          <?php endif ?>
+        <div id="userPhotoDrop" class="profile-userpic">
+          <div class="fa fa-user">
+            <?php if ($owner->userpic): ?>
+              <div id="userPhoto" class="profile-userpic-img"<?php if ($owner->userpic): ?> style="background-image: url(<?= $owner->userpic['t']['maxSide']['500']['url'] ?>);<?php endif ?>">
+                <a id="userPhotoPick" href="javascript:;" class="profile-userpic-edit">Редактировать</a>
+              </div>
+              <div id="userPhotoDelete" class="profile-photo-remove">
+                <a href="javascript:;" title="Удалить" class="fa fa-trash-o" onclick="deleteMedia(<?= $owner->userpic->id ?>,'userPhoto')"></a>
+              </div>
+            <?php else: ?>
+              <div id="userPhoto" class="profile-userpic-img">
+                <a id="userPhotoPick" href="javascript:;" class="profile-userpic-edit">Загрузить</a>
+              </div>
+              <div id="userPhotoDelete" class="profile-photo-remove hidden">
+                <a href="javascript:;" title="Удалить" class="fa fa-trash-o"></a>
+              </div>
+            <?php endif ?>
+          </div>
         </div>
       </form>
     </div>
