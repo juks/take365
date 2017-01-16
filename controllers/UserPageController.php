@@ -110,9 +110,11 @@ class UserPageController extends MyController {
 
         return $this->render('profile', [
                                         'owner'         => $owner,
-                                        'pageType'     => 'profile',
+                                        'pageType'      => 'profile',
                                         'homepageUrl'   => $homepageUrl,
-                                        'isOwnPage'       => $user && ($owner->id == $user->id),
+                                        'subscribed'    => $owner->subscribed,
+                                        'subscribers'   => $owner->subscribers,
+                                        'isOwnPage'     => $user && ($owner->id == $user->id),
                                     ]);
     }
 

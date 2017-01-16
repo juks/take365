@@ -496,6 +496,14 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         return Story::getNotifyStories($this->id, $date);
     }
 
+    public function getSubscribed() {
+        return self::find()->where(['id' => Feed::getSubscribedIds($this)])->with('userpic')->all();
+    }
+
+    public function getSubscribers() {
+        return self::find()->where(['id' => Feed::getSubscribersIds($this)])->with('userpic')->all();
+    }
+
     /**
      * Format current user
      * @param array $extra
@@ -535,6 +543,18 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     */
     public function getThisIsMe() {
         return Yii::$app->user->id == $this->id;
+    }
+
+    /**
+     * He/She string
+     * @return string
+     */
+    public function getGenderString() {
+        return !$this->sex || $this->sex == 1 ? 'он' : 'она';
+    }
+    
+    public function getGenderStringAccusative() {
+        return !$this->sex || $this->sex == 1 ? 'его' : 'её';
     }
 
     /**

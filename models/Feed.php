@@ -5,6 +5,7 @@ namespace app\models;
 use app\models\base\FeedBase;
 use app\models\Media;
 use app\models\MQueue;
+use app\models\User;
 use Yii;
 use app\components\Helpers;
 use app\components\traits\TModelExtra;
@@ -27,6 +28,24 @@ class Feed extends FeedBase {
         }
 
         return parent::beforeValidate();
+    }
+
+    /**
+     * User relation
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser() {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * Reader relation
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReader() {
+        return $this->hasOne(User::className(), ['id' => 'reader_id']);
     }
 
     /**
@@ -188,7 +207,15 @@ class Feed extends FeedBase {
      *
      * @param  object $user
      */
-    public static function listUsers($user) {
-        
+    public static function getSubscribersIds($user) {
+        return Helpers::fetchFields(self::sqlSelect('reader_id', ['user_id' => $user->id]), 'reader_id', ['isSingle' => true]);
+    }
+
+    /**
+     * List all users current user subscribed for
+     * @param $user
+     */
+    public static function getSubscribedIds($user) {
+        return Helpers::fetchFields(self::sqlSelect('user_id', ['reader_id' => $user->id]), 'user_id', ['isSingle' => true]);
     }
 }

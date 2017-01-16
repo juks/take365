@@ -32,310 +32,37 @@
         <?php endif ?>
       </div>
     </div>
+    <?php if ($subscribed || $subscribers): ?>
     <div class="subscribers">
-      <h3>Его подписчики</h3>
+      <?php if ($subscribed): ?>
+      <h3><?= mb_convert_case($owner->genderString, MB_CASE_TITLE, "UTF-8") ?> читает</h3>
       <ul class="subscribers-list">
+        <?php foreach ($subscribed as $user): ?>
         <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
+          <a href="<?= $user->urlProfile ?>" class="subscribers-item-link">
             <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/1f/19741/resume_100x100.jpg');"></span>
-            <span class="subscribers-item-username">Игорь</span>
+            <span class="subscribers-item-img"<?php if (!empty($user->userpic)): ?> style="background-image: url('<?= $user->userpic->url ?>');"<?php endif ?>></span>
+            <span class="subscribers-item-username"><?= $user->usernameFilled ?></span>
           </a>
         </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/47/10246/_6022015_100x64.jpg');"></span>
-            <span class="subscribers-item-username">Mare d'amore</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/8c/12870/2014-08-22_06.43.29_1_100x100.jpg');"></span>
-            <span class="subscribers-item-username">manka</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">Lefych</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">julik</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/1f/19741/resume_100x100.jpg');"></span>
-            <span class="subscribers-item-username">Игорь</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/47/10246/_6022015_100x64.jpg');"></span>
-            <span class="subscribers-item-username">Mare d'amore</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/8c/12870/2014-08-22_06.43.29_1_100x100.jpg');"></span>
-            <span class="subscribers-item-username">manka</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">Lefych</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">julik</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/1f/19741/resume_100x100.jpg');"></span>
-            <span class="subscribers-item-username">Игорь</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/47/10246/_6022015_100x64.jpg');"></span>
-            <span class="subscribers-item-username">Mare d'amore</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/8c/12870/2014-08-22_06.43.29_1_100x100.jpg');"></span>
-            <span class="subscribers-item-username">manka</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">Lefych</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">julik</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/1f/19741/resume_100x100.jpg');"></span>
-            <span class="subscribers-item-username">Игорь</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/47/10246/_6022015_100x64.jpg');"></span>
-            <span class="subscribers-item-username">Mare d'amore</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/8c/12870/2014-08-22_06.43.29_1_100x100.jpg');"></span>
-            <span class="subscribers-item-username">manka</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">Lefych</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">julik</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/1f/19741/resume_100x100.jpg');"></span>
-            <span class="subscribers-item-username">Игорь</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/47/10246/_6022015_100x64.jpg');"></span>
-            <span class="subscribers-item-username">Mare d'amore</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/8c/12870/2014-08-22_06.43.29_1_100x100.jpg');"></span>
-            <span class="subscribers-item-username">manka</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">Lefych</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">julik</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/1f/19741/resume_100x100.jpg');"></span>
-            <span class="subscribers-item-username">Игорь</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/47/10246/_6022015_100x64.jpg');"></span>
-            <span class="subscribers-item-username">Mare d'amore</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/8c/12870/2014-08-22_06.43.29_1_100x100.jpg');"></span>
-            <span class="subscribers-item-username">manka</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">Lefych</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">julik</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/1f/19741/resume_100x100.jpg');"></span>
-            <span class="subscribers-item-username">Игорь</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/47/10246/_6022015_100x64.jpg');"></span>
-            <span class="subscribers-item-username">Mare d'amore</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/8c/12870/2014-08-22_06.43.29_1_100x100.jpg');"></span>
-            <span class="subscribers-item-username">manka</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">Lefych</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">julik</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/1f/19741/resume_100x100.jpg');"></span>
-            <span class="subscribers-item-username">Игорь</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/47/10246/_6022015_100x64.jpg');"></span>
-            <span class="subscribers-item-username">Mare d'amore</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/8c/12870/2014-08-22_06.43.29_1_100x100.jpg');"></span>
-            <span class="subscribers-item-username">manka</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">Lefych</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">julik</span>
-          </a>
-        </li>
+      <?php endforeach ?>
       </ul>
-      <h3>Он подписан</h3>
+      <?php endif ?>
+      <?php if ($subscribers): ?>
+      <h3><?= mb_convert_case($owner->genderStringAccusative, MB_CASE_TITLE, "UTF-8") ?> читают</h3>
       <ul class="subscribers-list">
+        <?php foreach ($subscribers as $subscriber): ?>
         <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
+          <a href="<?= $subscriber->urlProfile ?>" class="subscribers-item-link">
             <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/1f/19741/resume_100x100.jpg');"></span>
-            <span class="subscribers-item-username">Игорь</span>
+            <span class="subscribers-item-img"<?php if (!empty($subscriber->userpic)): ?> style="background-image: url('<?= $subscriber->userpic->url ?>');"<?php endif ?>></span>
+            <span class="subscribers-item-username"><?= $subscriber->usernameFilled ?></span>
           </a>
         </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/47/10246/_6022015_100x64.jpg');"></span>
-            <span class="subscribers-item-username">Mare d'amore</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-img" style="background-image: url('https://take365.org/media/thumbs/p2/userpic/8c/12870/2014-08-22_06.43.29_1_100x100.jpg');"></span>
-            <span class="subscribers-item-username">manka</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">Lefych</span>
-          </a>
-        </li>
-        <li class="subscribers-item">
-          <a href="#" class="subscribers-item-link">
-            <span class="fa fa-user"></span>
-            <span class="subscribers-item-username">julik</span>
-          </a>
-        </li>
-      </ul>
+        <?php endforeach ?>
+        </ul>
+        <?php endif ?>
     </div>
+    <?php endif ?>
   </section>
 </main>
