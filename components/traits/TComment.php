@@ -124,12 +124,12 @@ trait TComment {
             if (!empty($extra['lastTimestamp'])) $condition['time_created'] = ['>', $extra['lastTimestamp']];
             if (empty($extra['lastComments'])) {
                 $order = 'lk';
-                $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all();
+                $this->commentsCache = $this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author.userpic')->orderBy($order)->limit($maxItems)->all();
             } else {
                 $order = 'lk DESC';
                 $maxItems= $extra['lastComments'];
                 $condition['is_deleted'] = 0;
-                $this->commentsCache = array_reverse($this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author')->orderBy($order)->limit($maxItems)->all());
+                $this->commentsCache = array_reverse($this->hasMany(Comment::className(), ['target_id' => 'id'])->where(self::makeCondition($condition))->with('author.userpic')->orderBy($order)->limit($maxItems)->all());
             }
 
             foreach ($this->commentsCache as $comment) {

@@ -41,7 +41,7 @@
         <li class="subscribers-item">
           <a href="<?= $user->urlProfile ?>" class="subscribers-item-link">
             <span class="fa fa-user"></span>
-            <span class="subscribers-item-img"<?php if (!empty($user->userpic)): ?> style="background-image: url('<?= $user->userpic->url ?>');"<?php endif ?>></span>
+            <span class="subscribers-item-img"<?php if (!empty($user->userpic)): ?> style="background-image: url('<?= $user->userpic['t']['maxSide'][100]['url'] ?>');"<?php endif ?>></span>
             <span class="subscribers-item-username"><?= $user->usernameFilled ?></span>
           </a>
         </li>
@@ -55,7 +55,7 @@
         <li class="subscribers-item">
           <a href="<?= $subscriber->urlProfile ?>" class="subscribers-item-link">
             <span class="fa fa-user"></span>
-            <span class="subscribers-item-img"<?php if (!empty($subscriber->userpic)): ?> style="background-image: url('<?= $subscriber->userpic->url ?>');"<?php endif ?>></span>
+            <span class="subscribers-item-img"<?php if (!empty($subscriber->userpic)): ?> style="background-image: url('<?= $subscriber->userpic['t']['maxSide'][100]['url'] ?>');"<?php endif ?>></span>
             <span class="subscribers-item-username"><?= $subscriber->usernameFilled ?></span>
           </a>
         </li>
