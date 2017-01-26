@@ -15,11 +15,17 @@ if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
 
 <main class="content stories">
   <header class="content-header">
-    <h1 class="content-title"><?php if ($owner->thisIsMe): ?>Привет, <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a>!<?php else: ?>Истории пользователя <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a> <span id="follow"></span><?php endif ?></h1>
-    <?php if ($canCreate): ?>
-      <!--<span class="fa fa-plus-square-o start-new-story" id="startNewStory1" title="Создать новую историю"></span>-->
-    <?php endif ?>
+    <div class="stories-user">
+      <div class="fa fa-user">
+        <div class="stories-user-img" style="background-image: url(https://take365.org/media/p2/userpic/2f/12037/me.jpg);"></div>
+      </div>
+      <div class="stories-desc">
+        <h1 class="stories-title"><?php if ($owner->thisIsMe): ?>Истории <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a><?php else: ?>Истории пользователя <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a> <span id="follow"></span><?php endif ?></h1>
+        <p class="stories-subscribers">Вас читают: <a href="#">13 пользователей</a></p>
+      </div>
+    </div>
   </header>
+
   <?php if ($stories): ?>
   <?php foreach ($stories as $story): ?>
   <section class="story<?php if ($story->isDeleted): ?> story-deleted<?php elseif ($story->isHidden): ?> story-hidden<?php elseif ($story->progress['isComplete']): ?> story-success<?php endif ?>">

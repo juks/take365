@@ -943,6 +943,61 @@ input[type='search']::-webkit-search-decoration {
 .story .story-header .story-title {
   font-size: 20px;
   }
+.stories-user {
+
+  }
+.stories-user .fa-user {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+  }
+.stories-user .fa-user:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #ECECEC;
+  text-align: center;
+  border-radius: 50%;
+  line-height: 1.4;
+  font-size: 64px;
+  color: #ECECEC;
+  box-sizing: border-box;
+  }
+.stories-user-img {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size: cover;
+  }
+.stories-desc {
+  display: inline-block;
+  vertical-align: middle;
+  }
+.stories-title {
+  margin-bottom: 15px;
+  color: #000;
+  line-height: 1;
+  font-size: 30px;
+  }
+.stories-subscribers {
+  color: #666;
+  }
+  .stories-subscribers a {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #666;
+    }
+  .stories-subscribers a:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #333;
+    }
 
 /* Story matrix */
 .story-matrix:after {
