@@ -982,12 +982,14 @@ input[type='search']::-webkit-search-decoration {
   vertical-align: middle;
   }
 .stories-title {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   color: #000;
   line-height: 1;
   font-size: 30px;
   }
 .stories-subscribers {
+  margin-bottom: 5px;
+  font-size: 14px;
   color: #666;
   }
   .stories-subscribers a {
@@ -998,6 +1000,10 @@ input[type='search']::-webkit-search-decoration {
     border-color: rgba(0, 0, 0, 0.2);
     color: #333;
     }
+.stories-profile {
+  font-size: 14px;
+  }
+
 
 /* Story matrix */
 .story-matrix:after {

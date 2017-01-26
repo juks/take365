@@ -20,8 +20,11 @@ if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
         <div class="stories-user-img" style="background-image: url(https://take365.org/media/p2/userpic/2f/12037/me.jpg);"></div>
       </div>
       <div class="stories-desc">
-        <h1 class="stories-title"><?php if ($owner->thisIsMe): ?>Истории <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a><?php else: ?>Истории пользователя <a href="<?= $owner->urlProfile ?>"><?= $owner->fullnameFilled ?></a> <span id="follow"></span><?php endif ?></h1>
-        <p class="stories-subscribers">Вас читают: <a href="#">13 пользователей</a></p>
+        <h1 class="stories-title"><?php if ($owner->thisIsMe): ?><?= $owner->fullnameFilled ?><?php else: ?><?= $owner->fullnameFilled ?> <span id="follow"></span><?php endif ?></h1>
+        <p class="stories-subscribers">Он читает: <a href="#">13</a>, его читают: <a href="#">7</a></p>
+        <?php if (!$owner->thisIsMe): ?>
+          <p class="stories-profile"><a href="#">Профиль пользователя</a></p>
+        <?php endif ?>
       </div>
     </div>
   </header>
