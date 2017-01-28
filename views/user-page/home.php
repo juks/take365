@@ -6,6 +6,9 @@ use app\components\Ml;
 
 StoryAsset::register($this);
 
+$subscribedCount = $owner->subscribedCount;
+$subscribersCount = $owner->subscribersCount;
+
 $this->registerJs("initStoriesIndex();");
 if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
   $this->registerJs("followRender(document.getElementById('follow'),{storyUserId:$owner->id,isFollowing:" . json_encode($isFollowing) ."});");
@@ -17,14 +20,15 @@ if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
   <header class="content-header">
     <div class="stories-user">
       <div class="fa fa-user">
-        <div class="stories-user-img" style="background-image: url(https://take365.org/media/p2/userpic/2f/12037/me.jpg);"></div>
+        <div class="stories-user-img" <?php if ($owner->userpic): ?> style="background-image: url(<?= $owner->userpic['t']['maxSide']['500']['url']; ?>)"<?php endif ?>></div>
       </div>
       <div class="stories-desc">
         <h1 class="stories-title"><?php if ($owner->thisIsMe): ?><?= $owner->fullnameFilled ?><?php else: ?><?= $owner->fullnameFilled ?> <span id="follow"></span><?php endif ?></h1>
-        <p class="stories-subscribers">Он читает: <a href="#">13</a>, его читают: <a href="#">7</a></p>
-        <?php if (!$owner->thisIsMe): ?>
-          <p class="stories-profile"><a href="#">Профиль пользователя</a></p>
+        <?php if ($subscribedCount || $subscribersCount): ?>
+        <p class="stories-subscribers">
+          <?php if($subscribedCount): ?>Он читает: <a href="#"><?= $subscribedCount ?></a><?= $subscribersCount ? ', ' : '' ?><?php endif ?><?php if($subscribersCount): ?><?= $subscribedCount ? 'е' : 'E' ?>го чита<?= $subscribersCount > 1 ? 'ют' : 'ет' ?>: <a href="#"><?= $subscribersCount ?></a><?php endif ?></p>
         <?php endif ?>
+        <p class="stories-profile"><a href="<?= $owner->urlProfile ?>"><?= $owner->thisIsMe ? 'Мой профиль' : 'Профиль пользователя' ?></a><?php if ($owner->thisIsMe): ?> <a href="<?= $owner->urlEdit ?>">Редактировать</a><?php endif ?></p>
       </div>
     </div>
   </header>

@@ -496,10 +496,34 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
         return Story::getNotifyStories($this->id, $date);
     }
 
+    /**
+     * Count subscriptions
+     * @return mixed
+     */
+    public function getSubscribedCount() {
+        return Feed::getCount(Feed::makeCondition(['reader_id' => $this->id]));
+    }
+
+    /**
+     * Count subscribed users
+     * @return mixed
+     */
+    public function getSubscribersCount() {
+        return Feed::getCount(Feed::makeCondition(['user_id' => $this->id]));
+    }
+
+    /**
+     * List subscriptions
+     * @return array|yii\db\ActiveRecord[]
+     */
     public function getSubscribed() {
         return self::find()->where(['id' => Feed::getSubscribedIds($this)])->with('userpic')->all();
     }
 
+    /**
+     * List subscribed users
+     * @return array|yii\db\ActiveRecord[]
+     */
     public function getSubscribers() {
         return self::find()->where(['id' => Feed::getSubscribersIds($this)])->with('userpic')->all();
     }
@@ -508,22 +532,10 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * Format current user
      * @param array $extra
      */
-    public function format($extra = []) {
-        $this->getImages();
+    public function format($extra = null) {
         $this->sex = intval($this->sex);
 
         $this->sexTitle = ['undefined', 'male', 'female'][$this->sex];
-    }
-
-    /**
-     * Retireves images
-     * @param array $extra
-     * @return $this
-     */
-    public function getImages($extra = []) {
-        if ($this->userpicCache === null) $this->userpicCache = $this->getUserpic();
-
-        return $this->userpicCache;
     }
 
     /**
@@ -550,11 +562,13 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
      * @return string
      */
     public function getGenderString() {
-        return !$this->sex || $this->sex == 1 ? 'он' : 'она';
+        if (!$this->sex) return 'пользователь';
+        return $this->sex == 1 ? 'он' : 'она';
     }
     
     public function getGenderStringAccusative() {
-        return !$this->sex || $this->sex == 1 ? 'его' : 'её';
+        if (!$this->sex) return 'пользователя';
+        return $this->sex == 1 ? 'его' : 'её';
     }
 
     /**

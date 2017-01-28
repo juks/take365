@@ -85,7 +85,6 @@ class Post extends PostBase {
         if ($permission == IPermissions::permRead && $this->getIsPublic()) return true;
         if ($permission == IPermissions::permComment && $this->getIsPublic()) return true;
         if ($this->created_by == $user->id) return true;
-        if ($permission == IPermissions::permWrite && StoryCollaborator::hasPermission($this, $user)) return true;
 
         return false;
     }
