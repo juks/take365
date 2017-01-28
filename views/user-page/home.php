@@ -20,15 +20,19 @@ if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
   <header class="content-header">
     <div class="stories-user">
       <div class="fa fa-user">
-        <div class="stories-user-img" <?php if ($owner->userpic): ?> style="background-image: url(<?= $owner->userpic['t']['maxSide']['500']['url']; ?>)"<?php endif ?>></div>
+        <a class="stories-user-img" href="<?= $owner->urlProfile ?>" <?php if ($owner->userpic): ?> style="background-image: url(<?= $owner->userpic['t']['maxSide']['500']['url']; ?>)"<?php endif ?>></a>
       </div>
       <div class="stories-desc">
         <h1 class="stories-title"><?php if ($owner->thisIsMe): ?><?= $owner->fullnameFilled ?><?php else: ?><?= $owner->fullnameFilled ?> <span id="follow"></span><?php endif ?></h1>
         <?php if ($subscribedCount || $subscribersCount): ?>
-        <p class="stories-subscribers">
-          <?php if($subscribedCount): ?>Он читает: <a href="#"><?= $subscribedCount ?></a><?= $subscribersCount ? ', ' : '' ?><?php endif ?><?php if($subscribersCount): ?><?= $subscribedCount ? 'е' : 'E' ?>го чита<?= $subscribersCount > 1 ? 'ют' : 'ет' ?>: <a href="#"><?= $subscribersCount ?></a><?php endif ?></p>
+          <p class="stories-subscribers">
+            <?php if($subscribedCount): ?>Он читает: <a href="<?= $owner->urlProfile ?>#subscribers"><?= $subscribedCount ?></a><?= $subscribersCount ? ', ' : '' ?><?php endif ?>
+            <?php if($subscribersCount): ?><?= $subscribedCount ? 'е' : 'E' ?>го чита<?= $subscribersCount > 1 ? 'ют' : 'ет' ?>: <a href="<?= $owner->urlProfile ?>#subscribers"><?= $subscribersCount ?></a><?php endif ?>
+          </p>
         <?php endif ?>
-        <p class="stories-profile"><a href="<?= $owner->urlProfile ?>"><?= $owner->thisIsMe ? 'Мой профиль' : 'Профиль пользователя' ?></a><?php if ($owner->thisIsMe): ?> <a href="<?= $owner->urlEdit ?>">Редактировать</a><?php endif ?></p>
+        <?php if ($owner->thisIsMe): ?>
+          <p class="stories-profile"><a href="<?= $owner->urlEdit ?>">Редактировать профиль</a></p>
+        <?php endif ?>
       </div>
     </div>
   </header>

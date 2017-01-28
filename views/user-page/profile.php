@@ -33,7 +33,7 @@
       </div>
     </div>
     <?php if ($subscribed || $subscribers): ?>
-    <div class="subscribers">
+    <div class="subscribers" id="subscribers">
       <?php if ($subscribed): ?>
       <h3><?= mb_convert_case($owner->genderString, MB_CASE_TITLE, "UTF-8") ?> читает</h3>
       <ul class="subscribers-list">

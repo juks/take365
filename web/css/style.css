@@ -943,9 +943,6 @@ input[type='search']::-webkit-search-decoration {
 .story .story-header .story-title {
   font-size: 20px;
   }
-.stories-user {
-
-  }
 .stories-user .fa-user {
   display: inline-block;
   vertical-align: middle;
@@ -955,7 +952,7 @@ input[type='search']::-webkit-search-decoration {
   }
 .stories-user .fa-user:before {
   position: absolute;
-  top: 0;
+  top: 1px;
   left: 0;
   width: 100px;
   height: 100px;
@@ -971,11 +968,12 @@ input[type='search']::-webkit-search-decoration {
   position: relative;
   width: 100px;
   height: 100px;
-  overflow: hidden;
   border-radius: 50%;
+  border-bottom: none;
   background-repeat: no-repeat;
   background-position: 50% 0;
   background-size: cover;
+  display: block;
   }
 .stories-desc {
   display: inline-block;
