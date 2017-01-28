@@ -26,8 +26,8 @@ if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
         <h1 class="stories-title"><?php if ($owner->thisIsMe): ?><?= $owner->fullnameFilled ?><?php else: ?><?= $owner->fullnameFilled ?> <span id="follow"></span><?php endif ?></h1>
         <?php if ($subscribedCount || $subscribersCount): ?>
           <p class="stories-subscribers">
-            <?php if($subscribedCount): ?>Он читает: <a href="<?= $owner->urlProfile ?>#subscribers"><?= $subscribedCount ?></a><?= $subscribersCount ? ', ' : '' ?><?php endif ?>
-            <?php if($subscribersCount): ?><?= $subscribedCount ? 'е' : 'E' ?>го чита<?= $subscribersCount > 1 ? 'ют' : 'ет' ?>: <a href="<?= $owner->urlProfile ?>#subscribers"><?= $subscribersCount ?></a><?php endif ?>
+            <?php if($subscribedCount): ?><?= mb_convert_case($owner->genderString, MB_CASE_TITLE, "UTF-8") ?> читает: <a href="<?= $owner->urlProfile ?>#subscribers"><?= $subscribedCount ?></a><?= $subscribersCount ? ', ' : '' ?><?php endif ?>
+            <?php if($subscribersCount): ?><?= $subscribedCount ? $owner->genderStringAccusative : mb_convert_case($owner->genderStringAccusative, MB_CASE_TITLE, "UTF-8") ?> чита<?= $subscribersCount > 1 ? 'ют' : 'ет' ?>: <a href="<?= $owner->urlProfile ?>#subscribers"><?= $subscribersCount ?></a><?php endif ?>
           </p>
         <?php endif ?>
         <?php if ($owner->thisIsMe && $owner->isPoorProfile): ?>
