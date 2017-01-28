@@ -30,8 +30,8 @@ if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
             <?php if($subscribersCount): ?><?= $subscribedCount ? 'е' : 'E' ?>го чита<?= $subscribersCount > 1 ? 'ют' : 'ет' ?>: <a href="<?= $owner->urlProfile ?>#subscribers"><?= $subscribersCount ?></a><?php endif ?>
           </p>
         <?php endif ?>
-        <?php if ($owner->thisIsMe): ?>
-          <p class="stories-profile"><a href="<?= $owner->urlEdit ?>">Редактировать профиль</a></p>
+        <?php if ($owner->thisIsMe && $owner->isPoorProfile): ?>
+          <p class="stories-profile"><a href="<?= $owner->urlEdit ?>">Заполнить профиль</a></p>
         <?php endif ?>
       </div>
     </div>

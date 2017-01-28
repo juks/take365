@@ -558,6 +558,14 @@ class User extends AuthUserBase implements IdentityInterface, IPermissions, IGet
     }
 
     /**
+     * Poor profile flag
+     * @return bool
+     */
+    public function getIsPoorProfile() {
+        return !$this->userpic || !$this->fullname;
+    }
+
+    /**
      * He/She string
      * @return string
      */
