@@ -1,3 +1,9 @@
+<?php
+if (!Yii::$app->user->isGuest && !$owner->thisIsMe) {
+  $this->registerJs("followRender(document.getElementById('follow'),{storyUserId:$owner->id,isFollowing:" . json_encode($isFollowing) ."});");
+}
+?>
+
 <main class="content profile">
   <section class="content-info">
     <header class="content-header">

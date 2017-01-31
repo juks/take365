@@ -114,6 +114,7 @@ class UserPageController extends MyController {
                                         'homepageUrl'   => $homepageUrl,
                                         'subscribed'    => $owner->subscribed,
                                         'subscribers'   => $owner->subscribers,
+                                        'isFollowing'   => Feed::isFollowing($owner, Yii::$app->user),
                                         'isOwnPage'     => $user && ($owner->id == $user->id),
                                     ]);
     }
