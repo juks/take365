@@ -9,8 +9,10 @@ use app\components\Ml;
 StoryAsset::register($this);
 $dimension = Media::getMediaOptions(Media::aliasStoryImage)[Media::largeThumbDimension];
 
-if ($isSubscribed) $this->registerJs("feedRender(document.getElementById('feed'),{userId:$owner->id});");
-
+if ($isSubscribed) {
+  $reactUser =  \yii\helpers\Json::encode($owner);
+  $this->registerJs("feedRender(document.getElementById('feed'),{user:$reactUser});");
+}
 ?>
 
 <?php if (!$isSubscribed): ?>

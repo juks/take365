@@ -1,8 +1,8 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Likes from '../Likes/Likes.jsx';
+import CommentList from '../CommentList/CommentList.jsx';
 
 export default class FeedItem extends React.Component {
   constructor(props) {
@@ -46,6 +46,14 @@ export default class FeedItem extends React.Component {
       </div>
       <div className="feed-footer">
         <Likes id={this.props.data.id} isLiked={this.props.data.isLiked} count={this.props.data.likesCount} />
+        <CommentList
+          comments={this.props.data.comments}
+          count={this.props.data.commentsCount}
+          id={this.props.data.id}
+          isMinimal={true}
+          targetType="3"
+          user={this.props.user}
+        />
       </div>
     </div>;
   }

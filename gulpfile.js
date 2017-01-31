@@ -13,7 +13,7 @@ const source = require('vinyl-source-stream');
 gulp.task('default', ['jsx']);
 
 function getBundler() {
-  const bundler = browserify('./web/blocks/comment-list/comment-list.jsx', {
+  const bundler = browserify('./web/blocks/appRender.jsx', {
     debug: process.env.NODE_ENV !== 'production', // add sourcemap
     cache: {},
     packageCache: {},

@@ -128,6 +128,7 @@ class Media extends MediaCore {
             $fields['date']          = 'date';
             $fields['timestamp']     = 'time_created';
             $fields['likesCount']    = function() { return $this->likes_count; };
+            $fields['commentsCount']    = function() { return $this->comments_count; };
             if (!Yii::$app->user->isGuest) {
                 $fields['isLiked']   = function () { return $this->isLiked ? $this->isLiked->value : false; };
             }

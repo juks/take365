@@ -1,25 +1,23 @@
 'use strict';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { PropTypes } from 'react';
 import Comment from '../comment-item/comment-item.jsx';
 import CommentForm from '../comment-form/comment-form.jsx';
 import {TransitionMotion, spring} from 'react-motion';
 
-import TEMP1 from '../follow/follow.jsx';
-import TEMP2 from '../feed/feed.jsx';
-import TEMP3 from '../slideshow/slideshow.jsx';
-import '../Search/Search.jsx';
-
-class CommentList extends React.Component {
+export default class CommentList extends React.Component {
   constructor(props) {
     super(props);
     const comments = props.comments || [];
 
     this.state = {
       comments: this.filterDeleted(comments),
+      isExpanded: false,
+      isLoading: false,
     };
     this.nodes = [];
+
+    this.loadMore = this.loadMore.bind(this);
   }
 
   filterDeleted(comments) {
@@ -55,6 +53,23 @@ class CommentList extends React.Component {
     this.setState({comments: comments});
   }
 
+  loadMore() {
+    const xhr = new XMLHttpRequest();
+    const url = `/api/media/${this.props.id}/comments`;
+    xhr.open('GET', url);
+    xhr.responseType = 'json';
+    this.setState({isLoading: true});
+    xhr.onload = () => {
+      const result = xhr.response.result;
+      this.setState({
+        isLoading: false,
+        isExpanded: true,
+        comments: this.filterDeleted(result),
+      });
+    };
+    xhr.send();
+  }
+
   getStyles() {
     return this.state.comments.map(c => {
       return {
@@ -82,14 +97,25 @@ class CommentList extends React.Component {
 
   render() {
     return <div>
-        <h2 className="comments-title">
-          { this.state.comments.length ?
-            `Комментарии (${this.state.comments.length})`
-          : 'Нет комментариев'}
-        </h2>
+        {!this.props.isMinimal ?
+          <h2 className="comments-title">
+            { this.state.comments.length ?
+              `Комментарии (${this.state.comments.length})`
+            : 'Нет комментариев'}
+          </h2>
+        : null }
         <div className="comments-footer">
-          <CommentForm user={this.props.user} contentId={this.props.id} onNew={this.onNew.bind(this)} />
+          <CommentForm
+            id={this.props.id}
+            isMinimal={this.props.isMinimal}
+            onNew={this.onNew.bind(this)}
+            targetType={this.props.targetType}
+            user={this.props.user}
+          />
         </div>
+        {this.props.isMinimal && this.props.count && !this.state.isExpanded ?
+          <button onClick={this.loadMore} disabled={this.state.isLoading}>Загрузить все</button>
+        : null }
         { this.state.comments ?
           <TransitionMotion willLeave={this.willLeave.bind(this)} willEnter={this.willEnter} styles={this.getStyles()}>
             { styles =>
@@ -106,10 +132,16 @@ class CommentList extends React.Component {
                           <a className="comment-options-item" href="javascript:" onClick={()=>this.setState({replyOpen: config.data.id})}>Ответить</a>
                         </div>;
                       } else {
-                        return <CommentForm user={this.props.user} parentId={config.data.id} contentId={this.props.id} onNew={(...args) => {
-                          this.onNew(...args);
-                          this.setState({replyOpen: null});
-                        }}>
+                        return <CommentForm
+                          id={this.props.id}
+                          parentId={config.data.id}
+                          targetType={this.props.targetType}
+                          user={this.props.user}
+                          onNew={(...args) => {
+                            this.onNew(...args);
+                            this.setState({replyOpen: null});
+                          }}
+                        >
                           <a className="cancel" href="javascript:" onClick={()=>this.setState({replyOpen: null})}>Отмена</a>
                         </CommentForm>;
                       }
@@ -125,6 +157,15 @@ class CommentList extends React.Component {
   }
 }
 
-window.appRender = function(node, props) {
-  ReactDOM.render(React.createElement(CommentList, props), node);
+CommentList.propTypes = {
+  count: PropTypes.number,
+  commentsCount: PropTypes.array,
+  user: PropTypes.object,
+  id: PropTypes.number,
+  isMinimal: PropTypes.bool,
+  targetType: PropTypes.string,
+};
+
+CommentList.defaultProps = {
+  targetType: '2',
 };

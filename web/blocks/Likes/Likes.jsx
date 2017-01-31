@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 export default class FeedItem extends React.Component {
   constructor(props) {

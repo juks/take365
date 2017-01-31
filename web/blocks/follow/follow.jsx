@@ -1,9 +1,8 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-class Follow extends React.Component {
+export default class Follow extends React.Component {
   constructor(props) {
     super(props);
 
@@ -38,7 +37,3 @@ class Follow extends React.Component {
     }</a>;
   }
 }
-
-window.followRender = function(node, props) {
-  ReactDOM.render(React.createElement(Follow, props), node);
-};
