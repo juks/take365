@@ -15,6 +15,7 @@
   }
 .blog .article .article-header h2 {
   margin: 0;
+  padding-right: 150px;
   line-height: 1.2;
   font-size: 20px;
   font-weight: 600;
@@ -83,7 +84,6 @@
   }
 .blog .article .article-footer {
   overflow: hidden;
-  margin-top: 40px;
   font-size: 16px;
   }
 .blog .article .article-options {
