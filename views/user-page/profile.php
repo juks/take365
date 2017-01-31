@@ -1,7 +1,7 @@
 <main class="content profile">
   <section class="content-info">
     <header class="content-header">
-      <h1 class="content-title"><?= $owner->fullnameFilled ?></h1>
+      <h1 class="content-title"><?php if ($owner->thisIsMe): ?><?= $owner->fullnameFilled ?><?php else: ?><?= $owner->fullnameFilled ?> <span id="follow"></span><?php endif ?></h1>
     </header>
     <div class="profile-userpic">
       <div class="fa fa-user">
