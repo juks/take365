@@ -13,7 +13,10 @@
     <?php endforeach ?>
 
   <?php else: ?>
-    <article class="article article-blog">Нет сообщений</article>
+    <article class="article article-blog">
+      <header class="article-header">
+        <h2>Нет записей</h2>
+      </header>
+    </article>
   <?php endif ?>
-
 </main>
