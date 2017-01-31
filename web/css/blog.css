@@ -1,3 +1,6 @@
+.blog {
+  text-align: left;
+  }
 .blog .article {
   margin-bottom: 60px;
   }
@@ -116,9 +119,9 @@
   border-color: rgba(0, 0, 0, 0.2);
   color: #333;
   }
-.blog-create {
+.blog-create-link {
   position: absolute;
-  top: 5px;
+  top: 0;
   right: 0;
   z-index: 1;
   padding: 5px 10px;
@@ -129,10 +132,77 @@
   border-radius: 13px;
   color: #FFF;
   }
-.blog-create .fa {
+.blog-create-link .fa {
   vertical-align: middle;
   }
-.blog-create:hover {
+.blog-create-link:hover {
   background: #00CA0A;
   color: #FFF;
   }
+.blog-all-link {
+  position: absolute;
+  top: 8px;
+  right: 0;
+  z-index: 1;
+  line-height: 1.2;
+  font-size: 14px;
+  }
+.blog-all-link .fa {
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  margin-top: -7px;
+  }
+.blog-post .form-group {
+  margin-bottom: 20px;
+  }
+.blog-post .form-group > .control-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 18px;
+  }
+.blog-post input[type='checkbox'] {
+  position: static;
+  height: auto;
+  padding: 0;
+  margin-right: 2px;
+  background: inherit;
+  border: inherit;
+  vertical-align: text-top;
+  font-size: inherit;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

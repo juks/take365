@@ -70,9 +70,9 @@ class PanelController extends MyController
     public function actionPostWrite($id = null) {
         if ($id) {
             $formTitle = 'Редактировать запись';
-            
+
             $post = Blog::getActivePost($id);
-            if (!$post) throw new \yii\web\NotFoundHttpException('Post not found!');
+            if (!$post) throw new \yii\web\NotFoundHttpException('Запись не найдена!');
         } else {
             $formTitle = 'Создать запись';
             $post = new Post();

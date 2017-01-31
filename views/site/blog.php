@@ -5,7 +5,7 @@
 ?>
 
 <main class="content blog">
-  <a href="/panel/post-write" class="blog-create"><i class="fa fa-plus" aria-hidden="true"></i> Создать запись</a>
+  <a href="/panel/post-write" class="blog-create-link"><i class="fa fa-plus" aria-hidden="true"></i> Создать запись</a>
 
   <?php if ($posts): ?>
     <?php foreach($posts as $post): ?>
