@@ -22,7 +22,7 @@
         config: {
             locale: 'en',
 
-            tagName: 'span',
+            tagName: 'time',
 
             className: 'smartdate',
 

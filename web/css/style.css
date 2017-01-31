@@ -595,6 +595,7 @@ input[type='search']::-webkit-search-decoration {
 /* Content
 ----------------------------------------------- */
 .content {
+  position: relative;
   width: 800px;
   margin: 0 auto;
   text-align: center;
@@ -1201,7 +1202,6 @@ input[type='search']::-webkit-search-decoration {
 .story-hidden .story-status-value {
   background: #D9AB2E;
   }
-
 .story-deleted .story-status-value {
   background: #E02929;
 }

@@ -1,85 +1,138 @@
-.article-blog .article-header {
+.blog .article {
+  margin-bottom: 60px;
+  }
+.blog .article .article-header {
   margin-bottom: 15px;
   }
-.article-blog .article-header time {
+.blog .article .article-header time {
   position: absolute;
   top: 2px;
   right: 100%;
   margin-right: 20px;
+  white-space: nowrap;
   font-size: 11px;
   color: #999;
   }
-.article-blog .article-header > h2 {
+.blog .article .article-header h2 {
   margin: 0;
   line-height: 1.2;
   font-size: 20px;
+  font-weight: 600;
   color: #333;
   }
-.article-blog .article-header a {
+.blog .article .article-header a {
   border-color: rgba(0, 0, 0, 0.2);
   color: #000;
   }
-.article-blog .article-header a:hover {
+.blog .article .article-header a:hover {
   border-color: rgba(224, 41, 41, 0.2);
   color: #E02929;
   }
-.article-blog > h3 {
+.blog .article h3 {
   margin: 30px 0 15px 0;
   line-height: 1.2;
   font-size: 18px;
   font-weight: 600;
   color: #333;
   }
-.article-blog > h4 {
+.blog .article h4 {
   margin: 30px 0 15px 0;
   line-height: 1.2;
   font-size: 16px;
   font-weight: 600;
   color: #333;
   }
-.article-blog p {
+.blog .article p {
   margin-bottom: 20px;
   line-height: 1.4;
   font-size: 16px;
   }
-.article-blog ul,
-.article-blog ol {
+.blog .article ul,
+.blog .article ol {
   margin: 0 0 20px 18px;
   }
-.article-blog ul {
+.blog .article ul {
   list-style: disc;
   }
-.article-blog ol {
+.blog .article ol {
   list-style: decimal;
   }
-.article-blog ul li,
-.article-blog ol li {
+.blog .article ul li,
+.blog .article ol li {
   margin-bottom: 5px;
   line-height: 1.4;
   font-size: 16px;
   }
-.article-blog .article-link-more,
-.article-blog .article-link-all {
+.blog .article .article-link-more,
+.blog .article .article-link-all {
   position: relative;
   }
-.article-blog .article-link-more:after {
+.blog .article .article-link-more:after {
   position: absolute;
   top: -2px;
   left: 100%;
   padding: 0 0 0 5px;
   content: '→';
   }
-.article-blog .article-link-all:before {
+.blog .article .article-link-all:before {
   position: absolute;
   top: -2px;
   right: 100%;
   padding: 0 5px 0 0;
   content: '←';
   }
-.article-blog .article-footer {
+.blog .article .article-footer {
+  overflow: hidden;
+  margin-top: 40px;
   font-size: 16px;
   }
-.article-blog-full .article-header > h2 {
-  font-weight: 600;
+.blog .article .article-options {
+  float: right;
+  font-size: 14px;
+  }
+.blog .article .article-options a {
+  position: relative;
+  margin-left: 32px;
+  }
+.blog .article .article-options .fa {
+  position: absolute;
+  top: 50%;
+  left: -17px;
+  margin-top: -7px;
+  }
+.blog .article .article-options .post-delete {
+  border-color: rgba(224, 41, 41, 0.2);
+  color: #E02929;
+  }
+.blog .article .article-options .post-delete:hover {
+  border-color: rgba(224, 41, 41, 0.4);
+  color: #FF0000;
+  }
+.blog .article .article-options .post-edit {
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #666;
+  }
+.blog .article .article-options .post-edit:hover {
+  border-color: rgba(0, 0, 0, 0.2);
   color: #333;
+  }
+.blog-create {
+  position: absolute;
+  top: 5px;
+  right: 0;
+  z-index: 1;
+  padding: 5px 10px;
+  line-height: 1;
+  font-size: 14px;
+  background: #00B209;
+  border: none;
+  border-radius: 13px;
+  color: #FFF;
+  }
+.blog-create .fa {
+  vertical-align: middle;
+  }
+.blog-create:hover {
+  background: #00CA0A;
+  color: #FFF;
   }

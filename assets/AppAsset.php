@@ -22,6 +22,7 @@ class AppAsset extends AssetBundle
         'css/react.css',
         'css/reset.css',
         'css/style.css',
+        'css/blog.css',
         'css/font-awesome.min.css'
     ];
     public $js = [
