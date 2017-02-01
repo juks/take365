@@ -125,7 +125,7 @@ class SiteController extends MyController
         $blog = Blog::findOne(1);
         $posts = $blog->posts;
 
-        return $this->render('blog', ['posts' => $posts]);
+        return $this->render('blog', ['posts' => $posts, 'pageType' => 'blog']);
     }
 
     /**
@@ -141,7 +141,7 @@ class SiteController extends MyController
         $post = Post::getActiveItem($id);
         if (!$post) throw new \yii\web\NotFoundHttpException('Здесь ничего нет');
 
-        return $this->render('post', ['post' => $post]);
+        return $this->render('post', ['post' => $post, 'pageType' => 'blog']);
     }
 
     public function actionHelp() {
