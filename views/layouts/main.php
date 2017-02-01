@@ -31,10 +31,8 @@ $this->registerJs('smartdate.init({locale: \'ru\'});');
     <div class="page-wrapper">
       <header class="header">
         <h1 class="header-logo">
-          <a href="<?= \yii\helpers\Url::base(true) ?>">
-            take365
-            <!-- <sup class="header-logo-text">блог</sup> -->
-          </a>
+          <a href="<?= \yii\helpers\Url::base(true) ?>">take365</a>
+          <?php if ($this->params['pageType'] == 'blog'): ?><sup class="header-logo-text">блог</sup><?php endif ?>
         </h1>
       </header>
       <nav class="nav">
