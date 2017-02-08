@@ -17,6 +17,7 @@
                 ();
             </script>
         </li>
+        <li><a href="/help/privacy">Положение о&nbsp;конфеденциальности</a></li>
         <li><a href="https://itunes.apple.com/ru/app/take365/id1082676900"><span class="fa fa-apple"></span> iOS</a></li>
         <li><a href="https://play.google.com/store/apps/details?id=org.take365.take365"><span class="fa fa-android"></span> Android</a></li>
         <li><a href="https://telegram.me/take365"><span class="fa fa-telegram"></span> Telegram</a></li>

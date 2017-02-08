@@ -649,9 +649,20 @@ input[type='search']::-webkit-search-decoration {
     margin-top: 0;
     }
   .article H3 {
+    margin: 50px 0 20px 0;
+    color: #000;
+    font-size: 26px;
+    }
+  .article H4 {
     margin: 30px 0 20px 0;
     color: #000;
-    font: 18px/1 Arial, sans-serif;
+    font-size: 22px;
+    }
+  .article UL {
+    list-style: disc;
+    }
+  .article UL LI {
+    margin: 0 0 20px 18px;
     }
   .article .video {
     text-align: center;
@@ -1355,7 +1366,9 @@ input[type='search']::-webkit-search-decoration {
     margin-bottom: 5px;
     }
     .story-random .story-header H4 {
+      margin: 0;
       font-weight: 600;
+      font-size: 16px;
       }
       .story-random .story-header H4 A {
         border: none;
