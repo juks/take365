@@ -15,13 +15,14 @@ return [
     '/api/'                                                         => '/api/default/index',
     '/api-doc/'														=> '/api/default/doc',
     '/api/<controller:\w+>/<method:\w+>'						    => '/api/<controller>/<method>',
+    ['pattern' =>'/help/<method:\s+>/?',                            'route' => '/help/<method>', 'defaults' => ['method' => 'index']],
 
-    '<alias:captcha|about|logout|help|howto|blog|tag|register>/?'   => '/site/<alias>',
-    ['pattern' =>'/unsubscribe/<optionName:[a-zA-Z]+>/?',                 'route' => '/site/unsubscribe'],
+    '<alias:captcha|about|logout|blog|tag|register>/?'              => '/site/<alias>',
+    ['pattern' =>'/unsubscribe/<optionName:[a-zA-Z]+>/?',           'route' => '/site/unsubscribe'],
     '/blog/<id:\d+>/?'    		                                    => '/site/blog-post',
 
     '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/?'        					                                    => '/user-page/home',
-    '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/story/<storyId:[0-9]{1,5}>/?'	                                    => '/user-page/story',
+    '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/story/<storyId:[0-9]{1,5}>/?'	                                => '/user-page/story',
     '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/story/<storyId:[0-9]{1,5}>/<date:[0-9]{4}-[0-9]{2}-[0-9]{2}>/?'	=> '/user-page/story',
     '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/profile/?'					                                    => '/user-page/profile',
     '/<username:@?[A-Za-z0-9!][A-Za-z0-9\-._~\[\]@!$()*+=.]{0,19}>/profile/edit/?'				                                    => '/user-page/edit',

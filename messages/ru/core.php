@@ -19,6 +19,7 @@ return [
     '{user} stories'										        => 'Истории {user}',
     'About the project'										        => 'О проекте',
     'Howto'													        => 'Полезные советы',
+    'Privacy policy'                                                => 'Положение о конфеденциальности пользователей',
 
     'Collaborator limit reached'                                    => 'Достигнуто ограничение количества соавторов',
 

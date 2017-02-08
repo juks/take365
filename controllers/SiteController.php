@@ -158,6 +158,11 @@ class SiteController extends MyController
         return $this->render('howto');
     }
 
+    public function actionPrivacy() {
+        $this->setTitle(Ml::t('Privacy policy'));
+        return $this->render('privacy');
+    }
+
     public function actionTag($name) {
         $mediaList = \app\models\MediaTagLink::listByTag($name);
         return $this->render('tag', ['mediaList' => $mediaList]);
@@ -220,22 +225,5 @@ class SiteController extends MyController
                                                 'actionResult'  => $actionResult,
                                                 'actionTitle'   => $actionTitle,
                                                 'actionUrl'     => $user->getUrlUnsubscribe($optionName, true)]);
-    }
-
-    public function actionCave() {
-        /*$a = \app\models\Storage::getByKey('logo');
-
-        \app\models\MQueue::compose()
-            ->toUser(Yii::$app->user->identity, ['checkOption' => 'notify'])
-            ->subject('Test')
-            ->body('foo')
-            ->attach($a)
-            ->send();*/
-
-        $nl = \app\models\Newsletter::findOne(1);
-        $nl->testDeliver();
-
-        //$s = new \app\models\Storage();
-        //$s->takeFile('http://pagemywork.com/filestorage/p1/d3/d9/10/logo.jpg');
     }
 }
