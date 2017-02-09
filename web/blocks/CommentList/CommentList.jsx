@@ -96,7 +96,7 @@ export default class CommentList extends React.Component {
   }
 
   render() {
-    return <div>
+    return <div className="comments-inner">
         {!this.props.isMinimal ?
           <h2 className="comments-title">
             { this.state.comments.length ?
@@ -113,14 +113,11 @@ export default class CommentList extends React.Component {
             user={this.props.user}
           />
         </div>
-        {this.props.isMinimal && this.props.count && !this.state.isExpanded ?
-          <button onClick={this.loadMore} disabled={this.state.isLoading}>Загрузить все</button>
-        : null }
         { this.state.comments ?
           <TransitionMotion willLeave={this.willLeave.bind(this)} willEnter={this.willEnter} styles={this.getStyles()}>
             { styles =>
               // empty div for remove warning onlyChild
-              <div>
+              <div className="comments-list">
               { styles.map(config => {
                 return <div key={config.key} style={config.style} ref={el => this.nodes[config.key] = el}>
                   <Comment data={config.data} user={this.props.user} onRemoved={this.onRemoved.bind(this)}>{
@@ -153,6 +150,11 @@ export default class CommentList extends React.Component {
             }
           </TransitionMotion>
         : null}
+        {this.props.isMinimal && this.props.count && !this.state.isExpanded ?
+          <div className="comments-load">
+            <button className="btn" onClick={this.loadMore} disabled={this.state.isLoading}>Загрузить все</button>
+          </div>
+        : null }
       </div>;
   }
 }

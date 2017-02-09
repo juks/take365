@@ -384,11 +384,7 @@ input[type='search']::-webkit-search-decoration {
     height: 30px;
     padding: 0 15px;
     border-radius: 15px;
-    font-size: 12px;
-    }
-  .form-comment LEGEND {
-    padding-bottom: 15px;
-    font: 600 20px/1 Arial, sans-serif;
+    font-size: 14px;
     }
   .form-comment .cancel {
     margin-left: 15px;
@@ -1661,7 +1657,8 @@ input[type='search']::-webkit-search-decoration {
   }
 .comments:after,
 .comment:after,
-.comment-header:after {
+.comment-header:after,
+.comments-inner:after {
   clear: both;
   display: block;
   height: 0;
@@ -1672,10 +1669,10 @@ input[type='search']::-webkit-search-decoration {
   font-size: 20px;
   }
 .comment {
-  margin-bottom: 25px;
+  margin-bottom: 10px;
   }
 .comment-header {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   }
 .comment-user,
 .comment-username,
@@ -1712,6 +1709,7 @@ input[type='search']::-webkit-search-decoration {
   height: 25px;
   overflow: hidden;
   border-radius: 50%;
+  border: none;
   background-repeat: no-repeat;
   background-position: 50% 0;
   background-size: cover;
@@ -1722,6 +1720,7 @@ input[type='search']::-webkit-search-decoration {
   font-weight: 600;
   }
   .comment-username A {
+    border: none;
     color: #000;
     }
   .comment-username A:hover {
@@ -1738,6 +1737,10 @@ input[type='search']::-webkit-search-decoration {
 .comment-trash {
   margin-left: 8px;
   }
+.comment-url A,
+.comment-trash A {
+  border: none;
+  }
 .comments-reply {
   padding-left: 20px;
   }
@@ -1745,7 +1748,8 @@ input[type='search']::-webkit-search-decoration {
   padding-left: 0;
   }
 .comment-options {
-  margin-top: 5px;
+  margin-top: 10px;
+  line-height: 1;
   font-size: 12px;
   }
 .comment-options-item {
@@ -1754,9 +1758,12 @@ input[type='search']::-webkit-search-decoration {
   margin-right: 10px;
   }
 .comment-my {
-  padding: 15px;
+  padding: 10px;
   background: #F9F9F3;
   border-radius: 5px;
+  }
+.comment-text {
+  font-size: 14px;
   }
 .comments-footer {
   margin-top: 20px;
@@ -1789,6 +1796,15 @@ input[type='search']::-webkit-search-decoration {
     }
   .comments-info A:hover {
     color: #E02929;
+    }
+.comments-load {
+  text-align: center;
+  }
+  .comments-load .btn {
+    height: 30px;
+    padding: 0 15px;
+    border-radius: 15px;
+    font-size: 14px;
     }
 
 /* Feed
@@ -1873,6 +1889,9 @@ input[type='search']::-webkit-search-decoration {
 .feed-desc P {
   margin: 10px 0 0 0;
   }
+.feed-footer {
+  overflow: hidden;
+  }
 .feed-likes .feed-like {
   border: none;
   vertical-align: middle;
@@ -1900,4 +1919,9 @@ input[type='search']::-webkit-search-decoration {
   padding: 0 20px;
   border-radius: 20px;
   font-size: 16px;
+  }
+.feed-comments {
+  float: right;
+  line-height: 1;
+  font-size: 14px;
   }

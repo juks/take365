@@ -67,11 +67,6 @@ export default class CommentForm extends React.Component {
       </div>;
     }
     return <form className="form form-comment" ref="form" onSubmit={this.onSubmit}>
-      {this.props.parentId ?
-        <fieldset>
-          <legend>Ваш комментарий</legend>
-        </fieldset>
-      : null}
       <fieldset className={this.state.error ? 'error' : ''}>
         <textarea ref="body" onKeyDown={this.onKeyDown.bind(this)} onChange={this.onChange.bind(this)} rows="10" cols="30" name="body"></textarea>
         <span className="error-message"></span>
