@@ -71,6 +71,7 @@ class FeedController extends ApiController {
                                                     ['n' => 'lastTime', 't' => 'Only show elements created after given timestamp', 'f' => 'integer', 'o' => true],
                                                     ['n' => 'firstTime', 't' => 'Only show elements created before given timestamp', 'f' => 'integer', 'o' => true],
                                                     ['n' => 'lastComments', 't' => 'Include last n comments', 'f' => 'integer', 'o' => true],
+                                                    ['n' => 'lastLikes', 't' => 'Include last n likes', 'f' => 'integer', 'o' => true],
                                             ],
                     'responses'             => ['200' => ['t' => 'array', 's' => 'Media']]
                 ],
@@ -157,13 +158,14 @@ class FeedController extends ApiController {
      *
      * @param string $username
      */
-    public function actionFeed($page = 1, $maxItems = 20, $lastTime = null, $firstTime = null, $lastComments = null) {
+    public function actionFeed($page = 1, $maxItems = 20, $lastTime = null, $firstTime = null, $lastComments = null, $lastLikes = null) {
         $this->addContent(Feed::feed(Yii::$app->user, [
                                                         'page'         => $page,
                                                         'maxItems'     => $maxItems,
                                                         'lastTime'     => $lastTime,
                                                         'firstTime'    => $firstTime,
-                                                        'lastComments' => $lastComments
+                                                        'lastComments' => $lastComments,
+                                                        'lastLikes'    => $lastLikes
                                                       ]));
     }
 }

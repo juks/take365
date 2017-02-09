@@ -13,6 +13,8 @@ use app\components\interfaces\IPermissions;
  * Trait implementing like/unlike methods
  */
 trait TLike {
+    public $likesCache = null;
+
     /**
      * Adds or removes like according to given state
      */
@@ -90,9 +92,18 @@ trait TLike {
      * @return $this
      * @throws \app\components\ModelException
      */
-    public function listLikes() {
-        $ids = $this->getTargetIdTargetType();
-        return Like::find()->where(['target_id' => $ids[0], 'target_type' => $ids[1]])->with('author')->all();
+    public function listLikes($extra = null) {
+        if ($this->likesCache == null) {
+            $ids = $this->getTargetIdTargetType();
+
+            if (empty($extra['lastLikes'])) {
+                $this->likesCache = Like::find()->where(['target_id' => $ids[0], 'target_type' => $ids[1]])->with('author')->all();
+            } else {
+                $this->likesCache = Like::find()->where(['target_id' => $ids[0], 'target_type' => $ids[1]])->with('author')->orderBy('time_created DESC')->limit($extra['lastLikes'])->all();
+            }
+        }
+
+        return $this->likesCache;
     }
 }
 

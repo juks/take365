@@ -131,6 +131,7 @@ class Feed extends FeedBase {
         $lastTime      = empty($extra['lastTime']) ? 0 : $extra['lastTime'];
         $firstTime     = empty($extra['firstTime']) ? 0 : $extra['firstTime'];
         $lastComments  = empty($extra['lastComments']) ? null : $extra['lastComments'];
+        $lastLikes     = empty($extra['lastLikes']) ? null : $extra['lastLikes'];
 
         if (!$maxItems > self::$maxItemsLimit) $maxItems = self::$maxItemsLimit;
 
@@ -171,6 +172,7 @@ class Feed extends FeedBase {
                 $mediaItem->setScenario('feed');
                 if ($mediaItem->targetStory) $mediaItem->targetStory->setScenario('feed');
                 if ($lastComments) $mediaItem->getComments(['lastComments' => $lastComments]);
+                if ($lastLikes) $mediaItem->listLikes(['lastLikes' => $lastLikes]);
             }
         }
 

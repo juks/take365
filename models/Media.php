@@ -134,6 +134,7 @@ class Media extends MediaCore {
         }
 
         if (!empty($this->commentsCache)) $fields['comments'] = function() { return $this->commentsCache; };
+        if (!empty($this->likesCache)) $fields['likes'] = function() { return $this->likesCache; };
 
         return $fields;
     }
