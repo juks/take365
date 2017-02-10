@@ -1150,18 +1150,15 @@ input[type='search']::-webkit-search-decoration {
   margin-top: -6px;
   color: #CCC;
   }
-.story-info {
-  margin-bottom: 10px;
+.story-footer {
+  margin-top: 20px;
   font-size: 14px;
   }
-  .story-info P {
-    margin-bottom: 0;
-    }
-  .story-info .num-comments {
+  .story-footer .num-comments {
     position: relative;
-    margin: 0 15px 0 20px;
+    margin-left: 20px;
     }
-  .story-info .num-comments:before {
+  .story-footer .num-comments:before {
     position: absolute;
     top: 0;
     right: 100%;
@@ -1170,13 +1167,19 @@ input[type='search']::-webkit-search-decoration {
     font-family: 'FontAwesome';
     color: #333;
     }
-  .story-info #delete-recover {
+  .story-footer .delete-recover {
+    position: relative;
     border: none;
     }
-  .story-info .recover {
+  .story-footer .sep {
+    margin: 0 5px;
+    }
+  .story-footer .recover {
+    border-bottom: 1px solid rgba(0, 178, 9, 0.2);
     color: #00B209;
     }
-  .story-info .delete {
+  .story-footer .delete {
+    border-bottom: 1px solid rgba(224, 41, 41, 0.2);
     color: #E02929;
     }
 
@@ -1303,18 +1306,16 @@ input[type='search']::-webkit-search-decoration {
 
 /* Story settings */
 .story-settings {
-  font-size: 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
   }
-  .story-settings FIELDSET {
-    margin-bottom: 10px;
-    }
   .story-settings LABEL {
     display: inline-block;
-    width: 100px;
+    vertical-align: middle;
     margin-right: 5px;
     }
   .story-settings SELECT {
-    font-size: 12px;
+    font-size: 14px;
     }
   .story-settings .fa-question-circle {
     position: relative;
@@ -1541,10 +1542,7 @@ input[type='search']::-webkit-search-decoration {
   }
 .social-item {
   display: inline-block;
-  vertical-align: middle;
-  }
-.social-item.tw {
-  width: 100px;
+  vertical-align: top;
   }
 
 /* Main

@@ -108,15 +108,14 @@
 	width: 200px;
 	height: 200px;
 	background: #ccc;
-	vertical-align: top;
-	margin-bottom: 5px;
-	margin-right: 5px;
-	font-size: 12px;
 	float: left;
   overflow: hidden;
 	}
-	.user-photo A {
-		border: none;
+  .user-photo-content A {
+    border: none;
+    }
+	.user-photo-content > A {
+    display: block;
 		}
 .user-photo.win-open {
 	overflow: visible;
@@ -403,24 +402,6 @@
 	width: 400px;
 	height: 5em;
 }
-
-
-#settingsHolder {
-	font-size: 12px;
-}
-#settingsHolder select {
-	font-size: 12px;
-	}
-#settingsHolder td {
-	padding: 0 10px 10px 0;
-}
-
-#socialBlock {
-	padding: 10px 0 40px 0;
-	}
-	#socialBlock A {
-		border: none;
-		}
 
 #rssBlock {
 	position: relative;
