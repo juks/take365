@@ -73,12 +73,16 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
     <h2><?= $story->yearStart ?>—<?= $story->yearEnd ?></h2>
 
     <?php foreach ($story->calendar as $day): ?>
-      <section class="story-month">
-        <?php if ($lastMonth != $day['monthTitle']): ?>
-          <h3><?= $day['monthTitle'] ?></h3>
+      <?php if ($lastMonth != $day['monthTitle']): ?>
+        <?php if ($lastMonth): ?>
+            </ul>
+          </section>
         <?php endif ?>
+        <section class="story-month">
+          <h3><?= $day['monthTitle'] ?></h3>
+            <ul class="story-list">
+      <?php endif ?>
 
-        <ul class="story-list">
           <li <?php if (!empty($day['id'])): ?> data-id="<?= $day['id'] ?>" <?php endif ?>id="day-<?= $day['date'] ?>" class="story-item user-photo <?= !empty($day['isUploadable']) ? 'available' : 'dummy fa fa-clock-o' ?><?php if (!empty($day['isEmpty'])): ?> empty i-upload<?php endif ?>">
             <div class="user-photo-day"><?= $day['monthDay'] ?></div>
             <?php if (empty($day['isEmpty'])): ?>
@@ -102,13 +106,13 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
               <?php endif ?>
             <?php endif ?>
           </li>
-        </ul>
 
-        <?php
-          $lastMonth = $day['monthTitle'];
-        ?>
-      </section>
+      <?php
+        $lastMonth = $day['monthTitle'];
+      ?>
     <?php endforeach ?>
+      </ul>
+    </section>
   <?php endif ?>
 
   <div class="comments" id="comments"></div>
