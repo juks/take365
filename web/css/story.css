@@ -10,17 +10,181 @@
 .form .editable-input:-ms-input-placeholder {
   font-size: 14px;
   }
-.yearTitle {
-	font-size: 24px;
-	}
-.hugeTitle {
-	padding-top: 30px;
-	margin-bottom: 10px;
-	font-size: 24px;
-	}
-.cl {
-	clear: both;
-	}
+
+
+/* Story manage */
+.story-manage {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 520px;
+  height: 240px;
+  background: #FFF;
+  z-index: 6;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.3);
+  line-height: 1;
+  font-size: 12px;
+  }
+.story-item-manage {
+  overflow: visible;
+  }
+.story-item-manage:hover {
+  cursor: default;
+  }
+.story-item-manage .story-manage {
+  display: block;
+  cursor: default;
+  }
+.story-item-manage .story-edit {
+  display: none;
+  }
+.story-manage-img {
+  position: relative;
+  float: left;
+  width: 200px;
+  height: 200px;
+  background: #F7F7F7;
+  }
+.story-manage-img .fa-circle-o-notch {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: #FFF;
+  font-size: 20px;
+  margin: -10px 0 0 -10px;
+  }
+.story-manage-img.upload {
+  opacity: 0.5;
+  }
+.story-manage-img.upload .fa-circle-o-notch {
+  display: block;
+  }
+.story-manage-img-edit {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #FFF;
+  text-align: center;
+  padding: 7px 0;
+  line-height: 1;
+  font-size: 12px;
+  }
+.story-manage-img-edit:hover {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.7);
+  }
+.story-manage-img .fa-trash-o {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  color: #FFF;
+  text-align: center;
+  font-size: 20px;
+  }
+.story-item-empty .story-manage-img:hover {
+  cursor: pointer;
+  }
+.story-item-empty .story-manage-img:hover .fa-file-image-o {
+  color: #B6B6B6;
+  }
+.story-item-empty .story-manage-img:hover .story-manage-img-edit {
+  background: rgba(0, 0, 0, 0.6);
+  }
+.story-manage-img .fa-file-image-o:before {
+  line-height: 2.5;
+  font-size: 80px;
+  }
+.story-manage-img .fa-trash-o:before {
+  position: relative;
+  top: 4px;
+  }
+.story-manage-img .fa-trash-o:hover {
+  background: rgba(255, 255, 255, 1);
+  cursor: pointer;
+  color: #E02929;
+  }
+.story-manage-content {
+  overflow: hidden;
+  padding-left: 20px;
+  }
+.story-manage H4 {
+  text-align: left;
+  margin-bottom: 15px;
+  font: 16px/1 'RobotoLight', sans-serif;
+  color: #333;
+  }
+.story-manage .form {
+  margin-top: 10px;
+  }
+  .story-manage .form FIELDSET {
+    margin-bottom: 10px;
+    text-align: left;
+    }
+  .story-manage .form INPUT[type='text'] {
+    padding: 0 5px;
+    height: 25px;
+    font-size: 12px;
+    background: none;
+    border: 1px solid #CCC;
+    }
+  .story-manage .form INPUT[type='submit'] {
+    padding: 0 15px;
+    height: 28px;
+    font-size: 12px;
+    }
+  .story-manage .form TEXTAREA {
+    width: 100%;
+    height: 94px;
+    padding: 3px 5px;
+    font-size: 12px;
+    border: 1px solid #CCC;
+    }
+  .story-manage .form ::-webkit-input-placeholder {
+    font-size: 12px;
+    color: #CCC;
+    }
+  .story-manage .form :-moz-placeholder {
+    font-size: 12px;
+    color: #CCC;
+    }
+  .story-manage .form ::-moz-placeholder {
+    font-size: 12px;
+    color: #CCC;
+    }
+  .story-manage .form :-ms-input-placeholder {
+    font-size: 12px;
+    color: #CCC;
+    }
+  .story-manage .form .cancel {
+    font-size: 12px;
+    }
+
+/* Right position */
+.story-manage-r {
+  left: auto;
+  right: 0;
+  }
+.story-manage-r .story-manage-img {
+  float: right;
+  }
+.story-manage-r .story-manage-content {
+  padding: 0 20px 0 0;
+  }
+.story-manage-r .story-manage-img .fa-trash-o {
+  left: auto;
+  right: 5px;
+  }
+
 .story-title.editable {
   font-size: 30px;
   }
@@ -76,6 +240,9 @@
 .editable-input:hover {
   cursor: text;
   }
+.editable-placeholder {
+  color: #999;
+  }
 .editable-not-editing .editable-submit,
 .editable-not-editing .editable-cancel,
 .editable-not-editing .editable-input {
@@ -85,9 +252,7 @@
 .editable-editing .editable-placeholder {
 	display: none;
 	}
-#storyEditForm {
-	width: 610px;
-	}
+
 .article .story-title,
 .article .story-desc {
 	margin: 0 0 10px 0;
@@ -103,46 +268,6 @@
 	left: -100px;
 	}
 
-.user-photo {
-	position: relative;
-	width: 200px;
-	height: 200px;
-	background: #ccc;
-	float: left;
-  overflow: hidden;
-	}
-  .user-photo-content A {
-    border: none;
-    }
-	.user-photo-content > A {
-    display: block;
-		}
-.user-photo.win-open {
-	overflow: visible;
-}
-
-.user-photo-day {
-	position: absolute;
-	top: 50%;
-  left: 50%;
-  width: 30px;
-  height: 30px;
-  margin: -15px 0 0 -15px;
-	border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 50%;
-	text-align: center;
-  line-height: 2;
-  font-size: 14px;
-	color: #FFF;
-  font-weight: 600;
-	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
-  z-index: 1;
-  }
-
-.user-photo.empty .user-photo-day {
-  border: none;
-  }
-
 .user-photo-proggress {
 	background: linear-gradient(to top, #FFFFFF 0%, #FEFEFE 29%, #F9F9F9 53%, #EFF0F0 76%, #E1E2E3 100%);
 	position: absolute;
@@ -153,58 +278,12 @@
 	border-radius: 2px;
 	z-index: 22;
 }
-
 .user-photo-proggress-bar {
 	background: linear-gradient(to top, #426FD9 0%, #426FD9 18%, #3F6AD1 59%, #375FC2 88%, #335BBC 94%, #335BBC 100%);
 	height: 18px;
 	width: 1px;
 }
 
-.user-photo-additional {
-	display: none;
-	position: absolute;
-	top: 5px;
-	left: 0;
-	line-height: 16px;
-}
-	.user-photo:hover .user-photo-additional {
-		display: block;
-	}
-	.user-photo-additional span {
-		padding: 5px;
-		background: #000;
-		background: rgba(0, 0, 0, 0.75);
-	}
-
-.user-photo.active {
-	box-shadow: inset 0 0 4px 4px #888 !important;
-}
-.user-photo:hover {
-	box-shadow: inset 0 0 1px 1px #888;
-	cursor: pointer;
-}
-
-.user-photo-image {
-	position: relative;
-	max-width: 200px;
-	max-height: 200px;
-	vertical-align: top;
-}
-
-.user-photo-manage {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: -26px;
-	padding: 7px 0;
-	background: #000;
-	background: rgba(0, 0, 0, 0.5);
-  transition: bottom 200ms ease-out;
-	line-height: 1;
-	font-size: 12px;
-	text-align: center;
-	color: #FFF;
-  }
 
 .user-photo-likes {
 	position: absolute;
@@ -231,9 +310,6 @@
   font-size: 12px;
   }
 
-.user-photo.available:hover .user-photo-manage {
-  bottom: 0;
-  }
 
 .dummy {
 	background: #FFF;
@@ -297,37 +373,7 @@
 	z-index: 0;
 }
 
-.user-photo-manage-win {
-	position: absolute;
-	left: -10px;
-	right: -210px;
-	bottom: -10px;
-	top: -10px;
-	background: #fff;
-  border-radius: 10px;
-	border: 1px solid #888;
-	z-index: 20;
-}
-.user-photo-manage-win-left {
-	right: -10px;
-	left: -210px;
-}
-.user-photo-manage-win-left .manage-win-image {
-	float: right;
-}
-	.manage-win-aside {
-		padding: 0 7px;
-	}
-	.ctrl-replace, .ctrl-remove, .ctrl-restore {
-		cursor: pointer;
-	}
-	.manage-win {
-		margin-top: 8px;
-	}
-	.manage-win-image {
-		float: left;
-		margin: 1px 9px 0 9px;
-	}
+
 
 .user-photo-restore {
 	position: absolute;
@@ -408,11 +454,3 @@
 	top: 4px;
 	width: 40px;
 }
-
-.manage-win-texts INPUT[type="text"] {
-	margin-bottom: 5px;
-	}
-.manage-win-texts INPUT[type="text"],
-.manage-win-texts TEXTAREA {
-	border: 1px solid #CCC;
-	}

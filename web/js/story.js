@@ -163,7 +163,7 @@ function initStoriesIndex() {
 }
 
 function initStory() {
-	$("#userPhotos").on('click', '.user-photo-image', function(e) {
+	$("#userPhotos").on('click', '.story-img', function(e) {
 		e.preventDefault();
 		if (this.moved) {
 			this.moved = false;
@@ -191,13 +191,13 @@ function initStory() {
 
 		$('.user-photo.available').click(function() {
 			var elem = $(this);
-			if (elem.hasClass('i-upload')) {
+			if (elem.hasClass('upload')) {
 				Story.openUpload(elem);
 			}
 		});
 
-		$('#userPhotos').on('click', '.user-photo-manage', function(e) {
-			Story.winOpen($(e.target).closest('.user-photo'));
+		$('#userPhotos').on('click', '.story-edit', function(e) {
+			Story.winOpen($(e.target).closest('.story-item'));
 		});
 	}
 }
@@ -224,7 +224,7 @@ function initStoryUploder() {
 			}
 		}).appendTo('body');
 
-		$('#userPhotos').on('mouseenter', '.i-upload', function(e) {
+		$('#userPhotos').on('mouseenter', '.upload', function(e) {
 			$('[target='+Story.uploader.id+'_iframe]').css({zIndex: 1000});
 
 			var iUpload = $(this),
@@ -332,10 +332,10 @@ function initStoryUploder() {
 
 		response = JSON.parse(response.response);
 		if (response.result) {
-			$('#' + file.storyNodeId + ' .user-photo-content').remove();
+			$('#' + file.storyNodeId + ' .story-item').remove();
 			var content = $('<div/>', {
-				'class': 'user-photo-content',
-				html: '<a href="'+response.result.url+'"><img class="user-photo-image" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
+				'class': 'story-item',
+				html: '<a href="'+response.result.url+'"><img class="story-img" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
 						+'<div class="user-photo-manage">Редактировать</div>'
 						+'<div class="user-photo-likes">'
 							+'<a href="#" class="fa user-photo-like fa-heart-o"></a>'
@@ -346,7 +346,7 @@ function initStoryUploder() {
 			$('#' + file.storyNodeId)
 			.attr('data-id', response.result.id)
 			.removeClass('empty')
-			.removeClass('i-upload')
+			.removeClass('upload')
 			.append(content);
 
 			StoryDragAndDrop.addContent(content);
@@ -425,7 +425,7 @@ StoryDragAndDrop = {
 	selectors: {
 		container: '.user-photo',
 		availableDrop: '.user-photo.available',
-		availableContent: '.user-photo-content'
+		availableContent: '.story-item'
 	},
 
 	isDragging: false,
@@ -527,7 +527,7 @@ StoryDragAndDrop = {
 		containerTo
 		.removeClass(this.classNames.onDragenter)
 		.removeClass('empty')
-		.removeClass('i-upload');
+		.removeClass('upload');
 
 		contentFrom
 		.appendTo(containerTo)
@@ -546,7 +546,7 @@ StoryDragAndDrop = {
 		} else {
 			containerFrom
 			.addClass('empty')
-			.addClass('i-upload');
+			.addClass('upload');
 		}
 
 		this.isDragging = false;
@@ -628,40 +628,43 @@ Story = {
 
 		var renderInLeft = window.innerWidth - container.offset().left < 420;
 
-		var content = container.find(".user-photo-content");
-		var date = container.prop('id') ? container.prop('id').replace("day-", "") : '';
-		var id = container.data('id');
-		var img = content.find(".user-photo-image").parent().clone().find('img').removeClass('user-photo-image');
-		img.css('position', 'static'); // IE8 fix
-		var win = $('<div/>', {
-				'class': 'user-photo-manage-win' + (renderInLeft ? ' user-photo-manage-win-left' : ''),
-				html: '<div class="manage-win">'
-						+'<div class="manage-win-image">'+img.parent().html()+'</div>'
-						+'<div class="manage-win-aside">'
-							+'<div class="manage-win-title">Редактирование</div>'
-							+'<div class="manage-win-control">'
-								+'<a class="ctrl-replace i-upload">Заменить</a>'
-								+' или <a class="ctrl-remove">удалить</a>.'
-							+'</div>'
-							+'<form class="manage-win-texts"></form>'
-						+'</div>'
-					+'</div>',
-			}).appendTo(container);
+		var content = container.find(".story-content");
+    var date = container.prop('id') ? container.prop('id').replace("day-", "") : '';
+    var id = container.data('id');
+    var img = content.find(".story-img").parent().clone().find('img').removeClass('story-img');
+    var win = $('<div/>', {
+        'class': 'story-manage' + (renderInLeft ? ' story-manage-l' : ''),
+        html: '<div class="story-manage-img">'
+                +img.parent().html()
+                +'<a href="#" class="fa fa-trash-o ctrl-remove"></a>'
+                +'<div class="story-manage-img-edit ctrl-replace">Заменить</div>'
+              +'</div>'
+            +'<div class="story-manage-content">'
+              +'<h4>Редактирование</h4>'
+              +'<form class="form form-manage"></form>'
+            +'</div>',
+      }).appendTo(container);
 
-		win.find(".ctrl-replace").click(function() {
-			Story.openUpload(container);
-		});
+    win.find(".ctrl-replace").click(function() {
+      Story.openUpload(container);
+    });
 
 		$.ajax('/api/media/get', {
 		data: {id: id},
 		success: function(data) {
-			var form = win.find('.manage-win-texts'),
+			var form = win.find('.form-manage'),
 				titleNode, descNode;
 			form.html(
-				'<input name="t" type="text" class="manage-win-title">'
-				+'<br>'
-				+'<textarea name="d" class="manage-win-desc"></textarea>'
-				+'<p><input type="submit" class="manage-win-submit" value="сохранить"> <input type="reset" class="manage-win-reset" onclick="Story.winClose()" value="закрыть"></p>'
+        '<fieldset>'
+				  +'<input name="t" type="text" placeholder="Добавить заголовок">'
+        +'</fieldset>'
+				+'<fieldset>'
+				  +'<textarea name="d" placeholder="Добавить описание"></textarea>'
+        +'</fieldset>'
+				+'<fieldset>'
+          +'<input type="submit" value="сохранить">'
+          +'<a href="#" class="cancel" onclick="Story.winClose()">Отмена</a>'
+        +'</fieldset>'
 			);
 
 			titleNode = form[0].t,
@@ -695,7 +698,7 @@ Story = {
 			}).appendTo(content);
 
 			function success() {
-				restore.html('<a class="ctrl-restore" onclick="Story.recoverMedia(\''+id+'\')">Восстановить</a> или <a class="ctrl-replace i-upload" onclick="Story.openUpload(\''+date+'\')">заменить</a>.');
+				restore.html('<a class="ctrl-restore" onclick="Story.recoverMedia(\''+id+'\')">Восстановить</a> или <a class="ctrl-replace upload" onclick="Story.openUpload(\''+date+'\')">заменить</a>.');
 			}
 
 			Story.removeMedia(id, success, success/*TODO*/);

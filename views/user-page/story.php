@@ -83,28 +83,30 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
             <ul class="story-list">
       <?php endif ?>
 
-          <li <?php if (!empty($day['id'])): ?> data-id="<?= $day['id'] ?>" <?php endif ?>id="day-<?= $day['date'] ?>" class="story-item user-photo <?= !empty($day['isUploadable']) ? 'available' : 'dummy fa fa-clock-o' ?><?php if (!empty($day['isEmpty'])): ?> empty i-upload<?php endif ?>">
-            <div class="user-photo-day"><?= $day['monthDay'] ?></div>
+          <li <?php if (!empty($day['id'])): ?> data-id="<?= $day['id'] ?>" <?php endif ?>id="day-<?= $day['date'] ?>" class="story-item <?= !empty($day['isUploadable']) ? 'available' : 'dummy fa fa-clock-o' ?><?php if (!empty($day['isEmpty'])): ?> story-item-empty fa fa-file-image-o upload<?php endif ?>">
+            <div class="story-day"><?= $day['monthDay'] ?></div>
+            <div class="story-content">
+
             <?php if (empty($day['isEmpty'])): ?>
               <?php if (empty($day['invisible'])): ?>
-              <div class="user-photo-content">
-                <a href="<?= $day['url'] ?>"><img src="<?= $day['image']['url'] ?>" width="<?= $day['image']['width'] ?>" height="<?= $day['image']['height'] ?>" class="user-photo-image"></a>
-                <?php if ($canUpload): ?><div class="user-photo-manage">Редактировать</div><?php endif ?>
+                <a href="<?= $day['url'] ?>"><img src="<?= $day['image']['url'] ?>" width="<?= $day['image']['width'] ?>" height="<?= $day['image']['height'] ?>" class="story-img"></a>
+
+                <?php if ($canUpload): ?><div class="story-edit">Редактировать</div><?php endif ?>
                 <?php if (!empty($day['isDeleted'])): ?><div class="user-photo-restore"><a class="ctrl-restore" onclick="Story.recoverMedia('<?= $day['date'] ?>')">Восстановить</a> или <a class="ctrl-replace i-upload" onclick="Story.openUpload('<?= $day['date'] ?>')">заменить</a>.</div><?php endif ?>
                   <?php if ($user): ?>
                     <div class="user-photo-likes">
-                    <a href="#" class="fa fa-heart<?= $day['isLiked'] ? '' : '-o' ?> user-photo-like"></a>
-                    <span class="user-photo-like-total"><?= $day['likesCount'] ?: '' ?></span>
+                      <a href="#" class="fa fa-heart<?= $day['isLiked'] ? '' : '-o' ?> user-photo-like"></a>
+                      <span class="user-photo-like-total"><?= $day['likesCount'] ?: '' ?></span>
                     </div>
                   <?php elseif (!empty($day['likesCount'])): ?>
                     <div class="user-photo-likes">
-                    <span class="fa fa-heart user-photo-like"></span>
-                    <span class="user-photo-like-total"><?= $day['likesCount'] ?: '' ?></span>
+                      <span class="fa fa-heart user-photo-like"></span>
+                      <span class="user-photo-like-total"><?= $day['likesCount'] ?: '' ?></span>
                     </div>
                   <?php endif ?>
-              </div>
               <?php endif ?>
             <?php endif ?>
+            </div>
           </li>
 
       <?php
