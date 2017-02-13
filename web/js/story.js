@@ -189,7 +189,7 @@ function initStory() {
 			}
 		});
 
-		$('.user-photo.available').click(function() {
+		$('.story-item.available').click(function() {
 			var elem = $(this);
 			if (elem.hasClass('upload')) {
 				Story.openUpload(elem);
@@ -237,7 +237,7 @@ function initStoryUploder() {
 					left: offset.left
 				});
 
-			Story.setActive(iUpload.closest('.user-photo'));
+			Story.setActive(iUpload.closest('.story-item'));
 			Story.uploader.refresh();
 
 			function mouseout(e) {
@@ -423,9 +423,9 @@ StoryDragAndDrop = {
 	},
 
 	selectors: {
-		container: '.user-photo',
-		availableDrop: '.user-photo.available',
-		availableContent: '.story-item'
+		container: '.story-item',
+		availableDrop: '.story-item.available',
+		availableContent: '.story-content'
 	},
 
 	isDragging: false,
@@ -710,7 +710,7 @@ Story = {
 
 	winClose: function () {
 		if (Story.winActive) {
-			Story.winActive.closest(".user-photo").removeClass("win-open");
+			Story.winActive.closest(".story-item").removeClass("win-open");
 			Story.winActive.remove();
 			Story.winActive = null;
 			$(document).off('mousedown', Story.winCloseMousedown);
@@ -719,8 +719,8 @@ Story = {
 
 	winCloseMousedown: function(e) {
 		if (e.target) {
-			var userPhoto = $(e.target).closest('.user-photo');
-			if (!userPhoto.length || userPhoto[0] !== Story.winActive.closest('.user-photo')[0]) {
+			var userPhoto = $(e.target).closest('.story-item');
+			if (!userPhoto.length || userPhoto[0] !== Story.winActive.closest('.story-item')[0]) {
 				Story.winClose();
 			}
 		}
@@ -787,7 +787,7 @@ Story = {
 $(function() {
 	$('#userPhotos').on('click', 'a.user-photo-like', function(e) {
 		var node = $(e.currentTarget);
-		var container = node.closest('.user-photo');
+		var container = node.closest('.story-item');
 		var id = container.data('id');
 		e.preventDefault();
 		var xhr = new XMLHttpRequest();
