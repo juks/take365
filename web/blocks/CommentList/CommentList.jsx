@@ -5,13 +5,13 @@ import Comment from '../comment-item/comment-item.jsx';
 import CommentForm from '../comment-form/comment-form.jsx';
 import {TransitionMotion, spring} from 'react-motion';
 
-export default class CommentList extends React.Component {
+class CommentList extends React.Component {
   constructor(props) {
     super(props);
     const comments = props.comments || [];
 
     this.state = {
-      comments: this.filterDeleted(comments),
+      comments: this.prepareData(comments),
       isExpanded: false,
       isLoading: false,
     };
@@ -20,7 +20,7 @@ export default class CommentList extends React.Component {
     this.loadMore = this.loadMore.bind(this);
   }
 
-  filterDeleted(comments) {
+  prepareData(comments) {
     const filtered = [];
     let prev;
     for (let i = comments.length - 1; i >= 0; i--) {
@@ -64,7 +64,7 @@ export default class CommentList extends React.Component {
       this.setState({
         isLoading: false,
         isExpanded: true,
-        comments: this.filterDeleted(result),
+        comments: this.prepareData(result),
       });
     };
     xhr.send();
@@ -104,15 +104,17 @@ export default class CommentList extends React.Component {
             : 'Нет комментариев'}
           </h2>
         : null }
-        <div className="comments-footer">
-          <CommentForm
-            id={this.props.id}
-            isMinimal={this.props.isMinimal}
-            onNew={this.onNew.bind(this)}
-            targetType={this.props.targetType}
-            user={this.props.user}
-          />
-        </div>
+        {this.props.showTextarea ?
+          <div className="comments-footer">
+            <CommentForm
+              id={this.props.id}
+              isMinimal={this.props.isMinimal}
+              onNew={this.onNew.bind(this)}
+              targetType={this.props.targetType}
+              user={this.props.user}
+            />
+          </div>
+        : null }
         { this.state.comments ?
           <TransitionMotion willLeave={this.willLeave.bind(this)} willEnter={this.willEnter} styles={this.getStyles()}>
             { styles =>
@@ -169,5 +171,8 @@ CommentList.propTypes = {
 };
 
 CommentList.defaultProps = {
+  showTextarea: true,
   targetType: '2',
 };
+
+export default CommentList;

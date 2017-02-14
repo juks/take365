@@ -7,6 +7,19 @@ import CommentList from '../CommentList/CommentList.jsx';
 export default class FeedItem extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showCommentsTextarea: false,
+    };
+
+    this.onShowCommentsTextarea = this.onShowCommentsTextarea.bind(this);
+  }
+
+  onShowCommentsTextarea(e) {
+    e.preventDefault();
+    this.setState({
+      showCommentsTextarea: !this.state.showCommentsTextarea,
+    });
   }
 
   render() {
@@ -46,12 +59,13 @@ export default class FeedItem extends React.Component {
       </div>
       <div className="feed-footer">
         <Likes id={this.props.data.id} isLiked={this.props.data.isLiked} count={this.props.data.likesCount} />
-        <a href="#" className="feed-comments">Оставить комментарий</a>
+        <a href="#" className="feed-comments" onClick={this.onShowCommentsTextarea}>Оставить комментарий</a>
         <CommentList
           comments={this.props.data.comments}
           count={this.props.data.commentsCount}
           id={this.props.data.id}
           isMinimal={true}
+          showTextarea={this.state.showCommentsTextarea}
           targetType="3"
           user={this.props.user}
         />
