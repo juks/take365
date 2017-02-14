@@ -154,7 +154,7 @@ class CommentList extends React.Component {
         : null}
         {this.props.isMinimal && this.props.count && !this.state.isExpanded ?
           <div className="comments-load">
-            <button className="btn" onClick={this.loadMore} disabled={this.state.isLoading}>Загрузить все</button>
+            <button className="btn btn-grey" onClick={this.loadMore} disabled={this.state.isLoading}>Все комментарии</button>
           </div>
         : null }
       </div>;

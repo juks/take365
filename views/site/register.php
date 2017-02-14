@@ -7,7 +7,7 @@
 <main class="content">
   <section class="content-info">
     <header class="content-header">
-      <h2 class="content-title">Регистрация</h2>
+      <h1 class="content-title">Регистрация</h1>
     </header>
     <form action="/api/user/register" method="post" onsubmit="Register.onSubmit(event)" class="form form-register">
       <fieldset>
@@ -15,11 +15,11 @@
       </fieldset>
       <fieldset>
         <input name="password" type="password" placeholder="Пароль" maxlength="32">
-        <span style="font-size: 10px; color: #AAAAAA">Пароль должен содержать не менее 6 символов</span>
+        <p class="note">Пароль должен содержать не менее 6 символов.</p>
       </fieldset>
       <fieldset>
         <input name="username" id="username" type="text" placeholder="Имя учётной записи">
-        <span style="font-size: 10px; color: #AAAAAA">Имя пользователя можно выбрать или изменить и после регистрации. Допускаются латинские буквы, цифры и некоторые специальные символы</span>
+        <p class="note">Имя пользователя можно выбрать или изменить и после регистрации. Допускаются латинские буквы, цифры и некоторые специальные символы.</p>
       </fieldset>
       <fieldset>
         <div class="captcha">

@@ -63,12 +63,12 @@ export default class CommentForm extends React.Component {
       return <div className="comments-info">
         <span className="fa fa-exclamation-triangle"></span>
         Только зарегистрированные пользователи могут участвовать в обсуждениях.<br />
-        Если вы хотите оставить комментарий, пожалуйста, <a href="#" onClick={Auth.open}>представьтесь</a> или <a href="/#2">зарегистрируйтесь</a>.
+        Если вы хотите оставить комментарий, пожалуйста, <a href="#" onClick={Auth.open}>представьтесь</a> или <a href="/register">зарегистрируйтесь</a>.
       </div>;
     }
     return <form className="form form-comment" ref="form" onSubmit={this.onSubmit}>
       <fieldset className={this.state.error ? 'error' : ''}>
-        <textarea ref="body" onKeyDown={this.onKeyDown.bind(this)} onChange={this.onChange.bind(this)} rows="10" cols="30" name="body"></textarea>
+        <textarea ref="body" onKeyDown={this.onKeyDown.bind(this)} onChange={this.onChange.bind(this)} rows="10" cols="30" name="body" placeholder="Ваш комментарий"></textarea>
         <span className="error-message"></span>
       </fieldset>
       <fieldset>
