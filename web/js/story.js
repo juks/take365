@@ -295,7 +295,7 @@ function initStoryUploder() {
 					Story.winClose();
 					$('#' + id)
 						.append(file.procces)
-						.find(".user-photo-restore").remove();
+						.find(".story-img-restore").remove();
 				}
 			});
 			uploader.settings.multipart_params.date = id.replace("day-", "");
@@ -636,7 +636,7 @@ Story = {
         'class': 'story-manage' + (renderInLeft ? ' story-manage-r' : ''),
         html: '<div class="story-manage-img">'
                 +img.parent().html()
-                +'<a href="#" class="fa fa-trash-o ctrl-remove"></a>'
+                +'<a href="#" class="fa fa-trash-o ctrl-remove" title="Удалить"></a>'
                 +'<div class="story-manage-img-edit ctrl-replace">Заменить</div>'
               +'</div>'
             +'<div class="story-manage-content">'
@@ -690,15 +690,16 @@ Story = {
 		}});
 
 
-		win.find(".ctrl-remove").on("click", function(){
+		win.find(".ctrl-remove").on("click", function(e){
+      e.preventDefault();
 			Story.winClose();
 
 			var restore = $("<div/>", {
-				'class': 'user-photo-restore'
+				'class': 'story-img-restore'
 			}).appendTo(content);
 
 			function success() {
-				restore.html('<a class="ctrl-restore" onclick="Story.recoverMedia(\''+id+'\')">Восстановить</a> или <a class="ctrl-replace upload" onclick="Story.openUpload(\''+date+'\')">заменить</a>.');
+				restore.html('<div class="story-img-restore-content"><a href="#" class="ctrl ctrl-restore" onclick="Story.recoverMedia(\''+id+'\'); return false;">Восстановить</a><br>или<br><a href="#" class="ctrl ctrl-replace upload" onclick="Story.openUpload(\''+date+'\'); return false;">Заменить</a></div>');
 			}
 
 			Story.removeMedia(id, success, success/*TODO*/);
@@ -777,7 +778,7 @@ Story = {
 		data: {idString: id, doRecover: 1},
 		type: 'post',
 		success: function(data) {
-			$('[data-id=' + id + '] .user-photo-restore').remove();
+			$('[data-id=' + id + '] .story-img-restore').remove();
 		}, error: function() {
 			notice("Ошибка при отправке данных!", true);
 		}});

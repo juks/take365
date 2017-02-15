@@ -1271,16 +1271,19 @@ input[type='search']::-webkit-search-decoration {
   }
 .story-edit {
   position: absolute;
-  bottom: -26px;
+  bottom: -28px;
   left: 0;
   right: 0;
   text-align: center;
   color: #FFF;
   line-height: 1;
-  font-size: 12px;
+  font-size: 14px;
   padding: 7px 0;
   background: rgba(0, 0, 0, 0.5);
   transition: bottom 200ms ease-out;
+  }
+.story-edit:hover {
+  background: rgba(0, 0, 0, 0.7);
   }
 .story-month H3 {
   margin-bottom: 10px;
