@@ -333,9 +333,9 @@ function initStoryUploder() {
 		response = JSON.parse(response.response);
 		if (response.result) {
 			$('#' + file.storyNodeId + ' .story-item').remove();
-			var content = $('<div/>', {
+			var content = $('<li/>', {
 				'class': 'story-item',
-				html: '<a href="'+response.result.url+'"><img class="story-img" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
+				html: '<a href="'+response.result.url+'" class="story-img-wrap"><img class="story-img" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
 						+'<div class="user-photo-manage">Редактировать</div>'
 						+'<div class="user-photo-likes">'
 							+'<a href="#" class="fa user-photo-like fa-heart-o"></a>'
@@ -662,8 +662,8 @@ Story = {
 				  +'<textarea name="d" placeholder="Добавить описание"></textarea>'
         +'</fieldset>'
 				+'<fieldset>'
-          +'<input type="submit" value="сохранить">'
-          +'<a href="#" class="cancel" onclick="Story.winClose()">Отмена</a>'
+          +'<input type="submit" value="Сохранить">'
+          +'<a href="#" class="cancel" onclick="Story.winClose(); return false;">Отмена</a>'
         +'</fieldset>'
 			);
 

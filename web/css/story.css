@@ -12,6 +12,11 @@
   }
 
 
+.story-content {
+  position: relative;
+  overflow: hidden;
+  }
+
 /* Story manage */
 .story-manage {
   position: absolute;
@@ -295,14 +300,13 @@
   .user-photo-likes .fa-heart {
     color: #E02929;
     }
-
 .user-photo-like {
   display: inline-block;
   vertical-align: middle;
+  border: none;
   line-height: 1;
   font-size: 18px;
   }
-
 .user-photo-like-total {
   display: inline-block;
   vertical-align: middle;
