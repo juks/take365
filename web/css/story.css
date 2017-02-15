@@ -177,7 +177,7 @@
 /* Right position */
 .story-manage-r {
   left: auto;
-  right: 0;
+  right: -20px;
   }
 .story-manage-r .story-manage-img {
   float: right;
@@ -393,6 +393,7 @@
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99CCCCCC,endColorstr=#99CCCCCC);
 	zoom: 1;
 }
+
 	.user-photo-restore .ctrl-replace,
 	.user-photo-restore .ctrl-restore {
 		text-shadow: 0 1px 0 #fff;

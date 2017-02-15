@@ -626,14 +626,14 @@ Story = {
 	winOpen: function(container) {
 		$(document).mousedown(Story.winCloseMousedown);
 
-		var renderInLeft = window.innerWidth - container.offset().left < 420;
+		var renderInLeft = window.innerWidth - container.offset().left < 520;
 
 		var content = container.find(".story-content");
     var date = container.prop('id') ? container.prop('id').replace("day-", "") : '';
     var id = container.data('id');
     var img = content.find(".story-img").parent().clone().find('img').removeClass('story-img');
     var win = $('<div/>', {
-        'class': 'story-manage' + (renderInLeft ? ' story-manage-l' : ''),
+        'class': 'story-manage' + (renderInLeft ? ' story-manage-r' : ''),
         html: '<div class="story-manage-img">'
                 +img.parent().html()
                 +'<a href="#" class="fa fa-trash-o ctrl-remove"></a>'
