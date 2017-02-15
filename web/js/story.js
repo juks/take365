@@ -332,11 +332,11 @@ function initStoryUploder() {
 
 		response = JSON.parse(response.response);
 		if (response.result) {
-			$('#' + file.storyNodeId + ' .story-item').remove();
-			var content = $('<li/>', {
-				'class': 'story-item',
+			$('#' + file.storyNodeId + ' .story-content').remove();
+			var content = $('<div/>', {
+				'class': 'story-content',
 				html: '<a href="'+response.result.url+'" class="story-img-wrap"><img class="story-img" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
-						+'<div class="user-photo-manage">Редактировать</div>'
+						+'<div class="story-edit">Редактировать</div>'
 						+'<div class="user-photo-likes">'
 							+'<a href="#" class="fa user-photo-like fa-heart-o"></a>'
 							+' <span class="user-photo-like-total"></span>'
@@ -345,7 +345,7 @@ function initStoryUploder() {
 
 			$('#' + file.storyNodeId)
 			.attr('data-id', response.result.id)
-			.removeClass('empty')
+			.removeClass('story-item-empty fa fa-file-image-o')
 			.removeClass('upload')
 			.append(content);
 
@@ -526,7 +526,7 @@ StoryDragAndDrop = {
 
 		containerTo
 		.removeClass(this.classNames.onDragenter)
-		.removeClass('empty')
+		.removeClass('story-item-empty fa fa-file-image-o')
 		.removeClass('upload');
 
 		contentFrom
@@ -545,7 +545,7 @@ StoryDragAndDrop = {
 				});
 		} else {
 			containerFrom
-			.addClass('empty')
+			.addClass('story-item-empty')
 			.addClass('upload');
 		}
 
