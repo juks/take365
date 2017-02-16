@@ -693,7 +693,7 @@ Story = {
 
 			var restore = $("<div/>", {
 				'class': 'story-img-restore'
-			}).appendTo(content);
+			}).prependTo(content);
 
 			function success() {
 				restore.html('<div class="story-img-restore-content"><a href="#" class="ctrl ctrl-restore" onclick="Story.recoverMedia(\''+id+'\'); return false;">Восстановить</a><br>или<br><a href="#" class="ctrl ctrl-replace upload" onclick="Story.openUpload(\''+date+'\'); return false;">Заменить</a></div>');

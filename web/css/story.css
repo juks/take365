@@ -283,6 +283,9 @@
     font-style: normal;
     cursor: pointer;
     }
+  .story-img-restore ~ .story-edit {
+    display: none;
+  }
 
 .story-title.editable {
   font-size: 30px;
