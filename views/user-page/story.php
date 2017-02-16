@@ -45,7 +45,7 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
         <div class="story-footer">
           <a href="#comments" class="num-comments"><?= Ml::t('{n,plural,=0{No comments} =1{One Comment} other{# Comments}}', null, ['n' => $story->comments_count ]) ?></a>
           <span class="sep">·</span>
-          <a href="#" class="edit">Редактировать историю</a>
+          <a href="#" class="edit" onClick="$('#storyEditForm').toggleClass('editable-editing editable-not-editing')">Редактировать историю</a>
           <span class="sep">·</span>
           <a href="#" class="delete-recover" id="delete-recover" onclick="Story.deleteRecover(<?= $story->id ?>); return false;"><?php if ($story->is_deleted): ?><span class="recover">Восстановить историю</span><?php else: ?><span class="delete">Удалить историю</span><?php endif ?></a>
         </div>
