@@ -337,9 +337,9 @@ function initStoryUploder() {
 				'class': 'story-content',
 				html: '<a href="'+response.result.url+'" class="story-img-wrap"><img class="story-img" src="'+response.result.thumbLarge.url+'" width="'+(response.result.thumbLarge.width/2)+'" height="'+(response.result.thumbLarge.height/2)+'"></a>'
 						+'<div class="story-edit">Редактировать</div>'
-						+'<div class="user-photo-likes">'
-							+'<a href="#" class="fa user-photo-like fa-heart-o"></a>'
-							+' <span class="user-photo-like-total"></span>'
+						+'<div class="story-img-likes">'
+							+'<a href="#" class="fa story-img-like fa-heart-o"></a>'
+							+' <span class="story-img-like-total"></span>'
 						+'</div>'
 			});
 
@@ -786,7 +786,7 @@ Story = {
 };
 
 $(function() {
-	$('#userPhotos').on('click', 'a.user-photo-like', function(e) {
+	$('#userPhotos').on('click', 'a.story-img-like', function(e) {
 		var node = $(e.currentTarget);
 		var container = node.closest('.story-item');
 		var id = container.data('id');
@@ -801,7 +801,7 @@ $(function() {
 			var result = xhr.response.result;
 			node.toggleClass('fa-heart', like);
 			node.toggleClass('fa-heart-o', !like);
-			container.find('.user-photo-like-total').text(result || '');
+			container.find('.story-img-like-total').text(result || '');
 		};
 		xhr.send();
 	});

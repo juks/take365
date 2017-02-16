@@ -1,17 +1,84 @@
-.form .editable-input::-webkit-input-placeholder {
-  font-size: 14px;
+/* Story edit */
+.editable-not-editing,
+.editable-editing {
+  display: inline-block;
   }
-.form .editable-input:-moz-placeholder {
-  font-size: 14px;
+.editable-not-editing .editable {
+  display: block;
+  background: none;
+  box-shadow: none;
   }
-.form .editable-input::-moz-placeholder {
-  font-size: 14px;
+.editable-editing .editable {
+  display: block;
   }
-.form .editable-input:-ms-input-placeholder {
+.editable-not-editing .story-title:hover,
+.editable-not-editing .story-desc:hover {
+  background: #F7F7F7;
+  cursor: text;
+  }
+.form .editable-input[type='text'],
+.form .editable-input[type='email'],
+.form .editable-input[type='password'],
+.form .editable-input {
+  width: 100%;
+  height: auto;
+  padding: 0;
+  margin: -5px 0;
+  background: #F7F7F7;
+  border: none;
+  font: 30px/1 Arial, sans-serif;
+  }
+.editable-editing ::-webkit-input-placeholder {
+  line-height: 1.1;
+  font-size: 16px;
+  }
+.editable-editing :-moz-placeholder {
+  line-height: 1.1;
+  font-size: 16px;
+  }
+.editable-editing ::-moz-placeholder {
+  line-height: 1.1;
+  font-size: 16px;
+  }
+.editable-editing :-ms-input-placeholder {
+  line-height: 1.1;
+  font-size: 16px;
+  }
+.form TEXTAREA.editable-input {
+  height: 70px;
+  margin: 2px 0 0 0;
+  font: 14px/1.4 Arial, sans-serif;
+  }
+.form INPUT.editable-cancel {
+  padding: 0;
+  margin: 0 0 0 5px;
+  height: auto;
+  background: none;
+  border: none;
   font-size: 14px;
+  cursor: pointer;
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.2);
+  color: #666;
+  }
+.form INPUT.editable-cancel:hover {
+  border-bottom-color: rgba(224, 41, 41, 0.2);
+  color: #E02929;
+  }
+.editable-input:hover {
+  cursor: text;
+  }
+.editable-placeholder {
+  color: #999;
+  }
+.editable-not-editing .editable-submit,
+.editable-not-editing .editable-cancel,
+.editable-not-editing .editable-input,
+.editable-editing .editable-text,
+.editable-editing .editable-placeholder {
+  display: none;
   }
 
-
+/* Story content */
 .story-content {
   position: relative;
   overflow: hidden;
@@ -170,8 +237,6 @@
   border-bottom-style: dotted;
   font-size: 12px;
   }
-
-/* Right position */
 .story-manage-r {
   left: auto;
   right: -20px;
@@ -187,6 +252,37 @@
   right: 5px;
   }
 
+/* Story restore */
+.story-img-restore {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 10;
+  }
+.story-img-restore-content {
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  right: 20px;
+  padding: 10px;
+  background: #FFF;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  font-style: italic;
+  color: #AAA;
+  }
+  .story-img-restore .ctrl {
+    display: inline-block;
+    border-bottom-style: dotted;
+    line-height: 1;
+    font-style: normal;
+    cursor: pointer;
+    }
+
 .story-title.editable {
   font-size: 30px;
   }
@@ -196,115 +292,45 @@
 .story-submit {
   margin-bottom: 30px;
   }
-.editable-not-editing .editable {
-	display: block;
-	background: none;
-	box-shadow: none;
-	}
-.editable-editing .editable {
-	display: block;
-	}
-.editable-not-editing .story-title:hover,
-.editable-not-editing .story-desc:hover {
-	background: #F7F7F7;
-	cursor: text;
-	}
-.form .editable-input[type='text'],
-.form .editable-input[type='email'],
-.form .editable-input[type='password'],
-.form .editable-input {
-  width: 100%;
-  height: auto;
-  padding: 0;
-  margin: -5px 0;
-  background: #F7F7F7;
-  border: none;
-  font: 30px/1 Arial, sans-serif;
-  }
-.form TEXTAREA.editable-input {
-	height: 70px;
-	margin: 2px 0 0 0;
-	font: 14px/1.4 Arial, sans-serif;
-	}
-.form INPUT.editable-cancel {
-	padding: 0;
-	margin: 0 0 0 10px;
-	height: auto;
-	background: none;
-	border: none;
-	font-size: 14px;
-	color: #333;
-	}
-.form INPUT.editable-cancel:hover {
-	cursor: pointer;
-	color: #E02929;
-	}
-.editable-input:hover {
-  cursor: text;
-  }
-.editable-placeholder {
-  color: #999;
-  }
-.editable-not-editing .editable-submit,
-.editable-not-editing .editable-cancel,
-.editable-not-editing .editable-input {
-	display: none;
-	}
-.editable-editing .editable-text,
-.editable-editing .editable-placeholder {
-	display: none;
-	}
 
-.article .story-title,
-.article .story-desc {
-	margin: 0 0 10px 0;
-	background: none;
-	box-shadow: none;
-	}
-.article .story-submit {
-	margin: 10px 0 30px 0;
-	}
 /* fix empty square in bottom */
 .plupload.html5 {
 	top: 0;
 	left: -100px;
 	}
-
 .user-photo-proggress {
-	background: linear-gradient(to top, #FFFFFF 0%, #FEFEFE 29%, #F9F9F9 53%, #EFF0F0 76%, #E1E2E3 100%);
 	position: absolute;
-	width: 100px;
-	top: 110px;
-	left: 49px;
-	border: 1px solid #808080;
-	border-radius: 2px;
-	z-index: 22;
-}
+  top: 60%;
+  left: 20px;
+  right: 20px;
+  height: 4px;
+  background: rgba(0, 85, 204, 0.2);
+  }
 .user-photo-proggress-bar {
-	background: linear-gradient(to top, #426FD9 0%, #426FD9 18%, #3F6AD1 59%, #375FC2 88%, #335BBC 94%, #335BBC 100%);
-	height: 18px;
-	width: 1px;
-}
+	background: #0055CC;
+	height: 4px;
+  width: 0;
+  }
 
-
-.user-photo-likes {
+/* Story img likes */
+.story-img-likes {
 	position: absolute;
   top: 0;
   left: 0;
   padding: 5px 10px;
   background: rgba(255, 255, 255, 0.7);
   }
-  .user-photo-likes .fa-heart {
-    color: #E02929;
-    }
-.user-photo-like {
+.story-img-likes .fa-heart {
+  color: #E02929;
+  }
+.story-img-like {
   display: inline-block;
   vertical-align: middle;
   border: none;
   line-height: 1;
   font-size: 18px;
   }
-.user-photo-like-total {
+.story-img-like-total {
   display: inline-block;
   vertical-align: middle;
   line-height: 1;
@@ -376,90 +402,4 @@
 
 
 
-.story-img-restore {
-	position: absolute;
-	top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.7);
-  z-index: 10;
-  }
-.story-img-restore-content {
-  position: absolute;
-  top: 60px;
-  left: 20px;
-  right: 20px;
-  padding: 10px;
-  background: #FFF;
-  border-radius: 10px;
-  text-align: center;
-  font-size: 14px;
-  }
-  .story-img-restore .ctrl {
-    display: inline-block;
-    line-height: 1;
-    cursor: pointer;
-    }
 
-
-.user-photo-empty-holder50 {
-	width: 50px;
-	height: 50px;
-	float: left;
-	margin-right: 2px;
-	background-color: #EEEEEE;
-}
-
-.user-photo-holder50 {
-	width: 50px;
-	height: 50px;
-	float: left;
-	margin-right: 2px;
-}
-
-.storylist-title {
-	font-size: 30px;
-}
-
-.storylist-item {
-	margin-bottom: 20px;
-}
-
-.storylist-item-title-out {
-	margin-bottom: 5px;
-	}
-
-.storylist-item-title {
-	font-size: 20px;
-	text-decoration: none;
-	border: none;
-}
-
-.storylist-item-info {
-	clear: both;
-	padding-top: 5px;
-	font-size: 12px;
-}
-
-.storylist-item-progress {
-	font-weight: bold;
-}
-
-.storylist-item-day-lag {
-}
-
-#storyTitleInput {
-	width: 400px;
-}
-
-#storyDescriptionInput {
-	width: 400px;
-	height: 5em;
-}
-
-#rssBlock {
-	position: relative;
-	top: 4px;
-	width: 40px;
-}

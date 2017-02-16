@@ -45,6 +45,8 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
         <div class="story-footer">
           <a href="#comments" class="num-comments"><?= Ml::t('{n,plural,=0{No comments} =1{One Comment} other{# Comments}}', null, ['n' => $story->comments_count ]) ?></a>
           <span class="sep">·</span>
+          <a href="#" class="edit">Редактировать историю</a>
+          <span class="sep">·</span>
           <a href="#" class="delete-recover" id="delete-recover" onclick="Story.deleteRecover(<?= $story->id ?>); return false;"><?php if ($story->is_deleted): ?><span class="recover">Восстановить историю</span><?php else: ?><span class="delete">Удалить историю</span><?php endif ?></a>
         </div>
       </form>
@@ -94,14 +96,14 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
                 <?php if ($canUpload): ?><div class="story-edit">Редактировать</div><?php endif ?>
                 <?php if (!empty($day['isDeleted'])): ?><div class="user-photo-restore"><a class="ctrl-restore" onclick="Story.recoverMedia('<?= $day['date'] ?>')">Восстановить</a> или <a class="ctrl-replace i-upload" onclick="Story.openUpload('<?= $day['date'] ?>')">заменить</a>.</div><?php endif ?>
                   <?php if ($user): ?>
-                    <div class="user-photo-likes">
-                      <a href="#" class="fa fa-heart<?= $day['isLiked'] ? '' : '-o' ?> user-photo-like"></a>
-                      <span class="user-photo-like-total"><?= $day['likesCount'] ?: '' ?></span>
+                    <div class="story-img-likes">
+                      <a href="#" class="fa fa-heart<?= $day['isLiked'] ? '' : '-o' ?> story-img-like"></a>
+                      <span class="story-img-like-total"><?= $day['likesCount'] ?: '' ?></span>
                     </div>
                   <?php elseif (!empty($day['likesCount'])): ?>
-                    <div class="user-photo-likes">
-                      <span class="fa fa-heart user-photo-like"></span>
-                      <span class="user-photo-like-total"><?= $day['likesCount'] ?: '' ?></span>
+                    <div class="story-img-likes">
+                      <span class="fa fa-heart story-img-like"></span>
+                      <span class="story-img-like-total"><?= $day['likesCount'] ?: '' ?></span>
                     </div>
                   <?php endif ?>
               <?php endif ?>
