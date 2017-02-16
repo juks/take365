@@ -13,6 +13,7 @@
   }
 .editable-not-editing .story-title:hover,
 .editable-not-editing .story-desc:hover {
+  box-shadow: -5px 0 0 #F7F7F7;
   background: #F7F7F7;
   cursor: text;
   }
@@ -92,7 +93,7 @@
   width: 520px;
   height: 240px;
   background: #FFF;
-  z-index: 6;
+  z-index: 7;
   border-radius: 20px;
   box-sizing: border-box;
   padding: 20px;
@@ -260,7 +261,7 @@
   right: 0;
   bottom: 0;
   background: rgba(255, 255, 255, 0.7);
-  z-index: 10;
+  z-index: 6;
   }
 .story-img-restore-content {
   position: absolute;
@@ -337,69 +338,42 @@
   font-size: 12px;
   }
 
-
-.dummy {
-	background: #FFF;
-	border: 2px solid #EEE;
-	width: 196px;
-	height: 196px;
-	}
-	.dummy.fa-clock-o:before {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		margin: -50px 0 0 -42px;
-		font-size: 100px;
-		color: #F5F5F5;
-		}
-.dummy:hover {
-	box-shadow: none;
-	cursor: default;
-	}
-
-/* svg container */
-.user-photo-filebodyover {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 999;
-}
-	.user-photo-filebodyover path {
-		stroke: #aaa;
-		stroke-width: 10px;
-		stroke-linejoin: round;
-		fill: rgba(0, 0, 0, 0.5);
-		stroke-dasharray: 42, 4;
-	}
-	.user-photo-filebodyover text {
-		fill: white;
-		font-size: 20px;
-		text-anchor: middle;
-	}
-	.active .user-photo-filebodyover path {
-		fill: rgba(0, 0, 0, 0.9) !important;
-	}
-
-
-
-.user-photo-dragimageover {
-	background: #e79d35;
-}
-	.user-photo-dragimageover .user-photo-day {
-		z-index: 1;
-		border-color: #e79d35;
-	}
-
-.user-photo_dragging .user-photo-manage {
-	display: none;
-}
-
-.user-photo:hover .user-photo-day {
-	z-index: 0;
-}
-
-
-
-
+/* Drug'n'drop */
+.story-img-filebodyover {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  text-align: center;
+  display: table;
+  width: 188px;
+  height: 188px;
+  z-index: 6;
+  font: 16px/1.2 Arial, sans-serif;
+  color: #666;
+  background: rgba(255, 255, 255, 0.9);
+  }
+.story-img-filebodyover:before {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  content: '';
+  border: 4px dashed #CCC;
+  }
+.story-img-dragging-text {
+  display: table-cell;
+  padding: 0 20px;
+  vertical-align: middle;
+  }
+.story-item.active .story-img-filebodyover {
+  background: rgba(255, 255, 255, 1);
+  }
+.story-item.active .story-img-filebodyover:before {
+  border-color: #999;
+  }
+.story-item.win-open .story-img-filebodyover {
+  z-index: 7;
+  }

@@ -366,7 +366,7 @@ function initStoryUploder() {
 			removeDrop = function() {
 				if (dropOver) {
 					dropOver = false;
-					$('#userPhotos .user-photo-filebodyover').remove();
+					$('#userPhotos .story-img-filebodyover').remove();
 				}
 			};
 		window.addEventListener("dragover", function(e) {
@@ -381,11 +381,8 @@ function initStoryUploder() {
 				dropOver = true;
 				$('#userPhotos .available').each(function(i, node) {
 					var instruction = $('<div/>', {
-						'class': 'user-photo-filebodyover',
-						html: '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">'
-								+'<path d="M 5 5 L 195 5 L 195 195 L 5 195 Z"/>'
-								+'<text><tspan x="50%" y="30%">Перетащите</tspan><tspan x="50%" y="45%">файл сюда,</tspan><tspan x="50%" y="60%">что бы загрузить</tspan><tspan x="50%" y="75%">фотографию</tspan></text>'
-							+'</svg>'
+						'class': 'story-img-filebodyover',
+						html: '<div class="story-img-dragging-text">Перетащите файл сюда, чтобы загрузить фотографию</div>'
 					}).appendTo(node);
 
 					instruction.on('dragover', function() {
@@ -418,7 +415,7 @@ function initStoryUploder() {
 
 StoryDragAndDrop = {
 	classNames: {
-		isDragging: 'user-photo_dragging',
+		isDragging: 'story-img-dragging',
 		onDragenter: 'user-photo-dragimageover'
 	},
 
