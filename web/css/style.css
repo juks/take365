@@ -1783,6 +1783,7 @@ input[type='search']::-webkit-search-decoration {
   border-radius: 5px;
   }
 .comment-text {
+  word-break: break-all;
   font-size: 14px;
   }
 .comments-footer .comments-title {
