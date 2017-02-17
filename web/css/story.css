@@ -275,6 +275,7 @@
   z-index: 6;
   line-height: 1.4;
   font-family: Arial, sans-serif;
+  cursor: default;
   }
 .story-img-restore-content {
   position: absolute;
