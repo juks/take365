@@ -85,7 +85,7 @@ $this->registerJs("initStory();appRender(document.getElementById('comments'),{co
             <ul class="story-list">
       <?php endif ?>
 
-          <li <?php if (!empty($day['id'])): ?> data-id="<?= $day['id'] ?>" <?php endif ?>id="day-<?= $day['date'] ?>" class="story-item <?= !empty($day['isUploadable']) ? 'available' : 'not-available' ?><?php if (!empty($day['isEmpty'])): ?> story-item-empty<?php endif ?><?php if ($canManage): ?> upload<?php endif ?>">
+          <li <?php if (!empty($day['id'])): ?> data-id="<?= $day['id'] ?>" <?php endif ?>id="day-<?= $day['date'] ?>" class="story-item <?= !empty($day['isUploadable']) ? 'available' : 'not-available' ?><?php if (!empty($day['isEmpty'])): ?> story-item-empty<?php if ($canManage): ?> upload<?php endif ?><?php endif ?>">
             <div class="story-day"><?= $day['monthDay'] ?></div>
             <div class="story-content fa fa-file-image-o">
 

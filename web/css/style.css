@@ -1269,8 +1269,9 @@ input[type='search']::-webkit-search-decoration {
 .story-item.upload:hover .story-content {
   color: #DDD;
   }
-.story-item.upload:hover .story-edit {
+.story-item:hover .story-edit {
   bottom: 0;
+  cursor: pointer;
   }
 .story-month .story-day {
   position: absolute;
