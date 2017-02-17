@@ -416,7 +416,7 @@ function initStoryUploder() {
 StoryDragAndDrop = {
 	classNames: {
 		isDragging: 'story-img-dragging',
-		onDragenter: 'user-photo-dragimageover'
+		onDragenter: 'story-img-dragimageover'
 	},
 
 	selectors: {

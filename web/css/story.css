@@ -82,7 +82,19 @@
 /* Story content */
 .story-content {
   position: relative;
-  overflow: hidden;
+  width: 200px;
+  height: 200px;
+  vertical-align: top;
+  text-align: center;
+  color: #ECECEC;
+  }
+.story-content:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -40px 0 0 -34px;
+  line-height: 1;
+  font-size: 80px;
   }
 
 /* Story manage */
@@ -143,12 +155,11 @@
   background: rgba(0, 0, 0, 0.5);
   color: #FFF;
   text-align: center;
-  padding: 7px 0;
+  padding: 10px 0;
   line-height: 1;
   font-size: 14px;
   }
 .story-manage-img-edit:hover {
-  cursor: pointer;
   background: rgba(0, 0, 0, 0.7);
   }
 .story-manage-img .fa-trash-o {
@@ -262,6 +273,8 @@
   bottom: 0;
   background: rgba(255, 255, 255, 0.7);
   z-index: 6;
+  line-height: 1.4;
+  font-family: Arial, sans-serif;
   }
 .story-img-restore-content {
   position: absolute;
@@ -297,11 +310,6 @@
   margin-bottom: 30px;
   }
 
-/* fix empty square in bottom */
-.plupload.html5 {
-	top: 0;
-	left: -100px;
-	}
 .user-photo-proggress {
 	position: absolute;
   top: 60%;
@@ -323,6 +331,8 @@
   left: 0;
   padding: 5px 10px;
   background: rgba(255, 255, 255, 0.7);
+  font-family: Arial, sans-serif;
+  color: #333;
   }
 .story-img-likes .fa-heart {
   color: #E02929;
@@ -357,7 +367,8 @@
   color: #666;
   background: rgba(255, 255, 255, 0.9);
   }
-.story-img-filebodyover:before {
+.story-img-filebodyover:before,
+.story-img-dragimageover:before {
   position: absolute;
   top: 6px;
   left: 6px;
@@ -365,6 +376,9 @@
   bottom: 6px;
   content: '';
   border: 4px dashed #CCC;
+  }
+.story-img-dragimageover:before {
+  border-color: #999;
   }
 .story-img-dragging-text {
   display: table-cell;
@@ -380,3 +394,4 @@
 .story-item.win-open .story-img-filebodyover {
   z-index: 7;
   }
+
