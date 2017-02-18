@@ -345,7 +345,7 @@ function initStoryUploder() {
 
 			$('#' + file.storyNodeId)
 			.attr('data-id', response.result.id)
-			.removeClass('story-item-empty fa fa-file-image-o')
+			.removeClass('story-item-empty')
 			.removeClass('upload')
 			.append(content);
 
@@ -521,29 +521,33 @@ StoryDragAndDrop = {
 			contentFrom = containerFrom.find(this.selectors.availableContent),
 			contentTo = containerTo.find(this.selectors.availableContent);
 
+		var fromId = containerFrom.attr('data-id');
+		var toId = containerTo.attr('data-id');
+
 		containerTo
+		.attr('data-id', fromId)
 		.removeClass(this.classNames.onDragenter)
-		.removeClass('story-item-empty fa fa-file-image-o')
 		.removeClass('upload');
+
+		containerFrom.attr('data-id', toId);
 
 		contentFrom
 		.appendTo(containerTo)
-			.find('a').each(function(i, a) {
-				a.href = a.href.replace(dateFrom, dateTo);
-			});
+		.find('a').each(function(i, a) {
+			a.href = a.href.replace(dateFrom, dateTo);
+		});
 
 		this.addEvents(containerFrom);
 
-		if (contentTo.length) {
-			contentTo
-			.appendTo(containerFrom)
-				.find('a').each(function(i, a) {
-					a.href = a.href.replace(dateTo, dateFrom);
-				});
-		} else {
-			containerFrom
-			.addClass('story-item-empty')
-			.addClass('upload');
+		contentTo
+		.appendTo(containerFrom)
+		.find('a').each(function(i, a) {
+			a.href = a.href.replace(dateTo, dateFrom);
+		});
+
+		if (containerTo.hasClass('story-item-empty')) {
+			containerTo.removeClass('story-item-empty');
+			containerFrom.addClass('story-item-empty upload');
 		}
 
 		this.isDragging = false;
