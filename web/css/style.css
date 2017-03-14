@@ -242,6 +242,7 @@ button {
   box-sizing: border-box;
   padding: 5px 10px;
   border: 1px solid #E1E2E3;
+  border-radius: 6px;
   color: #333;
   font-weight: 400;
   font-size: 16px;
@@ -1280,6 +1281,9 @@ input[type='search']::-webkit-search-decoration {
   bottom: 0;
   cursor: pointer;
   }
+.story-item:hover .story-day {
+  display: none;
+  }
 .story-month .story-day {
   position: absolute;
   top: 50%;
@@ -1308,18 +1312,19 @@ input[type='search']::-webkit-search-decoration {
   }
 .story-edit {
   position: absolute;
-  bottom: -34px;
+  bottom: -28px;
   left: 0;
   right: 0;
   text-align: center;
   color: #FFF;
   font: 14px/1 Arial, sans-serif;
-  padding: 10px 0;
+  padding: 7px 0;
   background: rgba(0, 0, 0, 0.5);
   transition: bottom 200ms ease-out;
   }
 .story-edit:hover {
   background: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
   }
 .story-month H3 {
   margin-bottom: 10px;

@@ -56,6 +56,7 @@
   height: auto;
   background: none;
   border: none;
+  border-radius: 0;
   font-size: 14px;
   cursor: pointer;
   border-bottom: 1px dotted rgba(0, 0, 0, 0.2);
@@ -156,9 +157,10 @@
   background: rgba(0, 0, 0, 0.5);
   color: #FFF;
   text-align: center;
-  padding: 10px 0;
+  padding: 7px 0;
   line-height: 1;
   font-size: 14px;
+  cursor: pointer;
   }
 .story-manage-img-edit:hover {
   background: rgba(0, 0, 0, 0.7);
@@ -232,19 +234,19 @@
   }
 .story-manage .form ::-webkit-input-placeholder {
   font-size: 14px;
-  color: #CCC;
+  color: #ccc;
   }
 .story-manage .form :-moz-placeholder {
   font-size: 14px;
-  color: #CCC;
+  color: #ccc;
   }
 .story-manage .form ::-moz-placeholder {
   font-size: 14px;
-  color: #CCC;
+  color: #ccc;
   }
 .story-manage .form :-ms-input-placeholder {
   font-size: 14px;
-  color: #CCC;
+  color: #ccc;
   }
 .story-manage .form .cancel {
   border-bottom-style: dotted;
@@ -332,11 +334,11 @@
   top: 0;
   left: 0;
   padding: 5px 10px;
-  background: rgba(255, 255, 255, 0.7);
   font-family: Arial, sans-serif;
-  color: #333;
+  color: #fff;
   }
 .story-img-likes .fa-heart {
+  text-shadow: none;
   color: #E02929;
   }
 .story-img-like {
@@ -344,13 +346,19 @@
   vertical-align: middle;
   border: none;
   line-height: 1;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
   font-size: 18px;
+  color: #fff;
   }
 .story-img-like-total {
   display: inline-block;
   vertical-align: middle;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
   line-height: 1;
   font-size: 12px;
+  }
+.story-img-like:hover {
+  text-shadow: none;
   }
 
 /* Drug'n'drop */
