@@ -1953,11 +1953,25 @@ input[type='search']::-webkit-search-decoration {
   }
 .feed-comments {
   float: right;
+  }
+.feed-comments-link {
   border-bottom-style: dotted;
   border-bottom-color: rgba(0, 85, 204, 0.4);
   line-height: 1;
   font-size: 14px;
   }
-.feed-comments:hover {
+.feed-comments-link:hover {
   border-bottom-color: rgba(224, 41, 41, 0.4);
+  }
+.feed-comments-count {
+  margin-right: 10px;
+  }
+.feed-comments-count .fa-comments-o {
+  vertical-align: middle;
+  font-size: 18px;
+}
+.feed-comments-total {
+  margin-left: 5px;
+  font-size: 12px;
+  color: #666;
   }

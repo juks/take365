@@ -59,7 +59,13 @@ export default class FeedItem extends React.Component {
       </div>
       <div className="feed-footer">
         <Likes id={this.props.data.id} isLiked={this.props.data.isLiked} count={this.props.data.likesCount} />
-        <a href="#" className="feed-comments" onClick={this.onShowCommentsTextarea}>Оставить комментарий</a>
+        <span className="feed-comments">
+          <span className="feed-comments-count">
+            <span className="fa fa-comments-o" aria-hidden="true"></span>
+            <span className="feed-comments-total">{this.props.data.commentsCount}</span>
+          </span>
+          <a href="#" className="feed-comments-link" onClick={this.onShowCommentsTextarea}>Оставить комментарий</a>
+        </span>
         <CommentList
           comments={this.props.data.comments}
           count={this.props.data.commentsCount}
