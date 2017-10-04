@@ -396,7 +396,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
             $dateIterator = new \DateTime('now');
             $dateIterator->setTimezone($timezone);
         } else {
-            $dateIterator = date_add(new \DateTime('@' . $this->time_start), date_interval_create_from_date_string('1 year'));
+            $dateIterator = date_sub(date_add(new \DateTime('@' . $this->time_start), date_interval_create_from_date_string('1 year')), date_interval_create_from_date_string('1 day'));
 
             if ($isLeapStart && $monthStart <= 2 || ($isLeapEnd && $monthStart > 1)) {
                 date_sub($dateIterator, date_interval_create_from_date_string('1 day'));
