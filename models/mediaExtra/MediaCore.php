@@ -217,9 +217,6 @@ class MediaCore extends MediaBase {
         $transaction = $connection->beginTransaction();
 
         try {
-            // When we should keep only one image per target -- do delete
-            if ($this->getOption(self::cleanPrev)) $this->cleanPred();
-
             $this->getPathDetails();
             $this->checkQuotas();
             $this->preparePath();
@@ -243,6 +240,9 @@ class MediaCore extends MediaBase {
                 if (!rename($downloadedFile['filePath'], $this->_fullPath)) throw new \Exception('Failed to move downloaded file: ' . $currentFilePath . ' to ' . $this->_fullPath);
             }
 
+            // When we should keep only one image per target -- do delete
+            if ($this->getOption(self::cleanPrev)) $this->cleanPred();
+
             $this->storeImageResource();
 
             if ($this->getOption(self::saveExif))    $this->getExifData();
@@ -251,7 +251,6 @@ class MediaCore extends MediaBase {
 
             if (!$this->save()) {
                 throw new \Exception($this->modelErrorsToString());
-                
             }
 
             $this->getThumbs($extra);
