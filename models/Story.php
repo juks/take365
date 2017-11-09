@@ -287,10 +287,10 @@ class Story extends StoryBase implements IPermissions, IGetType {
 
         $this->progressData = [
                     'dateStart'             => date('Y-m-d', $this->time_start),
-                    'dateEnd'               => date('Y-m-d', $this->time_start + $totalDays * 86400),
+                    'dateEnd'               => date('Y-m-d', $this->time_start + ($totalDays - 1) * 86400),
                     'percentsComplete'      => $percentsComplete,
                     'isComplete'            => $percentsComplete == 100,
-                    'isOutdated'            => $passedDays > 365,
+                    'isOutdated'            => $passedDays > 365 + 30,
                     'passedDays'            => $passedDays,
                     'totalImages'           => $imagesCount ?: 0,
                     'totalImagesTitle'      => Helpers::countCase($imagesCount, 'изображений', 'изображения', 'изображание'),
