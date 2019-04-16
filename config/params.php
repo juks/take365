@@ -37,7 +37,7 @@ return [
                     ],
 
     'newsletter'  => [
-                        'testList'              => ['juks@juks.ru']
+                        'testList'              => ['juks@juks.ru', 'sergey.oracle@gmail.com']
                     ],
 
     'googleVision'  => [

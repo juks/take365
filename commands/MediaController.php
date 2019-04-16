@@ -8,9 +8,12 @@
 namespace app\commands;
 
 use yii\console\Controller;
+use Yii;
 use app\models\Media;
+use app\models\Story;
 use app\models\Mosaic;
 use app\models\MediaTagLink;
+use app\models\User;
 use app\components\GoogleVision;
 
 /**
@@ -114,5 +117,36 @@ class MediaController extends Controller {
 
     public function actionPurgeDeleted() {
         Media::deleteMarked(500);
+    }
+    
+    public function actionRecover() {
+	$q = (new \yii\db\Query())->select(['*'])->from('media_recover')->where('is_deleted = 0 and target_id < 1935');
+	$command = $q->createCommand();
+	$data = $command->queryAll();
+	
+	foreach ($data as $row) {
+	    $path = '/opt/sites/take365.org/www/web/media/' . $row['path'] . '/' . $row['filename'] . '.' . $row['ext'];
+	    $path = preg_replace('/p5/', 'p5_save', $path);
+	    
+	    $parent = Story::findOne($row['target_id']);
+	    
+	    Yii::$app->user->setIdentity(User::findOne(['id'=>$row['created_by']]));
+	    $media = new Media();
+	    $media->setScenario('import');
+	    $media->setAttributes([
+		'created_by'		 => $row['created_by'],
+		'likes_count'		 => $row['likes_count'],
+		'date'			 => $row['date'],
+		'description'		 => $row['description'],
+		'description_jvx'	 => $row['description_jvx'],
+		'title'			 => $row['title']
+	    ]);
+	    $media->save();
+
+	    $m = $parent->addMedia($path, Media::typeStoryImage, $media);
+	    #echo $m->id . ': ' . $m->date . ' ' . $row['date'] . "\n";
+	    #return;
+	    #echo $row['target_id'] . ': ' . $path . "\n";
+	}
     }
 }

@@ -173,7 +173,7 @@ class SiteController extends MyController
         
         @session_start();
         $_SESSION['CAPTCHAString'] = $captcha->getCaptchaString();
-        $captcha->makeCaptcha();    
+        $captcha->makeCaptcha();
     }
 
     public function actionUnsubscribe($id, $code, $optionName, $toggle = false) {

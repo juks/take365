@@ -13,6 +13,10 @@ $config = [
         'gii' => 'yii\gii\Module',
     ],
     'components' => [
+	'user' => [
+	    'class' => 'yii\web\User',
+	    'identityClass' => 'app\models\User'
+	],
         'log' => [
             'targets' => [
                 [

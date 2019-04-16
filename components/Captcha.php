@@ -86,7 +86,8 @@ class Captcha {
 	}//StringGen
 
 	function makeCaptcha() {
-		header ( 'Content-type: image/png' );
+		Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+		Yii::$app->response->headers->add('Content-Type', 'image/png');
 		
 		$imagelength = $this->Length * 25 + 16;
 		$imageheight = 75;
@@ -104,7 +105,11 @@ class Captcha {
 		if ($this->noise)
 			$this->noise ( $image, $this->noise );
 		
-		imagepng ( $image );
+		ob_start();
+		imagepng($image);
+		$imageData = ob_get_contents();
+		ob_end_clean();
+		\Yii::$app->response->data = $imageData;
 		imagedestroy ( $image );
 	} //MakeCaptcha
 	
