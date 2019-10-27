@@ -64,7 +64,7 @@ return [
                     [
                         'mediaStorePath'    => PATH_ROOT . 'web/media',
                         'mediaImportPath'   => '/var/www/public/media',
-                        'mediaHost'         => 'http://take365.vasa.tech',
+                        'mediaHost'         => '{host_placeholder}',
                         'mediaBaseUrl'      => '/media',
                         'mosaicPath'        => PATH_ROOT . 'web/media/mosaics',
                         'tmpPath'           => PATH_ROOT . 'tmp',
