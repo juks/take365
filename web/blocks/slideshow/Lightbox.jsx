@@ -4,10 +4,9 @@ import React, { Component, PropTypes } from 'react';
 import Swipeable from 'react-swipeable';
 import utils from './utils';
 import Fade from './Fade';
-import Icon from './Icon';
+import Icon from './Icon.jsx';
 import Likes from '../Likes/Likes.jsx';
 import Portal from 'react-portal';
-
 import classes from './styles/default.css';
 
 export default class Lightbox extends Component {
