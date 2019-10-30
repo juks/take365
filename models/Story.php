@@ -283,7 +283,7 @@ class Story extends StoryBase implements IPermissions, IGetType {
         $delayDays      = intval((time() - $lastTime) / 86400);
         $passedDays     = intval((time() - $this->time_start) / 86400);
         $percentsComplete = sprintf('%.0f', (($imagesCount / $totalDays) * 100));
-        if ($percentsComplete >= 100) $percentsComplete = 100;
+        if ($percentsComplete >= 100) $percentsComplete = "100";
 
         $this->progressData = [
                     'dateStart'             => date('Y-m-d', $this->time_start),
