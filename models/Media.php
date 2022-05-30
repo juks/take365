@@ -61,7 +61,7 @@ class Media extends MediaCore {
                                                         MediaCore::alias                 => Media::aliasStoryImage,
                                                         MediaCore::cleanPrev             => true,
                                                         MediaCore::allowedFormats        => [IMAGETYPE_JPEG, IMAGETYPE_PNG],
-                                                        MediaCore::maxFileSize           => 1048576 * 15,
+                                                        MediaCore::maxFileSize           => 1048576 * 20,
                                                         MediaCore::resizeMode            => MediaCore::resizeMaxSide,
                                                         MediaCore::targetDimension       => 3000,
                                                         MediaCore::thumbsList            => [

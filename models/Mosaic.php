@@ -135,13 +135,13 @@ class Mosaic extends MosaicBase {
     */
     public function cleanup() {
         $total = $this->getCount();
-
-        $killList = self::find()->where(['time_created' => ['<=', time() - self::storeTime]])->all();
+        $killList = self::find()->where(self::makeCondition(['time_created' => ['<=', time() - self::storeTime]]))->all();
 
         if (count($killList) >= $total) return;
 
         foreach($killList as $killItem) {
-            foreach (glob($this->getStorePath() . $killItem->id . '_*') as $filename) {
+
+            foreach (glob($this->getStorePath() . '/' . $killItem->id . '_*') as $filename) {
                 unlink($filename);
             }
 

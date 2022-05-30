@@ -87,12 +87,12 @@ function initStoriesIndex() {
 		var uploader = new plupload.Uploader({
 				runtimes: "html5,html4",
 				browse_button: "startNewStory" + i,
-				max_file_size: "10mb",
+				max_file_size: "20mb",
 				url: "/api/media/upload",
 				flash_swf_url: "/js/plupload/plupload.flash.swf",
 				silverlight_xap_url: "/js/plupload/js/plupload.silverlight.xap",
 				filters: [
-					{title : "Картинки", extensions : "jpg,gif,png"}
+					{title : "Картинки", extensions : "jpeg,jpg,gif,png"}
 				],
 				multi_selection: false,
 				multiple_queues: true,
@@ -255,7 +255,7 @@ function initStoryUploder() {
 	var name = "story",
 		uploader = new plupload.Uploader({
 			runtimes: "html5,html4",
-			max_file_size: "10mb",
+			max_file_size: "20mb",
 			url: "/api/media/upload",
 			//resize: { width: 1500, height: 1500, quality: 80 },
 			flash_swf_url: "/js/plupload/plupload.flash.swf",

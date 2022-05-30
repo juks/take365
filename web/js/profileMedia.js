@@ -13,13 +13,13 @@ function initUploder() {
 		var uploader = new plupload.Uploader({
 				runtimes: "html5,gears,flash,silverlight,browserplus,html4",
 				browse_button: name + "Pick",
-				max_file_size: "10mb",
+				max_file_size: "20mb",
 				url: "/api/media/upload",
 				resize: conf.resize,
 				flash_swf_url: "/js/plupload/plupload.flash.swf",
 				silverlight_xap_url: "/js/plupload/js/plupload.silverlight.xap",
 				filters: [
-					{title : "Картинки", extensions : "jpg,gif,png"}
+					{title : "Картинки", extensions : "jpeg,jpg,gif,png"}
 				],
 				drop_element: name + "Drop",
 				multi_selection: false,

@@ -20,7 +20,7 @@ return [
                         'folderSpreadDepth'     => 1,
                         'fileClusterSize'       => 10000,
                         'mediaThumbsAutoCreate' => false,
-                        'deletedLifetime'       => 86400 * 30
+                        'deletedLifetime'       => 86400 * 5
                     ],
 
     'storage'    => [
