@@ -20,7 +20,7 @@ class AppAsset extends AssetBundle
     public $css = [
         'blocks/Search/search.css',
         'css/react.css',
-        'css/reset.css',
+        'css/normalize.css',
         'css/style.css',
         'css/blog.css',
         'css/font-awesome.min.css'
