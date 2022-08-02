@@ -22,13 +22,13 @@ class AppAsset extends AssetBundle
         'css/react.css',
         'css/normalize.css',
         'css/style.css',
-        'css/blog.css',
-        'css/font-awesome.min.css'
+        'css/blog.css'
     ];
     public $js = [
         'js/common.js',
         'js/smartdate.js',
-        'js/react.js'
+        'js/react.js',
+        'https://kit.fontawesome.com/63f6606447.js'
     ];
     public $depends = [
       //'yii\web\JqueryAsset'
