@@ -1,0 +1,19 @@
+.btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  line-height: 1;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: rgb(var(--color-blue));
+  box-shadow: 0 0 30px rgb(var(--color-blue) / 30%);
+  color: rgb(var(--color-white));
+  cursor: pointer;
+  outline: none;
+}
+
+.btn:hover {
+  text-decoration: none;
+  color: rgb(var(--color-white));
+}
+

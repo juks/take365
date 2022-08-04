@@ -22,6 +22,8 @@ class AppAsset extends AssetBundle
         'css/react.css',
         'css/normalize.css',
         'css/style.css',
+        'css/buttons.css',
+        'css/nav.css',
         'css/blog.css'
     ];
     public $js = [

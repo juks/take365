@@ -1,0 +1,12 @@
+:root {
+  --body-background-color: 255 255 255;
+  --body-text-color:       29 29 31;
+  --body-link-color:       0 122 255;
+
+  --color-white:           255 255 255;
+  --color-black:           29 29 31;
+  --color-red:             255 59 48;
+  --color-blue:            0 122 255;
+  --color-green:           52 199 89;
+  --color-gray:            142 142 147;
+}
