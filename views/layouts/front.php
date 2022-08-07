@@ -28,7 +28,7 @@ FrontAsset::register($this);
   <link rel="stylesheet" href="/css/light.css" media="(prefers-color-scheme: light)">
   <link rel="stylesheet" href="/css/dark.css" media="(prefers-color-scheme: dark)">
 </head>
-<body>
+<body class="index">
 <?php $this->beginBody() ?>
   <?= $content ?>
   <?php include('includes/footer.php'); ?>

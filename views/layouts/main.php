@@ -1,6 +1,6 @@
 <?php
-
 use yii\helpers\Html;
+
 use app\assets\AppAsset;
 use app\assets\FrontAsset;
 use app\models\Feed;
@@ -10,7 +10,6 @@ AppAsset::register($this);
 $user = Yii::$app->user;
 $isSubscribed = !$user->isGuest && Feed::isSubscribed($user);
 $this->registerJs('smartdate.init({locale: \'ru\'});');
-
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE HTML>
@@ -18,31 +17,32 @@ $this->registerJs('smartdate.init({locale: \'ru\'});');
 <?php if ($this->params['pageType'] == 'story'): ?> class="page-story"<?php endif ?>
 <?php if ($this->params['pageType'] == 'home'): ?> class="page-stories"<?php endif ?>>
 <head>
-<title><?= Html::encode($this->title) ?></title>
-<meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<link rel="icon" href="<?= \yii\helpers\Url::base(true) ?>/i/favicon.ico">
-<?php $this->head(); echo "\n"; ?>
-<script><?= $this->params['jsVarsString'] ?></script>
+  <title><?= Html::encode($this->title) ?></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, viewport-fit=cover">
+  <meta name="keywords" content="365 фотографий, 365 дней, проект 365 дней, год фотографий, фото-год, по одной фотографии на каждый день, идеи фотографий на каждый день, take365">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141414">
+  <link rel="stylesheet" href="/css/light.css" media="(prefers-color-scheme: light)">
+  <link rel="stylesheet" href="/css/dark.css" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="<?= \yii\helpers\Url::base(true) ?>/i/favicon.ico">
+  <?php $this->head(); echo "\n"; ?>
+  <script><?= $this->params['jsVarsString'] ?></script>
 </head>
 <body>
 <?php $this->beginBody() ?>
-  <div class="page">
-    <div class="page-wrapper">
-      <header class="header">
-        <h1 class="header-logo">
-          <a href="<?= \yii\helpers\Url::base(true) ?>">take365</a>
-          <?php if ($this->params['pageType'] == 'blog'): ?><sup class="header-logo-text">блог</sup><?php endif ?>
-        </h1>
-      </header>
-      <nav class="nav">
-        <ul class="nav-list">
-          <?php if ($user->isGuest) echo $this->render('//blocks/userMenu/anonymous'); else echo $this->render('//blocks/userMenu/logged', ['user' => $user->identity, 'owner' => isset($this->params['owner']) ? $this->params['owner'] : null, 'isSubscribed' => $isSubscribed]); ?>
-        </ul>
-      </nav>
-      <?= $content ?>
-    </div>
-  </div>
+  <header class="main-header">
+    <a href="<?= \yii\helpers\Url::base(true) ?>">
+      <div class="main-header-logo">take365</div>
+    </a>
+  </header>
+  <nav class="main-nav">
+    <ul class="main-nav-list">
+      <?php if ($user->isGuest) echo $this->render('//blocks/userMenu/anonymous'); else echo $this->render('//blocks/userMenu/logged', ['user' => $user->identity, 'owner' => isset($this->params['owner']) ? $this->params['owner'] : null, 'isSubscribed' => $isSubscribed]); ?>
+    </ul>
+  </nav>
+  <?= $content ?>
   <?php include('includes/footer.php'); ?>
   <?php include('includes/loginForm.php'); ?>
   <?php include('includes/ga.php'); ?>

@@ -15,26 +15,26 @@ use yii\web\AssetBundle;
  */
 class AppAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
-    public $css = [
-        'blocks/Search/search.css',
-        'css/react.css',
-        'css/normalize.css',
-        'css/style.css',
-        'css/buttons.css',
-        'css/nav.css',
-        'css/blog.css'
-    ];
-    public $js = [
-        'js/common.js',
-        'js/smartdate.js',
-        'js/react.js',
-        'https://kit.fontawesome.com/63f6606447.js'
-    ];
-    public $depends = [
-      //'yii\web\JqueryAsset'
-        'app\assets\JqueryAsset'
-    ];
-    public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
+  public $basePath = '@webroot';
+  public $baseUrl = '@web';
+  public $css = [
+    'blocks/Search/search.css',
+    'css/react.css',
+    'css/normalize.css',
+    'css/style.css',
+    'css/buttons.css',
+    'css/nav.css',
+    'css/blog.css'
+  ];
+  public $js = [
+    'js/common.js',
+    'js/smartdate.js',
+    'js/react.js',
+    'https://kit.fontawesome.com/63f6606447.js'
+  ];
+  public $depends = [
+  //'yii\web\JqueryAsset'
+    'app\assets\JqueryAsset'
+  ];
+  public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
 }

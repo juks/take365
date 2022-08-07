@@ -48,11 +48,19 @@ a:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 40px 0;
+  margin: 40px 0 30px;
+}
+
+body.index .main-header {
   height: 200px;
+  margin: 40px 0;
 }
 
 .main-header-logo {
+  font-size: 0;
+}
+
+body.index .main-header-logo {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -61,17 +69,21 @@ a:hover {
   margin: -12px 0 0 -50px;
   background: rgb(var(--color-white));
   border-radius: 4px;
-  font-size: 0;
 }
 
 .main-header-logo::after {
   display: block;
-  width: 100px;
-  height: 24px;
+  width: 120px;
+  height: 28px;
   background-color: rgb(var(--color-white));
   background-image: url("/i/logo.svg");
   background-repeat: no-repeat;
   content: "";
+}
+
+body.index .main-header-logo::after {
+  width: 100px;
+  height: 24px;
 }
 
 .main-header-collage-wrap {
@@ -136,11 +148,36 @@ a:hover {
   margin-bottom: 0;
 }
 
-.article-title {
+.article-h1 {
   margin: 0 0 20px;
   line-height: 1;
   font-size: 40px;
   font-weight: 800;
+}
+
+.article-h2 {
+  margin: 0 0 20px;
+  line-height: 1;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.article-h3 {
+  margin: 0 0 20px;
+  line-height: 1;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.article-list {
+  margin: 0 0 30px;
+  padding: 0 0 0 15px;
+  line-height: 1.2;
+  font-size: 16px;
+}
+
+.article-list-item {
+  margin-bottom: 20px;
 }
 
 .article-video {

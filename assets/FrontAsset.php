@@ -15,14 +15,14 @@ use yii\web\AssetBundle;
  */
 class FrontAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
-    public $css = [
-        'css/front.css',
-    ];
-    public $js = [
-        'js/homepage.js'
-    ];
-    public $depends = [];
-    public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
+  public $basePath = '@webroot';
+  public $baseUrl = '@web';
+  public $css = [
+    'css/front.css'
+  ];
+  public $js = [
+    'js/homepage.js'
+  ];
+  public $depends = [];
+  public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
 }

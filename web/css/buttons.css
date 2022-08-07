@@ -6,7 +6,6 @@
   font-size: 16px;
   font-weight: 600;
   background-color: rgb(var(--color-blue));
-  box-shadow: 0 0 30px rgb(var(--color-blue) / 30%);
   color: rgb(var(--color-white));
   cursor: pointer;
   outline: none;
