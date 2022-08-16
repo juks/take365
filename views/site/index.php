@@ -34,7 +34,7 @@ use yii\widgets\ActiveForm;
     <section class="article-section">
       <h2 class="article-h1">Идея</h2>
       <div class="article-video">
-        <iframe src="//player.vimeo.com/video/83113874?portrait=0" width="100%" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <iframe src="//player.vimeo.com/video/83113874?portrait=0" width="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
       </div>
       <p class="article-text"><strong>Take<span class="red-text">365</span></strong> — проект-испытание. Миниатюрный, созданный небольшой группой беззаботных энтузиастов, он позволяет любому человеку, находящемуся в бодром расположении духа, проверить свою способность вести фотолетопись в течение года в режиме «одна фотография каждый день».</p>
       <p class="article-text">Для каждой истории ведётся статистика, прилагается удобный инструмент для поддержания актуальности календаря. Мы стараемся сделать всё для того, чтобы непростая цель не выглядела такой уж неприступной.</p>

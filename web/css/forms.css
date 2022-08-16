@@ -1,0 +1,147 @@
+.form-field {
+  position: relative;
+  padding: 0;
+  margin: 0 0 20px;
+  border: none;
+}
+
+.form-field.error input[type="text"],
+.form-field.error input[type="password"] {
+  border-color: rgb(var(--color-red));
+}
+
+.form-field .error-message {
+  display: block;
+  padding-top: 5px;
+  line-height: 1;
+  font-size: 12px;
+  color: rgb(var(--color-red));
+}
+
+.form-field-footer {
+  margin: 20px 0 40px;
+}
+
+.form input::placeholder {
+  color: rgb(var(--color-gray-2));
+}
+
+.form input:focus {
+  outline: 2px solid rgb(var(--color-blue) / 50%);
+}
+
+.form input[type="password"],
+.form input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  border: 1px solid rgb(var(--color-gray-4));
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form input[type="submit"] {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: none;
+  line-height: 1;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: rgb(var(--color-blue));
+  color: rgb(var(--color-white));
+  cursor: pointer;
+  outline: none;
+}
+
+.form-checkbox > input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.form-checkbox > input:checked + span::before {
+  content: "\f00c";
+  border-color: rgb(var(--color-blue));
+  background-color: rgb(var(--color-blue));
+  color: rgb(var(--color-white));
+}
+
+.form-checkbox > span {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.form-checkbox > span::before {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  width: 10px;
+  height: 10px;
+  content: "";
+  border: 1px solid rgb(var(--color-gray-4));
+  border-radius: 2px;
+  font-family: FontAwesome;
+}
+
+.form-hint-text {
+  margin: 0;
+  line-height: 1.2;
+  font-size: 14px;
+}
+
+/* Login */
+.form-auth {
+  min-width: 300px;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.auth-clients {
+  display: flex;
+  align-items: center;
+}
+
+.auth-clients-sep {
+  padding: 0 10px;
+  line-height: 1;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.auth-title {
+  display: none;
+}
+
+.auth-link {
+  margin-right: 10px;
+  line-height: 1;
+}
+
+.auth-link.facebook {
+  color: #3b5998;
+}
+
+.auth-link.vkontakte {
+  color: #0077ff;
+}
+
+.auth-icon {
+  font-size: 28px;
+}
+
+.auth-icon::after {
+  display: block;
+  content: "";
+  font-family: FontAwesome;
+}
+
+.auth-icon.facebook::after {
+  content: "\f082";
+}
+
+.auth-icon.vkontakte::after {
+  content: "\f189";
+}
