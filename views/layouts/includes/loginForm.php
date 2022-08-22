@@ -29,8 +29,8 @@ use app\ext\AuthChoice;
               <?php endforeach; ?>
           <?php AuthChoice::end(); ?>
         </fieldset>
-        <p class="form-hint-text">
-          <a href="/register/recover/">Забыли пароль</a> или <a href="/register">ещё не зарегистрировались</a>?
+        <p class="form-text">
+          <a href="/register/recover/">Забыли пароль</a> или ещё не <a href="/register">зарегистрировались</a>?
         </p>
       </form>
       <div class="popup-close" title="Закрыть" onclick="Auth.close(event)">

@@ -10,16 +10,16 @@
 <?php foreach ($items as $item): ?>
 
 <?php if (!empty($this->params['isOwnPage']) && !empty($this->params['pageType']) && $this->params['pageType'] == $item['alias']): ?>
-  <li class="nav-item selected"><?= $item['title'] ?></li>
+  <li class="main-nav-list-item selected"><?= $item['title'] ?></li>
 <?php else: ?>
-  <li class="nav-item">
-    <a href="<?= $item['url'] ?>" class="nav-link"><?= $item['title'] ?></a>
+  <li class="main-nav-list-item">
+    <a href="<?= $item['url'] ?>"><?= $item['title'] ?></a>
   </li>
 <?php endif ?>
 <?php endforeach ?>
 
-<li class="nav-item nav-item-logout">
-  <a href="#" onclick="logout();return false" class="nav-link">Выйти</a>
+<li class="main-nav-list-item">
+  <a href="#" onclick="logout();return false">Выйти</a>
 </li>
 <?php include('searchBlock.php'); ?>
 

@@ -1,6 +1,6 @@
-<li class="nav-item search">
-    <div class="search-inner">
-        <div id="search-container"></div>
-        <i class="fa fa-search" aria-hidden="true"></i>
-    </div>
-</li>
+<div class="search">
+  <div class="search-inner">
+    <div id="search-container"></div>
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+</div>

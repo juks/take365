@@ -6,7 +6,8 @@
 }
 
 .form-field.error input[type="text"],
-.form-field.error input[type="password"] {
+.form-field.error input[type="password"],
+.form-code.error input[type="text"] {
   border-color: rgb(var(--color-red));
 }
 
@@ -16,6 +17,20 @@
   line-height: 1;
   font-size: 12px;
   color: rgb(var(--color-red));
+}
+
+.form-field-captcha {
+  display: flex;
+  gap: 20px;
+}
+
+.form-captcha > img {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-code {
+  flex: 1;
 }
 
 .form-field-footer {
@@ -86,10 +101,22 @@
   font-family: FontAwesome;
 }
 
-.form-hint-text {
-  margin: 0;
+.form-text {
   line-height: 1.2;
   font-size: 14px;
+}
+
+.form-hint-text {
+  margin: 5px 0 0;
+  line-height: 1.4;
+  font-size: 12px;
+  color: rgb(var(--color-gray));
+}
+
+.form-field .cancel {
+  margin-left: 10px;
+  line-height: 1.2;
+  font-size: 16px;
 }
 
 /* Login */
