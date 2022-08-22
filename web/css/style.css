@@ -2,7 +2,7 @@ html {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   font-weight: 400;
   font-size: 62.5%;
-  line-height: 1.6;
+  line-height: 1.4;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -40,7 +40,7 @@ a:hover {
 
 .text {
   margin-bottom: 20px;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .red-text {
@@ -164,27 +164,27 @@ body.index .main-header-logo::after {
   line-height: 1;
   font-size: 40px;
   font-weight: 800;
+  word-break: break-word;
 }
 
 .article-h2 {
   margin: 0 0 20px;
   line-height: 1;
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 800;
 }
 
 .article-h3 {
   margin: 0 0 20px;
   line-height: 1;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
 }
 
 .article-list {
   margin: 0 0 30px;
   padding: 0 0 0 15px;
-  line-height: 1.2;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .article-list-item {
@@ -197,7 +197,7 @@ body.index .main-header-logo::after {
 
 .article-text {
   margin: 0 0 20px;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .content {
@@ -221,8 +221,7 @@ body.index .main-header-logo::after {
 
 .main-footer-copyright {
   margin-bottom: 10px;
-  line-height: 1.2;
-  font-size: 12px;
+  font-size: 13px;
   font-style: normal;
 }
 
@@ -232,8 +231,8 @@ body.index .main-header-logo::after {
   margin: 0;
   padding: 0;
   list-style: none;
-  line-height: 1.2;
-  font-size: 12px;
+  line-height: 1;
+  font-size: 13px;
 }
 
 

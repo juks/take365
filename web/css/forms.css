@@ -15,7 +15,7 @@
   display: block;
   padding-top: 5px;
   line-height: 1;
-  font-size: 12px;
+  font-size: 13px;
   color: rgb(var(--color-red));
 }
 
@@ -52,7 +52,7 @@
   padding: 8px;
   border: 1px solid rgb(var(--color-gray-4));
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .form input[type="submit"] {
@@ -60,7 +60,7 @@
   border-radius: 6px;
   border: none;
   line-height: 1;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   background-color: rgb(var(--color-blue));
   color: rgb(var(--color-white));
@@ -85,7 +85,7 @@
   display: flex;
   gap: 5px;
   align-items: center;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .form-checkbox > span::before {
@@ -103,20 +103,20 @@
 
 .form-text {
   line-height: 1.2;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .form-hint-text {
   margin: 5px 0 0;
   line-height: 1.4;
-  font-size: 12px;
+  font-size: 13px;
   color: rgb(var(--color-gray));
 }
 
 .form-field .cancel {
   margin-left: 10px;
   line-height: 1.2;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 /* Login */
@@ -134,7 +134,7 @@
 .auth-clients-sep {
   padding: 0 10px;
   line-height: 1;
-  font-size: 14px;
+  font-size: 15px;
   font-style: italic;
 }
 

@@ -1,6 +1,6 @@
 <main class="main">
   <article class="article">
-    <h1 class="article-h1">Положение о&nbsp;конфеденциальности пользователей</h1>
+    <h1 class="article-h1">Положение о конфеденциальности пользователей</h1>
     <p class="article-text">
       Дата вступления в&nbsp;силу: 1&nbsp;марта 2017.<br>
       Обновлено: 8&nbsp;августа 2022.
