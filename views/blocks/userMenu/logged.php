@@ -21,8 +21,3 @@
 <li class="main-nav-list-item">
   <a href="#" onclick="logout();return false">Выйти</a>
 </li>
-<?php include('searchBlock.php'); ?>
-
-<?php
-  $this->registerJs("searchRender(document.getElementById('search-container'));");
-?>
